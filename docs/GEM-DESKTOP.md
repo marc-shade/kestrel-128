@@ -181,10 +181,15 @@ Built and tested:
   unclosed files and an empty file onto a drive. A file whose name is on the
   target (a drive answers 63 to the create; on USB, `FILE_STAT` finds it
   first) asks "NAME already exists on DEST." (unless Confirm overwrites is
-  off in Preferences, when it is replaced at once) with Replace, Skip (the
-  default) and Stop: Replace scratches the target (`S0:NAME`, exactly one
-  file scratched) or deletes it (`DELETE_FILE`, an empty reply) and copies
-  again; Skip goes on with the next file; Stop ends the remaining rows. The
+  off in Preferences, when it is replaced at once) with Replace, Keep both
+  and Skip (the default), Esc for Stop: Replace scratches the target
+  (`S0:NAME`, exactly one file scratched) or deletes it (`DELETE_FILE`, an
+  empty reply) and copies again; Keep both copies under the source's name
+  with "-2" before its extension (`notes-2.txt`), then "-3" and on while
+  those are taken too, asking again after "-9"; on a drive the name keeps 16
+  characters by shortening the part before the suffix (`REPO-2.TEXTFILE1`),
+  or the name itself when its extension leaves too little; Skip goes on with
+  the next file; Stop ends the remaining rows. The
   alert names the file itself, also inside a folder being copied. A USB
   folder whose name is a folder on the target is merged into it (nothing is
   made; each file on both asks as above); one whose name is a file there is
@@ -251,8 +256,9 @@ Not built yet, or limited:
 - Selection by band covers rows of the listing text only (there is no icon
   view); Shift with a band is not additive, it replaces the selection.
 - Copy's progress is counted in rows, not bytes: one large file shows
-  "Copying 1/1" until it is done. A name conflict can replace or skip but
-  not rename (there is no name dialog in `GDCPY.PRG`). Folders are copied only between USB windows: IEC disks
+  "Copying 1/1" until it is done. A name conflict cannot be renamed to a
+  name you type: Keep both picks the next free numbered name, since
+  `GDCPY.PRG` has no room for the forms library. Folders are copied only between USB windows: IEC disks
   have no directories.
 
 Emulator: [the VICE run](validation/2026-09-26-gemdesk-vice/README.md) boots

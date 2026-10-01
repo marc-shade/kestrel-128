@@ -214,6 +214,8 @@ def build():
                                     'edfind.prg': 'edfind.prg', 'edclip.prg':'edclip.prg',
                                     'ultimate': 'controls.prg', 'claude': 'claude.prg', 'paint': 'paint.prg', 'sheet': 'sheet.prg'})
     (OUT/'deployment.json').write_text(json.dumps(deployment, indent=2)+'\n')
+    from build_listing_paths import normalize      # last: no step reads these files after it
+    normalize(ROOT, [ROOT/'target/native', ROOT/'target/native-desktop'])
     print(f'Native graphical desktop disk: {desktop}')
     print(f'Native diagnostic workspace disk: {ROOT/"target/native/kestrel.d64"}')
 

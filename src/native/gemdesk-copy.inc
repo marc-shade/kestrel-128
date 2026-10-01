@@ -164,7 +164,7 @@ item:
 +       jsr progress_title
 +       lda isdir
         bne item_tree
-        jsr copy
+        jsr copy_new
 item_copied:
         bcs item_done
         lda skipped             ; something was skipped: Move keeps the source
@@ -318,6 +318,9 @@ adest:
 
 ; ---- the transfer ------------------------------------------------------------------
 ; Copy spath to dpath. Carry clear when verified; set after an alert.
+copy_new:                       ; a new file: no "Keep both" name yet
+        lda #0
+        sta keep
 copy:
         lda #0
         sta phase
@@ -566,13 +569,24 @@ finished:
         rts
 
 ; A file whose name is on the target: "[2][NAME already|exists on DEST.]
-; [Replace|Skip|Stop]" (NAME: the target's last name, so a file inside a
-; folder being merged is named), Skip the default, or Replace at once when
-; Confirm overwrites is off. Replace scratches (a drive) or deletes (USB) the
-; target and copies again; Skip goes on with the next file and keeps this
-; row's source (skipped); Stop ends the rows. The streams are closed. Carry
-; set after Stop, or when the copy after Replace fails.
+; [Replace|Keep both|Skip]" (NAME: the target's last name, so a file inside a
+; folder being merged is named), Skip the default and Esc Stop; or Replace at
+; once when Confirm overwrites is off. Replace scratches (a drive) or deletes
+; (USB) the target and copies again; Keep both copies under the source's name
+; with "-2" before its extension (keep_name), then -3 and on while those are
+; taken too, and asks again after -9; Skip goes on with the next file and
+; keeps this row's source (skipped); Stop ends the rows. The streams are
+; closed. Carry set after Stop, or when the copy after Replace fails.
 conflict:
+        lda keep
+        beq ask_conflict
+        cmp #9
+        bcs +
+        inc keep                ; NAME-N is taken too: the next number
+        bne keep_name
++       lda #0
+        sta keep
+ask_conflict:
         lda gm_confirm
         and #GM_NOOVERASK
         bne replace
@@ -593,25 +607,107 @@ conflict:
         jsr gm_aput
         lda #<gm_abuf
         ldx #>gm_abuf
-        ldy #2
+        ldy #3
         jsr gm_alert
-        bcs conflict_skip
+        bcs conflict_stop       ; Esc
         lda N_BUFFER
         cmp #1
         beq replace
-        cmp #3
-        bne conflict_skip
-        inc stop
-        sec
-        rts
+        cmp #2
+        beq keep_both
 conflict_skip:
         inc skipped
         clc
         rts
+conflict_stop:
+        inc stop
+        sec
+        rts
+keep_both:
+        lda #2
+        sta keep
+; dpath's last name becomes the source's name (gm_name) with "-N" (N = keep)
+; before its extension: the last "." after the first character, or the end.
+; A drive keeps 16 characters by shortening the part before the suffix (the
+; whole name when the extension leaves too little); USB paths stay within
+; 255 bytes. Then the copy starts again.
+keep_name:
+        ldx dlen
+-       dex
+        cpx #$ff                ; (paths reach 255 bytes: not bmi)
+        beq +
+        lda dpath,x
+        cmp #$2f
+        bne -
++       inx
+        stx leaf_at
+        ldy gm_nlen
+        sty ext_at
+-       dey
+        beq +
+        lda gm_name,y
+        cmp #$2e
+        bne -
+        sty ext_at
++       lda ext_at
+        sta base_end
+        lda dfmt
+        cmp #3
+        beq k_usb
+        lda gm_nlen             ; a drive: cut what the suffix adds beyond 16
+        sec
+        sbc #14
+        bcc k_build
+        beq k_build
+        sta k
+        lda ext_at
+        sec
+        sbc k
+        bcc +
+        bne k_cut
++       lda gm_nlen             ; the extension leaves too little: suffix last
+        sta ext_at
+        lda #14
+k_cut:
+        sta base_end
+        jmp k_build
+k_usb:
+        lda dlen
+        cmp #254
+        bcc k_build
+        jmp toolong
+k_build:
+        ldx leaf_at
+        ldy #0
+-       cpy base_end
+        beq +
+        lda gm_name,y
+        sta dpath,x
+        inx
+        iny
+        bne -
++       lda #$2d                ; -
+        sta dpath,x
+        inx
+        lda keep
+        ora #$30
+        sta dpath,x
+        inx
+        ldy ext_at
+-       cpy gm_nlen
+        beq +
+        lda gm_name,y
+        sta dpath,x
+        inx
+        iny
+        bne -
++       stx dlen
+        jmp copy
 aleaf:                          ; dpath's last name (after its last /), 16 characters at most
         ldx dlen
 -       dex
-        bmi +
+        cpx #$ff                ; (paths reach 255 bytes: not bmi)
+        beq +
         lda dpath,x
         cmp #$2f
         bne -
@@ -719,7 +815,7 @@ t_next:
         lda eattr
         and #$10
         bne t_down
-        jsr copy
+        jsr copy_new
         bcs t_out
         jsr pop_d
         jsr pop_s
@@ -1048,7 +1144,7 @@ s_mismatch: .byte 91,51,93,91,84,104,101,32,99,111,112,121,32,100,111,101,115,32
         .byte 116,99,104,46,124,84,104,101,32,111,114,105,103,105,110,97,108,32,105,115,32,107,101,112
         .byte 116,46,93,91,79,75,93,0   ; [3][The copy does not match.|The original is kept.][OK]
 s_ask_head: .byte 91,50,93,91,0   ; [2][
-s_conflict: .byte 46,93,91,82,101,112,108,97,99,101,124,83,107,105,112,124,83,116,111,112,93,0   ; .][Replace|Skip|Stop]
+s_conflict: .byte 46,93,91,82,101,112,108,97,99,101,124,75,101,101,112,32,98,111,116,104,124,83,107,105,112,93,0   ; .][Replace|Keep both|Skip]
 s_itself: .byte 91,49,93,91,65,32,102,111,108,100,101,114,32,99,97,110,110,111,116,32,98,101,124,99,111,112,105,101,100,32,105,110,116,111,32,105,116,115,101,108,102,46,93,91,79,75,93,0   ; [1][A folder cannot be|copied into itself.][OK]
 s_copying: .byte 67,111,112,121,105,110,103,32,0   ; Copying 
 s_moving: .byte 77,111,118,105,110,103,32,0   ; Moving 
@@ -1066,6 +1162,9 @@ choice: .byte 0
 stop: .byte 0
 created: .byte 0
 skipped: .byte 0                ; a name conflict was skipped in this row
+keep: .byte 0                   ; Keep both: the suffix number in use, or 0
+ext_at: .byte 0
+base_end: .byte 0
 leaf_at: .byte 0
 leaf_left: .byte 0
 phase: .byte 0

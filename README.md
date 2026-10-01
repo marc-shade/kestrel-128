@@ -225,8 +225,8 @@ Kestrel 128 is under active development. The
 Some of what is missing:
 
 - Movable, overlapping app windows and switching between running apps.
-- Renaming on a name conflict in GEMDESK copies (Replace, Skip and Stop
-  exist, and folders merge).
+- Typing a new name on a name conflict in GEMDESK copies (Replace, Keep
+  both with a numbered name, Skip and Stop exist, and folders merge).
 - Sheet number formats (decimals shown per cell).
 - REU use beyond screen snapshots and Editor documents.
 

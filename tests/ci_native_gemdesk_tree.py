@@ -105,22 +105,24 @@ def main():
         copying = progress(before, b'Copying 1/1', wu)
 
         def conflict(leaf):
-            return draw(copying, b'[2]['+leaf+b' already|exists on USB.][Replace|Skip|Stop]', 2)
+            return draw(copying, b'[2]['+leaf+b' already|exists on USB.][Replace|Keep both|Skip]', 3)
         u.expect(conflict(b'c.bin'), 'c.bin conflict')              # Sub first, as the folder lists it
         u.key(13)                                                   # Skip
         u.expect(conflict(b'a.txt'), 'a.txt conflict')
         u.key(ord('1'))                                             # Replace
         u.expect(conflict(b'b.prg'), 'b.prg conflict')
-        u.key(13)
+        u.key(ord('2'))                                             # Keep both
         sent = [bytes(x) for x in dos.commands[mark:]]
         assert not [x for x in sent if x[1] == 0x16], 'nothing made: both folders were there'
         assert [x[2:] for x in sent if x[1] == 0x09] == [b'/Usb0/Dest/Proj/a.txt'], 'only the replaced file deleted'
         assert dos.files[b'/Usb0/Dest/Proj/a.txt'] == a and dos.files[b'/Usb0/Proj/a.txt'] == a
         assert dos.files[b'/Usb0/Dest/Proj/b.prg'] == b and dos.files[b'/Usb0/Dest/Proj/Sub/c.bin'] == c
+        assert dos.files[b'/Usb0/Dest/Proj/b-2.prg'] == b, 'Keep both: the suffix goes before the extension'
         wu['selected'] = None
         u.expect(shown(), 'merged, listed')
         done('a folder whose name is a folder on the target is merged into it (no CREATE_DIR): each file on both '
-             'asks Replace, Skip or Stop by its own name, in the source folder\'s order', u)
+             'asks Replace, Keep both or Skip by its own name, in the source folder\'s order; Keep both inside '
+             'the merge copies b.prg as b-2.prg', u)
 
         mark = len(dos.commands)
         drag(u, 3, 3+at, 29, 12)

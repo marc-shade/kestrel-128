@@ -96,9 +96,13 @@ def main():
     try:
         # Two IEC drives: a window on each, drive 9's on top.
         big, check = data(1300), data(1100)
+        # Three 16-character names on both drives: Keep both must shorten them.
+        longs = [b'SIXTEEN CHARS 16', b'REPORT.TEXTFILE1', b'A.BCDEFGHIJKLMNO']
         files = {**GDCPY, (8, b'AESVC.PRG', b'P'): AESVC, (8, b'TWIN', b'S'): data(10),
                  (9, b'NINE', b'S'): data(300), (9, b'TWIN', b'S'): data(20), (9, b'MOVER', b'U'): data(600),
-                 (9, b'BIG', b'S'): big, (9, b'CHECK', b'S'): check, (9, b'QUICK', b'S'): data(200)}
+                 (9, b'BIG', b'S'): big, (9, b'CHECK', b'S'): check, (9, b'QUICK', b'S'): data(200),
+                 **{(8, name, b'S'): data(30+i) for i, name in enumerate(longs)},
+                 **{(9, name, b'S'): data(40+i) for i, name in enumerate(longs)}}
         original = dict(files)
         p = Gem(files)
         w8 = dict(id=1, x=1, y=2, w=28, h=16, title=b'Drive 8', top=0)
@@ -166,18 +170,18 @@ def main():
         before = shown(selected9=at)
         p.expect(draw(before, b'[2][Copy TWIN|to Drive 8?][Copy|Move|Cancel]', 1), 'twin asked')
         p.key(13)
-        conflict = b'[2][TWIN already|exists on Drive 8.][Replace|Skip|Stop]'
-        p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 2), 'exists')
+        conflict = b'[2][TWIN already|exists on Drive 8.][Replace|Keep both|Skip]'
+        p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 3), 'exists')
         p.key(13); p.expect(before, 'exists closed')                  # Skip, the default
         assert p.io.files[8, b'TWIN', b'S'] == original[8, b'TWIN', b'S']
         assert p.io.files[9, b'TWIN', b'S'] == original[9, b'TWIN', b'S']
-        done('a name that exists on the target (the drive answers 63) asks Replace, Skip or Stop over the progress '
-             'window; Skip, the default, leaves both files unchanged', p)
+        done('a name that exists on the target (the drive answers 63) asks Replace, Keep both or Skip over the '
+             'progress window; Skip, the default, leaves both files unchanged', p)
 
         mark = len(p.io.events)
         drag(p, 3, g9['wy']+at, 35, 3)
         p.key(13)                                                     # Copy
-        p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 2), 'exists again')
+        p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 3), 'exists again')
         p.key(ord('1'))                                               # Replace
         assert p.io.files[8, b'TWIN', b'S'] == original[9, b'TWIN', b'S'], 'the target holds the source now'
         assert p.io.files[9, b'TWIN', b'S'] == original[9, b'TWIN', b'S']
@@ -185,9 +189,53 @@ def main():
         p.expect(shown(selected9=at), 'replaced')
         done('Replace scratches the target (S0:NAME, one file scratched) and copies again, compared as any copy', p)
 
+        # Keep both: the copy takes the source's name with "-2"; a second time "-2" is taken, so "-3".
+        for suffix in (b'-2', b'-3'):
+            mark = len(p.io.events)
+            drag(p, 3, g9['wy']+at, 35, 3)
+            before = shown(selected9=at)
+            p.key(13)                                                 # Copy
+            p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 3), 'keep both offered '+suffix.decode())
+            p.key(ord('2'))                                           # Keep both
+            assert p.io.files[8, b'TWIN'+suffix, b'S'] == original[9, b'TWIN', b'S'], suffix
+            assert p.io.files[8, b'TWIN', b'S'] == original[9, b'TWIN', b'S']   # untouched (replaced above)
+            assert not [e for e in p.io.events[mark:] if e[0] == 'dos'], 'Keep both scratches nothing'
+            p.expect(shown(selected9=at), 'kept both '+suffix.decode())
+        done('Keep both copies under the source\'s name with "-2" and scratches nothing; when that name is taken '
+             'too the next number is used without asking again ("-3")', p)
+
+        # Esc in the conflict alert is Stop: nothing more is copied.
+        mark = len(p.io.events)
+        drag(p, 3, g9['wy']+at, 35, 3)
+        before = shown(selected9=at)
+        p.key(13)
+        p.expect(draw(progress(before, b'Copying 1/1', w9), conflict, 3), 'exists, then Esc')
+        p.key(27)
+        p.expect(shown(selected9=at), 'stopped at the conflict')
+        assert (8, b'TWIN-4', b'S') not in p.io.files
+        assert not [e for e in p.io.events[mark:] if e[0] == 'dos']
+        done('Esc in the name-conflict alert stops the copy and changes nothing', p)
+
+        # A drive keeps 16 characters: the part before the suffix is shortened (before the
+        # extension when there is room for it, else the suffix ends the name).
+        for name, kept in zip(longs, [b'SIXTEEN CHARS -2', b'REPO-2.TEXTFILE1', b'A.BCDEFGHIJKLM-2']):
+            row = row9(name)
+            drag(p, 3, g9['wy']+row, 35, 3)
+            before = shown(selected9=row)
+            p.key(13)
+            ask = b'[2]['+name+b' already|exists on Drive 8.][Replace|Keep both|Skip]'
+            p.expect(draw(progress(before, b'Copying 1/1', w9), ask, 3), 'long conflict '+name.decode())
+            p.key(ord('2'))
+            assert p.io.files[8, kept, b'S'] == original[9, name, b'S'], (name, kept)
+            assert p.io.files[8, name, b'S'] == original[8, name, b'S']
+            p.expect(shown(selected9=row), 'long kept '+kept.decode())
+        done('Keep both on a drive stays within 16 characters: SIXTEEN CHARS -2, REPO-2.TEXTFILE1 (the extension '
+             'kept), A.BCDEFGHIJKLM-2 (an extension too long to keep)', p)
+
         # Cancel in the question: nothing is opened.
         mark = len(p.io.events)
         drag(p, 3, g9['wy']+at, 1, 12)
+        before = shown(selected9=at)
         p.key(9); p.key(9)
         p.expect(draw(before, b'[2][Copy TWIN|to Drive 8?][Copy|Move|Cancel]', 1, 3), 'cancel focused')
         p.key(13); p.expect(before, 'cancelled')
@@ -308,8 +356,8 @@ def main():
         wb['selected'] = at
         before = ushown([wu, wb])
         u.key(13)                                                     # Copy
-        conflict = b'[2][LETTER already|exists on USB.][Replace|Skip|Stop]'
-        u.expect(draw(progress(before, b'Copying 1/1', wb), conflict, 2), 'usb exists')
+        conflict = b'[2][LETTER already|exists on USB.][Replace|Keep both|Skip]'
+        u.expect(draw(progress(before, b'Copying 1/1', wb), conflict, 3), 'usb exists')
         assert dos.files[b'/Usb0/LETTER'] == letter
         u.key(ord('1'))                                               # Replace
         assert dos.files[b'/Usb0/LETTER'] == letter2
