@@ -1,0 +1,129 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-8321d01c",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 3546,
+        "pages": 14,
+        "entry": 24608,
+        "crc16": 30442,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "8592e303084f03c0a4dedfe6224a37c34474e6e142fb94139bd63368a536a593"
+      },
+      "AESVC.PRG": {
+        "bytes": 6268,
+        "pages": 25,
+        "bank": 1,
+        "entry": 36904,
+        "crc16": 43383,
+        "sha256": "9c5128bfac035f79e6c4530745708515e27c37307bb5a909ea9d5630a2582e8e"
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "first app loads AESVC at bank-1 $9000 as owner 30; it survives exit",
+      "events": 2,
+      "instructions": 1831380,
+      "pages": 25
+    },
+    {
+      "name": "second app attaches without loading, sees persisted counters, unloads fully",
+      "events": 4,
+      "instructions": 596135
+    },
+    {
+      "name": "wrong identity or zero callback import (partial load) refused with BADIMAGE; restored image re-attaches",
+      "events": 8,
+      "instructions": 590557
+    },
+    {
+      "name": "occupied $9000 by another owner: clean allocation refusal, nothing adopted",
+      "events": 0,
+      "instructions": 632310,
+      "error": 2
+    },
+    {
+      "name": "corrupt AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 1825098,
+      "error": 20
+    },
+    {
+      "name": "missing AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 598995,
+      "error": 17
+    },
+    {
+      "name": "keyboard alert: exact frame, Tab/cursor focus with row masks, Return, exact restore",
+      "events": 8,
+      "instructions": 8915518,
+      "alert": {
+        "x": 6,
+        "y": 9,
+        "w": 27,
+        "h": 7
+      }
+    },
+    {
+      "name": "digits choose directly, Escape chooses Cancel, Return takes the default",
+      "events": 16,
+      "instructions": 22756324
+    },
+    {
+      "name": "1351-style press/release on the same button chooses it; release elsewhere does not",
+      "events": 21,
+      "instructions": 26833089
+    },
+    {
+      "name": "arbitrary pixels and colours under the alert are restored exactly",
+      "events": 23,
+      "instructions": 30293286
+    },
+    {
+      "name": "malformed strings and alerts over 250 cells are refused before any surface change",
+      "events": 31,
+      "instructions": 30352223
+    },
+    {
+      "name": "keyboard event returns the key",
+      "events": 2,
+      "instructions": 1830964
+    },
+    {
+      "name": "timer fires at exactly 60 jiffies, not 59, across a carry",
+      "events": 3,
+      "instructions": 1838210
+    },
+    {
+      "name": "button press fires one click; an already-matching state fires at once",
+      "events": 5,
+      "instructions": 1850520
+    },
+    {
+      "name": "double-click inside the 20-jiffy window; the window closing reports one click",
+      "events": 7,
+      "instructions": 1866504
+    },
+    {
+      "name": "rectangle enter/leave with half-open cell bounds",
+      "events": 9,
+      "instructions": 1879644
+    },
+    {
+      "name": "messages queue in order, deliver once, and refuse a 17th",
+      "events": 29,
+      "instructions": 1992317
+    },
+    {
+      "name": "a new app attaching finds an empty queue",
+      "events": 32,
+      "instructions": 597069
+    }
+  ]
+}

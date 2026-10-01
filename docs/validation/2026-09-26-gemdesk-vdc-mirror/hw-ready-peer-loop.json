@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "physical_hardware_io": true,
+  "host": "192.0.2.237",
+  "work": "<tmp>/uos-hardware-gem-a9eaoym5",
+  "gem_d81_sha256": "1c7e3c9f2d70fbca07df292bde75a568bf405fcc5d2e6efcb9f5aee3e93b4613",
+  "private_disk_sha256": "0c948c5a9e782a688ee3cffc32d5633bb75eea8aa02bf5fb29fa470512a108b3",
+  "checks": [],
+  "events": [],
+  "control_requests": [
+    {
+      "method": "POST",
+      "path": "/v1/drives/a:mount?type=d81&mode=readonly",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "sent_bytes": 819200,
+      "sent_sha256": "0c948c5a9e782a688ee3cffc32d5633bb75eea8aa02bf5fb29fa470512a108b3",
+      "status": 200,
+      "body_hex": "7b200a20202253756273797322203a20322c0a202022467479706522203a20313538312c0a202022636f6d6d616e6422203a2033383137362c0a20202266696c6522203a20222f54656d702f74656d7030303043222c0a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/machine:reset",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/drives/a:remove",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/drives/a:set_mode?mode=1541",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226d6f646522203a202231353431222c0a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/machine:reset",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    }
+  ],
+  "upload_checks": [
+    {
+      "path": "/Temp/temp000C",
+      "drive": "a",
+      "expected_bytes": 819200,
+      "size_verified": true,
+      "stored_bytes": 819200
+    }
+  ],
+  "uncertain_writes": [],
+  "drive_a_before": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1541",
+    "rom": "1541.rom",
+    "image_file": "",
+    "image_path": ""
+  },
+  "ultimate_version": {
+    "version": "0.1",
+    "errors": []
+  },
+  "upload_path": "/Temp/temp000C",
+  "drive_a_native": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1581",
+    "rom": "1581.rom",
+    "image_file": "/Temp/temp000C",
+    "image_path": ""
+  },
+  "ready_samples": {
+    "count": 300,
+    "ready": 7,
+    "values": [
+      0,
+      1
+    ],
+    "sequence": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000010000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000100000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000",
+    "first_ready_after_reset_s": 113.0,
+    "polls_before_ready": 267,
+    "sampling_seconds": 14.8
+  },
+  "workflow_passed": true,
+  "restore": {
+    "drive_a_after": {
+      "enabled": true,
+      "bus_id": 8,
+      "type": "1541",
+      "rom": "1541.rom",
+      "image_file": "",
+      "image_path": ""
+    },
+    "drive_a_matches": true,
+    "upload_absent": true,
+    "reset_after": true
+  }
+}

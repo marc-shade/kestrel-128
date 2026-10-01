@@ -1,0 +1,94 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.222,
+      "event_indices": [
+        116
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 44.678,
+      "event_indices": [
+        138
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 41.771,
+      "event_indices": [
+        141
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 15.395,
+      "event_indices": [
+        147
+      ]
+    }
+  },
+  "physical_directory_entries": 1096,
+  "physical_next_pages": {
+    "actions": 32,
+    "seconds": [
+      7.282,
+      7.28,
+      7.28,
+      7.281,
+      7.282,
+      7.28,
+      7.279,
+      7.285,
+      7.28,
+      7.283,
+      7.28,
+      7.279,
+      7.282,
+      7.28,
+      7.28,
+      7.282,
+      7.28,
+      7.28,
+      7.283,
+      7.28,
+      7.281,
+      7.281,
+      7.28,
+      7.283,
+      7.28,
+      7.282,
+      7.281,
+      7.28,
+      7.282,
+      7.278,
+      7.28,
+      7.281
+    ],
+    "initial_quiet_seconds": 1,
+    "minimum": 7.278,
+    "median": 7.28,
+    "maximum": 7.285
+  },
+  "physical_file_seconds": {
+    "large_open": 38.309,
+    "large_save": 80.936,
+    "large_reopen": 38.313
+  },
+  "physical_iec_file_seconds": {
+    "large_open": 289.894,
+    "large_save": 537.495,
+    "large_reopen": 295.981
+  },
+  "physical_iec_transport": {
+    "read_only_observation_retries": 0,
+    "tcp_connection_retries": 0,
+    "uncertain_writes": 0
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading the boot browser and scanning its retained Ultimate folder. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

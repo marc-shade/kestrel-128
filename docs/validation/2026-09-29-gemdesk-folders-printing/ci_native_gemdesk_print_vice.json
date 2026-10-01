@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-print-q6_2nvin",
+  "checks": [
+    {
+      "name": "drive 8 opens with the picture listed",
+      "row": 1
+    },
+    {
+      "name": "the picture's row dragged onto the Printer icon with the mouse asks Print or Cancel"
+    },
+    {
+      "name": "the bands are sent and the desktop is left as it was"
+    },
+    {
+      "name": "the printer received 29 bit-image bands whose dots are exactly the picture's bitmap pixels, then CHR$(15)",
+      "bytes": 9339,
+      "dots": 31997
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-print-q6_2nvin/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-devicebackend4",
+    "1",
+    "-busdevice4",
+    "-pr4drv",
+    "raw",
+    "-pr4output",
+    "text",
+    "-pr4txtdev",
+    "0",
+    "-prtxtdev1",
+    "/var/tmp/arc-scratch/uos-gemdesk-print-q6_2nvin/printer.bin",
+    "-controlport1device",
+    "3",
+    "-mouse",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:47327"
+  ],
+  "printed_bytes": 9339
+}

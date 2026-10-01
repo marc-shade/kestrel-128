@@ -1,0 +1,65 @@
+{
+  "selected": {
+    "report": "test-report.json",
+    "exit_code": 0,
+    "terminal_session": 44596,
+    "inputs": {
+      "src/native/sheet/engine.c": "9a2326f47e61786c5708bf9e43cb910d002f0388d6b579a4fa6f81ab78a6f120",
+      "src/native/sheet/engine.h": "6d5e31248941ba96aac5052209ec96f0d019c2e9a04257f7534129ca4a198cef",
+      "tests/ci_native_sheet_engine.py": "7b5dbe5740f86db1ad823e5e10cb97a58bbcd559c3e66eb3b29c9322ceebdaf9",
+      "tests/native_sheet_engine/harness.c": "29bb68a2aef7030d47e4c7b27902716179d50d3113c984c42a6a8dfbd592637b",
+      "tests/native_sheet_engine/link.cfg": "465402a3a9ebd86b8d4097884d84b8429b760d70d0db024bab3eceae2a4b479a",
+      "tests/native_sheet_engine/startup.s": "5c8bbf849368d180bad5df61d2b09bb8c49548dc267ecf039c073f9fe4fca8f1"
+    }
+  },
+  "rebuild": {
+    "report": "rebuild.json",
+    "exit_code": 0
+  },
+  "development": [
+    {
+      "report": "q1-report.json",
+      "exit_code": 1,
+      "inputs": {
+        "src/native/sheet/engine.c": "31c709b6d7fe06e3d3a4fca3f9f8389d76cf7842e279afad187fc952881ca810",
+        "src/native/sheet/engine.h": "6d5e31248941ba96aac5052209ec96f0d019c2e9a04257f7534129ca4a198cef",
+        "tests/ci_native_sheet_engine.py": "361f90094ffdceff19bc4eb7ac8f92e3b86be8c3a7c2657fd1fe035388f60080",
+        "tests/native_sheet_engine/harness.c": "ac84366070486d3b0bd3e1e4ca5f7a36b2dbfc3caa2733435549b2ce9be19800",
+        "tests/native_sheet_engine/startup.s": "5c8bbf849368d180bad5df61d2b09bb8c49548dc267ecf039c073f9fe4fca8f1",
+        "tests/native_sheet_engine/link.cfg": "465402a3a9ebd86b8d4097884d84b8429b760d70d0db024bab3eceae2a4b479a"
+      }
+    },
+    {
+      "report": "q2-report.json",
+      "exit_code": 1,
+      "inputs": {
+        "src/native/sheet/engine.c": "31c709b6d7fe06e3d3a4fca3f9f8389d76cf7842e279afad187fc952881ca810",
+        "src/native/sheet/engine.h": "6d5e31248941ba96aac5052209ec96f0d019c2e9a04257f7534129ca4a198cef",
+        "tests/ci_native_sheet_engine.py": "361f90094ffdceff19bc4eb7ac8f92e3b86be8c3a7c2657fd1fe035388f60080",
+        "tests/native_sheet_engine/harness.c": "29bb68a2aef7030d47e4c7b27902716179d50d3113c984c42a6a8dfbd592637b",
+        "tests/native_sheet_engine/startup.s": "5c8bbf849368d180bad5df61d2b09bb8c49548dc267ecf039c073f9fe4fca8f1",
+        "tests/native_sheet_engine/link.cfg": "465402a3a9ebd86b8d4097884d84b8429b760d70d0db024bab3eceae2a4b479a"
+      }
+    },
+    {
+      "report": "q3-report.json",
+      "exit_code": 1,
+      "inputs": {
+        "src/native/sheet/engine.c": "31c709b6d7fe06e3d3a4fca3f9f8389d76cf7842e279afad187fc952881ca810",
+        "src/native/sheet/engine.h": "6d5e31248941ba96aac5052209ec96f0d019c2e9a04257f7534129ca4a198cef",
+        "tests/ci_native_sheet_engine.py": "6e528e7d682dd8e9a19ae539a3cc2fc880302c88c269e5d7c0450b65fd309927",
+        "tests/native_sheet_engine/harness.c": "29bb68a2aef7030d47e4c7b27902716179d50d3113c984c42a6a8dfbd592637b",
+        "tests/native_sheet_engine/startup.s": "5c8bbf849368d180bad5df61d2b09bb8c49548dc267ecf039c073f9fe4fca8f1",
+        "tests/native_sheet_engine/link.cfg": "465402a3a9ebd86b8d4097884d84b8429b760d70d0db024bab3eceae2a4b479a"
+      }
+    }
+  ],
+  "corrections": [
+    "The first harness include path had one excess parent component.",
+    "The system UBSan shared library was unavailable; the host compiler now traps undefined behavior directly.",
+    "C128 cc65 translates letter literals to PETSCII; the calculation engine now uses explicit ASCII letter values."
+  ],
+  "suite_images_changed": false,
+  "hardware_used": false,
+  "pushed": false
+}

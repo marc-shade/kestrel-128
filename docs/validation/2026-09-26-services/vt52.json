@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "startup: 19200 8N1 with the receive NMI, 80 columns, ASCII font, blank screen",
+      "instructions": 1651822
+    },
+    {
+      "name": "printable text, CR/LF/Tab, ESC Y, ESC A-D, home, reverse and colours",
+      "instructions": 1666851
+    },
+    {
+      "name": "erase to end/start of line and screen, erase line, clear screen",
+      "instructions": 1711117
+    },
+    {
+      "name": "insert/delete line, scrolling both ways, save/restore cursor",
+      "instructions": 1783563
+    },
+    {
+      "name": "wrap on and off, cursor on and off, BEL rings the SID bell, unknown sequences ignored, positions clamped",
+      "instructions": 1791261
+    },
+    {
+      "name": "keys are sent as ASCII; cursor keys as ESC A-D; Del as backspace",
+      "instructions": 1794303,
+      "sent": "azA1.\r\b\u001b\u001bA\u001bB\u001bC\u001bD\t\u0003^"
+    },
+    {
+      "name": "the 256-byte ring keeps the first 255 bytes and counts the rest as dropped",
+      "instructions": 1859198
+    },
+    {
+      "name": "F8 returns to the desktop: VDC, font, screen mode, NMI vector, keys and ACIA restored",
+      "instructions": 2172599
+    },
+    {
+      "name": "without an ACIA the terminal restores everything and returns",
+      "instructions": 1964051
+    }
+  ]
+}

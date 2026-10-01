@@ -1,0 +1,104 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.221,
+      "event_indices": [
+        60,
+        118
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 42.626,
+      "event_indices": [
+        140
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 41.767,
+      "event_indices": [
+        143
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 11.335,
+      "event_indices": [
+        150
+      ]
+    }
+  },
+  "physical_directory_entries": 1096,
+  "physical_next_pages": {
+    "actions": 32,
+    "seconds": [
+      7.281,
+      7.281,
+      7.279,
+      7.281,
+      7.28,
+      7.278,
+      7.278,
+      7.278,
+      7.277,
+      7.281,
+      7.279,
+      7.28,
+      7.28,
+      7.277,
+      7.277,
+      7.28,
+      7.278,
+      7.278,
+      7.28,
+      7.278,
+      7.278,
+      7.28,
+      7.277,
+      7.278,
+      7.281,
+      7.278,
+      7.278,
+      7.283,
+      7.278,
+      7.28,
+      7.283,
+      7.28
+    ],
+    "initial_quiet_seconds": 1,
+    "minimum": 7.277,
+    "median": 7.279,
+    "maximum": 7.283
+  },
+  "physical_file_seconds": {
+    "large_open": 38.306,
+    "large_save": 78.889,
+    "large_reopen": 38.308
+  },
+  "physical_iec_file_seconds": {
+    "large_open": 289.868,
+    "large_save": 537.429,
+    "large_reopen": 298.027
+  },
+  "physical_cold_picker_seconds": {
+    "usb": 9.305,
+    "iec": 42.365
+  },
+  "physical_usb_transport": {
+    "read_only_observation_retries": 0,
+    "tcp_connection_retries": 0,
+    "uncertain_writes": 0
+  },
+  "physical_iec_transport": {
+    "read_only_observation_retries": 0,
+    "tcp_connection_retries": 0,
+    "uncertain_writes": 0
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading the boot browser and scanning its retained Ultimate folder. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

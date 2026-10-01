@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "conflicting scratch page refuses before input ownership",
+      "passed": true,
+      "instructions": 4478007,
+      "foreign_bank": 0,
+      "foreign_page": 84,
+      "exit_code": 2
+    },
+    {
+      "name": "conflicting scratch page refuses before input ownership",
+      "passed": true,
+      "instructions": 4478106,
+      "foreign_bank": 0,
+      "foreign_page": 95,
+      "exit_code": 2
+    },
+    {
+      "name": "same address in the other bank permits sixteen initialized scratch pages and complete cleanup",
+      "passed": true,
+      "instructions": 4722742,
+      "foreign_bank": 1,
+      "foreign_page": 84,
+      "exit_code": 0
+    }
+  ]
+}

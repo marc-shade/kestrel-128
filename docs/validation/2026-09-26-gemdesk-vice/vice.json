@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-vice-f60dnqw2",
+  "checks": [
+    {
+      "name": "cold boot of gem.d81: GEMDESK loads AESVC.PRG; the desktop matches the CPU oracle exactly"
+    },
+    {
+      "name": "the 8 key opens the boot drive; the listing matches the D81 directory, sorted by name",
+      "entries": 24
+    },
+    {
+      "name": "Return launches the selected CALC through the dispatcher"
+    },
+    {
+      "name": "leaving Calculator returns to GEMDESK, which reopens the window with its selection"
+    }
+  ],
+  "entries": [
+    "U",
+    "CALC",
+    "BROWSE",
+    "EDITOR",
+    "EDPICK.PRG",
+    "EDFIND.PRG",
+    "EDCLIP.PRG",
+    "FILES",
+    "FSPICK.PRG",
+    "FSVIEW.PRG",
+    "FSOPEN.PRG",
+    "ULTIMATE",
+    "CLAUDE",
+    "PAINT",
+    "SHEET",
+    "SHFONT.PRG",
+    "SHCALC.PRG",
+    "SHCLIP.PRG",
+    "VDSVC.PRG",
+    "CARDS",
+    "AESVC.PRG",
+    "GDDLG.PRG",
+    "GDSET.PRG",
+    "VT52"
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-vice-f60dnqw2/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:36217"
+  ]
+}

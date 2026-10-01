@@ -1,0 +1,179 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "startup: AES loaded from the boot folder, menu bar and desktop icons",
+      "frames": 0,
+      "instructions": 11134771
+    },
+    {
+      "name": "clicking icons selects and deselects them",
+      "frames": 100,
+      "instructions": 12007730
+    },
+    {
+      "name": "double-clicking the boot drive opens its listing window",
+      "frames": 134,
+      "instructions": 14025049,
+      "entries": 22
+    },
+    {
+      "name": "arrows scroll, clicks and cursor keys select rows",
+      "frames": 202,
+      "instructions": 19433190
+    },
+    {
+      "name": "File:Close (Ctrl-W) closes the window and frees its listing",
+      "frames": 202,
+      "instructions": 19856890
+    },
+    {
+      "name": "Desk:About shows an alert and restores the desktop exactly",
+      "frames": 202,
+      "instructions": 23232363
+    },
+    {
+      "name": "Options:Launcher replaces the desktop with the card launcher",
+      "frames": 202,
+      "instructions": 23244014
+    },
+    {
+      "name": "double-clicking a listed file hands it to the dispatcher (device 8)",
+      "frames": 52,
+      "instructions": 14450758
+    },
+    {
+      "name": "when the desktop returns, the AES session reopens its windows (rectangle, scroll, selection)",
+      "frames": 0,
+      "instructions": 10397373
+    },
+    {
+      "name": "a drive window lists its directory sorted by name",
+      "frames": 36,
+      "instructions": 12606265,
+      "order": [
+        "AESVC.PRG",
+        "ALP",
+        "ALPHA",
+        "BRAVO",
+        "GEMDESK",
+        "MIKE",
+        "MIKE ",
+        "ZULU"
+      ]
+    },
+    {
+      "name": "View sorts by type, size (largest first), directory order and name; the item is checked",
+      "frames": 36,
+      "instructions": 27597796
+    },
+    {
+      "name": "Show Info (Ctrl-I) opens a dialog for the selected entry; Esc restores the window exactly",
+      "frames": 75,
+      "instructions": 32439526
+    },
+    {
+      "name": "the Drive 9 icon opens a second, staggered window over the first",
+      "frames": 116,
+      "instructions": 34762459
+    },
+    {
+      "name": "Show Info on a drive icon counts its files and blocks",
+      "frames": 116,
+      "instructions": 37349258,
+      "text": "[1][Drive 9|Files: 20|Blocks used: 40][OK]"
+    },
+    {
+      "name": "a click in the slider track pages down (clamped to the last page)",
+      "frames": 146,
+      "instructions": 38939333
+    },
+    {
+      "name": "dragging the thumb to the top of the track scrolls to the first entry",
+      "frames": 179,
+      "instructions": 40536693
+    },
+    {
+      "name": "clicking the lower window tops it",
+      "frames": 217,
+      "instructions": 41661868
+    },
+    {
+      "name": "a drive that cannot be read gives an error alert and opens nothing",
+      "frames": 259,
+      "instructions": 44494407
+    },
+    {
+      "name": "four folder windows open at once; a fifth is refused with an alert",
+      "frames": 345,
+      "instructions": 50572437
+    },
+    {
+      "name": "Show Info shows a locked file as read-only (a disabled, checked box)",
+      "frames": 75,
+      "instructions": 17324918
+    },
+    {
+      "name": "Show Info renames: the edited name is sent as R0:NEW=OLD and the drive is listed again",
+      "frames": 102,
+      "instructions": 23434331
+    },
+    {
+      "name": "renaming onto an existing name shows the drive's refusal and changes nothing",
+      "frames": 128,
+      "instructions": 31437087
+    },
+    {
+      "name": "Ctrl-D asks first (Cancel is the default), then scratches the file and lists the drive again",
+      "frames": 156,
+      "instructions": 40756269
+    },
+    {
+      "name": "a file dropped on Trash is confirmed; a locked file the drive skips is reported, not hidden",
+      "frames": 200,
+      "instructions": 49222146
+    },
+    {
+      "name": "dragging a row onto Trash deletes it after confirmation",
+      "frames": 256,
+      "instructions": 55020429
+    },
+    {
+      "name": "names with DOS pattern characters, a busy command channel and a failed OPEN are refused with alerts",
+      "frames": 322,
+      "instructions": 72585033
+    },
+    {
+      "name": "Preferences: a checkbox, a radio group, Tab and cursor focus; clicking Cancel changes nothing, OK applies the sort order",
+      "frames": 389,
+      "instructions": 91208119
+    },
+    {
+      "name": "with Confirm deletes off, Ctrl-D deletes at once",
+      "frames": 418,
+      "instructions": 92766277
+    },
+    {
+      "name": "Preferences: a desktop colour repaints the desktop and its icons",
+      "frames": 450,
+      "instructions": 103073873
+    },
+    {
+      "name": "Options:Save Desktop writes DESKTOP.INF (preferences, colour, windows)",
+      "frames": 450,
+      "instructions": 107195026,
+      "record": "4744530100021c0001080001021c1000ff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "a cold start (AES loaded fresh) reads DESKTOP.INF: windows, sort, colour, confirm setting",
+      "frames": 34,
+      "instructions": 14021864
+    },
+    {
+      "name": "File:Format asks for drive, name and ID, confirms, sends N0:NAME,ID and lists the drive again",
+      "frames": 36,
+      "instructions": 33177459
+    }
+  ]
+}

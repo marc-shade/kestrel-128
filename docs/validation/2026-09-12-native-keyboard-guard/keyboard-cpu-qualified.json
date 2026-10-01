@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    "native: real ROM produces index 89/Insert for a modeled low row signal; guard rejects it; valid Down still works",
+    "native: 15 real-ROM letter/modifier/cursor/function/keypad cases match unguarded queue and native accounting in both mappings",
+    "native: all 256 callback indices, both mappings and four flag combinations; valid callbacks preserve A/X/Y/P and invalid callbacks do not chain",
+    "native: existing callback retained; repeated startup is idempotent and preserves flags",
+    "native: rejection counter carry/wrap; 36 scans retain ROM repeat policy; queued function text and native counter carry survive moved GETIN",
+    "native-desktop: real ROM produces index 89/Insert for a modeled low row signal; guard rejects it; valid Down still works",
+    "native-desktop: 15 real-ROM letter/modifier/cursor/function/keypad cases match unguarded queue and native accounting in both mappings",
+    "native-desktop: all 256 callback indices, both mappings and four flag combinations; valid callbacks preserve A/X/Y/P and invalid callbacks do not chain",
+    "native-desktop: existing callback retained; repeated startup is idempotent and preserves flags",
+    "native-desktop: rejection counter carry/wrap; 36 scans retain ROM repeat policy; queued function text and native counter carry survive moved GETIN"
+  ],
+  "images": {
+    "native": "5e088ca4ead945a60d56b875ec0acf9be97f437c7ab533c2d22156b0bade9db3",
+    "native-desktop": "78232acf4269a8ac435e12445a9b735146ed98373b41d0e5a5ce719fa0bc6fd1"
+  },
+  "reference_rom_sha256": "64ed21ad31da2840aa90eab70c6ed4731f63268a1b3c5cf85273e28d6cfa6d4d",
+  "scope": "Real ROM scanner on a limited CIA matrix model; modeled row signal is not proof of the physical input source"
+}

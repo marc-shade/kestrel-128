@@ -1,0 +1,27 @@
+{
+  "base_commit": "3b4847e8070e7ed1d63e324f5b971442647d2660",
+  "physical_hardware_io": false,
+  "pushed": false,
+  "candidate": "/var/tmp/arc-scratch/uos-native-files-copy-ready-i0g98ch_",
+  "qualified_sessions": {
+    "vice_copy": 0,
+    "browser_cpu": 0,
+    "copy_cpu": 0
+  },
+  "development_corrections": [
+    "The first true-1581 run detected an unwanted CR after closing zero-byte output. Standard Commodore clswrt does this intentionally. Final copy preflights the source and rejects zero-byte IEC create before changing the destination; raw DOS references and the failed capture are retained.",
+    "The first unsupported-message literal used uppercase source letters, which 64tass encoded as high PETSCII. The CPU screen assertion and VICE complete-screen comparison rejected it. The final lower-case assembly text displays correctly.",
+    "An Ultimate short-write fixture assumed only a contiguous prefix; the existing native backend uses 511 bytes plus a final byte to avoid direct-sector corruption. The corrected test verifies exactly these two commands, retained 17 bytes plus the final byte, and no transfer replay.",
+    "The larger Files image requires more than the calculator test harness default 2-million-instruction budget. The desktop Files fixture now allows its disk load to complete.",
+    "A completed copy result is cleared when its destination changes; moving only the caret keeps the result."
+  ],
+  "report_metadata_correction": "The CPU harness uses ci_native_heap.IMAGE, the workspace kernel. Its report initially named the desktop kernel digest. Only this digest was corrected after the passing run; the exact original report and executed test source are retained under preliminary/cpu-report-metadata. The maintained report now reads KERNEL_IMAGE. All cases, counts and other results are unchanged.",
+  "qualified_session_ids": {
+    "cpu_copy": 79328,
+    "vice_copy": 25860,
+    "browser_cpu": 72730
+  },
+  "main_rebuild_byte_identical": true,
+  "documentation_only_links_added_after_build": true,
+  "all_owned_host_processes_terminal": true
+}

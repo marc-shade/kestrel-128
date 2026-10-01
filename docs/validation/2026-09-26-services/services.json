@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "1,000 results equal seed*3141592621+1, bits 8..31, from a fixed seed"
+    },
+    {
+      "name": "an unseeded generator seeds itself from the jiffy clock, raster and CIA timer"
+    },
+    {
+      "name": "the bell: gate off, 880 Hz (PAL), attack 0 decay 9 sustain 0, volume 15 written (not read), triangle gate on last",
+      "writes": [
+        "d404=00",
+        "d400=89",
+        "d401=3a",
+        "d405=09",
+        "d406=00",
+        "d418=0f",
+        "d404=11"
+      ]
+    }
+  ]
+}

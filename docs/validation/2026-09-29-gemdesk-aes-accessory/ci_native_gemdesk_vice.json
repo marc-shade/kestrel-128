@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-vice-1rr58ew0",
+  "checks": [
+    {
+      "name": "cold boot of gem.d81: GEMDESK loads AESVC.PRG; the desktop matches the CPU oracle exactly"
+    },
+    {
+      "name": "drive 9, a 1581 with a D81, is detected from its DOS identity (UI) and listed as a D81",
+      "entries": 2
+    },
+    {
+      "name": "the 8 key opens the boot drive; the listing matches the D81 directory, sorted by name",
+      "entries": 31
+    },
+    {
+      "name": "Return launches the selected CALC through the dispatcher"
+    },
+    {
+      "name": "leaving Calculator returns to GEMDESK, which reopens the window with its selection"
+    },
+    {
+      "name": "Return on a SEQ file opens it in the Editor as a document: the surface matches the Editor oracle"
+    },
+    {
+      "name": "leaving the Editor returns to GEMDESK with the document still selected"
+    },
+    {
+      "name": "Return on a UPNT picture (SEQ) opens it in Paint: the document bytes and the surface match"
+    }
+  ],
+  "entries": [
+    "U",
+    "CALC",
+    "BROWSE",
+    "EDITOR",
+    "EDPICK.PRG",
+    "EDFIND.PRG",
+    "EDCLIP.PRG",
+    "FILES",
+    "FSPICK.PRG",
+    "FSVIEW.PRG",
+    "FSOPEN.PRG",
+    "ULTIMATE",
+    "CLAUDE",
+    "PAINT",
+    "SHEET",
+    "SHFONT.PRG",
+    "SHCALC.PRG",
+    "SHCLIP.PRG",
+    "VDSVC.PRG",
+    "CARDS",
+    "AESVC.PRG",
+    "GDDLG.PRG",
+    "GDSET.PRG",
+    "GDCPY.PRG",
+    "GDSES.PRG",
+    "GDUSB.PRG",
+    "GDDSK.PRG",
+    "DESK1.ACC",
+    "VT52",
+    "NOTE",
+    "PICTURE"
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-vice-1rr58ew0/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-9",
+    "/var/tmp/arc-scratch/uos-gemdesk-vice-1rr58ew0/data9.d81",
+    "-drive9true",
+    "-drive9type",
+    "1581",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:59599"
+  ]
+}

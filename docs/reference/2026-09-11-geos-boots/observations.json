@@ -1,0 +1,93 @@
+{
+  "date": "2026-09-11",
+  "hardware_io": false,
+  "purpose": "Reference boot observations only",
+  "native_uos_images_used": false,
+  "runtime_parity_qualified": false,
+  "source_disk_sha256": "8a624171f77de414789b46225d4a2a58b8185990f67405b8aacdaaad8e1b0a2c",
+  "source_and_working_disks_unchanged": true,
+  "runs": {
+    "80": {
+      "source_evidence": "/var/tmp/arc-scratch/uos-geos-reference-boot-qiuaxyws",
+      "report": "initial/report.json",
+      "initial_display_argument": "-80col",
+      "vdc_ram_kib": 16,
+      "drive8_type": "1541",
+      "warp": true,
+      "capture_seconds": [
+        30,
+        60,
+        90
+      ],
+      "final_host_image": "initial/80/host-display-090.png",
+      "original_and_working_disk_unchanged": true,
+      "visible_desktop_confirmed_by_manual_review": true,
+      "actual_runtime_version_verified": false,
+      "interaction_tested": false
+    },
+    "40": {
+      "source_evidence": "/var/tmp/arc-scratch/uos-geos-reference-boot-2i6dk9ah",
+      "report": "retry40/report.json",
+      "initial_display_argument": "-40col",
+      "vdc_ram_kib": 16,
+      "drive8_type": "1541",
+      "warp": true,
+      "capture_seconds": [
+        30,
+        60,
+        90
+      ],
+      "final_host_image": "retry40/40/host-display-090.png",
+      "original_and_working_disk_unchanged": true,
+      "visible_desktop_confirmed_by_manual_review": true,
+      "actual_runtime_version_verified": false,
+      "interaction_tested": false
+    }
+  },
+  "x128": {
+    "path": "/usr/bin/x128",
+    "sha256": "0ee740e5b35eb42ebe95337f6f30b3376c3156c034be83b8dfa4c6e11a9c3d17"
+  },
+  "support": {
+    "tests/ci_fm.py": {
+      "path": "<home>/geos128/uos/tests/ci_fm.py",
+      "sha256": "3cd662bf48acd3479d2dad9668a9457f9e0ac38cfe70666833b66c017a0973a3"
+    },
+    "cbm": {
+      "path": "<home>/.claude/skills/commodore-basic/bin/cbm",
+      "sha256": "508c86cb55a4728bef2ded2f8d1d0d807a75c2f807e397fd36686c539afdd553"
+    }
+  },
+  "loaded_resource_files": {
+    "/usr/share/vice/C128/basiclo-318018-04.bin": {
+      "bytes": 16384,
+      "sha256": "ccb0d516219f12857fef3ae7409fff072e47b9480d7eafb5eea7e0b188c958f5"
+    },
+    "/usr/share/vice/C128/basichi-318019-04.bin": {
+      "bytes": 16384,
+      "sha256": "121b7c7f15f9b72e83f293f8fb3c4686730ee02359cea71d18a72c6f489cd2d7"
+    },
+    "/usr/share/vice/C128/kernal-318020-05.bin": {
+      "bytes": 16384,
+      "sha256": "64ed21ad31da2840aa90eab70c6ed4731f63268a1b3c5cf85273e28d6cfa6d4d"
+    },
+    "/usr/share/vice/C128/chargen-390059-01.bin": {
+      "bytes": 8192,
+      "sha256": "f08d8f525b44f5cbb3f5776739fcdff737886e1813f1eb7a20aedb128db1d4a8"
+    },
+    "/usr/share/vice/C128/kernal64-901227-03.bin": {
+      "bytes": 8192,
+      "sha256": "83c60d47047d7beab8e5b7bf6f67f80daa088b7a6a27de0d7e016f6484042721"
+    },
+    "/usr/share/vice/C128/basic64-901226-01.bin": {
+      "bytes": 8192,
+      "sha256": "89878cea0a268734696de11c4bae593eaaa506465d2029d619c0e0cbccdfa62d"
+    },
+    "/usr/share/vice/DRIVES/dos1541-325302-01+901229-05.bin": {
+      "bytes": 16384,
+      "sha256": "d1d45afb46fd4e2b48d93ca367b889d75654a3b7acf73044e51f6d880c09369e"
+    }
+  },
+  "initial_40_failure": "VICE rejected +80col before emulator boot; local help confirmed -40col and a new private 40-column run completed.",
+  "archive_scope": "Reports retain all original capture hashes. Disk images and full RAM/VDC dumps remain at the private source-evidence paths; this directory retains screenshots, register snapshots, logs and exact executed scripts."
+}

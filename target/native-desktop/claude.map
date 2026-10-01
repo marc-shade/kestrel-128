@@ -1,0 +1,453 @@
+Modules list:
+-------------
+startup.o:
+    DATA              Offs=000000  Size=00001B  Align=00001  Fill=0000
+    LOADADDR          Offs=000000  Size=000002  Align=00001  Fill=0000
+    HEADER            Offs=000000  Size=000020  Align=00001  Fill=0000
+    STARTUP           Offs=000000  Size=00002C  Align=00001  Fill=0000
+    CSTACK            Offs=000000  Size=000400  Align=00001  Fill=0000
+gui.o:
+    GUI               Offs=000000  Size=003203  Align=00001  Fill=0000
+main.o:
+    CODE              Offs=000000  Size=000C25  Align=00001  Fill=0000
+    RODATA            Offs=000000  Size=00026B  Align=00001  Fill=0000
+    BSS               Offs=000000  Size=00002B  Align=00001  Fill=0000
+    DATA              Offs=00001B  Size=000023  Align=00001  Fill=0000
+c128hw.o:
+    CODE              Offs=000C25  Size=0008ED  Align=00001  Fill=0000
+    RODATA            Offs=00026B  Size=00001C  Align=00001  Fill=0000
+    BSS               Offs=00002B  Size=000B5A  Align=00001  Fill=0000
+terminal.o:
+    CODE              Offs=001512  Size=0003E0  Align=00001  Fill=0000
+    BSS               Offs=000B85  Size=000017  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(addeqsp.o):
+    CODE              Offs=0018F2  Size=000011  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(addysp.o):
+    CODE              Offs=001903  Size=00000E  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(decaxy.o):
+    CODE              Offs=001911  Size=000009  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(decsp1.o):
+    CODE              Offs=00191A  Size=000009  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(decsp2.o):
+    CODE              Offs=001923  Size=00000D  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incaxy.o):
+    CODE              Offs=001930  Size=00000B  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incsp1.o):
+    CODE              Offs=00193B  Size=000007  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incsp2.o):
+    CODE              Offs=001942  Size=000016  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incsp3.o):
+    CODE              Offs=001958  Size=000005  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incsp4.o):
+    CODE              Offs=00195D  Size=000005  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(incsp5.o):
+    CODE              Offs=001962  Size=000005  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(ldaxi.o):
+    CODE              Offs=001967  Size=00000D  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(ldaxsp.o):
+    CODE              Offs=001974  Size=000009  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(mul8.o):
+    CODE              Offs=00197D  Size=00003A  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(popptr1.o):
+    CODE              Offs=0019B7  Size=00000E  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(pusha.o):
+    CODE              Offs=0019C5  Size=000016  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(pushax.o):
+    CODE              Offs=0019DB  Size=00001A  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(staspidx.o):
+    CODE              Offs=0019F5  Size=000016  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(staxsp.o):
+    CODE              Offs=001A0B  Size=00000B  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(zerobss.o):
+    CODE              Offs=001A16  Size=000023  Align=00001  Fill=0000
+/usr/share/cc65/lib/c128.lib(zeropage.o):
+    ZEROPAGE          Offs=000000  Size=00001A  Align=00001  Fill=0000
+
+
+Segment list:
+-------------
+Name                   Start     End    Size  Align
+----------------------------------------------------
+ZEROPAGE              000002  00001B  00001A  00001
+LOADADDR              005FFE  005FFF  000002  00001
+HEADER                006000  00601F  000020  00001
+STARTUP               006020  00604B  00002C  00001
+GUI                   006080  009282  003203  00001
+CODE                  009283  00ACBB  001A39  00001
+RODATA                00ACBC  00AF42  000287  00001
+DATA                  00AF43  00AF80  00003E  00001
+BSS                   00AF81  00BB1C  000B9C  00001
+CSTACK                00BB1D  00BF1C  000400  00001
+
+
+Exports list by name:
+---------------------
+__BSS_RUN__               00AF81 RLA    __BSS_SIZE__              000B9C REA    
+__CSTACK_RUN__            00BB1D RLA    __CSTACK_SIZE__           000400 REA    
+__STARTUP__               000001 REA    _acia_avail               00A316 RLA    
+_acia_get                 00A326 RLA    _acia_open                00A1EA RLA    
+_acia_put                 00A333 RLA    _acia_shutdown            00A27B RLA    
+_gui_begin                006080 RLA    _gui_bitmap               006979 RLA    
+_gui_clip_chunk           008DC7 RLA    _gui_clip_count           008E1B RLA    
+_gui_clip_length          009172 RLA    _gui_clip_prepare         008D95 RLA    
+_gui_clip_status          008E1C RLA    _gui_controls_dirty       00699F RLA    
+_gui_cursor_col           006922 RLA    _gui_cursor_row           006921 RLA    
+_gui_dirty                006986 RLA    _gui_dirty_all            00608C RLA    
+_gui_end                  006089 RLA    _gui_font_hi              006985 RLA    
+_gui_font_ram             00691F RLA    _gui_key                  006086 RLA    
+_gui_live                 006980 RLA    _gui_paste_active         008E1D RLA    
+_gui_poll                 006083 RLA    _gui_recovery             008470 RLA    
+_gui_retiring             008471 RLA    _gui_terminal_read        0063DC RLA    
+_gui_terminal_restore     008446 RLA    _gui_top                  006984 RLA    
+_gui_vdc_end              008423 RLA    _gui_vdc_owned            00846E RLA    
+_gui_view                 006920 RLA    _kb_get                   00A356 RLA    
+_main                     009C89 RLA    _native_border            00AFAD RLA    
+_native_quit              00AFAC RLA    _native_video_begin       00A4BA RLA    
+_native_video_end         00A5B5 RLA    _scrAttr                  00B0E0 RLA    
+_scrBuf                   00B0E3 RLA    _scrChar                  00B0E2 RLA    
+_scrCol                   00B0DF RLA    _scrLen                   00B0E1 RLA    
+_scrRow                   00B0DE RLA    _scr_clear                00A06F RLA    
+_scr_fill                 00A02C RLA    _scr_init                 00A1D7 RLA    
+_scr_mirror               00A377 RLA    _scr_place_cursor         00A19F RLA    
+_scr_run                  009FD9 RLA    _scr_scroll               00A0B6 RLA    
+_scr_setglyph             00A447 RLA    _scr_sync                 00A673 RLA    
+_tm_begin                 00A7BA RLA    _tm_clear                 00A9BE RLA    
+_tm_cursor                00AB0E RLA    _tm_end                   00A870 RLA    
+_tm_fill                  00A999 RLA    _tm_glyph                 00AB3C RLA    
+_tm_live                  00BB06 RLA    _tm_read                  00AA2E RLA    
+_tm_run                   00A96C RLA    _tm_scroll                00AA59 RLA    
+addeq0sp                  00AB75 RLA    addysp                    00AB87 RLA    
+decaxy                    00AB94 RLA    decsp1                    00AB9D RLA    
+decsp2                    00ABA6 RLA    incaxy                    00ABB5 RLA    
+incsp1                    00ABBE RLA    incsp2                    00ABCD RLA    
+incsp3                    00ABDB RLA    incsp4                    00ABE0 RLA    
+incsp5                    00ABE5 RLA    ldax0sp                   00ABF7 RLA    
+ldaxi                     00ABEA RLA    ldaxysp                   00ABF9 RLA    
+popptr1                   00AC3A RLA    ptr1                      00000A RLZ    
+ptr4                      000010 RLZ    pusha                     00AC4C RLA    
+pusha0                    00AC60 RLA    pushax                    00AC62 RLA    
+sf_read                   00A773 RLA    sp                        000002 RLZ    
+staspidx                  00AC78 RLA    stax0sp                   00AC8E RLA    
+tmp1                      000012 RLZ    tosumula0                 00AC00 RLA    
+zerobss                   00AC99 RLA    
+
+
+Exports list by value:
+----------------------
+__STARTUP__               000001 REA    sp                        000002 RLZ    
+ptr1                      00000A RLZ    ptr4                      000010 RLZ    
+tmp1                      000012 RLZ    __CSTACK_SIZE__           000400 REA    
+__BSS_SIZE__              000B9C REA    _gui_begin                006080 RLA    
+_gui_poll                 006083 RLA    _gui_key                  006086 RLA    
+_gui_end                  006089 RLA    _gui_dirty_all            00608C RLA    
+_gui_terminal_read        0063DC RLA    _gui_font_ram             00691F RLA    
+_gui_view                 006920 RLA    _gui_cursor_row           006921 RLA    
+_gui_cursor_col           006922 RLA    _gui_bitmap               006979 RLA    
+_gui_live                 006980 RLA    _gui_top                  006984 RLA    
+_gui_font_hi              006985 RLA    _gui_dirty                006986 RLA    
+_gui_controls_dirty       00699F RLA    _gui_vdc_end              008423 RLA    
+_gui_terminal_restore     008446 RLA    _gui_vdc_owned            00846E RLA    
+_gui_recovery             008470 RLA    _gui_retiring             008471 RLA    
+_gui_clip_prepare         008D95 RLA    _gui_clip_chunk           008DC7 RLA    
+_gui_clip_count           008E1B RLA    _gui_clip_status          008E1C RLA    
+_gui_paste_active         008E1D RLA    _gui_clip_length          009172 RLA    
+_main                     009C89 RLA    _scr_run                  009FD9 RLA    
+_scr_fill                 00A02C RLA    _scr_clear                00A06F RLA    
+_scr_scroll               00A0B6 RLA    _scr_place_cursor         00A19F RLA    
+_scr_init                 00A1D7 RLA    _acia_open                00A1EA RLA    
+_acia_shutdown            00A27B RLA    _acia_avail               00A316 RLA    
+_acia_get                 00A326 RLA    _acia_put                 00A333 RLA    
+_kb_get                   00A356 RLA    _scr_mirror               00A377 RLA    
+_scr_setglyph             00A447 RLA    _native_video_begin       00A4BA RLA    
+_native_video_end         00A5B5 RLA    _scr_sync                 00A673 RLA    
+sf_read                   00A773 RLA    _tm_begin                 00A7BA RLA    
+_tm_end                   00A870 RLA    _tm_run                   00A96C RLA    
+_tm_fill                  00A999 RLA    _tm_clear                 00A9BE RLA    
+_tm_read                  00AA2E RLA    _tm_scroll                00AA59 RLA    
+_tm_cursor                00AB0E RLA    _tm_glyph                 00AB3C RLA    
+addeq0sp                  00AB75 RLA    addysp                    00AB87 RLA    
+decaxy                    00AB94 RLA    decsp1                    00AB9D RLA    
+decsp2                    00ABA6 RLA    incaxy                    00ABB5 RLA    
+incsp1                    00ABBE RLA    incsp2                    00ABCD RLA    
+incsp3                    00ABDB RLA    incsp4                    00ABE0 RLA    
+incsp5                    00ABE5 RLA    ldaxi                     00ABEA RLA    
+ldax0sp                   00ABF7 RLA    ldaxysp                   00ABF9 RLA    
+tosumula0                 00AC00 RLA    popptr1                   00AC3A RLA    
+pusha                     00AC4C RLA    pusha0                    00AC60 RLA    
+pushax                    00AC62 RLA    staspidx                  00AC78 RLA    
+stax0sp                   00AC8E RLA    zerobss                   00AC99 RLA    
+__BSS_RUN__               00AF81 RLA    _native_quit              00AFAC RLA    
+_native_border            00AFAD RLA    _scrRow                   00B0DE RLA    
+_scrCol                   00B0DF RLA    _scrAttr                  00B0E0 RLA    
+_scrLen                   00B0E1 RLA    _scrChar                  00B0E2 RLA    
+_scrBuf                   00B0E3 RLA    _tm_live                  00BB06 RLA    
+__CSTACK_RUN__            00BB1D RLA    
+
+
+Imports list:
+-------------
+__BSS_RUN__ ([linker generated]):
+    zerobss.o                 common/zerobss.s(8)
+    startup.o                 src/native/claude/startup.s(5)
+__BSS_SIZE__ ([linker generated]):
+    zerobss.o                 common/zerobss.s(8)
+__CSTACK_RUN__ ([linker generated]):
+    startup.o                 src/native/claude/startup.s(5)
+__CSTACK_SIZE__ ([linker generated]):
+    startup.o                 src/native/claude/startup.s(5)
+__STARTUP__ (startup.o):
+    main.o                    src/native/claude/main.s(16)
+_acia_avail (c128hw.o):
+    main.o                    src/native/claude/main.s(91)
+_acia_get (c128hw.o):
+    main.o                    src/native/claude/main.s(92)
+_acia_open (c128hw.o):
+    main.o                    src/native/claude/main.s(58)
+_acia_put (c128hw.o):
+    main.o                    src/native/claude/main.s(93)
+_acia_shutdown (c128hw.o):
+    main.o                    src/native/claude/main.s(90)
+_gui_begin (gui.o):
+    main.o                    src/native/claude/main.s(62)
+_gui_bitmap (gui.o):
+    main.o                    src/native/claude/main.s(68)
+_gui_clip_chunk (gui.o):
+    main.o                    src/native/claude/main.s(76)
+_gui_clip_count (gui.o):
+    main.o                    src/native/claude/main.s(72)
+_gui_clip_length (gui.o):
+    main.o                    src/native/claude/main.s(71)
+_gui_clip_prepare (gui.o):
+    main.o                    src/native/claude/main.s(75)
+_gui_clip_status (gui.o):
+    main.o                    src/native/claude/main.s(73)
+_gui_controls_dirty (gui.o):
+    main.o                    src/native/claude/main.s(66)
+_gui_cursor_col (gui.o):
+    terminal.o                src/native/claude/terminal.s(10)
+    c128hw.o                  src/native/claude/c128hw.s(33)
+_gui_cursor_row (gui.o):
+    terminal.o                src/native/claude/terminal.s(10)
+    c128hw.o                  src/native/claude/c128hw.s(33)
+_gui_dirty (gui.o):
+    terminal.o                src/native/claude/terminal.s(9)
+    main.o                    src/native/claude/main.s(67)
+_gui_dirty_all (gui.o):
+    terminal.o                src/native/claude/terminal.s(9)
+    main.o                    src/native/claude/main.s(63)
+_gui_end (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(1388)
+_gui_font_hi (gui.o):
+    terminal.o                src/native/claude/terminal.s(9)
+    c128hw.o                  src/native/claude/c128hw.s(1388)
+_gui_font_ram (gui.o):
+    terminal.o                src/native/claude/terminal.s(9)
+_gui_key (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(1388)
+_gui_live (gui.o):
+    main.o                    src/native/claude/main.s(64)
+_gui_paste_active (gui.o):
+    main.o                    src/native/claude/main.s(74)
+_gui_poll (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(1388)
+_gui_recovery (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(32)
+    main.o                    src/native/claude/main.s(69)
+_gui_retiring (gui.o):
+    main.o                    src/native/claude/main.s(70)
+_gui_terminal_read (gui.o):
+    terminal.o                src/native/claude/terminal.s(10)
+_gui_terminal_restore (gui.o):
+    terminal.o                src/native/claude/terminal.s(11)
+_gui_top (gui.o):
+    main.o                    src/native/claude/main.s(65)
+_gui_vdc_end (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(32)
+_gui_vdc_owned (gui.o):
+    c128hw.o                  src/native/claude/c128hw.s(32)
+_gui_view (gui.o):
+    terminal.o                src/native/claude/terminal.s(9)
+_kb_get (c128hw.o):
+    main.o                    src/native/claude/main.s(94)
+_main (main.o):
+    startup.o                 src/native/claude/startup.s(4)
+_native_border (c128hw.o):
+    main.o                    src/native/claude/main.s(57)
+_native_quit (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(8)
+    main.o                    src/native/claude/main.s(56)
+_native_video_begin (c128hw.o):
+    main.o                    src/native/claude/main.s(59)
+_native_video_end (c128hw.o):
+    main.o                    src/native/claude/main.s(60)
+_scrAttr (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(79)
+_scrBuf (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(82)
+_scrChar (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(81)
+_scrCol (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(78)
+_scrLen (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(80)
+_scrRow (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(7)
+    main.o                    src/native/claude/main.s(77)
+_scr_clear (c128hw.o):
+    main.o                    src/native/claude/main.s(86)
+_scr_fill (c128hw.o):
+    main.o                    src/native/claude/main.s(85)
+_scr_init (c128hw.o):
+    main.o                    src/native/claude/main.s(83)
+_scr_mirror (c128hw.o):
+    main.o                    src/native/claude/main.s(95)
+_scr_place_cursor (c128hw.o):
+    main.o                    src/native/claude/main.s(87)
+_scr_run (c128hw.o):
+    main.o                    src/native/claude/main.s(84)
+_scr_scroll (c128hw.o):
+    main.o                    src/native/claude/main.s(89)
+_scr_setglyph (c128hw.o):
+    main.o                    src/native/claude/main.s(88)
+_scr_sync (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(11)
+_tm_begin (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+_tm_clear (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+_tm_cursor (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(30)
+_tm_end (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+_tm_fill (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+_tm_glyph (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(30)
+_tm_live (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(31)
+_tm_read (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(31)
+_tm_run (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+_tm_scroll (terminal.o):
+    c128hw.o                  src/native/claude/c128hw.s(29)
+addeq0sp (addeqsp.o):
+    main.o                    src/native/claude/main.s(2338)
+addysp (addysp.o):
+    incsp5.o                  runtime/incsp5.s(8)
+    incsp4.o                  runtime/incsp4.s(8)
+    incsp3.o                  runtime/incsp3.s(8)
+decaxy (decaxy.o):
+    main.o                    src/native/claude/main.s(2338)
+decsp1 (decsp1.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+decsp2 (decsp2.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+incaxy (incaxy.o):
+    main.o                    src/native/claude/main.s(2338)
+incsp1 (incsp1.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+incsp2 (incsp2.o):
+    staspidx.o                runtime/staspidx.s(8)
+    popptr1.o                 runtime/popptr1.s(8)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+incsp3 (incsp3.o):
+    main.o                    src/native/claude/main.s(2338)
+incsp4 (incsp4.o):
+    main.o                    src/native/claude/main.s(2338)
+incsp5 (incsp5.o):
+    main.o                    src/native/claude/main.s(2338)
+ldax0sp (ldaxsp.o):
+    main.o                    src/native/claude/main.s(2338)
+ldaxi (ldaxi.o):
+    main.o                    src/native/claude/main.s(2338)
+ldaxysp (ldaxsp.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+popptr1 (popptr1.o):
+    mul8.o                    runtime/mul8.s(9)
+ptr1 (zeropage.o):
+    zerobss.o                 common/zerobss.s(9)
+    staspidx.o                runtime/staspidx.s(9)
+    popptr1.o                 runtime/popptr1.s(9)
+    mul8.o                    runtime/mul8.s(10)
+    ldaxi.o                   runtime/ldaxi.s(8)
+    terminal.o                src/native/claude/terminal.s(12)
+    c128hw.o                  src/native/claude/c128hw.s(891)
+    main.o                    src/native/claude/main.s(11)
+ptr4 (zeropage.o):
+    mul8.o                    runtime/mul8.s(10)
+pusha (pusha.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+pusha0 (pushax.o):
+    main.o                    src/native/claude/main.s(2338)
+pushax (pushax.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+sf_read (c128hw.o):
+    terminal.o                src/native/claude/terminal.s(8)
+sp (zeropage.o):
+    addysp.o                  runtime/addysp.s(8)
+    staxsp.o                  runtime/staxsp.s(8)
+    staspidx.o                runtime/staspidx.s(9)
+    pushax.o                  runtime/pushax.s(8)
+    pusha.o                   runtime/pusha.s(8)
+    popptr1.o                 runtime/popptr1.s(9)
+    ldaxsp.o                  runtime/ldaxsp.s(8)
+    incsp2.o                  runtime/incsp2.s(8)
+    incsp1.o                  runtime/incsp1.s(8)
+    decsp2.o                  runtime/decsp2.s(8)
+    decsp1.o                  runtime/decsp1.s(8)
+    addeqsp.o                 runtime/addeqsp.s(8)
+    main.o                    src/native/claude/main.s(10)
+    startup.o                 src/native/claude/startup.s(6)
+staspidx (staspidx.o):
+    main.o                    src/native/claude/main.s(2338)
+    main.o                    src/native/claude/main.s(2338)
+stax0sp (staxsp.o):
+    main.o                    src/native/claude/main.s(2338)
+tmp1 (zeropage.o):
+    staspidx.o                runtime/staspidx.s(9)
+    incaxy.o                  runtime/incaxy.s(8)
+    decaxy.o                  runtime/decaxy.s(8)
+tosumula0 (mul8.o):
+    main.o                    src/native/claude/main.s(2338)
+zerobss (zerobss.o):
+    startup.o                 src/native/claude/startup.s(4)
+

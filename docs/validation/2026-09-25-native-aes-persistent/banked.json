@@ -1,0 +1,183 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-banked-cpu-83wnh5rm",
+  "cases": [
+    {
+      "name": "checked stream load, bank-1 REU open/allocate/roundtrip/free/close",
+      "calls": 15,
+      "instructions": 476816
+    },
+    {
+      "name": "geometry/backend 1: real native stream, checked load and returning STATS callback",
+      "calls": 4,
+      "instructions": 470401
+    },
+    {
+      "name": "geometry/backend 2: real native stream, checked load and returning STATS callback",
+      "calls": 4,
+      "instructions": 470354
+    },
+    {
+      "name": "geometry/backend 3: real native stream, checked load and returning STATS callback",
+      "calls": 4,
+      "instructions": 417156
+    },
+    {
+      "name": "callbacks preserve low bank-1 documents and reject exit/module/release and active-code mutations",
+      "calls": 23,
+      "instructions": 534958
+    },
+    {
+      "name": "backend 0: banked native OPEN/READ/CLOSE callbacks preserve mapping and exact source bytes",
+      "calls": 6,
+      "instructions": 521605
+    },
+    {
+      "name": "backend 3: banked native OPEN/READ/CLOSE callbacks preserve mapping and exact source bytes",
+      "calls": 6,
+      "instructions": 442262
+    },
+    {
+      "name": "banked Ultimate query callback: multipart binary reply, service RAM mapping and delivered IRQs",
+      "calls": 4,
+      "instructions": 419280
+    },
+    {
+      "name": "IRQ/NMI attempts at every executor/client/callback instruction and MMU boundary",
+      "calls": 740,
+      "instructions": 2593375,
+      "interrupt_attempts": 736
+    },
+    {
+      "name": "128 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 481182,
+      "independently_compared_reu_bytes": 262144
+    },
+    {
+      "name": "256 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 481547,
+      "independently_compared_reu_bytes": 524288
+    },
+    {
+      "name": "512 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 482094,
+      "independently_compared_reu_bytes": 1048576
+    },
+    {
+      "name": "1024 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 482801,
+      "independently_compared_reu_bytes": 2097152
+    },
+    {
+      "name": "2048 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 483257,
+      "independently_compared_reu_bytes": 4194304
+    },
+    {
+      "name": "4096 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 483713,
+      "independently_compared_reu_bytes": 8388608
+    },
+    {
+      "name": "8192 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 484169,
+      "independently_compared_reu_bytes": 16777216
+    },
+    {
+      "name": "16384 KiB banked REU: preserved probe, physical host bank and REC-boundary transfers",
+      "calls": 23,
+      "instructions": 484133,
+      "independently_compared_reu_bytes": 33554432
+    },
+    {
+      "name": "failed probe restoration retains banked REU context until explicit successful close",
+      "calls": 9,
+      "instructions": 471627
+    },
+    {
+      "name": "crc image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 467345
+    },
+    {
+      "name": "short image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 436629
+    },
+    {
+      "name": "long image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 468622
+    },
+    {
+      "name": "magic image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 30954
+    },
+    {
+      "name": "stub image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 31023
+    },
+    {
+      "name": "callback image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 30993
+    },
+    {
+      "name": "reserved image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 31028
+    },
+    {
+      "name": "pages image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 31064
+    },
+    {
+      "name": "entry image rejected without execution; retained resources close cleanly",
+      "calls": 5,
+      "instructions": 31070
+    },
+    {
+      "name": "partial transport error cleanup and stale banked-code generation refusal",
+      "calls": 10,
+      "instructions": 977875
+    },
+    {
+      "name": "uncertain Ultimate source close retains file/code ownership and disables execution",
+      "calls": 5,
+      "instructions": 420431
+    },
+    {
+      "name": "busy, disabled IRQs, altered common tails/MMU, page tags and parent generations refused",
+      "calls": 23,
+      "instructions": 469772
+    },
+    {
+      "name": "banked callback with disabled IRQs refuses before entering native services",
+      "calls": 4,
+      "instructions": 467925
+    },
+    {
+      "name": "33-byte image and final executable-byte entry: exact load bounds and callee A/carry",
+      "calls": 4,
+      "instructions": 34221
+    },
+    {
+      "name": "24576-byte image and final executable-byte entry: exact load bounds and callee A/carry",
+      "calls": 4,
+      "instructions": 4815777
+    }
+  ],
+  "parent_sha256": "bd6ffba9ba77685862d582a69d70d78a540ea11e48bf109ed49cb4e543065ca3",
+  "provider_sha256": "cf484f3da35157a54b58f7827794c3814d5df13b859fcc4c971fed69b8995952"
+}

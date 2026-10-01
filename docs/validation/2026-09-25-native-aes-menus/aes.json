@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-6egyu2k7",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 3921,
+        "pages": 16,
+        "entry": 24608,
+        "crc16": 59908,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "dbcc6455f2ee2ec138f1830e3c6c846488be8b57780db0de580795744760d752"
+      },
+      "AESVC.PRG": {
+        "bytes": 9475,
+        "pages": 38,
+        "bank": 1,
+        "entry": 36904,
+        "crc16": 57151,
+        "sha256": "b1d0002232ffd1cb300042e67a64a2ecba1204fdc7bf4245db00c1d3ce9f8936"
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "first app loads AESVC at bank-1 $9000 as owner 30; it survives exit",
+      "events": 2,
+      "instructions": 2515742,
+      "pages": 38
+    },
+    {
+      "name": "second app attaches without loading, sees persisted counters, unloads fully",
+      "events": 4,
+      "instructions": 658447
+    },
+    {
+      "name": "wrong identity or zero callback import (partial load) refused with BADIMAGE; restored image re-attaches",
+      "events": 8,
+      "instructions": 652389
+    },
+    {
+      "name": "occupied $9000 by another owner: clean allocation refusal, nothing adopted",
+      "events": 0,
+      "instructions": 706842,
+      "error": 2
+    },
+    {
+      "name": "corrupt AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 2509009,
+      "error": 20
+    },
+    {
+      "name": "missing AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 660326,
+      "error": 17
+    },
+    {
+      "name": "keyboard alert: exact frame, Tab/cursor focus with row masks, Return, exact restore",
+      "events": 8,
+      "instructions": 9600378,
+      "alert": {
+        "x": 6,
+        "y": 9,
+        "w": 27,
+        "h": 7
+      }
+    },
+    {
+      "name": "digits choose directly, Escape chooses Cancel, Return takes the default",
+      "events": 16,
+      "instructions": 23443456
+    },
+    {
+      "name": "1351-style press/release on the same button chooses it; release elsewhere does not",
+      "events": 21,
+      "instructions": 27521023
+    },
+    {
+      "name": "arbitrary pixels and colours under the alert are restored exactly",
+      "events": 23,
+      "instructions": 30981788
+    },
+    {
+      "name": "malformed strings and alerts over 250 cells are refused before any surface change",
+      "events": 31,
+      "instructions": 31044645
+    },
+    {
+      "name": "keyboard event returns the key",
+      "events": 2,
+      "instructions": 2515508
+    },
+    {
+      "name": "timer fires at exactly 60 jiffies, not 59, across a carry",
+      "events": 3,
+      "instructions": 2523628
+    },
+    {
+      "name": "button press fires one click; an already-matching state fires at once",
+      "events": 5,
+      "instructions": 2537224
+    },
+    {
+      "name": "double-click inside the 20-jiffy window; the window closing reports one click",
+      "events": 7,
+      "instructions": 2555264
+    },
+    {
+      "name": "rectangle enter/leave with half-open cell bounds",
+      "events": 9,
+      "instructions": 2569844
+    },
+    {
+      "name": "messages queue in order, deliver once, and refuse a 17th",
+      "events": 29,
+      "instructions": 2692929
+    },
+    {
+      "name": "a new app attaching finds an empty queue",
+      "events": 32,
+      "instructions": 659621
+    },
+    {
+      "name": "F1, cursor keys skip disabled rows, Return chooses File:Quit and restores the bar",
+      "events": 7,
+      "instructions": 4909113
+    },
+    {
+      "name": "an enabled shortcut chooses without drawing; a disabled one reaches the app as a key",
+      "events": 9,
+      "instructions": 4913243
+    },
+    {
+      "name": "pointer: open on press, hover, release chooses; set draws the check; press outside closes",
+      "events": 12,
+      "instructions": 7260336
+    },
+    {
+      "name": "Escape closes an open drop-down first, then reaches the app",
+      "events": 15,
+      "instructions": 7901747
+    }
+  ]
+}

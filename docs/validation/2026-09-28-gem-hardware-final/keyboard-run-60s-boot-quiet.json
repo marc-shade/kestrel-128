@@ -1,0 +1,68 @@
+{
+  "passed": false,
+  "physical_hardware_io": true,
+  "host": "192.0.2.237",
+  "work": "<tmp>/uos-hardware-gem-yp5edysm",
+  "gem_d81_sha256": "4743563d4acb14bb681f432f070ab273c95fec262127261000e9e52a32965d22",
+  "private_disk_sha256": "55303c7d65cac12614faf698d3a0e39bfc7a17957fa9317d49ef1ac56948c23f",
+  "checks": [],
+  "events": [],
+  "control_requests": [
+    {
+      "method": "POST",
+      "path": "/v1/drives/a:mount?type=d81&mode=readonly",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "sent_bytes": 819200,
+      "sent_sha256": "55303c7d65cac12614faf698d3a0e39bfc7a17957fa9317d49ef1ac56948c23f",
+      "status": 200,
+      "body_hex": "7b200a20202253756273797322203a20322c0a202022467479706522203a20313538312c0a202022636f6d6d616e6422203a2033383137362c0a20202266696c6522203a20222f54656d702f74656d7030303134222c0a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/machine:reset",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    }
+  ],
+  "upload_checks": [
+    {
+      "path": "/Temp/temp0014",
+      "drive": "a",
+      "expected_bytes": 819200,
+      "size_verified": true,
+      "stored_bytes": 819200
+    }
+  ],
+  "uncertain_writes": [],
+  "drive_a_before": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1581",
+    "rom": "1581.rom",
+    "image_file": "/Temp/temp0013",
+    "image_path": ""
+  },
+  "ultimate_version": {
+    "version": "0.1",
+    "errors": []
+  },
+  "upload_path": "/Temp/temp0014",
+  "drive_a_native": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1581",
+    "rom": "1581.rom",
+    "image_file": "/Temp/temp0014",
+    "image_path": ""
+  },
+  "captures": [],
+  "error": "AssertionError: native boot",
+  "restore": {
+    "error": "RuntimeError: Ultimate file metadata failed: /Temp/temp0013: 404 {'errors': [\"FILE DOESN'T EXIST\"]}"
+  }
+}

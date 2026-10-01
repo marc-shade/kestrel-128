@@ -1,0 +1,40 @@
+{
+  "base_commit": "ac99ce23cfadcc311c3d5780edec9ed85df2df38",
+  "qualification_source": "/var/tmp/arc-scratch/uos-modules-qualification-ntkv5k0j",
+  "frozen_files": 47,
+  "harness_files": 123,
+  "harness_delta_files": 4,
+  "physical_retry_harness": "harness plus the four overrides/additions in harness-after-usb-failure; native images unchanged",
+  "historical_harness": "harness-before-usb-restore contains the three earlier USB harness files; native images were unchanged.",
+  "cpu_reports": 22,
+  "host_cases": 51,
+  "repeated_host_cases": 13,
+  "initial_usb_failure": "hardware-usb-initial-failure retains the failed native workflow and successful private-resource cleanup; initiating failure remains unresolved",
+  "full_os_complete": false,
+  "separate_sdk_example": {
+    "source_files": 6,
+    "cpu_workflows": 15,
+    "reproducible_prgs": 2,
+    "verification": "sdk-example-verification.json",
+    "system_images_changed": false,
+    "hardware_claim": false
+  },
+  "physical_usb": {
+    "source": "/var/tmp/arc-scratch/uos-hardware-native-directories-jqaty5i5",
+    "passed": true,
+    "archived_folder": "hardware",
+    "frame_pairs": 59,
+    "captures": 518,
+    "irq_chunks": 943,
+    "complete_file_readbacks": 10,
+    "initial_failure_resolved": false
+  },
+  "physical_iec": {
+    "source": "/var/tmp/arc-scratch/uos-hardware-native-editor-fsk3vtyx",
+    "passed": true,
+    "same_frozen_images": true,
+    "archived_folder": "hardware-iec"
+  },
+  "qualification_status": "All CPU, emulator, physical USB/IEC and final offline audits pass; frozen images unchanged.",
+  "artifact_verification": "artifact-verification.json"
+}

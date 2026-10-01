@@ -1,0 +1,81 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "a dragged row shows an XOR outline that follows the pointer; dropped on another drive's window it is copied there after Copy is chosen under a \"Copying 1/1\" window, and the target lists it",
+      "frames": 136,
+      "instructions": 23008892
+    },
+    {
+      "name": "Move on a drive icon: the verified copy keeps the type (USR), then the source is scratched without a second question",
+      "frames": 182,
+      "instructions": 31082316
+    },
+    {
+      "name": "a name that exists on the target (the drive answers 63) asks Replace, Skip or Stop over the progress window; Skip, the default, leaves both files unchanged",
+      "frames": 238,
+      "instructions": 40152333
+    },
+    {
+      "name": "Replace scratches the target (S0:NAME, one file scratched) and copies again, compared as any copy",
+      "frames": 294,
+      "instructions": 49172716
+    },
+    {
+      "name": "Cancel in the question opens and changes nothing",
+      "frames": 339,
+      "instructions": 53999589
+    },
+    {
+      "name": "Esc during a copy stops it after the chunk in hand; the partial target stays, is said to, and is listed",
+      "frames": 377,
+      "instructions": 62096753
+    },
+    {
+      "name": "a target that changes after writing fails the reopened comparison; the source is kept",
+      "frames": 413,
+      "instructions": 71065137
+    },
+    {
+      "name": "with Confirm copies off in Preferences (gm_confirm bit 1), a dropped row is copied without the question",
+      "frames": 447,
+      "instructions": 84702910
+    },
+    {
+      "name": "with Confirm overwrites off (gm_confirm bit 3), a name on the target is scratched and copied again without the Replace question",
+      "frames": 481,
+      "instructions": 97869913
+    },
+    {
+      "name": "an IEC file dropped on a USB window is copied into that folder (context 1) and listed there",
+      "frames": 162,
+      "instructions": 22920073
+    },
+    {
+      "name": "onto USB, FILE_STAT finds the name first; Replace deletes it (DELETE_FILE) and copies the new bytes",
+      "frames": 194,
+      "instructions": 31094391
+    },
+    {
+      "name": "Move from USB to a drive: \".PRG\" becomes a PRG file; DELETE_FILE then removes the source",
+      "frames": 267,
+      "instructions": 40202192
+    },
+    {
+      "name": "any other USB file becomes a SEQ file under its own name",
+      "frames": 323,
+      "instructions": 46711440
+    },
+    {
+      "name": "a USB name that does not fit a drive, and a folder dropped on a drive, are refused before anything is opened",
+      "frames": 435,
+      "instructions": 60870008
+    },
+    {
+      "name": "USB to USB: the target is opened on the other DOS context and listed in its window",
+      "frames": 609,
+      "instructions": 73296797
+    }
+  ]
+}

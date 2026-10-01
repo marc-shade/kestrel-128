@@ -1,0 +1,720 @@
+{
+  "passed": true,
+  "hardware_io": false,
+  "cases": {
+    "bad-loader": {
+      "passed": true,
+      "error": "recovery loader bytes differ",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "legacy_desktop_restored": false,
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "data_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [],
+        "host_upload_checks": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "scan_or_app": 30,
+          "key": 4,
+          "capture": 2,
+          "poll": 2
+        },
+        "key_timeout_seconds": 1800,
+        "restore_disk_path": "/Temp/original",
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "preflight_error": "recovery loader bytes differ"
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ]
+      ]
+    },
+    "short-b": {
+      "passed": true,
+      "error": "Ultimate upload is incomplete: /Temp/upload-b: expected 174848 bytes, stored 63488; boot withheld",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "legacy_desktop_restored": false,
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "data_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/b:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/b:remove",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-b",
+            "drive": "b",
+            "expected_bytes": 174848,
+            "size_verified": false,
+            "stored_bytes": 63488
+          }
+        ],
+        "quiet_seconds": {
+          "boot": 60,
+          "scan_or_app": 30,
+          "key": 4,
+          "capture": 2,
+          "poll": 2
+        },
+        "key_timeout_seconds": 1800,
+        "restore_disk_path": "/Temp/original",
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "error": "Ultimate upload is incomplete: /Temp/upload-b: expected 174848 bytes, stored 63488; boot withheld",
+        "data_drive_restored": true,
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/b:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-b:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/b:remove"
+        ]
+      ]
+    },
+    "short-a": {
+      "passed": true,
+      "error": "Ultimate upload is incomplete: /Temp/upload-a: expected 174848 bytes, stored 63488; boot withheld",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "legacy_desktop_restored": true,
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "data_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/b:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/b:remove",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/runners:run_prg?file=%2FTemp%2Frecovery",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-b",
+            "drive": "b",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          },
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": false,
+            "stored_bytes": 63488
+          }
+        ],
+        "quiet_seconds": {
+          "boot": 60,
+          "scan_or_app": 30,
+          "key": 4,
+          "capture": 2,
+          "poll": 2
+        },
+        "key_timeout_seconds": 1800,
+        "restore_disk_path": "/Temp/original",
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "error": "Ultimate upload is incomplete: /Temp/upload-a: expected 174848 bytes, stored 63488; boot withheld",
+        "data_drive_restored": true,
+        "legacy_boot_settings_hex": "585802f0a502035959",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/b:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-b:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/b:remove"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "PUT",
+          "/v1/runners:run_prg?file=%2FTemp%2Frecovery"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ]
+      ]
+    },
+    "editor-failure": {
+      "passed": true,
+      "error": "simulated editor failure",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "legacy_desktop_restored": true,
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "data_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/b:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/machine:reset",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/b:remove",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/runners:run_prg?file=%2FTemp%2Frecovery",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-b",
+            "drive": "b",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          },
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          }
+        ],
+        "quiet_seconds": {
+          "boot": 60,
+          "scan_or_app": 30,
+          "key": 4,
+          "capture": 2,
+          "poll": 2
+        },
+        "key_timeout_seconds": 1800,
+        "restore_disk_path": "/Temp/original",
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "native_disk_path": "/Temp/upload-a",
+        "data_disk_path": "/Temp/upload-b",
+        "error": "simulated editor failure",
+        "data_drive_restored": true,
+        "legacy_boot_settings_hex": "585802f0a502035959",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/b:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-b:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "PUT",
+          "/v1/machine:reset"
+        ],
+        [
+          "PUT",
+          "/v1/drives/b:remove"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "PUT",
+          "/v1/runners:run_prg?file=%2FTemp%2Frecovery"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ]
+      ]
+    },
+    "restore-file-lost": {
+      "passed": true,
+      "error": "existing recovery loader size differs",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "legacy_desktop_restored": false,
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "data_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/b:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/machine:reset",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/b:remove",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-b",
+            "drive": "b",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          },
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          }
+        ],
+        "quiet_seconds": {
+          "boot": 60,
+          "scan_or_app": 30,
+          "key": 4,
+          "capture": 2,
+          "poll": 2
+        },
+        "key_timeout_seconds": 1800,
+        "restore_disk_path": "/Temp/original",
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "native_disk_path": "/Temp/upload-a",
+        "data_disk_path": "/Temp/upload-b",
+        "error": "simulated editor failure",
+        "data_drive_restored": true,
+        "legacy_restore_error": "existing recovery loader size differs",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/b:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-b:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "PUT",
+          "/v1/machine:reset"
+        ],
+        [
+          "PUT",
+          "/v1/drives/b:remove"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ]
+      ]
+    }
+  }
+}

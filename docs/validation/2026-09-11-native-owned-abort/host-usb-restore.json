@@ -1,0 +1,1088 @@
+{
+  "passed": true,
+  "hardware_io": false,
+  "cases": {
+    "bad-loader": {
+      "passed": true,
+      "error": "recovery loader bytes differ",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-2a23412279b6",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": false,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [],
+        "host_upload_checks": [],
+        "fixture_readbacks": {},
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "preflight_error": "recovery loader bytes differ"
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ]
+      ]
+    },
+    "fixture-failure": {
+      "passed": true,
+      "error": "fixture bytes differ",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-406eba7f4b18",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": false,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [],
+        "host_upload_checks": [],
+        "fixture_readbacks": {},
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "private_directory_created": true,
+        "preflight_error": "fixture bytes differ"
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ]
+      ]
+    },
+    "short-a": {
+      "passed": true,
+      "error": "Ultimate upload is incomplete: /Temp/upload-a: expected 174848 bytes, stored 63488; boot withheld",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-c62ccc8a3077",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": true,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readonly",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/runners:run_prg?file=%2FTemp%2Frecovery",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": false,
+            "stored_bytes": 63488
+          }
+        ],
+        "fixture_readbacks": {
+          "NOTE.TXT": {
+            "bytes": 37,
+            "verified": true
+          },
+          "EMPTY.TXT": {
+            "bytes": 0,
+            "verified": true
+          },
+          "LARGE.TXT": {
+            "bytes": 66053,
+            "verified": true
+          }
+        },
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "private_directory_created": true,
+        "error": "Ultimate upload is incomplete: /Temp/upload-a: expected 174848 bytes, stored 63488; boot withheld",
+        "legacy_boot_settings_hex": "585802f0a502035959",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readonly"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "PUT",
+          "/v1/runners:run_prg?file=%2FTemp%2Frecovery"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ]
+      ]
+    },
+    "native-failure": {
+      "passed": true,
+      "error": "simulated native boot observation failure",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-90745a237d2a",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": true,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readonly",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/machine:reset",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/runners:run_prg?file=%2FTemp%2Frecovery",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          }
+        ],
+        "fixture_readbacks": {
+          "NOTE.TXT": {
+            "bytes": 37,
+            "verified": true
+          },
+          "EMPTY.TXT": {
+            "bytes": 0,
+            "verified": true
+          },
+          "LARGE.TXT": {
+            "bytes": 66053,
+            "verified": true
+          }
+        },
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "private_directory_created": true,
+        "native_disk_upload_path": "/Temp/upload-a",
+        "error": "simulated native boot observation failure",
+        "legacy_boot_settings_hex": "585802f0a502035959",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readonly"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "PUT",
+          "/v1/machine:reset"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "PUT",
+          "/v1/runners:run_prg?file=%2FTemp%2Frecovery"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ]
+      ]
+    },
+    "restore-file-lost": {
+      "passed": true,
+      "error": "existing recovery loader size differs",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-dab740a441f4",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": false,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readonly",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/machine:reset",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          }
+        ],
+        "fixture_readbacks": {
+          "NOTE.TXT": {
+            "bytes": 37,
+            "verified": true
+          },
+          "EMPTY.TXT": {
+            "bytes": 0,
+            "verified": true
+          },
+          "LARGE.TXT": {
+            "bytes": 66053,
+            "verified": true
+          }
+        },
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "private_directory_created": true,
+        "native_disk_upload_path": "/Temp/upload-a",
+        "error": "simulated native boot observation failure",
+        "legacy_restore_error": "existing recovery loader size differs",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readonly"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "PUT",
+          "/v1/machine:reset"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ]
+      ]
+    },
+    "reset-uncertain": {
+      "passed": true,
+      "error": "reset response lost after request",
+      "report": {
+        "passed": false,
+        "build": {
+          "test": "fixed"
+        },
+        "host": "reference.invalid",
+        "private_directory": "/Usb0/uos-native-52fa736f6534",
+        "native_disk_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+        "legacy_desktop_restored": true,
+        "events": [],
+        "frames": [],
+        "captures": [],
+        "heap_observations": [],
+        "editor_states": [],
+        "ram_observations": [],
+        "modules": [],
+        "quiet_seconds": {
+          "boot": 60,
+          "key_or_literal_queue": 4,
+          "io_initial": 30,
+          "capture": 2,
+          "poll": 2
+        },
+        "host_request_timeout_seconds": 25.0,
+        "uncertain_host_writes": [],
+        "host_connect_attempts": 3,
+        "host_connect_failures": [],
+        "host_control_requests": [
+          {
+            "method": "POST",
+            "path": "/v1/drives/a:mount?type=d64&mode=readonly",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "sent_bytes": 174848,
+            "sent_sha256": "15446fde81a6798980a35dc2f035ac4fcd8713cb00f87e66c03fdd660d54bd51",
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/machine:reset",
+            "request_started": true,
+            "response_received": false,
+            "replayed": false
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          },
+          {
+            "method": "PUT",
+            "path": "/v1/runners:run_prg?file=%2FTemp%2Frecovery",
+            "request_started": true,
+            "response_received": true,
+            "replayed": false,
+            "status": 200,
+            "body_hex": "7b226572726f7273223a205b5d7d"
+          }
+        ],
+        "host_upload_checks": [
+          {
+            "path": "/Temp/upload-a",
+            "drive": "a",
+            "expected_bytes": 174848,
+            "size_verified": true,
+            "stored_bytes": 174848
+          }
+        ],
+        "fixture_readbacks": {
+          "NOTE.TXT": {
+            "bytes": 37,
+            "verified": true
+          },
+          "EMPTY.TXT": {
+            "bytes": 0,
+            "verified": true
+          },
+          "LARGE.TXT": {
+            "bytes": 66053,
+            "verified": true
+          }
+        },
+        "output_readbacks": {},
+        "dos_paths_before_hex": {
+          "1": "2f",
+          "2": "2f"
+        },
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/recovery",
+        "restore_prg_owned": false,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true,
+        "private_directory_created": true,
+        "native_disk_upload_path": "/Temp/upload-a",
+        "error": "reset response lost after request",
+        "legacy_boot_settings_hex": "585802f0a502035959",
+        "images_unchanged": true
+      },
+      "calls": [
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/version"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "POST",
+          "/v1/drives/a:mount?type=d64&mode=readonly"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/upload-a:info"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "PUT",
+          "/v1/machine:reset"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/original:info"
+        ],
+        [
+          "PUT",
+          "/v1/drives/a:mount?image=%2FTemp%2Foriginal&type=d64&mode=readwrite"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ],
+        [
+          "GET",
+          "/v1/files/Temp/recovery:info"
+        ],
+        [
+          "PUT",
+          "/v1/runners:run_prg?file=%2FTemp%2Frecovery"
+        ],
+        [
+          "GET",
+          "/v1/drives"
+        ]
+      ]
+    },
+    "create-created": {
+      "passed": true,
+      "error": null,
+      "report": {
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/evidence-restore.prg",
+        "restore_prg_create_started": true,
+        "restore_prg_owned": true,
+        "restore_prg_readback": {
+          "bytes": 2036,
+          "verified": true
+        },
+        "restore_prg_verified_before_mounts": true
+      },
+      "commands": [
+        "0102072f54656d702f65766964656e63652d726573746f72652e707267",
+        "01050000010800112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbc",
+        "01050000cddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aab",
+        "01050000bccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899a",
+        "01050000abbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff001",
+        "0103"
+      ]
+    },
+    "create-collision": {
+      "passed": true,
+      "error": "recovery-file absence was not confirmed",
+      "report": {
+        "restore_disk_path": "/Temp/original"
+      },
+      "commands": []
+    },
+    "create-unavailable": {
+      "passed": true,
+      "error": "recovery-file absence was not confirmed",
+      "report": {
+        "restore_disk_path": "/Temp/original"
+      },
+      "commands": []
+    },
+    "create-short-write": {
+      "passed": true,
+      "error": "loader byte verification failed",
+      "report": {
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/evidence-restore.prg",
+        "restore_prg_create_started": true,
+        "restore_prg_owned": true
+      },
+      "commands": [
+        "0102072f54656d702f65766964656e63652d726573746f72652e707267",
+        "01050000010800112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbc",
+        "01050000cddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aab",
+        "01050000bccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899a",
+        "01050000abbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff001",
+        "0103"
+      ]
+    },
+    "create-write-error": {
+      "passed": true,
+      "error": "write response error",
+      "report": {
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/evidence-restore.prg",
+        "restore_prg_create_started": true
+      },
+      "commands": [
+        "0102072f54656d702f65766964656e63652d726573746f72652e707267",
+        "01050000010800112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbc",
+        "0103"
+      ]
+    },
+    "create-close-error": {
+      "passed": true,
+      "error": "close response error",
+      "report": {
+        "restore_disk_path": "/Temp/original",
+        "restore_prg_path": "/Temp/evidence-restore.prg",
+        "restore_prg_create_started": true
+      },
+      "commands": [
+        "0102072f54656d702f65766964656e63652d726573746f72652e707267",
+        "01050000010800112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbc",
+        "01050000cddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aab",
+        "01050000bccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899a",
+        "01050000abbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff00112233445566778899aabbccddeef00112233445566778899aabbccddeeff102132435465768798a9bacbdcedfe0f2031425364758697a8b9cadbecfd0e1f30415263748596a7b8c9daebfc0d1e2f405162738495a6b7c8d9eafb0c1d2e3f5061728394a5b6c7d8e9fa0b1c2d3e4f60718293a4b5c6d7e8f90a1b2c3d4e5f708192a3b4c5d6e7f8091a2b3c4d5e6f8091a2b3c4d5e6f708192a3b4c5d6e7f90a1b2c3d4e5f60718293a4b5c6d7e8fa0b1c2d3e4f5061728394a5b6c7d8e9fb0c1d2e3f405162738495a6b7c8d9eafc0d1e2f30415263748596a7b8c9daebfd0e1f2031425364758697a8b9cadbecfe0f102132435465768798a9bacbdcedff001",
+        "0103"
+      ]
+    },
+    "private-list-over-eight-and-context-refresh": {
+      "passed": true,
+      "observations": {
+        "pages": [
+          {
+            "label": "private-selection-page-0",
+            "path_hex": "2f505249564154452f",
+            "base": 8,
+            "selected": 0,
+            "device": 1,
+            "more": false,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452038",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "selected-last",
+            "path_hex": "2f505249564154452f",
+            "base": 8,
+            "selected": 2,
+            "device": 1,
+            "more": false,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c45203130",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "private-selection-page-2",
+            "path_hex": "2f505249564154452f",
+            "base": 0,
+            "selected": 0,
+            "device": 1,
+            "more": true,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452030",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "selected-first-page",
+            "path_hex": "2f505249564154452f",
+            "base": 0,
+            "selected": 1,
+            "device": 1,
+            "more": true,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452031",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "private-selection-page-4",
+            "path_hex": "2f505249564154452f",
+            "base": 8,
+            "selected": 0,
+            "device": 1,
+            "more": false,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452038",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "context-reload-context-page",
+            "path_hex": "2f505249564154452f",
+            "base": 0,
+            "selected": 0,
+            "device": 2,
+            "more": true,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452030",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "private-selection-page-6",
+            "path_hex": "2f505249564154452f",
+            "base": 8,
+            "selected": 0,
+            "device": 2,
+            "more": false,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452038",
+            "order_check": "deferred until independent post-boot directory read"
+          },
+          {
+            "label": "context-reload-selected",
+            "path_hex": "2f505249564154452f",
+            "base": 8,
+            "selected": 1,
+            "device": 2,
+            "more": false,
+            "stage_names_hex": [
+              "46494c452030",
+              "46494c452031",
+              "46494c45203130",
+              "46494c452032",
+              "46494c452033",
+              "46494c452034",
+              "46494c452035",
+              "46494c452036",
+              "46494c452037",
+              "46494c452038",
+              "46494c452039"
+            ],
+            "expected_selection_hex": "46494c452039",
+            "order_check": "deferred until independent post-boot directory read"
+          }
+        ]
+      },
+      "keys": [
+        78,
+        17,
+        17,
+        66,
+        17,
+        78,
+        17,
+        17,
+        9,
+        78,
+        17,
+        13
+      ]
+    }
+  }
+}

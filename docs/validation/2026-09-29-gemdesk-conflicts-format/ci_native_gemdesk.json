@@ -1,0 +1,260 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "startup: AES loaded from the boot folder, menu bar and desktop icons",
+      "frames": 0,
+      "instructions": 11800517
+    },
+    {
+      "name": "clicking icons selects and deselects them",
+      "frames": 100,
+      "instructions": 12604681
+    },
+    {
+      "name": "double-clicking the boot drive opens its listing window",
+      "frames": 134,
+      "instructions": 14676726,
+      "entries": 30
+    },
+    {
+      "name": "arrows scroll, clicks and cursor keys select rows",
+      "frames": 202,
+      "instructions": 20087056
+    },
+    {
+      "name": "File:Close (Ctrl-W) closes the window and frees its listing",
+      "frames": 202,
+      "instructions": 20512814
+    },
+    {
+      "name": "Desk:About shows an alert and restores the desktop exactly",
+      "frames": 202,
+      "instructions": 24372775
+    },
+    {
+      "name": "Options:Launcher replaces the desktop with the card launcher",
+      "frames": 202,
+      "instructions": 24385467
+    },
+    {
+      "name": "double-clicking a SEQ file opens it in the Editor as a document (the Files contract)",
+      "frames": 52,
+      "instructions": 15194240
+    },
+    {
+      "name": "when the desktop returns, the AES session reopens its windows (rectangle, scroll, selection)",
+      "frames": 0,
+      "instructions": 11048411
+    },
+    {
+      "name": "double-clicking a PRG hands it to the dispatcher (device 8) without a document request",
+      "frames": 11,
+      "instructions": 12341766
+    },
+    {
+      "name": "a SEQ file starting with UPNT opens in Paint as a document (the signature decides, as in Files)",
+      "frames": 52,
+      "instructions": 15195356
+    },
+    {
+      "name": "a drive window lists its directory sorted by name",
+      "frames": 36,
+      "instructions": 13678370,
+      "order": [
+        "AESVC.PRG",
+        "ALP",
+        "ALPHA",
+        "BRAVO",
+        "GDCPY.PRG",
+        "GDDLG.PRG",
+        "GDDSK.PRG",
+        "GDFMT.PRG",
+        "GDNEW.PRG",
+        "GDSES.PRG",
+        "GDSET.PRG",
+        "GDUSB.PRG",
+        "GEMDESK",
+        "MIKE",
+        "MIKE ",
+        "ZULU"
+      ]
+    },
+    {
+      "name": "View sorts by type, size (largest first), directory order and name; the item is checked",
+      "frames": 36,
+      "instructions": 34400664
+    },
+    {
+      "name": "Show Info (Ctrl-I) opens a dialog for the selected entry; Esc restores the window exactly",
+      "frames": 75,
+      "instructions": 40153646
+    },
+    {
+      "name": "the Drive 9 icon opens a second, staggered window over the first",
+      "frames": 116,
+      "instructions": 42475513
+    },
+    {
+      "name": "Show Info on a drive icon: files, blocks used, and blocks free from the drive's listing",
+      "frames": 116,
+      "instructions": 45409567,
+      "text": "[1][Drive 9|Files: 20|Blocks used: 40|Blocks free: 624][OK]"
+    },
+    {
+      "name": "a click in the slider track pages down (clamped to the last page)",
+      "frames": 146,
+      "instructions": 46989725
+    },
+    {
+      "name": "dragging the thumb to the top of the track scrolls to the first entry",
+      "frames": 179,
+      "instructions": 48576569
+    },
+    {
+      "name": "clicking the lower window tops it",
+      "frames": 217,
+      "instructions": 50112320
+    },
+    {
+      "name": "a drive that cannot be read gives an error alert and opens nothing",
+      "frames": 259,
+      "instructions": 52956292
+    },
+    {
+      "name": "four folder windows open at once; a fifth is refused with an alert",
+      "frames": 345,
+      "instructions": 59977954
+    },
+    {
+      "name": "Show Info shows a locked file as read-only (a disabled, checked box)",
+      "frames": 75,
+      "instructions": 19432434
+    },
+    {
+      "name": "Show Info renames: the edited name is sent as R0:NEW=OLD and the drive is listed again",
+      "frames": 102,
+      "instructions": 26587783
+    },
+    {
+      "name": "renaming onto an existing name shows the drive's refusal and changes nothing",
+      "frames": 128,
+      "instructions": 35087872
+    },
+    {
+      "name": "Ctrl-D asks first (Cancel is the default), then scratches the file and lists the drive again",
+      "frames": 159,
+      "instructions": 45455983
+    },
+    {
+      "name": "a file dropped on Trash is confirmed; a locked file the drive skips is reported, not hidden",
+      "frames": 206,
+      "instructions": 55558720
+    },
+    {
+      "name": "dragging a row onto Trash deletes it after confirmation",
+      "frames": 262,
+      "instructions": 63531498
+    },
+    {
+      "name": "names with DOS pattern characters, a busy command channel and a failed OPEN are refused with alerts",
+      "frames": 328,
+      "instructions": 82085199
+    },
+    {
+      "name": "Preferences: a checkbox, a radio group, Tab and cursor focus; clicking Cancel changes nothing, OK applies the sort order",
+      "frames": 395,
+      "instructions": 105221777
+    },
+    {
+      "name": "with Confirm deletes off, Ctrl-D deletes at once",
+      "frames": 424,
+      "instructions": 107803282
+    },
+    {
+      "name": "Preferences: a desktop colour repaints the desktop and its icons",
+      "frames": 456,
+      "instructions": 120150958
+    },
+    {
+      "name": "Options:Save Desktop writes DESKTOP.INF (preferences, colour, windows)",
+      "frames": 456,
+      "instructions": 125909374,
+      "record": "4744530200021c3b0201080001021c1000ff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "name": "a cold start (AES loaded fresh) reads DESKTOP.INF: windows, sort, colour, confirm setting",
+      "frames": 34,
+      "instructions": 16194244
+    },
+    {
+      "name": "the 9 key opens drive 9; File:Format asks for drive, name and ID, confirms, sends N0:NAME,ID under a \"Formatting disk\" window, lists the drive again and reports the new disk's free blocks",
+      "frames": 0,
+      "instructions": 40214585
+    },
+    {
+      "name": "drive 9 is read in the geometry its DOS names on UI (1581 D81, 1571 D71, another drive D64), asked once",
+      "frames": 35,
+      "instructions": 14265276
+    },
+    {
+      "name": "a missing GDDLG.PRG gives an alert and the desktop goes on",
+      "frames": 34,
+      "instructions": 16713519
+    },
+    {
+      "name": "a directory over 195 entries lists its first 195 (the 16-page snapshot)",
+      "frames": 0,
+      "instructions": 18470999,
+      "first": "AESVC.PRG"
+    },
+    {
+      "name": "the USB icon appears when the Ultimate answers; folders open in the window, the close box goes up",
+      "frames": 134,
+      "instructions": 17310985
+    },
+    {
+      "name": "a USB file launches with its full path (past 16 characters); Show Info shows its name and size from FILE_STAT in a dialog",
+      "frames": 164,
+      "instructions": 22648012
+    },
+    {
+      "name": "USB Show Info: a folder, names past the 26 shown (scrolled to the caret; 63 kept), 32-bit sizes, \"1 byte\"",
+      "frames": 185,
+      "instructions": 33862109
+    },
+    {
+      "name": "Delete on USB: confirmed, DELETE_FILE then FILE_STAT (82) before listing again; a full folder is refused; a .txt file opens in the Editor with its folder",
+      "frames": 134,
+      "instructions": 28231604,
+      "refusal": "[3][Could not delete|GAMES|error $11][OK]"
+    },
+    {
+      "name": "a USB file starting with UPNT opens in Paint, even when named .txt (the signature first, as Files)",
+      "frames": 80,
+      "instructions": 14857335
+    },
+    {
+      "name": "the 80-column mirror: startup, a window, a dialog, a menu and alerts match the VIC surface on the VDC; a confirmation's button still acts (Delete); launching restores the VDC",
+      "frames": 0,
+      "instructions": 43579297
+    },
+    {
+      "name": "ALT+cursor moves the pointer 8 pixels and ALT+Return clicks; the keys are not delivered",
+      "frames": 29,
+      "instructions": 11951404
+    },
+    {
+      "name": "Control Panel: key repeat goes to the KERNAL, double-click speed to the AES",
+      "frames": 175,
+      "instructions": 20522014,
+      "repeat": "0x3b"
+    },
+    {
+      "name": "Control Panel: Key click plays a short noise burst on SID voice 1 for every key, survives OK in Preferences, and turns off again",
+      "frames": 238,
+      "instructions": 41851287
+    }
+  ]
+}

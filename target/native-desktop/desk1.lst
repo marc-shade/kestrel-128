@@ -1,0 +1,1117 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -B -o target/native-desktop/desk1.acc -l target/native-desktop/desk1.sym -L target/native-desktop/desk1.lst src/native/acc-calc.asm
+; Wed Sep 30 09:09:52 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/acc-calc.asm
+
+
+;******  Processing file: src/native/api.inc
+
+=1					N_ABI_MAJOR = 1
+=14					N_ABI_MINOR = 14
+=$1c20					N_ALLOC         = $1c20
+=$1c23					N_FREE          = $1c23
+=$1c26					N_READ          = $1c26
+=$1c29					N_WRITE         = $1c29
+=$1c2c					N_FILL          = $1c2c
+=$1c2f					N_STATS         = $1c2f
+=$1c32					N_RELEASE       = $1c32
+=$1c35					N_RESERVE       = $1c35
+=$1c38					N_LAUNCH        = $1c38          ; checked PRG through owned IEC/Ultimate streams
+=$1c3b					N_KEYIN         = $1c3b          ; native GETIN with shared key-event accounting
+=$1c3e					N_EXIT          = $1c3e          ; one-way app exit, A=app result; restores saved stack
+=$1c41					N_FOPEN         = $1c41          ; owned read/create stream or Ultimate directory cursor
+=$1c44					N_FREAD         = $1c44          ; up to 512 file bytes, or one complete directory entry
+=$1c47					N_FWRITE        = $1c47          ; up to 512 bytes from N_BUFFER
+=$1c4a					N_FCLOSE        = $1c4a          ; close only this owned file
+=$1c4d					N_FRELEASE      = $1c4d          ; close every file owned by N_FOWNER
+=$1c50					N_DIRPAGE       = $1c50          ; one normalized directory page; no live stream on success
+=$1c53					N_REPLACE       = $1c53          ; leave app, request dispatcher launch with source fields
+=$1c56					N_WORKSPACE     = $1c56          ; leave app, request return to the memory workspace
+=$1c59					N_FEDIT         = $1c59          ; edit the active app's bounded field, no input polling
+=$1c5c					N_FDRAW         = $1c5c          ; draw that focused field at the current console position
+=$1c5f					N_MLOAD         = $1c5f          ; checked module from the original app's source folder
+=$1c62					N_MCALL         = $1c62          ; call the current module using its generation token
+=$1c65					N_MCLOSE        = $1c65          ; invalidate module; close/recover only its source stream
+=$1c68					N_VSHOW         = $1c68          ; experimental: present owned bank-0 $c000..$e3ff
+=$1c6b					N_VCLOSE        = $1c6b          ; experimental: restore text; keep surface allocation
+=$1c6e					N_UQUERY        = $1c6e          ; checked, read-only Ultimate query; shared file lock
+=$1c71					N_UCOMMAND      = $1c71          ; serialized UCI packet: N_BUFFER header + N_FCOUNT body bytes
+=$1bf0					N_NMIGATE       = $1bf0
+=$3d3e					N_NMIPTR        = $3d3e
+=$3d00					N_OWNER         = $3d00
+=$3d01					N_PAGES         = $3d01
+=$3d02					N_BANK          = $3d02
+=$3d03					N_PAGE          = $3d03
+=$3d04					N_HANDLE        = $3d04          ; four bytes
+=$3d08					N_OFFSET        = $3d08          ; word
+=$3d0a					N_COUNT         = $3d0a          ; word
+=$3d0c					N_VALUE         = $3d0c
+=$3d0d					N_ERROR         = $3d0d
+=$3d0e					N_FREE0         = $3d0e          ; free 256-byte pages, bank 0
+=$3d0f					N_FREE1         = $3d0f          ; free 256-byte pages, bank 1
+=$3d10					N_SLOTS         = $3d10          ; reusable descriptor slots
+=$3d11					N_BUSY          = $3d11
+=$3d12					N_READY         = $3d12
+=$3d13					N_KEYS          = $3d13          ; word: consumed keyboard events
+=$3d15					N_LASTKEY       = $3d15
+=$3d16					N_RESULT        = $3d16          ; workspace's last command result
+=$3d17					N_MTOKEN        = $3d17          ; LE24: MLOAD output / MCALL input; zero is invalid
+=$3d1a					N_MERROR        = $3d1a          ; gate/loader error; MCALL preserves module's A/carry
+=$3d1b					N_MSTATE        = $3d1b          ; read-only: 0 empty, 1 loading, 2 ready, 3 running, 4 close retained
+=$3d20					N_CURRENT       = $3d20          ; active app owner; 0 when no app owns the slot
+=$3d21					N_DEVICE        = $3d21          ; launch IEC device 8..30, or Ultimate DOS context 1/2
+=$3d22					N_NAMELEN       = $3d22          ; IEC launch name 1..16; Ultimate path length 1..255
+=$3d23					N_APPSTATE      = $3d23          ; 0 idle, 1 loading, 2 running, 3 cleanup, 4 retained error
+=$3d24					N_EXITCODE      = $3d24          ; last application's A on return/EXIT
+=$3d25					N_DOSCODE       = $3d25          ; DOS error code (decimal), when available
+=$3d26					N_IOSTATUS      = $3d26          ; first failed loader stream's nonzero transport status
+=$3d27					N_APPERROR      = $3d27          ; stable launch result, separate from heap ERROR
+=$3d28					N_ACTION        = $3d28          ; completed app request: 0 normal, 1 replace, 2 workspace
+=$3d29					N_BROWSERDEV    = $3d29          ; workspace/browser preferences (not file-call arguments)
+=$3d2a					N_BROWSERFMT    = $3d2a
+=$3d2b					N_BROWSERERROR  = $3d2b          ; last dispatcher error shown when the browser returns
+=$3d2c					N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
+=$3d2d					N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
+=$3de4					N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3de5					N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
+=31					N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
+=$3d2e					N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
+=$3d2f					N_DESKTOPSEL    = $3d2f          ; session: 0 Calc / 1 Editor / 2 Files / 3 Ultimate / 4 Claude / 5 Paint / 6 Sheet
+=$3d30					N_BROWSERPOS    = $3d30          ; dword: selected Ultimate directory ordinal
+=$3d34					N_BROWSERNAME_LEN = $3d34        ; ABI 1.5: selected raw name length, 0 when empty
+=$3d35					N_UIPTR         = $3d35          ; word: field-state address
+=$3d37					N_UIKEY         = $3d37
+=$3d38					N_UIWIDTH       = $3d38
+=$3d39					N_UIFLAGS       = $3d39          ; successful edit: bit 0 content, bit 1 caret changed
+=$3d3a					N_UIERROR       = $3d3a
+=$3d3b					N_UIBUSY        = $3d3b
+=$3d3c					N_UOP           = $3d3c
+=$3d3d					N_UARG          = $3d3d
+=0					N_U_IDENTIFY    = 0             ; UARG target 1..15; interface identification
+=1					N_U_HARDWARE    = 1             ; control hardware model, selector 0
+=2					N_U_DRIVES      = 2             ; control inventory, effective IEC addresses
+=3					N_U_POWER_A     = 3
+=4					N_U_POWER_B     = 4
+=5					N_U_INTERFACES  = 5             ; network interface count
+=6					N_U_MAC         = 6             ; UARG interface index
+=7					N_U_IP          = 7             ; UARG interface index; IP/mask/gateway
+=8					N_U_TIME        = 8             ; DOS GET_TIME; running cartridge RTC
+=9					N_U_QUERY_COUNT = 9
+=0					UI_LENGTH       = 0
+=1					UI_CARET        = 1
+=2					UI_MAXIMUM      = 2
+=3					UI_BUFFER       = 3
+=5					UI_VIEW40       = 5
+=6					UI_VIEW80       = 6
+=7					UI_FILTER       = 7
+=8					UI_STATE_BYTES  = 8
+=$3e00					N_BROWSERNAME   = $3e00          ; 256 bytes; restore selection after directory edits
+=$3d40					N_APPNAME       = $3d40          ; 16-byte filename, no wildcard/DOS syntax
+=$3d50					N_MHEADER       = $3d50          ; private: independent 16-byte module manifest
+=$3d60					N_APPHEADER     = $3d60          ; validated 32-byte native image manifest
+=$3f00					N_SOURCEPATH    = $3f00          ; private: original Ultimate app parent directory
+=$3a00					N_BUFFER        = $3a00          ; 512 bytes, bank 0, reserved
+=$3d80					N_FOWNER        = $3d80
+=$3d81					N_FHANDLE       = $3d81          ; four bytes
+=$3d85					N_FDEVICE       = $3d85          ; IEC 8..30 or Ultimate DOS context 1/2
+=$3d86					N_FNAMELEN      = $3d86
+=$3d87					N_FMODE         = $3d87
+=$3d88					N_FTYPE         = $3d88
+=$3d89					N_FCOUNT        = $3d89          ; requested word, 1..512
+=$3d8b					N_FACTUAL       = $3d8b          ; returned word; may be a prefix on I/O error
+=$3d8d					N_FEOF          = $3d8d          ; read handle has consumed its checked extent
+=$3d8e					N_FERROR        = $3d8e
+=$3d8f					N_FDOS          = $3d8f          ; IEC first error; Ultimate most recent numeric status
+=$3d90					N_FSTATUS       = $3d90          ; IEC serial error; Ultimate transport/verification detail
+=$3d91					N_FBUSY         = $3d91
+=$3d92					N_FPOSITION     = $3d92          ; LE32 byte position, or directory entries consumed
+=$3d96					N_FFORMAT       = $3d96          ; 0 D64, 1 D71, 2 D81, 3 Ultimate DOS
+=$4e00					N_UPATH         = $4e00          ; 256-byte path mailbox, bank 0, reserved
+=$4a00					N_BROWSERPATH   = $4a00          ; ABI 1.5: persistent browser path, 1..255 raw bytes
+=$4f00					N_USTATUS       = $4f00          ; last Ultimate status text, at most 31 bytes + NUL
+=$3d97					N_DPAGE         = $3d97          ; zero-based directory page, bounded by geometry
+=$3d98					N_DNEXT         = $3d98          ; next page ordinal, or $ff at directory end
+=$3d99					N_DCOUNT        = $3d99          ; 0 or 8 records returned in N_BUFFER
+=$3d9a					N_DOCREQUEST    = $3d9a          ; 0 none, $80 staged, 1 ready for this app only
+=$3d9b					N_DOCKIND       = $3d9b          ; 1 Editor text, 2 Paint UPNT, 3 Sheet USHT
+=$3d9c					N_DOCTYPE       = $3d9c          ; IEC 0 SEQ / 1 PRG / 2 USR; Ultimate must be 0
+=$3d9d					N_DOCRETURN     = $3d9d          ; 1 dispatcher returns to system Files, then clears
+=$3d9e					N_DOCRESUME     = $3d9e          ; dispatcher -> Files: restore selection once
+=$3da0					N_FNAME         = $3da0          ; 16 bytes
+=$3dc0					NFILES          = $3dc0          ; private: two 16-byte descriptors
+=$3de0					NFCMDS          = $3de0          ; private: two device bytes, two state bytes (0/1/2)
+=0					N_OK            = 0
+=1					N_BADARG        = 1
+=2					N_NOMEM         = 2
+=3					N_NOSLOT        = 3
+=4					N_BADHANDLE     = 4
+=5					N_WRONGOWNER    = 5
+=6					N_RANGE         = 6
+=7					N_REENTRANT     = 7
+=8					N_PLATFORM      = 8
+=9					N_CORRUPT       = 9
+=$10					N_BADIMAGE      = $10            ; invalid manifest/load address/ABI
+=$11					N_IOERROR       = $11            ; IEC or DOS failure (see DOSCODE/IOSTATUS)
+=$12					N_SHORTIMAGE    = $12            ; EOF before declared length
+=$13					N_LONGIMAGE     = $13            ; declared length reached without EOF
+=$14					N_CHECKSUM      = $14            ; image CRC16 does not match
+=$15					N_CHANNELS      = $15            ; reserved channels conflict / redirected console
+=$16					N_MEXHAUSTED    = $16            ; module generation retired until the next kernel boot
+=$6000					N_APPBASE       = $6000          ; bank 0 application executable slot
+=$c000					N_APPLIMIT      = $c000          ; exclusive: keep native editor/KERNAL visible
+=32					N_APPOWNER      = 32             ; one foreground app in this initial lifecycle
+=$1300					N_LOWBASE       = $1300          ; resident kernel section, initialized before heap use
+=$1c00					N_LOWLIMIT      = $1c00          ; exclusive; below the BASIC entry stub
+=$5000					N_RELOCBASE     = $5000          ; boot-only staging, reusable after relocation
+=$4000					N_SERVICEBASE   = $4000          ; resident Ultimate services and mailboxes
+=$5000					N_SERVICELIMIT  = $5000
+=$3800					NPAGES0         = $3800          ; page -> slot+1, 0 free, $ff reserved
+=$3900					NPAGES1         = $3900
+=$3c00					NHANDLES        = $3c00          ; 32 records of eight bytes
+=32					NSLOTS          = 32
+=$50					N_FIRST0        = $50            ; bank 0 $5000..$feff: 175 pages
+=$04					N_FIRST1        = $04            ; bank 1 $0400..$feff: 251 pages
+
+;******  Return to file: src/native/acc-calc.asm
+
+
+;******  Processing file: src/native/aes-api.inc
+
+=30					N_AESOWNER = 30                ; persistent AES code and data; survives app exit
+=29					N_ACCOWNER = 29                ; desk accessory image at AC_BASE; survives app exit
+=$4000					AC_BASE = $4000                ; bank-1 desk accessory slot (docs/GEM-LAYER-DESIGN.md)
+=16					AC_PAGES = 16
+=$8700					AE_BASE = $8700                ; 57 pages to $bfff; VDSVC ($6000, 39 pages) ends at $86fb
+=$c000					AE_LIMIT = $c000
+=$5000					AE_DATA = $5000                ; owner-30 RAM tables, reserved on first attach
+=16					AE_DATA_PAGES = 16
+=1					AE_MAJOR = 1
+=7					AE_MINOR = 7
+=1					AE_CAP_ALERT = 1              ; capability bit 0: form_alert (minor 1)
+=2					AE_CAP_EVENT = 2              ; capability bit 1: evnt_multi/appl_write (minor 2)
+=4					AE_CAP_MENU = 4               ; capability bit 2: menu bar (minor 3)
+=8					AE_CAP_WINDOW = 8             ; capability bit 3: windows (minor 4)
+=16					AE_CAP_SESSION = 16           ; capability bit 4: session record (minor 5)
+=32					AE_CAP_DCLICK = 32            ; capability bit 5: evnt_dclick speed (minor 6)
+=64					AE_CAP_ACC = 64               ; capability bit 6: text sub-op and a desk accessory (minor 7)
+=0					AE_OP_ATTACH = 0                  ; N_BUFFER[0..3] = app cookie -> version/status
+=1					AE_OP_STATUS = 1                  ; version/status without registering an attach
+=2					AE_OP_ALERT = 2                ; surface(4), default, "[i][lines][buttons]"
+=3					AE_OP_STEP = 3                 ; key, x(word), y, buttons -> chosen, focus, rows(4)
+=4					AE_OP_EVENT = 4                ; one input sample against an event mask
+=5					AE_OP_POST = 5                 ; queue an 8-byte message
+=6					AE_OP_MENU = 6                 ; surface(4), "Title:item|item^K;..." (empty removes)
+=7					AE_OP_MENU_SET = 7             ; title, item, flags (1 checked, 2 disabled)
+=8					AE_OP_WINDOW = 8               ; N_BUFFER[0] sub-op: create/open/close/delete/set/get/find/fill/surface
+=9					AE_OP_SHUTDOWN = 9             ; discard overlays, free the data segment (before unload)
+=10					AE_OP_SESSION = 10             ; N_BUFFER+256: 0 read / 1 write the 256-byte record in N_BUFFER
+=11					AE_OP_DCLICK = 11              ; N_BUFFER[0]: 0 get / 1 set, [1] speed 0 (slow)..4 -> [0] speed
+=12					AE_OP_ACC = 12                 ; N_BUFFER[0]: 1 install the accessory at AC_BASE, 0 remove
+=13					AE_OP_COUNT = 13
+=1					MU_KEYBD = 1
+=2					MU_BUTTON = 2
+=4					MU_M1 = 4
+=8					MU_M2 = 8
+=16					MU_MESAG = 16
+=32					MU_TIMER = 32
+=10					MN_SELECTED = 10
+=$0001					WK_NAME = $0001
+=$0002					WK_CLOSER = $0002
+=$0004					WK_FULLER = $0004
+=$0008					WK_MOVER = $0008
+=$0010					WK_INFO = $0010
+=$0020					WK_SIZER = $0020
+=$0040					WK_UPARROW = $0040
+=$0080					WK_DNARROW = $0080
+=$0100					WK_VSLIDE = $0100
+=$0200					WK_LFARROW = $0200
+=$0400					WK_RTARROW = $0400
+=$0800					WK_HSLIDE = $0800
+=2					WF_NAME = 2
+=3					WF_INFO = 3
+=4					WF_WORKXYWH = 4
+=5					WF_CURRXYWH = 5
+=6					WF_PREVXYWH = 6
+=7					WF_FULLXYWH = 7
+=8					WF_HSLIDE = 8
+=9					WF_VSLIDE = 9
+=10					WF_TOP = 10
+=11					WF_FIRSTXYWH = 11
+=12					WF_NEXTXYWH = 12
+=15					WF_HSLSIZE = 15
+=16					WF_VSLSIZE = 16
+=17					WF_DESKCOLOR = 17              ; handle 0 only: VIC colour of cleared desktop cells (minor 5)
+=20					WM_REDRAW = 20
+=21					WM_TOPPED = 21
+=22					WM_CLOSED = 22
+=23					WM_FULLED = 23
+=24					WM_ARROWED = 24
+=25					WM_HSLID = 25
+=26					WM_VSLID = 26
+=27					WM_SIZED = 27
+=28					WM_MOVED = 28
+=0					WS_CREATE = 0
+=1					WS_OPEN = 1
+=2					WS_CLOSE = 2
+=3					WS_DELETE = 3
+=4					WS_SET = 4
+=5					WS_GET = 5
+=6					WS_FIND = 6
+=7					WS_FILL = 7
+=8					WS_SURFACE = 8
+=9					WS_OUTLINE = 9                 ; XOR a cell rectangle's outline (a client's drag)
+=10					WS_TEXT = 10                   ; draw a string in a window's visible work area (v_gtext)
+
+;******  Return to file: src/native/acc-calc.asm
+
+=34600					AES_ENTRY = AE_BASE+40          ; exports: operations, menu item, ev_msg_in
+=34602					AES_MENU_ADD = AE_BASE+42
+=34604					AES_MSG_IN = AE_BASE+44
+=$61					PAPER = $61                     ; blue ink on white
+=$0f					KEYCOLOR = $0f                  ; black ink on light grey
+=22					WIN_X = 22                      ; where the window opens (cells)
+=3					WIN_Y = 3
+=16					WIN_W = 16
+=12					WIN_H = 12
+.4000					image:
+>4000	4e 42 4b 31			        .text "nbk1"
+>4004	01 01 0e 00			        .byte 1,1,14,0
+>4008	59 07				        .word end-image
+>400a	08 01				        .byte (end-image+255)/256,1
+>400c	30 00 00 00			        .word none-image,0
+.4010	a2 0e		ldx #$0e	        ldx #$0e                ; the NBK1 exit stub (unused: the AES calls in)
+.4012	4c ab 02	jmp $02ab	        jmp $02ab
+>4015	00				        .byte 0
+>4016	00 00				        .word 0
+>4018	00 00 00 00 00 00 00 00		        .fill 8,0
+.4020					identity:
+>4020	4e 41 43 43			        .text "nacc"
+>4024	01 00 00 00			        .byte 1,0,0,0
+.4028					entries:
+>4028	38 40 57 40 e2 40 c9 40		        .word menu,message,dispatch,reset
+.4030					none:
+.4030	18		clc		        clc
+.4031	60		rts		        rts
+.4032					aes:
+.4032	6c 28 87	jmp ($8728)	        jmp (AES_ENTRY)
+.4035					menu_add:
+.4035	6c 2a 87	jmp ($872a)	        jmp (AES_MENU_ADD)
+.4038					menu:
+.4038	a9 00		lda #$00	        lda #0
+.403a	8d f9 46	sta $46f9	        sta item_ok
+.403d	a9 b2		lda #$b2	        lda #<t_separator
+.403f	a2 46		ldx #$46	        ldx #>t_separator
+.4041	20 35 40	jsr $4035	        jsr menu_add
+.4044	b0 0f		bcs $4055	        bcs +
+.4046	a9 b4		lda #$b4	        lda #<t_title
+.4048	a2 46		ldx #$46	        ldx #>t_title
+.404a	20 35 40	jsr $4035	        jsr menu_add
+.404d	b0 06		bcs $4055	        bcs +
+.404f	8d f8 46	sta $46f8	        sta item
+.4052	ee f9 46	inc $46f9	        inc item_ok
+.4055	18		clc		+       clc
+.4056	60		rts		        rts
+.4057					message:
+.4057	ad 2c 87	lda $872c	        lda AES_MSG_IN
+.405a	8d 66 40	sta $4066	        sta msg_read+1
+.405d	ad 2d 87	lda $872d	        lda AES_MSG_IN+1
+.4060	8d 67 40	sta $4067	        sta msg_read+2
+.4063	a2 07		ldx #$07	        ldx #7
+.4065					msg_read:
+.4065	bd ff ff	lda $ffff,x	        lda $ffff,x
+.4068	9d 04 47	sta $4704,x	        sta msg,x
+.406b	ca		dex		        dex
+.406c	10 f7		bpl $4065	        bpl msg_read
+.406e	ad 04 47	lda $4704	        lda msg
+.4071	c9 0a		cmp #$0a	        cmp #MN_SELECTED
+.4073	d0 17		bne $408c	        bne msg_window
+.4075	ad 07 47	lda $4707	        lda msg+3               ; the Desk title, our item
+.4078	d0 4d		bne $40c7	        bne msg_pass
+.407a	ad f9 46	lda $46f9	        lda item_ok
+.407d	f0 48		beq $40c7	        beq msg_pass
+.407f	ad 08 47	lda $4708	        lda msg+4
+.4082	cd f8 46	cmp $46f8	        cmp item
+.4085	d0 40		bne $40c7	        bne msg_pass
+.4087	ee fb 46	inc $46fb	        inc want_open
+.408a	38		sec		        sec
+.408b	60		rts		        rts
+.408c					msg_window:
+.408c	c9 14		cmp #$14	        cmp #WM_REDRAW
+.408e	90 37		bcc $40c7	        bcc msg_pass
+.4090	c9 1d		cmp #$1d	        cmp #WM_MOVED+1
+.4092	b0 33		bcs $40c7	        bcs msg_pass
+.4094	ae fa 46	ldx $46fa	        ldx handle
+.4097	f0 2e		beq $40c7	        beq msg_pass
+.4099	ec 07 47	cpx $4707	        cpx msg+3
+.409c	d0 29		bne $40c7	        bne msg_pass
+.409e	c9 14		cmp #$14	        cmp #WM_REDRAW
+.40a0	d0 03		bne $40a5	        bne +
+.40a2	ee ff 46	inc $46ff	        inc want_redraw
+.40a5	c9 15		cmp #$15	+       cmp #WM_TOPPED
+.40a7	d0 03		bne $40ac	        bne +
+.40a9	ee fd 46	inc $46fd	        inc want_top
+.40ac	c9 16		cmp #$16	+       cmp #WM_CLOSED
+.40ae	d0 03		bne $40b3	        bne +
+.40b0	ee fc 46	inc $46fc	        inc want_close
+.40b3	c9 1c		cmp #$1c	+       cmp #WM_MOVED
+.40b5	d0 0e		bne $40c5	        bne +
+.40b7	a2 03		ldx #$03	        ldx #3
+.40b9	bd 08 47	lda $4708,x	-       lda msg+4,x
+.40bc	9d 00 47	sta $4700,x	        sta move_rect,x
+.40bf	ca		dex		        dex
+.40c0	10 f7		bpl $40b9	        bpl -
+.40c2	ee fe 46	inc $46fe	        inc want_move
+.40c5	38		sec		+       sec                     ; the app never sees them
+.40c6	60		rts		        rts
+.40c7					msg_pass:
+.40c7	18		clc		        clc
+.40c8	60		rts		        rts
+.40c9					reset:
+.40c9	a9 00		lda #$00	        lda #0
+.40cb	8d fa 46	sta $46fa	        sta handle
+.40ce	8d f9 46	sta $46f9	        sta item_ok
+.40d1	8d fb 46	sta $46fb	        sta want_open
+.40d4	8d fc 46	sta $46fc	        sta want_close
+.40d7	8d fd 46	sta $46fd	        sta want_top
+.40da	8d fe 46	sta $46fe	        sta want_move
+.40dd	8d ff 46	sta $46ff	        sta want_redraw
+.40e0	18		clc		        clc
+.40e1	60		rts		        rts
+.40e2					dispatch:
+.40e2	a2 12		ldx #$12	        ldx #18
+.40e4	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.40e7	9d 0c 47	sta $470c,x	        sta reply,x
+.40ea	ca		dex		        dex
+.40eb	10 f7		bpl $40e4	        bpl -
+.40ed	20 fd 40	jsr $40fd	        jsr work
+.40f0	a2 12		ldx #$12	        ldx #18
+.40f2	bd 0c 47	lda $470c,x	-       lda reply,x
+.40f5	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.40f8	ca		dex		        dex
+.40f9	10 f7		bpl $40f2	        bpl -
+.40fb	18		clc		        clc
+.40fc	60		rts		        rts
+.40fd					work:
+.40fd	ad fb 46	lda $46fb	        lda want_open
+.4100	f0 0a		beq $410c	        beq +
+.4102	a9 00		lda #$00	        lda #0
+.4104	8d fb 46	sta $46fb	        sta want_open
+.4107	20 7b 41	jsr $417b	        jsr open
+.410a	b0 4c		bcs $4158	        bcs work_done
+.410c	ad fa 46	lda $46fa	+       lda handle
+.410f	f0 47		beq $4158	        beq work_done
+.4111	ad fc 46	lda $46fc	        lda want_close
+.4114	f0 03		beq $4119	        beq +
+.4116	4c e2 41	jmp $41e2	        jmp close
+.4119	ad fe 46	lda $46fe	+       lda want_move
+.411c	f0 1d		beq $413b	        beq +
+.411e	a9 00		lda #$00	        lda #0
+.4120	8d fe 46	sta $46fe	        sta want_move
+.4123	a9 04		lda #$04	        lda #WS_SET
+.4125	20 59 41	jsr $4159	        jsr prepare
+.4128	a9 05		lda #$05	        lda #WF_CURRXYWH
+.412a	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.412d	a2 03		ldx #$03	        ldx #3
+.412f	bd 00 47	lda $4700,x	-       lda move_rect,x
+.4132	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
+.4135	ca		dex		        dex
+.4136	10 f7		bpl $412f	        bpl -
+.4138	20 63 41	jsr $4163	        jsr wcall
+.413b	ad fd 46	lda $46fd	+       lda want_top
+.413e	f0 08		beq $4148	        beq +
+.4140	a9 00		lda #$00	        lda #0
+.4142	8d fd 46	sta $46fd	        sta want_top
+.4145	20 d5 41	jsr $41d5	        jsr top
+.4148	ad ff 46	lda $46ff	+       lda want_redraw
+.414b	f0 08		beq $4155	        beq +
+.414d	a9 00		lda #$00	        lda #0
+.414f	8d ff 46	sta $46ff	        sta want_redraw
+.4152	20 19 42	jsr $4219	        jsr draw
+.4155	4c 23 43	jmp $4323	+       jmp input
+.4158					work_done:
+.4158	60		rts		        rts
+.4159					prepare:
+.4159	8d 00 3a	sta $3a00	        sta N_BUFFER
+.415c	ad fa 46	lda $46fa	        lda handle
+.415f	8d 01 3a	sta $3a01	        sta N_BUFFER+1
+.4162	60		rts		        rts
+.4163					wcall:
+.4163	a9 08		lda #$08	        lda #AE_OP_WINDOW
+.4165	20 32 40	jsr $4032	        jsr aes
+.4168	08		php		        php
+.4169	b0 0e		bcs $4179	        bcs +
+.416b	a2 03		ldx #$03	        ldx #3
+.416d	bd 04 3a	lda $3a04,x	-       lda N_BUFFER+4,x
+.4170	1d 1b 47	ora $471b,x	        ora reply+15,x
+.4173	9d 1b 47	sta $471b,x	        sta reply+15,x
+.4176	ca		dex		        dex
+.4177	10 f4		bpl $416d	        bpl -
+.4179	28		plp		+       plp
+.417a	60		rts		        rts
+.417b					open:
+.417b	ad fa 46	lda $46fa	        lda handle
+.417e	f0 03		beq $4183	        beq +
+.4180	4c d5 41	jmp $41d5	        jmp top                 ; already open: bring it to the top
+.4183	a9 00		lda #$00	+       lda #WS_CREATE
+.4185	8d 00 3a	sta $3a00	        sta N_BUFFER
+.4188	a9 0b		lda #$0b	        lda #<(WK_NAME|WK_CLOSER|WK_MOVER)
+.418a	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.418d	a9 00		lda #$00	        lda #>(WK_NAME|WK_CLOSER|WK_MOVER)
+.418f	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.4192	a2 03		ldx #$03	        ldx #3
+.4194	bd f4 46	lda $46f4,x	-       lda win_rect,x
+.4197	9d 04 3a	sta $3a04,x	        sta N_BUFFER+4,x
+.419a	ca		dex		        dex
+.419b	10 f7		bpl $4194	        bpl -
+.419d	20 63 41	jsr $4163	        jsr wcall
+.41a0	b0 32		bcs $41d4	        bcs open_done           ; no window free: nothing happens
+.41a2	ad 00 3a	lda $3a00	        lda N_BUFFER
+.41a5	8d fa 46	sta $46fa	        sta handle
+.41a8	a9 04		lda #$04	        lda #WS_SET
+.41aa	20 59 41	jsr $4159	        jsr prepare
+.41ad	a9 02		lda #$02	        lda #WF_NAME
+.41af	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.41b2	a2 0a		ldx #$0a	        ldx #10
+.41b4	bd b4 46	lda $46b4,x	-       lda t_title,x
+.41b7	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
+.41ba	ca		dex		        dex
+.41bb	10 f7		bpl $41b4	        bpl -
+.41bd	20 63 41	jsr $4163	        jsr wcall
+.41c0	a9 01		lda #$01	        lda #WS_OPEN
+.41c2	20 59 41	jsr $4159	        jsr prepare
+.41c5	a2 03		ldx #$03	        ldx #3
+.41c7	bd f4 46	lda $46f4,x	-       lda win_rect,x
+.41ca	9d 02 3a	sta $3a02,x	        sta N_BUFFER+2,x
+.41cd	ca		dex		        dex
+.41ce	10 f7		bpl $41c7	        bpl -
+.41d0	20 63 41	jsr $4163	        jsr wcall               ; (its WM_REDRAW comes back through message)
+.41d3	18		clc		        clc
+.41d4					open_done:
+.41d4	60		rts		        rts
+.41d5					top:
+.41d5	a9 04		lda #$04	        lda #WS_SET
+.41d7	20 59 41	jsr $4159	        jsr prepare
+.41da	a9 0a		lda #$0a	        lda #WF_TOP
+.41dc	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.41df	4c 63 41	jmp $4163	        jmp wcall
+.41e2					close:
+.41e2	a9 00		lda #$00	        lda #0
+.41e4	8d fc 46	sta $46fc	        sta want_close
+.41e7	a9 02		lda #$02	        lda #WS_CLOSE
+.41e9	20 59 41	jsr $4159	        jsr prepare
+.41ec	20 63 41	jsr $4163	        jsr wcall
+.41ef	a9 03		lda #$03	        lda #WS_DELETE
+.41f1	20 59 41	jsr $4159	        jsr prepare
+.41f4	20 63 41	jsr $4163	        jsr wcall
+.41f7	a9 00		lda #$00	        lda #0
+.41f9	8d fa 46	sta $46fa	        sta handle
+.41fc	60		rts		        rts
+.41fd					origin:
+.41fd	a9 05		lda #$05	        lda #WS_GET
+.41ff	20 59 41	jsr $4159	        jsr prepare
+.4202	a9 04		lda #$04	        lda #WF_WORKXYWH
+.4204	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.4207	20 63 41	jsr $4163	        jsr wcall
+.420a	b0 0c		bcs $4218	        bcs +
+.420c	ad 00 3a	lda $3a00	        lda N_BUFFER
+.420f	8d 1f 47	sta $471f	        sta wx
+.4212	ad 01 3a	lda $3a01	        lda N_BUFFER+1
+.4215	8d 20 47	sta $4720	        sta wy
+.4218	60		rts		+       rts
+.4219					draw:
+.4219	20 fd 41	jsr $41fd	        jsr origin
+.421c	b0 38		bcs $4256	        bcs draw_done
+.421e	a9 07		lda #$07	        lda #WS_FILL
+.4220	20 59 41	jsr $4159	        jsr prepare
+.4223	a9 00		lda #$00	        lda #0
+.4225	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.4228	a9 61		lda #$61	        lda #PAPER
+.422a	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.422d	a9 00		lda #$00	        lda #0                  ; clip: the whole screen
+.422f	8d 04 3a	sta $3a04	        sta N_BUFFER+4
+.4232	8d 05 3a	sta $3a05	        sta N_BUFFER+5
+.4235	a9 28		lda #$28	        lda #40
+.4237	8d 06 3a	sta $3a06	        sta N_BUFFER+6
+.423a	a9 19		lda #$19	        lda #25
+.423c	8d 07 3a	sta $3a07	        sta N_BUFFER+7
+.423f	20 63 41	jsr $4163	        jsr wcall
+.4242	b0 12		bcs $4256	        bcs draw_done
+.4244	a9 0f		lda #$0f	        lda #15
+.4246	8d 23 47	sta $4723	        sta key_i
+.4249	20 57 42	jsr $4257	-       jsr draw_key
+.424c	b0 08		bcs $4256	        bcs draw_done
+.424e	ce 23 47	dec $4723	        dec key_i
+.4251	10 f6		bpl $4249	        bpl -
+.4253	4c c1 42	jmp $42c1	        jmp draw_display
+.4256					draw_done:
+.4256	60		rts		        rts
+.4257					draw_key:
+.4257	ae 23 47	ldx $4723	        ldx key_i
+.425a	bd d4 46	lda $46d4,x	        lda key_x,x
+.425d	8d 21 47	sta $4721	        sta cell_x
+.4260	bd e4 46	lda $46e4,x	        lda key_y,x
+.4263	8d 22 47	sta $4722	        sta cell_y
+.4266	a9 07		lda #$07	        lda #WS_FILL
+.4268	20 59 41	jsr $4159	        jsr prepare
+.426b	a9 00		lda #$00	        lda #0
+.426d	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.4270	a9 0f		lda #$0f	        lda #KEYCOLOR
+.4272	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.4275	ad 1f 47	lda $471f	        lda wx
+.4278	18		clc		        clc
+.4279	6d 21 47	adc $4721	        adc cell_x
+.427c	8d 04 3a	sta $3a04	        sta N_BUFFER+4
+.427f	ad 20 47	lda $4720	        lda wy
+.4282	18		clc		        clc
+.4283	6d 22 47	adc $4722	        adc cell_y
+.4286	8d 05 3a	sta $3a05	        sta N_BUFFER+5
+.4289	a9 03		lda #$03	        lda #3
+.428b	8d 06 3a	sta $3a06	        sta N_BUFFER+6
+.428e	a9 01		lda #$01	        lda #1
+.4290	8d 07 3a	sta $3a07	        sta N_BUFFER+7
+.4293	20 63 41	jsr $4163	        jsr wcall
+.4296	b0 28		bcs $42c0	        bcs +
+.4298	a9 0a		lda #$0a	        lda #WS_TEXT
+.429a	20 59 41	jsr $4159	        jsr prepare
+.429d	ae 21 47	ldx $4721	        ldx cell_x
+.42a0	e8		inx		        inx
+.42a1	8e 02 3a	stx $3a02	        stx N_BUFFER+2
+.42a4	ad 22 47	lda $4722	        lda cell_y
+.42a7	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.42aa	a9 01		lda #$01	        lda #1
+.42ac	8d 04 3a	sta $3a04	        sta N_BUFFER+4
+.42af	ae 23 47	ldx $4723	        ldx key_i
+.42b2	bd c4 46	lda $46c4,x	        lda key_labels,x
+.42b5	8d 05 3a	sta $3a05	        sta N_BUFFER+5
+.42b8	a9 00		lda #$00	        lda #0
+.42ba	8d 06 3a	sta $3a06	        sta N_BUFFER+6
+.42bd	4c 63 41	jmp $4163	        jmp wcall
+.42c0	60		rts		+       rts
+.42c1					draw_display:
+.42c1	a9 07		lda #$07	        lda #WS_FILL
+.42c3	20 59 41	jsr $4159	        jsr prepare
+.42c6	a9 00		lda #$00	        lda #0
+.42c8	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.42cb	a9 61		lda #$61	        lda #PAPER
+.42cd	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.42d0	ad 1f 47	lda $471f	        lda wx
+.42d3	18		clc		        clc
+.42d4	69 01		adc #$01	        adc #1
+.42d6	8d 04 3a	sta $3a04	        sta N_BUFFER+4
+.42d9	ad 20 47	lda $4720	        lda wy
+.42dc	18		clc		        clc
+.42dd	69 01		adc #$01	        adc #1
+.42df	8d 05 3a	sta $3a05	        sta N_BUFFER+5
+.42e2	a9 0e		lda #$0e	        lda #14
+.42e4	8d 06 3a	sta $3a06	        sta N_BUFFER+6
+.42e7	a9 01		lda #$01	        lda #1
+.42e9	8d 07 3a	sta $3a07	        sta N_BUFFER+7
+.42ec	20 63 41	jsr $4163	        jsr wcall
+.42ef	90 03		bcc $42f4	        bcs draw_done
+.42f1	4c 56 42	jmp $4256
+.42f4	20 11 46	jsr $4611	        jsr format              ; text[0..text_len)
+.42f7	a9 0a		lda #$0a	        lda #WS_TEXT
+.42f9	20 59 41	jsr $4159	        jsr prepare
+.42fc	a9 0f		lda #$0f	        lda #15
+.42fe	38		sec		        sec
+.42ff	ed 58 47	sbc $4758	        sbc text_len
+.4302	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.4305	a9 01		lda #$01	        lda #1
+.4307	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.430a	8d 04 3a	sta $3a04	        sta N_BUFFER+4
+.430d	a2 00		ldx #$00	        ldx #0
+.430f	bd 4c 47	lda $474c,x	-       lda text,x
+.4312	9d 05 3a	sta $3a05,x	        sta N_BUFFER+5,x
+.4315	e8		inx		        inx
+.4316	ec 58 47	cpx $4758	        cpx text_len
+.4319	d0 f4		bne $430f	        bne -
+.431b	a9 00		lda #$00	        lda #0
+.431d	9d 05 3a	sta $3a05,x	        sta N_BUFFER+5,x
+.4320	4c 63 41	jmp $4163	        jmp wcall
+.4323					input:
+.4323	a9 05		lda #$05	        lda #WS_GET
+.4325	20 59 41	jsr $4159	        jsr prepare
+.4328	a9 0a		lda #$0a	        lda #WF_TOP
+.432a	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.432d	20 63 41	jsr $4163	        jsr wcall
+.4330	b0 78		bcs $43aa	        bcs input_done
+.4332	ad 00 3a	lda $3a00	        lda N_BUFFER
+.4335	cd fa 46	cmp $46fa	        cmp handle
+.4338	d0 70		bne $43aa	        bne input_done
+.433a	ad 0c 47	lda $470c	        lda reply               ; a key the calculator knows
+.433d	29 01		and #$01	        and #MU_KEYBD
+.433f	f0 13		beq $4354	        beq input_button
+.4341	ad 0d 47	lda $470d	        lda reply+1
+.4344	20 af 43	jsr $43af	        jsr key_index
+.4347	b0 0b		bcs $4354	        bcs input_button
+.4349	20 cd 43	jsr $43cd	        jsr press
+.434c	ad 0c 47	lda $470c	        lda reply
+.434f	29 fe		and #$fe	        and #$ff^MU_KEYBD
+.4351	8d 0c 47	sta $470c	        sta reply
+.4354					input_button:
+.4354	ad 0c 47	lda $470c	        lda reply               ; a click on the keypad
+.4357	29 02		and #$02	        and #MU_BUTTON
+.4359	f0 4f		beq $43aa	        beq input_done
+.435b	20 fd 41	jsr $41fd	        jsr origin
+.435e	b0 4a		bcs $43aa	        bcs input_done
+.4360	ad 0f 47	lda $470f	        lda reply+3             ; the pointer's cell
+.4363	4a		lsr a		        lsr
+.4364	ad 0e 47	lda $470e	        lda reply+2
+.4367	6a		ror a		        ror
+.4368	4a		lsr a		        lsr
+.4369	4a		lsr a		        lsr
+.436a	38		sec		        sec
+.436b	ed 1f 47	sbc $471f	        sbc wx
+.436e	90 3a		bcc $43aa	        bcc input_done
+.4370	c9 10		cmp #$10	        cmp #WIN_W
+.4372	b0 36		bcs $43aa	        bcs input_done
+.4374	8d 21 47	sta $4721	        sta cell_x
+.4377	ad 10 47	lda $4710	        lda reply+4
+.437a	4a		lsr a		        lsr
+.437b	4a		lsr a		        lsr
+.437c	4a		lsr a		        lsr
+.437d	38		sec		        sec
+.437e	ed 20 47	sbc $4720	        sbc wy
+.4381	90 27		bcc $43aa	        bcc input_done
+.4383	c9 0b		cmp #$0b	        cmp #WIN_H-1
+.4385	b0 23		bcs $43aa	        bcs input_done
+.4387	8d 22 47	sta $4722	        sta cell_y
+.438a	ad 0c 47	lda $470c	        lda reply               ; inside our work area: the app never sees it
+.438d	29 fd		and #$fd	        and #$ff^MU_BUTTON
+.438f	8d 0c 47	sta $470c	        sta reply
+.4392	a2 0f		ldx #$0f	        ldx #15
+.4394	ad 22 47	lda $4722	-       lda cell_y
+.4397	dd e4 46	cmp $46e4,x	        cmp key_y,x
+.439a	d0 0b		bne $43a7	        bne +
+.439c	ad 21 47	lda $4721	        lda cell_x
+.439f	38		sec		        sec
+.43a0	fd d4 46	sbc $46d4,x	        sbc key_x,x
+.43a3	c9 03		cmp #$03	        cmp #3
+.43a5	90 04		bcc $43ab	        bcc input_key
+.43a7	ca		dex		+       dex
+.43a8	10 ea		bpl $4394	        bpl -
+.43aa					input_done:
+.43aa	60		rts		        rts
+.43ab					input_key:
+.43ab	8a		txa		        txa
+.43ac	4c cd 43	jmp $43cd	        jmp press
+.43af					key_index:
+.43af	c9 0d		cmp #$0d	        cmp #13
+.43b1	d0 02		bne $43b5	        bne +
+.43b3	a9 3d		lda #$3d	        lda #$3d                ; Return is =
+.43b5	c9 63		cmp #$63	+       cmp #$63                ; c (ASCII), or shifted C (PETSCII)
+.43b7	f0 04		beq $43bd	        beq +
+.43b9	c9 c3		cmp #$c3	        cmp #$c3
+.43bb	d0 02		bne $43bf	        bne ++
+.43bd	a9 43		lda #$43	+       lda #$43
+.43bf	a2 0f		ldx #$0f	+       ldx #15
+.43c1	dd c4 46	cmp $46c4,x	-       cmp key_labels,x
+.43c4	f0 05		beq $43cb	        beq +
+.43c6	ca		dex		        dex
+.43c7	10 f8		bpl $43c1	        bpl -
+.43c9	38		sec		        sec
+.43ca	60		rts		        rts
+.43cb	18		clc		+       clc
+.43cc	60		rts		        rts
+.43cd					press:
+.43cd	bd c4 46	lda $46c4,x	        lda key_labels,x
+.43d0	c9 43		cmp #$43	        cmp #$43                ; C
+.43d2	d0 0d		bne $43e1	        bne +
+.43d4	a2 0b		ldx #$0b	        ldx #11
+.43d6	a9 00		lda #$00	        lda #0
+.43d8	9d 27 47	sta $4727,x	-       sta value,x             ; value, acc, op, entering, error, (pad)
+.43db	ca		dex		        dex
+.43dc	10 fa		bpl $43d8	        bpl -
+.43de	4c c1 42	jmp $42c1	        jmp draw_display
+.43e1	ac 31 47	ldy $4731	+       ldy error
+.43e4	d0 57		bne $443d	        bne press_done          ; only C leaves an error
+.43e6	c9 30		cmp #$30	        cmp #$30
+.43e8	90 1a		bcc $4404	        bcc press_operator
+.43ea	c9 3a		cmp #$3a	        cmp #$3a
+.43ec	b0 16		bcs $4404	        bcs press_operator
+.43ee	29 0f		and #$0f	        and #15
+.43f0	8d 24 47	sta $4724	        sta digit
+.43f3	ad 30 47	lda $4730	        lda entering
+.43f6	d0 06		bne $43fe	        bne +
+.43f8	20 3e 44	jsr $443e	        jsr clear_value
+.43fb	ee 30 47	inc $4730	        inc entering
+.43fe	20 4d 44	jsr $444d	+       jsr times10_add         ; value*10 + digit, unless it would overflow
+.4401	4c c1 42	jmp $42c1	        jmp draw_display
+.4404					press_operator:
+.4404	48		pha		        pha
+.4405	ad 2f 47	lda $472f	        lda op                  ; the pending operation first
+.4408	f0 0b		beq $4415	        beq +
+.440a	ad 30 47	lda $4730	        lda entering
+.440d	f0 11		beq $4420	        beq ++
+.440f	20 b3 44	jsr $44b3	        jsr apply
+.4412	4c 20 44	jmp $4420	        jmp ++
+.4415	a2 03		ldx #$03	+       ldx #3                  ; none pending: value becomes the left operand
+.4417	bd 27 47	lda $4727,x	-       lda value,x
+.441a	9d 2b 47	sta $472b,x	        sta acc,x
+.441d	ca		dex		        dex
+.441e	10 f7		bpl $4417	        bpl -
+.4420	68		pla		+       pla
+.4421	c9 3d		cmp #$3d	        cmp #$3d                ; =
+.4423	d0 02		bne $4427	        bne +
+.4425	a9 00		lda #$00	        lda #0
+.4427	8d 2f 47	sta $472f	+       sta op
+.442a	a9 00		lda #$00	        lda #0
+.442c	8d 30 47	sta $4730	        sta entering
+.442f	a2 03		ldx #$03	        ldx #3                  ; show the result
+.4431	bd 2b 47	lda $472b,x	-       lda acc,x
+.4434	9d 27 47	sta $4727,x	        sta value,x
+.4437	ca		dex		        dex
+.4438	10 f7		bpl $4431	        bpl -
+.443a	4c c1 42	jmp $42c1	        jmp draw_display
+.443d					press_done:
+.443d	60		rts		        rts
+.443e					clear_value:
+.443e	a9 00		lda #$00	        lda #0
+.4440	8d 27 47	sta $4727	        sta value
+.4443	8d 28 47	sta $4728	        sta value+1
+.4446	8d 29 47	sta $4729	        sta value+2
+.4449	8d 2a 47	sta $472a	        sta value+3
+.444c	60		rts		        rts
+.444d					times10_add:
+.444d	a2 03		ldx #$03	        ldx #3
+.444f	bd 27 47	lda $4727,x	-       lda value,x
+.4452	9d 33 47	sta $4733,x	        sta work4,x
+.4455	ca		dex		        dex
+.4456	10 f7		bpl $444f	        bpl -
+.4458	20 a6 44	jsr $44a6	        jsr shift_left          ; value*2
+.445b	b0 3d		bcs $449a	        bcs t10_over
+.445d	20 a6 44	jsr $44a6	        jsr shift_left          ; *4
+.4460	b0 38		bcs $449a	        bcs t10_over
+.4462	18		clc		        clc                     ; *5
+.4463	a2 00		ldx #$00	        ldx #0
+.4465	a0 04		ldy #$04	        ldy #4
+.4467	bd 27 47	lda $4727,x	-       lda value,x
+.446a	7d 33 47	adc $4733,x	        adc work4,x
+.446d	9d 27 47	sta $4727,x	        sta value,x
+.4470	e8		inx		        inx
+.4471	88		dey		        dey
+.4472	d0 f3		bne $4467	        bne -
+.4474	b0 24		bcs $449a	        bcs t10_over
+.4476	20 a6 44	jsr $44a6	        jsr shift_left          ; *10
+.4479	b0 1f		bcs $449a	        bcs t10_over
+.447b	18		clc		        clc                     ; (no compare in this carry chain)
+.447c	ad 27 47	lda $4727	        lda value
+.447f	6d 24 47	adc $4724	        adc digit
+.4482	8d 27 47	sta $4727	        sta value
+.4485	90 0d		bcc $4494	        bcc +
+.4487	ee 28 47	inc $4728	        inc value+1
+.448a	d0 08		bne $4494	        bne +
+.448c	ee 29 47	inc $4729	        inc value+2
+.448f	d0 03		bne $4494	        bne +
+.4491	ee 2a 47	inc $472a	        inc value+3
+.4494	ad 2a 47	lda $472a	+       lda value+3             ; past 2147483647 the sign bit turns on
+.4497	30 01		bmi $449a	        bmi t10_over
+.4499	60		rts		        rts
+.449a					t10_over:
+.449a	a2 03		ldx #$03	        ldx #3                  ; keep the number as it was
+.449c	bd 33 47	lda $4733,x	-       lda work4,x
+.449f	9d 27 47	sta $4727,x	        sta value,x
+.44a2	ca		dex		        dex
+.44a3	10 f7		bpl $449c	        bpl -
+.44a5	60		rts		        rts
+.44a6					shift_left:
+.44a6	0e 27 47	asl $4727	        asl value
+.44a9	2e 28 47	rol $4728	        rol value+1
+.44ac	2e 29 47	rol $4729	        rol value+2
+.44af	2e 2a 47	rol $472a	        rol value+3
+.44b2	60		rts		        rts
+.44b3					apply:
+.44b3	ad 2f 47	lda $472f	        lda op
+.44b6	c9 2b		cmp #$2b	        cmp #$2b                ; +
+.44b8	d0 15		bne $44cf	        bne +
+.44ba	18		clc		        clc
+.44bb	a2 00		ldx #$00	        ldx #0
+.44bd	a0 04		ldy #$04	        ldy #4
+.44bf	bd 2b 47	lda $472b,x	-       lda acc,x
+.44c2	7d 27 47	adc $4727,x	        adc value,x
+.44c5	9d 2b 47	sta $472b,x	        sta acc,x
+.44c8	e8		inx		        inx
+.44c9	88		dey		        dey
+.44ca	d0 f3		bne $44bf	        bne -
+.44cc	70 6e		bvs $453c	        bvs apply_error
+.44ce	60		rts		        rts
+.44cf	c9 2d		cmp #$2d	+       cmp #$2d                ; -
+.44d1	d0 15		bne $44e8	        bne +
+.44d3	38		sec		        sec
+.44d4	a2 00		ldx #$00	        ldx #0
+.44d6	a0 04		ldy #$04	        ldy #4
+.44d8	bd 2b 47	lda $472b,x	-       lda acc,x
+.44db	fd 27 47	sbc $4727,x	        sbc value,x
+.44de	9d 2b 47	sta $472b,x	        sta acc,x
+.44e1	e8		inx		        inx
+.44e2	88		dey		        dey
+.44e3	d0 f3		bne $44d8	        bne -
+.44e5	70 55		bvs $453c	        bvs apply_error
+.44e7	60		rts		        rts
+.44e8	48		pha		+       pha                     ; * and / work on magnitudes
+.44e9	ad 2e 47	lda $472e	        lda acc+3
+.44ec	4d 2a 47	eor $472a	        eor value+3
+.44ef	8d 25 47	sta $4725	        sta sign
+.44f2	20 42 45	jsr $4542	        jsr abs_acc
+.44f5	20 59 45	jsr $4559	        jsr abs_value
+.44f8	68		pla		        pla
+.44f9	c9 2a		cmp #$2a	        cmp #$2a                ; *
+.44fb	d0 08		bne $4505	        bne apply_divide
+.44fd	20 70 45	jsr $4570	        jsr multiply
+.4500	b0 3a		bcs $453c	        bcs apply_error
+.4502	4c 16 45	jmp $4516	        jmp apply_sign
+.4505					apply_divide:
+.4505	ad 27 47	lda $4727	        lda value
+.4508	0d 28 47	ora $4728	        ora value+1
+.450b	0d 29 47	ora $4729	        ora value+2
+.450e	0d 2a 47	ora $472a	        ora value+3
+.4511	f0 29		beq $453c	        beq apply_error
+.4513	20 be 45	jsr $45be	        jsr divide
+.4516					apply_sign:
+.4516	ad 2e 47	lda $472e	        lda acc+3               ; a magnitude of 2^31 fits only as a negative
+.4519	10 18		bpl $4533	        bpl +
+.451b	ad 25 47	lda $4725	        lda sign
+.451e	10 1c		bpl $453c	        bpl apply_error
+.4520	ad 2d 47	lda $472d	        lda acc+2
+.4523	0d 2c 47	ora $472c	        ora acc+1
+.4526	0d 2b 47	ora $472b	        ora acc
+.4529	d0 11		bne $453c	        bne apply_error
+.452b	ad 2e 47	lda $472e	        lda acc+3
+.452e	c9 80		cmp #$80	        cmp #$80
+.4530	d0 0a		bne $453c	        bne apply_error
+.4532	60		rts		        rts                     ; -2147483648
+.4533	ad 25 47	lda $4725	+       lda sign
+.4536	10 03		bpl $453b	        bpl +
+.4538	4c 47 45	jmp $4547	        jmp negate_acc
+.453b	60		rts		+       rts
+.453c					apply_error:
+.453c	a9 01		lda #$01	        lda #1
+.453e	8d 31 47	sta $4731	        sta error
+.4541	60		rts		        rts
+.4542					abs_acc:
+.4542	ad 2e 47	lda $472e	        lda acc+3
+.4545	10 11		bpl $4558	        bpl +
+.4547					negate_acc:
+.4547	38		sec		        sec
+.4548	a2 00		ldx #$00	        ldx #0
+.454a	a0 04		ldy #$04	        ldy #4
+.454c	a9 00		lda #$00	-       lda #0
+.454e	fd 2b 47	sbc $472b,x	        sbc acc,x
+.4551	9d 2b 47	sta $472b,x	        sta acc,x
+.4554	e8		inx		        inx
+.4555	88		dey		        dey
+.4556	d0 f4		bne $454c	        bne -
+.4558	60		rts		+       rts
+.4559					abs_value:
+.4559	ad 2a 47	lda $472a	        lda value+3
+.455c	10 11		bpl $456f	        bpl +
+.455e	38		sec		        sec
+.455f	a2 00		ldx #$00	        ldx #0
+.4561	a0 04		ldy #$04	        ldy #4
+.4563	a9 00		lda #$00	-       lda #0
+.4565	fd 27 47	sbc $4727,x	        sbc value,x
+.4568	9d 27 47	sta $4727,x	        sta value,x
+.456b	e8		inx		        inx
+.456c	88		dey		        dey
+.456d	d0 f4		bne $4563	        bne -
+.456f	60		rts		+       rts
+.4570					multiply:
+.4570	a2 03		ldx #$03	        ldx #3
+.4572	bd 2b 47	lda $472b,x	-       lda acc,x
+.4575	9d 33 47	sta $4733,x	        sta work4,x
+.4578	a9 00		lda #$00	        lda #0
+.457a	9d 2b 47	sta $472b,x	        sta acc,x
+.457d	ca		dex		        dex
+.457e	10 f2		bpl $4572	        bpl -
+.4580	a9 20		lda #$20	        lda #32
+.4582	8d 26 47	sta $4726	        sta count
+.4585					mul_bit:
+.4585	0e 2b 47	asl $472b	        asl acc                 ; acc <<= 1, overflow check
+.4588	2e 2c 47	rol $472c	        rol acc+1
+.458b	2e 2d 47	rol $472d	        rol acc+2
+.458e	2e 2e 47	rol $472e	        rol acc+3
+.4591	b0 29		bcs $45bc	        bcs mul_over
+.4593	0e 33 47	asl $4733	        asl work4               ; the multiplicand's next bit, high first
+.4596	2e 34 47	rol $4734	        rol work4+1
+.4599	2e 35 47	rol $4735	        rol work4+2
+.459c	2e 36 47	rol $4736	        rol work4+3
+.459f	90 14		bcc $45b5	        bcc +
+.45a1	18		clc		        clc
+.45a2	a2 00		ldx #$00	        ldx #0
+.45a4	a0 04		ldy #$04	        ldy #4
+.45a6	bd 2b 47	lda $472b,x	-       lda acc,x
+.45a9	7d 27 47	adc $4727,x	        adc value,x
+.45ac	9d 2b 47	sta $472b,x	        sta acc,x
+.45af	e8		inx		        inx
+.45b0	88		dey		        dey
+.45b1	d0 f3		bne $45a6	        bne -
+.45b3	b0 07		bcs $45bc	        bcs mul_over
+.45b5	ce 26 47	dec $4726	+       dec count
+.45b8	d0 cb		bne $4585	        bne mul_bit
+.45ba	18		clc		        clc
+.45bb	60		rts		        rts
+.45bc					mul_over:
+.45bc	38		sec		        sec
+.45bd	60		rts		        rts
+.45be					divide:
+.45be	a9 00		lda #$00	        lda #0
+.45c0	8d 33 47	sta $4733	        sta work4
+.45c3	8d 34 47	sta $4734	        sta work4+1
+.45c6	8d 35 47	sta $4735	        sta work4+2
+.45c9	8d 36 47	sta $4736	        sta work4+3
+.45cc	a9 20		lda #$20	        lda #32
+.45ce	8d 26 47	sta $4726	        sta count
+.45d1					div_bit:
+.45d1	0e 2b 47	asl $472b	        asl acc
+.45d4	2e 2c 47	rol $472c	        rol acc+1
+.45d7	2e 2d 47	rol $472d	        rol acc+2
+.45da	2e 2e 47	rol $472e	        rol acc+3
+.45dd	2e 33 47	rol $4733	        rol work4
+.45e0	2e 34 47	rol $4734	        rol work4+1
+.45e3	2e 35 47	rol $4735	        rol work4+2
+.45e6	2e 36 47	rol $4736	        rol work4+3
+.45e9	38		sec		        sec
+.45ea	a2 00		ldx #$00	        ldx #0
+.45ec	a0 04		ldy #$04	        ldy #4
+.45ee	bd 33 47	lda $4733,x	-       lda work4,x
+.45f1	fd 27 47	sbc $4727,x	        sbc value,x
+.45f4	9d 37 47	sta $4737,x	        sta sub4,x
+.45f7	e8		inx		        inx
+.45f8	88		dey		        dey
+.45f9	d0 f3		bne $45ee	        bne -
+.45fb	90 0e		bcc $460b	        bcc +
+.45fd	a2 03		ldx #$03	        ldx #3
+.45ff	bd 37 47	lda $4737,x	-       lda sub4,x
+.4602	9d 33 47	sta $4733,x	        sta work4,x
+.4605	ca		dex		        dex
+.4606	10 f7		bpl $45ff	        bpl -
+.4608	ee 2b 47	inc $472b	        inc acc
+.460b	ce 26 47	dec $4726	+       dec count
+.460e	d0 c1		bne $45d1	        bne div_bit
+.4610	60		rts		        rts
+.4611					format:
+.4611	ad 31 47	lda $4731	        lda error
+.4614	f0 11		beq $4627	        beq +
+.4616	a2 04		ldx #$04	        ldx #4
+.4618	bd bf 46	lda $46bf,x	-       lda t_error,x
+.461b	9d 4c 47	sta $474c,x	        sta text,x
+.461e	ca		dex		        dex
+.461f	10 f7		bpl $4618	        bpl -
+.4621	a9 05		lda #$05	        lda #5
+.4623	8d 58 47	sta $4758	        sta text_len
+.4626	60		rts		        rts
+.4627	a2 03		ldx #$03	+       ldx #3
+.4629	bd 27 47	lda $4727,x	-       lda value,x
+.462c	9d 3b 47	sta $473b,x	        sta acc4,x
+.462f	ca		dex		        dex
+.4630	10 f7		bpl $4629	        bpl -
+.4632	ad 2a 47	lda $472a	        lda value+3
+.4635	8d 3f 47	sta $473f	        sta fsign
+.4638	10 11		bpl $464b	        bpl +
+.463a	38		sec		        sec                     ; the magnitude (2^31 comes out right unsigned)
+.463b	a2 00		ldx #$00	        ldx #0
+.463d	a0 04		ldy #$04	        ldy #4
+.463f	a9 00		lda #$00	-       lda #0
+.4641	fd 3b 47	sbc $473b,x	        sbc acc4,x
+.4644	9d 3b 47	sta $473b,x	        sta acc4,x
+.4647	e8		inx		        inx
+.4648	88		dey		        dey
+.4649	d0 f4		bne $463f	        bne -
+.464b	a9 00		lda #$00	+       lda #0
+.464d	8d 41 47	sta $4741	        sta digits
+.4650					fmt_digit:
+.4650	a9 00		lda #$00	        lda #0
+.4652	8d 40 47	sta $4740	        sta rem
+.4655	a2 20		ldx #$20	        ldx #32
+.4657	0e 3b 47	asl $473b	-       asl acc4
+.465a	2e 3c 47	rol $473c	        rol acc4+1
+.465d	2e 3d 47	rol $473d	        rol acc4+2
+.4660	2e 3e 47	rol $473e	        rol acc4+3
+.4663	2e 40 47	rol $4740	        rol rem
+.4666	ad 40 47	lda $4740	        lda rem
+.4669	c9 0a		cmp #$0a	        cmp #10
+.466b	90 08		bcc $4675	        bcc +
+.466d	e9 0a		sbc #$0a	        sbc #10
+.466f	8d 40 47	sta $4740	        sta rem
+.4672	ee 3b 47	inc $473b	        inc acc4
+.4675	ca		dex		+       dex
+.4676	d0 df		bne $4657	        bne -
+.4678	ad 40 47	lda $4740	        lda rem
+.467b	09 30		ora #$30	        ora #$30
+.467d	ae 41 47	ldx $4741	        ldx digits
+.4680	9d 42 47	sta $4742,x	        sta digit_stack,x
+.4683	ee 41 47	inc $4741	        inc digits
+.4686	ad 3b 47	lda $473b	        lda acc4
+.4689	0d 3c 47	ora $473c	        ora acc4+1
+.468c	0d 3d 47	ora $473d	        ora acc4+2
+.468f	0d 3e 47	ora $473e	        ora acc4+3
+.4692	d0 bc		bne $4650	        bne fmt_digit
+.4694	a2 00		ldx #$00	        ldx #0
+.4696	ad 3f 47	lda $473f	        lda fsign
+.4699	10 06		bpl $46a1	        bpl +
+.469b	a9 2d		lda #$2d	        lda #$2d
+.469d	8d 4c 47	sta $474c	        sta text
+.46a0	e8		inx		        inx
+.46a1	ac 41 47	ldy $4741	+       ldy digits
+.46a4	b9 41 47	lda $4741,y	-       lda digit_stack-1,y
+.46a7	9d 4c 47	sta $474c,x	        sta text,x
+.46aa	e8		inx		        inx
+.46ab	88		dey		        dey
+.46ac	d0 f6		bne $46a4	        bne -
+.46ae	8e 58 47	stx $4758	        stx text_len
+.46b1	60		rts		        rts
+>46b2	2d 00				t_separator: .byte $2d,0
+>46b4	43 61 6c 63 75 6c 61 74		t_title: .byte 67,97,108,99,117,108,97,116,111,114,0   ; ASCII (the build converts .text to PETSCII)
+>46bc	6f 72 00
+>46bf	45 72 72 6f 72			t_error: .byte 69,114,114,111,114
+>46c4	37 38 39 2f 34 35 36 2a		key_labels: .byte $37,$38,$39,$2f,$34,$35,$36,$2a,$31,$32,$33,$2d,$30,$43,$3d,$2b   ; ASCII "789/456*123-0C=+"
+>46cc	31 32 33 2d 30 43 3d 2b
+>46d4	01 05 09 0d 01 05 09 0d		key_x: .byte 1,5,9,13, 1,5,9,13, 1,5,9,13, 1,5,9,13
+>46dc	01 05 09 0d 01 05 09 0d
+>46e4	03 03 03 03 05 05 05 05		key_y: .byte 3,3,3,3, 5,5,5,5, 7,7,7,7, 9,9,9,9
+>46ec	07 07 07 07 09 09 09 09
+>46f4	16 03 10 0c			win_rect: .byte WIN_X,WIN_Y,WIN_W,WIN_H
+>46f8	00				item: .byte 0
+>46f9	00				item_ok: .byte 0
+>46fa	00				handle: .byte 0
+>46fb	00				want_open: .byte 0
+>46fc	00				want_close: .byte 0
+>46fd	00				want_top: .byte 0
+>46fe	00				want_move: .byte 0
+>46ff	00				want_redraw: .byte 0
+>4700	00 00 00 00			move_rect: .fill 4,0
+>4704	00 00 00 00 00 00 00 00		msg: .fill 8,0
+>470c	00 00 00 00 00 00 00 00		reply: .fill 19,0
+>4714	00 00 00 00 00 00 00 00 00 00 00
+>471f	00				wx: .byte 0
+>4720	00				wy: .byte 0
+>4721	00				cell_x: .byte 0
+>4722	00				cell_y: .byte 0
+>4723	00				key_i: .byte 0
+>4724	00				digit: .byte 0
+>4725	00				sign: .byte 0
+>4726	00				count: .byte 0
+>4727	00 00 00 00			value: .fill 4,0                ; C clears these 12 bytes together
+>472b	00 00 00 00			acc: .fill 4,0
+>472f	00				op: .byte 0
+>4730	00				entering: .byte 0
+>4731	00				error: .byte 0
+>4732	00				        .byte 0
+>4733	00 00 00 00			work4: .fill 4,0
+>4737	00 00 00 00			sub4: .fill 4,0
+>473b	00 00 00 00			acc4: .fill 4,0
+>473f	00				fsign: .byte 0
+>4740	00				rem: .byte 0
+>4741	00				digits: .byte 0
+>4742	00 00 00 00 00 00 00 00		digit_stack: .fill 10,0
+>474a	00 00
+>474c	00 00 00 00 00 00 00 00		text: .fill 12,0
+>4754	00 00 00 00
+>4758	00				text_len: .byte 0
+.4759					end:
+
+;******  End of listing

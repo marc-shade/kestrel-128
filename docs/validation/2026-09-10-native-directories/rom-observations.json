@@ -1,0 +1,154 @@
+{
+  "passed": true,
+  "roms": {
+    "0x4000": {
+      "bytes": 16384,
+      "sha256": "ccb0d516219f12857fef3ae7409fff072e47b9480d7eafb5eea7e0b188c958f5"
+    },
+    "0x8000": {
+      "bytes": 16384,
+      "sha256": "121b7c7f15f9b72e83f293f8fb3c4686730ee02359cea71d18a72c6f489cd2d7"
+    }
+  },
+  "observations": [
+    {
+      "label": "directory-private-retained-path",
+      "address": 18944,
+      "count": 30,
+      "different_bytes": 30,
+      "direct_sha256": "09e7a0c629122707347f7c4278726ad03c9fe41475f7964f539d130d0ad61e33",
+      "cpu_sha256": "ed0814f9ec9a79a68ba8cf54f03445d41e0011ed1e9a90fccaf7fb5495d350d0",
+      "comparison_rom_bases": [
+        16384
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 30,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    },
+    {
+      "label": "usb-corrupt-selected-cache-handle",
+      "address": 31374,
+      "count": 4,
+      "different_bytes": 4,
+      "direct_sha256": "2567dc7c0c314939ed6a12889aca985a72e0e16ef678118491ec872076bcdbdd",
+      "cpu_sha256": "0e21deb660453337bf8e25e55296195f7517f0f78b534076bc4e86433ed59ae9",
+      "comparison_rom_bases": [
+        16384
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 4,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    },
+    {
+      "label": "usb-browser-after-corrupt-retained-path",
+      "address": 18944,
+      "count": 30,
+      "different_bytes": 30,
+      "direct_sha256": "09e7a0c629122707347f7c4278726ad03c9fe41475f7964f539d130d0ad61e33",
+      "cpu_sha256": "ed0814f9ec9a79a68ba8cf54f03445d41e0011ed1e9a90fccaf7fb5495d350d0",
+      "comparison_rom_bases": [
+        16384
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 30,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    },
+    {
+      "label": "editor-saved-function-keys",
+      "address": 33539,
+      "count": 256,
+      "different_bytes": 252,
+      "direct_sha256": "65ff9c2d1bef05708b06b479caba70a69faf749c9a3b06b2e26c01811c6a74ec",
+      "cpu_sha256": "345a9df5076c44c7fb2ebf800ce3740df825c3d717559b2b9d2e96f5d37f9c19",
+      "comparison_rom_bases": [
+        32768
+      ],
+      "whole_sample_matches_reference_rom": false,
+      "reference_matching_bytes": 254,
+      "reference_deviations": [
+        {
+          "address": 33571,
+          "offset": 32,
+          "direct_byte": 16,
+          "cpu_byte": 13,
+          "reference_byte": 8
+        },
+        {
+          "address": 33692,
+          "offset": 153,
+          "direct_byte": 16,
+          "cpu_byte": 192,
+          "reference_byte": 8
+        }
+      ],
+      "unexplained_direct_bytes": [
+        {
+          "address": 33571,
+          "offset": 32,
+          "direct_byte": 16,
+          "cpu_byte": 13,
+          "reference_byte": 8
+        },
+        {
+          "address": 33692,
+          "offset": 153,
+          "direct_byte": 16,
+          "cpu_byte": 192,
+          "reference_byte": 8
+        }
+      ]
+    },
+    {
+      "label": "ultimate-edited-quote-app-state",
+      "address": 33798,
+      "count": 587,
+      "different_bytes": 572,
+      "direct_sha256": "208367572f71b0829b3597b4fe7499faef05c120e43c4a910adb0ab268a809a8",
+      "cpu_sha256": "4c9fa43af0b163e4e335ecdb322afc8293431f6910b2ce56291e8123db52ca4e",
+      "comparison_rom_bases": [
+        32768
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 587,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    },
+    {
+      "label": "ultimate-reopen-second-context-app-state",
+      "address": 33798,
+      "count": 587,
+      "different_bytes": 572,
+      "direct_sha256": "208367572f71b0829b3597b4fe7499faef05c120e43c4a910adb0ab268a809a8",
+      "cpu_sha256": "0bf7f5cbfce14e0884f7b5d8d7129b0821fec2b7e31035ffb0e1a3848240244f",
+      "comparison_rom_bases": [
+        32768
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 587,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    },
+    {
+      "label": "usb-browser-after-editor-retained-path",
+      "address": 18944,
+      "count": 30,
+      "different_bytes": 30,
+      "direct_sha256": "09e7a0c629122707347f7c4278726ad03c9fe41475f7964f539d130d0ad61e33",
+      "cpu_sha256": "ed0814f9ec9a79a68ba8cf54f03445d41e0011ed1e9a90fccaf7fb5495d350d0",
+      "comparison_rom_bases": [
+        16384
+      ],
+      "whole_sample_matches_reference_rom": true,
+      "reference_matching_bytes": 30,
+      "reference_deviations": [],
+      "unexplained_direct_bytes": []
+    }
+  ],
+  "all_disagreements_match_rom": false,
+  "whole_reference_matches": 6,
+  "unexplained_direct_bytes": 2,
+  "qualification": "This audit reproduces byte comparisons; it does not establish the origin of unmatched DMA bytes. CPU captures are the RAM authority."
+}

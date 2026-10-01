@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "hardware_io": false,
+  "checks": [
+    {
+      "command": "verify-artifacts.py",
+      "exit_code": 0,
+      "output": "PASS: 20 CPU reports, ten emulator suites, physical shared fields and pickers, screens, RAM and stored files\n"
+    },
+    {
+      "command": "verify-directories.py",
+      "exit_code": 0,
+      "output": "PASS: 19 exact native USB pages; ordinal 256, full names, app return selection and both screens\n"
+    },
+    {
+      "command": "verify-dialogs.py",
+      "exit_code": 0,
+      "output": "PASS: five complete retained 66,056-byte documents, IEC picker screens and exact Ultimate picker cache pages\n"
+    },
+    {
+      "command": "verify-rom-observations.py --folder hardware",
+      "exit_code": 0,
+      "output": "PASS: audited 4 DMA/CPU disagreements; 3 whole reference-ROM matches; 2 unexplained direct bytes retained\n"
+    },
+    {
+      "command": "verify-rom-observations.py --folder hardware-iec",
+      "exit_code": 0,
+      "output": "PASS: audited 0 DMA/CPU disagreements; 0 whole reference-ROM matches; 0 unexplained direct bytes retained\n"
+    },
+    {
+      "command": "verify-boot-recovery.py",
+      "exit_code": 0,
+      "output": "PASS: retained boot/upload failure, verified recovery, exact reclamation and both harness versions\n"
+    }
+  ],
+  "package_verifier": "Default read-only comparison passed separately; see package/report.json"
+}

@@ -1,0 +1,2558 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gddlg.bin -l target/native-desktop/gddlg.sym -L target/native-desktop/gddlg.lst src/native/gemdesk-dlg.asm
+; Wed Sep 30 12:50:10 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/gemdesk-dlg.asm
+
+
+;******  Processing file: target/native-desktop/gemdesk.sym
+
+=$944a					ae_km_hold	= $944a
+=$3d0d					N_ERROR		= $3d0d
+=$ae83					bk_fetch_tail	= $ae83
+=$acd8					bk_service_call	= $acd8
+=2					MU_BUTTON	= 2
+=$9920					gfx_bind_handle	= $9920
+=$7ad3					gm_clip_to_rect	= $7ad3
+=$81a9					gm_icon_dev_lo	= $81a9
+=$b228					bk_stub		= $b228
+=$75cd					gm_set_title	= $75cd
+=$7ca4					gm_set_rect	= $7ca4
+=$9799					dc_line		= $9799
+=$7338					gm_path_store	= $7338
+=15					WF_HSLSIZE	= 15
+=$6263					gm_n32_bit	= $6263
+=$85a9					gm_usb_title	= $85a9
+=$a68c					pm_saved	= $a68c
+=$1bf0					N_NMIGATE	= $1bf0
+=16					AE_DATA_PAGES	= 16
+=$3d9e					N_DOCRESUME	= $3d9e
+=$9319					ae_event_wait	= $9319
+=1					AE_OP_STATUS	= 1
+=$5000					N_RELOCBASE	= $5000
+=$614d					bp_select_surface= $614d
+=8					UI_STATE_BYTES	= 8
+=$99b9					gfx_glyph_add	= $99b9
+=$9758					dc_bad		= $9758
+=$3d3e					N_NMIPTR	= $3d3e
+=$7ba0					gm_scroll_down	= $7ba0
+=$6584					gm_hit_next	= $6584
+=$9ca2					gfx_glyph_first	= $9ca2
+=$1c5f					N_MLOAD		= $1c5f
+=$79be					gm_format_row	= $79be
+=5					WS_GET		= 5
+=$7f61					gm_open_entry	= $7f61
+=$3de0					NFCMDS		= $3de0
+=$a098					gfx_font	= $a098
+=$aece					bk_load		= $aece
+=$b129					bk_close_done	= $b129
+=$86f1					gm_dev_format	= $86f1
+=$5000					GM_WORKSPACE	= $5000
+=$16					GM_DESK		= $16
+=$6307					gm_alert_icon	= $6307
+=$a667					pm_active	= $a667
+=6					UI_VIEW80	= 6
+=5					N_U_INTERFACES	= 5
+=12					GM_MOP_PRINT	= 12
+=$1c2c					N_FILL		= $1c2c
+=$71fe					gm_restore_color= $71fe
+=1					N_ABI_MAJOR	= 1
+=6					WF_PREVXYWH	= 6
+=$3dc0					NFILES		= $3dc0
+=$7488					gm_ult_fullname	= $7488
+=11					AE_OP_DCLICK	= 11
+=$7b9d					gm_page_down	= $7b9d
+=$624a					gm_wcall	= $624a
+=$948e					ae_menu_copied	= $948e
+=$76e1					gm_ucmd_at	= $76e1
+=$750c					gm_fn_close	= $750c
+=$61b0					gm_open_aesvc	= $61b0
+=$620a					gm_open_now	= $620a
+=$841e					gm_bad_chars	= $841e
+=$6c86					gm_atype	= $6c86
+=7					GM_MOP_RESTORE	= 7
+=$99d4					gfx_glyph_empty	= $99d4
+=$ace5					bk_dispatch	= $ace5
+=$acb7					bk_protect_code	= $acb7
+=$3d85					N_FDEVICE	= $3d85
+=$879c					gm_win_sel	= $879c
+=$6e1a					gm_delete	= $6e1a
+=$12					N_SHORTIMAGE	= $12
+=11					GM_MOP_DISKCOPY	= 11
+=$1014					pk_entry	= $1014
+=$1c20					N_ALLOC		= $1c20
+=$a60d					pm_delta	= $a60d
+=$8777					gm_divisor	= $8777
+=$7654					gm_title_q	= $7654
+=$702b					gm_refresh_next	= $702b
+=$73a3					gm_upath_to_path= $73a3
+=$876d					gm_math4	= $876d
+=$876c					gm_math3	= $876c
+=$876b					gm_math2	= $876b
+=$8702					gm_alen		= $8702
+=$3d3b					N_UIBUSY	= $3d3b
+=$6907					gm_scan_page	= $6907
+=$6189					gm_aes_ready	= $6189
+=$a637					pm_place	= $a637
+=1					AE_MIRROR	= 1
+=$ad96					bk_compare_cookie= $ad96
+=22					WM_CLOSED	= 22
+=$943d					ae_km_keys	= $943d
+=$6a87					gm_chunk_heap	= $6a87
+=$81d6					gm_icon_bits	= $81d6
+=$86d0					gm_s_nomodule2	= $86d0
+=$abd6					vd_handle	= $abd6
+=$9f77					gfx_right_masks	= $9f77
+=$7aa1					gm_read_done	= $7aa1
+=$6615					gm_deselect_icon= $6615
+=$a9ce					bp_closed	= $a9ce
+=$877c					gm_ix0		= $877c
+=$877e					gm_ix1		= $877e
+=$ace8					bk_service_return= $ace8
+=$0020					WK_SIZER	= $0020
+=$3d50					N_MHEADER	= $3d50
+=$91e0					ae_attach	= $91e0
+=$6cc8					gm_info_end	= $6cc8
+=$9e89					gfx_aligned_set	= $9e89
+=$9866					dc_text		= $9866
+=$10ac					pk_extended	= $10ac
+=$8623					gm_s_nosave	= $8623
+=$6020					gm_start	= $6020
+=$664d					gm_key		= $664d
+=$10ad					pk_rejected	= $10ad
+=$683f					gm_icon_drive	= $683f
+=$a5d4					pm_button	= $a5d4
+=2					AE_CAP_EVENT	= 2
+=$6fab					gm_del_text_end	= $6fab
+=$3d2e					N_BROWSERLEN	= $3d2e
+=$6054					gm_loop		= $6054
+=$9891					dc_iostatus	= $9891
+=$8645					gm_mtoken	= $8645
+=$aecd					bk_relative	= $aecd
+=$a470					pm_close_return	= $a470
+=$1070					pk_reject	= $1070
+=$9ca5					gfx_glyph_ink	= $9ca5
+=$7aa2					gm_work		= $7aa2
+=$ac86					bk_callback	= $ac86
+=$a5f6					pm_release	= $a5f6
+=$3d2a					N_BROWSERFMT	= $3d2a
+=$1c4a					N_FCLOSE	= $1c4a
+=$7bb5					gm_scrolled	= $7bb5
+=$6aef					gm_ins_outer	= $6aef
+=$6c2a					gm_show_info	= $6c2a
+=$9959					gfx_guard	= $9959
+=$84fe					gm_suffix	= $84fe
+=$9450					ae_menu_install	= $9450
+=$8819					gm_bnow		= $8819
+=$9a85					gfx_clip_compared= $9a85
+=$6bfe					gm_view_done	= $6bfe
+=$9f1e					gfx_owner	= $9f1e
+=$8084					gm_times8	= $8084
+=$7d3b					gm_select_entry	= $7d3b
+=5					AE_OP_POST	= 5
+=$a054					gfx_text_length	= $a054
+=$7e83					gm_band		= $7e83
+=$b03c					bk_load_more	= $b03c
+=$740f					gm_ult_scan_next= $740f
+=6					WS_FIND		= 6
+=$6e69					gm_del_named	= $6e69
+=3					AE_OP_STEP	= 3
+=$10ae					pk_mask		= $10ae
+=$8818					gm_banchor	= $8818
+=$878c					gm_win_dev	= $878c
+=$608f					gm_fatal	= $608f
+=$7cb4					gm_fulled	= $7cb4
+=$3d0e					N_FREE0		= $3d0e
+=$3d0f					N_FREE1		= $3d0f
+=$aa1e					vd_poll		= $aa1e
+=$1c6b					N_VCLOSE	= $1c6b
+=9					N_U_QUERY_COUNT	= 9
+=$86e7					gm_digits	= $86e7
+=$7644					gm_title_char	= $7644
+=$a532					pm_poll_return	= $a532
+=$6ad7					gm_rec_put	= $6ad7
+=48					AE_CLICK_TICKS	= 48
+=$a674					pm_down		= $a674
+=$8703					gm_abuf		= $8703
+=$837e					gm_s_used	= $837e
+=$8050					gm_free_mem	= $8050
+=$3d2b					N_BROWSERERROR	= $3d2b
+=$7539					gm_ult_document	= $7539
+=195					GM_MAX_ENTRIES	= 195
+=$0004					WK_FULLER	= $0004
+=$8815					gm_bi		= $8815
+=$9c6c					gfx_column	= $9c6c
+=$77a7					gm_document_launch= $77a7
+=$8814					gm_bm		= $8814
+=$6b3a					gm_next_gap	= $6b3a
+=6					N_U_MAC		= 6
+=$62bb					gm_am_row	= $62bb
+=$9f4c					gfx_band_left	= $9f4c
+=$1c2f					N_STATS		= $1c2f
+=$85c4					gm_stop		= $85c4
+=$aec7					bk_result	= $aec7
+=$a679					pm_step		= $a679
+=$9b01					gfx_clip_cell	= $9b01
+=$9441					ae_km_dx	= $9441
+=$9445					ae_km_dy	= $9445
+=$86a8					gm_prt_sa	= $86a8
+=$9214					ae_stream_taken	= $9214
+=$3d28					N_ACTION	= $3d28
+=$9c01					gfx_bitmap_row	= $9c01
+=$abcf					vd_phase	= $abcf
+=$80ca					gm_div		= $80ca
+=8					WF_HSLIDE	= 8
+=$9b92					gfx_failed	= $9b92
+=$9f37					gfx_remaining	= $9f37
+=$3d99					N_DCOUNT	= $3d99
+=$9eab					gfx_glyph_row	= $9eab
+=4					MU_M1		= 4
+=$70f3					gm_drag_box	= $70f3
+=4					N_U_POWER_B	= 4
+=$77f2					gm_ult_peek	= $77f2
+=$9f3e					gfx_second	= $9f3e
+=3					N_U_POWER_A	= 3
+=$66ac					gm_key_done	= $66ac
+=$7372					gm_pw		= $7372
+=$925f					ae_event	= $925f
+=$9415					ae_km_y		= $9415
+=$671b					gm_menu_options	= $671b
+=$a698					pm_shape	= $a698
+=$ab6f					vm_dirty	= $ab6f
+=$750a					gm_fn_missing	= $750a
+=16					GM_BELL		= 16
+=$aeb2					bk_file		= $aeb2
+=6					AE_OP_MENU	= 6
+=32					AE_CAP_DCLICK	= 32
+=$6dcb					gm_aput		= $6dcb
+=$3d16					N_RESULT	= $3d16
+=$64e3					gm_copy		= $64e3
+=$a390					gfx_text_end	= $a390
+=$9dc9					gfx_band_pixel	= $9dc9
+=$ade5					bk_check_code	= $ade5
+=$6420					gm_draw_icon	= $6420
+=$625f					gm_n32_digit	= $625f
+=$6eef					gm_del_many	= $6eef
+=$6000					N_APPBASE	= $6000
+=$85c3					gm_sslot	= $85c3
+=2					GM_MOP_PREFS	= 2
+=$83a5					gm_s_undone	= $83a5
+=$aba2					vm_first	= $aba2
+=$7fdd					gm_launcher	= $7fdd
+=$6e4d					gm_del_copy	= $6e4d
+=$abc3					bp_result	= $abc3
+=$68ba					gm_df_found	= $68ba
+=$6529					gm_label_clear	= $6529
+=$81c4					gm_label_trash	= $81c4
+=$8816					gm_ei		= $8816
+=$9f1f					gfx_handle	= $9f1f
+=$86dd					gm_new_icon	= $86dd
+=$7513					gm_ult_open_entry= $7513
+=$9f39					gfx_right	= $9f39
+=$1c5c					N_FDRAW		= $1c5c
+=$a680					pm_registers	= $a680
+=$68be					gm_df_done	= $68be
+=$7c8d					gm_wset_value	= $7c8d
+=$6528					gm_icon_done	= $6528
+=$3d9b					N_DOCKIND	= $3d9b
+=$6f37					gm_del_all	= $6f37
+=$8026					gm_close_slot	= $8026
+=$857a					gm_s_usbfail	= $857a
+=$97f0					dc_get_bad	= $97f0
+=$86de					gm_slot		= $86de
+=$abc6					bp_name		= $abc6
+=$b0f5					bk_load_badarg	= $b0f5
+=$a66c					pm_x		= $a66c
+=$a66e					pm_y		= $a66e
+=$63fb					gm_icons_clip_reset= $63fb
+=$ada9					bk_platform	= $ada9
+=$8700					gm_total	= $8700
+=$a8a6					nk_saved_callback= $a8a6
+=$83ce					gm_s_nodelete	= $83ce
+=$3d37					N_UIKEY		= $3d37
+=$3d9d					N_DOCRETURN	= $3d9d
+=$8296					gm_menu		= $8296
+=$b238					bk_crc		= $b238
+=$69ab					gm_scan_fail	= $69ab
+=$8540					gm_s_notusb	= $8540
+=$71e6					gm_session_built= $71e6
+=$acc6					bk_protect_parent= $acc6
+=$109e					pk_pass		= $109e
+=$3d01					N_PAGES		= $3d01
+=$87a0					gm_nsel		= $87a0
+=$8644					gm_mop		= $8644
+=8					N_U_TIME	= 8
+=$7117					gm_session_build= $7117
+=$3d2d					N_BOOTDEVICE	= $3d2d
+=$877f					gm_iy1		= $877f
+=$877d					gm_iy0		= $877d
+=$84b5					gm_full_alert	= $84b5
+=$8790					gm_win_fmt	= $8790
+=$9f47					gfx_glyph_bounds= $9f47
+=$9318					ae_event_done	= $9318
+=6					GM_MOP_COPY	= 6
+=$6419					gm_icon_next	= $6419
+=$aeb6					bk_cookie	= $aeb6
+=$7fd7					gm_launcher_leave= $7fd7
+=$922b					ae_alert_read	= $922b
+=$6f96					gm_del_text	= $6f96
+=$84e4					gm_confirm	= $84e4
+=$0040					WK_UPARROW	= $0040
+=$7b65					gm_clip_empty	= $7b65
+=$8808					gm_slot25	= $8808
+=$94db					ae_ev_result	= $94db
+=9					WF_VSLIDE	= 9
+=$981e					dc_digit	= $981e
+=$7e51					gm_each_call	= $7e51
+=$91e6					ae_load		= $91e6
+=$9cd2					gfx_set		= $9cd2
+=$6dbf					gm_astr_src	= $6dbf
+=$69b5					gm_sort_write	= $69b5
+=$adbb					bk_bad_handle	= $adbb
+=$75ca					gm_close_full	= $75ca
+=$66dd					gm_menu_control	= $66dd
+=$b236					bk_expected	= $b236
+=$a960					bp_loaded	= $a960
+=$10af					pk_masks	= $10af
+=8					AE_CAP_WINDOW	= 8
+=$4e00					N_UPATH		= $4e00
+=$69aa					gm_scan_done	= $69aa
+=$7d1f					gm_row_under	= $7d1f
+=$a580					pm_left		= $a580
+=$835d					gm_s_head	= $835d
+=$9215					ae_alert_open	= $9215
+=$7592					gm_close_or_up	= $7592
+=4					GM_PRINTER	= 4
+=$7f35					gm_band_done	= $7f35
+=$7ffe					gm_slot_of	= $7ffe
+=$661e					gm_repaint_icon_sel= $661e
+=3					GM_USB		= 3
+=$0080					WK_DNARROW	= $0080
+=$9ae9					gfx_clipped_bitmap= $9ae9
+=$3d08					N_OFFSET	= $3d08
+=$a449					pm_close	= $a449
+=$69cb					gm_write_chunk	= $69cb
+=$614d					gm_select_surface= $614d
+=$975c					dc_channels	= $975c
+=$9f5f					gfx_clip_full	= $9f5f
+=$98ca					sd_bell		= $98ca
+=$7d70					gm_toggle	= $7d70
+=1					WS_OPEN		= 1
+=$1c26					N_READ		= $1c26
+=1					gfx_track_dirty	= 1
+=$7bbb					gm_scroll_done	= $7bbb
+=$76c9					gm_ult_del_done	= $76c9
+=$9f6f					gfx_left_masks	= $9f6f
+=$7228					gm_module_run	= $7228
+=$b075					bk_load_eof	= $b075
+=$10ba					pk_end		= $10ba
+=$3d12					N_READY		= $3d12
+=$86f8					gm_m		= $86f8
+=$abeb					vd_pointer_y	= $abeb
+=1					N_U_HARDWARE	= 1
+=$6341					gm_message	= $6341
+=$81b2					gm_icon_label_hi= $81b2
+=$6ad7					gm_rec_dst	= $6ad7
+=$aa80					bp_gate_failed	= $aa80
+=$9865					dc_length	= $9865
+=$6b26					gm_ins_place	= $6b26
+=$61af					gm_aes_failed	= $61af
+=$a676					pm_hit		= $a676
+=8					WS_SURFACE	= 8
+=$6596					gm_pointer_cell	= $6596
+=$4a00					N_BROWSERPATH	= $4a00
+=$63a4					gm_message_done	= $63a4
+=$62b9					ae_present	= $62b9
+=$6f51					gm_relist_slot	= $6f51
+=$7eb8					gm_band_loop	= $7eb8
+=$3d24					N_EXITCODE	= $3d24
+=$9a8e					gfx_clip_start	= $9a8e
+=$8065					gm_select_mem_x	= $8065
+=$85bc					gm_desk_color	= $85bc
+=$9449					ae_km_click	= $9449
+=$abd1					vd_color	= $abd1
+=0					N_OK		= 0
+=4					GM_WINDOWS	= 4
+=$3d3c					N_UOP		= $3d3c
+=$3d20					N_CURRENT	= $3d20
+=$a66a					pm_pending	= $a66a
+=0					GFX_TEXT_STORAGE= 0
+=$abf6					ru_probe_live	= $abf6
+=$1c3e					N_EXIT		= $1c3e
+=$ab6b					bp_argument	= $ab6b
+=$1c41					N_FOPEN		= $1c41
+=$3d25					N_DOSCODE	= $3d25
+=0					AE_OP_ATTACH	= 0
+=$abc1					bp_prefix	= $abc1
+=$86dc					gm_icon_sel	= $86dc
+=$86d3					gm_surface	= $86d3
+=$3d23					N_APPSTATE	= $3d23
+=$881a					gm_batch	= $881a
+=2					UI_MAXIMUM	= 2
+=$9754					dc_io		= $9754
+=$8609					gm_dclick	= $8609
+=$94ef					ae_ev_first	= $94ef
+=$a8a8					nk_filter_image	= $a8a8
+=$a669					pm_tick		= $a669
+=$73fa					gm_ult_read	= $73fa
+=$9ecf					gfx_glyph_shifted= $9ecf
+=$79d9					gm_rec_src	= $79d9
+=$62f4					gm_alert	= $62f4
+=$9f3c					gfx_cover	= $9f3c
+=$943c					ae_km_done	= $943c
+=$a675					pm_arm		= $a675
+=$8947					gm_win_plen	= $8947
+=$99ae					gfx_glyph_negative= $99ae
+=10					GM_MOP_PRTSCR	= 10
+=60					GM_REC_PRINTER	= 60
+=$894b					gm_name		= $894b
+=2					WS_CLOSE	= 2
+=$a718					nk_install	= $a718
+=$9a90					gfx_clip_replace= $9a90
+=$aec3					bk_busy		= $aec3
+=$9801					dc_restore	= $9801
+=$16					N_MEXHAUSTED	= $16
+=14985					SD_BELL_FREQ	= 14985
+=$9493					ae_menu_set	= $9493
+=$8775					gm_prod		= $8775
+=$6bb4					gm_cmp_rev	= $6bb4
+=$86a9					gm_lock_want	= $86a9
+=$1c26					gfx_heap_read	= $1c26
+=$aa4d					bp_pointer	= $aa4d
+=$abd0					vd_live		= $abd0
+=$6aae					gm_copy_rec	= $6aae
+=1					N_BADARG	= 1
+=$7031					gm_release	= $7031
+=12					AE_OP_ACC	= 12
+=$9998					gfx_glyph_origin= $9998
+=$ab2b					bp_open_source	= $ab2b
+=$a678					pm_moved	= $a678
+=$93fd					ae_km_left	= $93fd
+=13					GM_MOP_LOCK	= 13
+=$1c23					N_FREE		= $1c23
+=$aa8a					bp_arguments	= $aa8a
+=$9a11					gfx_color_limits= $9a11
+=$658b					gm_click	= $658b
+=$7322					gm_prt_quiet	= $7322
+=0					N_U_IDENTIFY	= 0
+=$9b95					gfx_bitmap_setup= $9b95
+=20					WM_REDRAW	= 20
+=$80ea					gm_cells_hi0	= $80ea
+=$7506					gm_fn_long	= $7506
+=$3d98					N_DNEXT		= $3d98
+=$8832					gm_rec		= $8832
+=$65ec					gm_click_desktop= $65ec
+=$1c53					N_REPLACE	= $1c53
+=$94f1					ae_ev_window	= $94f1
+=$8487					gm_drive_alert	= $8487
+=$8179					gm_cards_name	= $8179
+=$7485					gm_ult_scan_fail0= $7485
+=$adad					bk_invalid	= $adad
+=$a770					nk_close	= $a770
+=$94f9					ae_pointer_buttons= $94f9
+=$abc4					bp_carry	= $abc4
+=$9c5c					gfx_bitmap_loaded= $9c5c
+=$70ed					gm_drop_print	= $70ed
+=$6b83					gm_cmp_name	= $6b83
+=$7dd4					gm_bit_set	= $7dd4
+=$86fc					gm_ins_val	= $86fc
+=$3d9c					N_DOCTYPE	= $3d9c
+=$9e11					gfx_band_store	= $9e11
+=$9f7f					gfx_rows	= $9f7f
+=$683e					gm_open_quiet	= $683e
+=$3d13					N_KEYS		= $3d13
+=96					GM_APP_PAGES	= 96
+=$9ab6					gfx_nonempty_x	= $9ab6
+=$93a0					ae_key_mouse	= $93a0
+=$97f1					dc_get_end	= $97f1
+=$853e					gm_target	= $853e
+=$86e6					gm_ndig		= $86e6
+=0					PM_KEYS_OWNED	= 0
+=$7376					gm_path_root	= $7376
+=$86e0					gm_fmt		= $86e0
+=$6ade					gm_gap_loop	= $6ade
+=$5000					AE_DATA		= $5000
+=$7326					gm_path_page	= $7326
+=$6000					BK_BASE		= $6000
+=$abd4					vd_base		= $abd4
+=$9b56					gfx_color_x	= $9b56
+=$6eee					gm_del_none	= $6eee
+=$86bc					gm_s_nomodule	= $86bc
+=$876a					gm_math		= $876a
+=$86db					gm_start_error	= $86db
+=$ae87					bk_jump_tail	= $ae87
+=$8826					gm_mem1		= $8826
+=$8822					gm_mem0		= $8822
+=$882e					gm_mem3		= $882e
+=$882a					gm_mem2		= $882a
+=$85be					gm_orect	= $85be
+=$8501					gm_s_unproven	= $8501
+=$ada5					bk_nested	= $ada5
+=8					AE_OP_WINDOW	= 8
+=$768d					gm_ult_attr	= $768d
+=$abec					vs_reu		= $abec
+=$3de4					N_BOOTFORMAT	= $3de4
+=0					BP_HISTORY	= 0
+=$9437					ae_km_eaten	= $9437
+=$1c68					N_VSHOW		= $1c68
+=$11					N_IOERROR	= $11
+=$9a9c					gfx_clip_keep	= $9a9c
+=$9f12					gfx_x0		= $9f12
+=$9f16					gfx_x1		= $9f16
+=$8ad9					ae_callback	= $8ad9
+=$3d38					N_UIWIDTH	= $3d38
+=$9f1d					gfx_bound	= $9f1d
+=$6bd6					gm_set_view	= $6bd6
+=$83e6					gm_s_error	= $83e6
+=$8362					gm_s_type	= $8362
+=$adbd					bk_finish	= $adbd
+=$66ad					gm_key_drive	= $66ad
+=$6a7d					gm_chunk_size	= $6a7d
+=$3d29					N_BROWSERDEV	= $3d29
+=$6fae					gm_printable	= $6fae
+=30					N_AESOWNER	= 30
+=$3de5					N_CLIPBOARD	= $3de5
+=$9993					gfx_glyph_failed= $9993
+=$9d83					gfx_band_next	= $9d83
+=$3d3a					N_UIERROR	= $3d3a
+=$9ef0					gfx_restore_handle= $9ef0
+=$6fc9					gm_del_head	= $6fc9
+=$3da0					N_FNAME		= $3da0
+=$6a1b					gm_chunk_fail	= $6a1b
+=$6569					gm_icon_hit	= $6569
+=$a94e					vd_open		= $a94e
+=7					AE_MINOR	= 7
+=$acf9					bk_enter	= $acf9
+=$a76f					nk_return	= $a76f
+=$70c6					gm_row_drop	= $70c6
+=$9d55					gfx_xor_load	= $9d55
+=$94f8					ae_pointer_y	= $94f8
+=$94f6					ae_pointer_x	= $94f6
+=$1c00					N_LOWLIMIT	= $1c00
+=$7a59					gm_read_rows	= $7a59
+=8					N_PLATFORM	= 8
+=$7dec					gm_bit		= $7dec
+=$6f70					gm_error_hex	= $6f70
+=$7512					gm_fn_done	= $7512
+=$a095					gfx_text_left	= $a095
+=7					WS_FILL		= 7
+=$9f38					gfx_left	= $9f38
+=$3d0c					N_VALUE		= $3d0c
+=$84e5					gm_editor_name	= $84e5
+=$86bb					gm_mwanted	= $86bb
+=32					N_APPOWNER	= 32
+=$adb1					bk_enter_failed	= $adb1
+=$9751					dc_open_failed	= $9751
+=$615f					gm_bind		= $615f
+=$13					N_LONGIMAGE	= $13
+=$9b16					gfx_clip_divide	= $9b16
+=$aa0b					bp_presented	= $aa0b
+=$9380					ae_read_pointer	= $9380
+=$84f5					gm_upnt		= $84f5
+=$946e					ae_menu_write	= $946e
+=$61					GM_ICON_SELECTED= $61
+=$9a77					gfx_clip_intersect= $9a77
+=$86a7					gm_prt_dev	= $86a7
+=12					WF_NEXTXYWH	= 12
+=$7bcb					gm_vslid	= $7bcb
+=$a668					pm_seen		= $a668
+=$8699					gm_mop_module	= $8699
+=29					N_ACCOWNER	= 29
+=$8170					gm_aesvc_name	= $8170
+=0					WS_CREATE	= 0
+=$6bff					gm_view_fail	= $6bff
+=$3d10					N_SLOTS		= $3d10
+=$9d97					gfx_band_failed	= $9d97
+=$9f1b					gfx_color	= $9f1b
+=0					UI_LENGTH	= 0
+=$8770					gm_rb		= $8770
+=$1c59					N_FEDIT		= $1c59
+=$944b					ae_post		= $944b
+=$9f2f					gfx_operation	= $9f2f
+=10					WF_TOP		= 10
+=$b193					bk_write_chunk	= $b193
+=$8648					gm_mod_names	= $8648
+=$6168					gm_aes_setup	= $6168
+=$abc5					bp_error	= $abc5
+=$84fd					gm_doc_kind	= $84fd
+=$98bc					dc_saved	= $98bc
+=$876f					gm_ra		= $876f
+=$705b					gm_drag_loop	= $705b
+=$9a5a					gfx_clip_high	= $9a5a
+=$9711					dc_read		= $9711
+=$1c3b					N_KEYIN		= $1c3b
+=$9adb					gfx_glyph_unclipped= $9adb
+=$a019					gfx_text_advance= $a019
+=$7480					gm_ult_scan_fail= $7480
+=$1c38					N_LAUNCH	= $1c38
+=$6ab0					gm_rec_src2	= $6ab0
+=$86f9					gm_gap		= $86f9
+=$86f2					gm_count	= $86f2
+=$94a1					ae_session_read	= $94a1
+=4					GM_KEYCLICK	= 4
+=$974e					dc_close_failed	= $974e
+=$9f35					gfx_xbyte	= $9f35
+=$988f					dc_code2	= $988f
+=$9a4a					gfx_clip_zero	= $9a4a
+=$a577					pm_right	= $a577
+=$8817					gm_bend		= $8817
+=$a79c					nk_codes	= $a79c
+=14					N_ABI_MINOR	= 14
+=$7182					gm_session_window= $7182
+=$8099					gm_mulrec	= $8099
+=$ab20					bp_iec_name	= $ab20
+=$7d5b					gm_select_index	= $7d5b
+=$a677					pm_event	= $a677
+=$7665					gm_not_usb	= $7665
+=3					N_NOSLOT	= 3
+=$91d5					ae_unload	= $91d5
+=$15					N_CHANNELS	= $15
+=$94af					ae_dclick	= $94af
+=$3d27					N_APPERROR	= $3d27
+=$3e00					N_BROWSERNAME	= $3e00
+=$9ea2					gfx_aligned_write= $9ea2
+=5					UI_VIEW40	= 5
+=$3900					NPAGES1		= $3900
+=$3800					NPAGES0		= $3800
+=$9434					ae_km_set_y	= $9434
+=$b145					bk_select_file	= $b145
+=0					BP_STATE_STORAGE= 0
+=$a66b					pm_sample_line	= $a66b
+=$95fa					gm_paths	= $95fa
+=$9f31					gfx_offset	= $9f31
+=2					N_NOMEM		= 2
+=$aeae					bk_handle	= $aeae
+=$9864					dc_device	= $9864
+=7					N_U_IP		= 7
+=$9271					ae_event_sample	= $9271
+=$819a					gm_icon_y	= $819a
+=9					GM_REC_COUNT	= 9
+=$86f4					gm_drag		= $86f4
+=$881b					gm_s_items	= $881b
+=$85a1					gm_s_usbhex	= $85a1
+=$97f3					dc_close	= $97f3
+=$aead					bk_state	= $aead
+=$9c7d					gfx_mask_last	= $9c7d
+=$9b36					gfx_color_rows	= $9b36
+=$9e0b					gfx_band_set	= $9e0b
+=$68b7					gm_df_next	= $68b7
+=17					WF_DESKCOLOR	= 17
+=$68bf					gm_df_none	= $68bf
+=$1c65					N_MCLOSE	= $1c65
+=$3a00					N_BUFFER	= $3a00
+=$6a2f					gm_load_chunk	= $6a2f
+=$3d97					N_DPAGE		= $3d97
+=$61fa					gm_open_iec	= $61fa
+=$86e1					gm_mbit		= $86e1
+=$766e					gm_usb_error	= $766e
+=$7873					gm_peek_done	= $7873
+=$0800					WK_HSLIDE	= $0800
+=$9f3d					gfx_first	= $9f3d
+=$a67b					pm_columns	= $a67b
+=$ac5c					bk_return	= $ac5c
+=$6afb					gm_ins_inner	= $6afb
+=$3d15					N_LASTKEY	= $3d15
+=$7bbc					gm_max_top	= $7bbc
+=$a00f					gfx_text_saturate= $a00f
+=$a67c					pm_previous	= $a67c
+=31					N_CLIPOWNER	= 31
+=$adc9					bk_check_tails	= $adc9
+=$98c6					dc_eoi		= $98c6
+=40					DC_MAX		= 40
+=$9760					dc_blocks_free	= $9760
+=$8425					gm_about	= $8425
+=$3d0a					N_COUNT		= $3d0a
+=$8794					gm_win_count	= $8794
+=$9f18					gfx_y1		= $9f18
+=$9f14					gfx_y0		= $9f14
+=$9f3b					gfx_old		= $9f3b
+=$aeca					bk_saved_regs	= $aeca
+=6					GM_GAP_COUNT	= 6
+=$3d8b					N_FACTUAL	= $3d8b
+=$6d15					gm_info_page	= $6d15
+=$9b45					gfx_color_multiply= $9b45
+=$abd5					vd_pages	= $abd5
+=$b1c8					bk_crc_buffer	= $b1c8
+=$3d92					N_FPOSITION	= $3d92
+=$b220					bk_prefix	= $b220
+=$6f63					gm_del_badname	= $6f63
+=$6e25					gm_delete_slot	= $6e25
+=$6bd3					gm_menu_view	= $6bd3
+=$7386					gm_path_to_upath= $7386
+=0					BP_MODE		= 0
+=$a66f					pm_old		= $a66f
+=$99d9					gfx_begin	= $99d9
+=6					N_RANGE		= 6
+=$6746					gm_open_selection= $6746
+=$86f6					gm_vslot	= $86f6
+=$7656					gm_title_ok	= $7656
+=$6165					pm_find_hit	= $6165
+=$3d80					N_FOWNER	= $3d80
+=$8160					gm_hex_digits	= $8160
+=$63bb					gm_redraw_desktop= $63bb
+=$3d22					N_NAMELEN	= $3d22
+=$662f					gm_redraw_icon_cells= $662f
+=$a7a6					nk_saved_keys	= $a7a6
+=$b0f0					bk_checksum	= $b0f0
+=1					AE_MAJOR	= 1
+=$a026					gfx_load_glyph	= $a026
+=$9d5a					gfx_xor_store	= $9d5a
+=$8798					gm_win_top	= $8798
+=$abed					vs_token	= $abed
+=$800d					gm_top_slot	= $800d
+=$699c					gm_scan_end	= $699c
+=$755e					gm_ult_rescan	= $755e
+=$9893					dc_status_length= $9893
+=7					AE_OP_MENU_SET	= 7
+=$7870					gm_peek_close	= $7870
+=5					N_WRONGOWNER	= 5
+=$1c47					N_FWRITE	= $1c47
+=24					WM_ARROWED	= 24
+=$8768					gm_art		= $8768
+=$97c7					dc_listed	= $97c7
+=$0200					WK_LFARROW	= $0200
+=$9c47					gfx_read_row	= $9c47
+=$625a					gm_anum32	= $625a
+=$aec6					bk_service	= $aec6
+=$abda					vd_saved	= $abda
+=$1c71					N_UCOMMAND	= $1c71
+=$86fa					gm_gapi		= $86fa
+=$1c44					N_FREAD		= $1c44
+=$8107					gm_decimal4	= $8107
+=$80f9					gm_decimal2	= $80f9
+=$b23c					gm_end		= $b23c
+=$94ee					ae_ev_key	= $94ee
+=1					AE_POINTER	= 1
+=$8393					gm_gaps		= $8393
+=$8425					gm_bad_chars_end= $8425
+=8					GM_NOOVERASK	= 8
+=$b131					bk_close_source	= $b131
+=4					WS_SET		= 4
+=9					GM_MOP_NEWFOLDER= 9
+=$aec9					bk_saved_rcr	= $aec9
+=21					WM_TOPPED	= 21
+=$6861					gm_drive_format	= $6861
+=4					WF_WORKXYWH	= 4
+=$a994					vd_close	= $a994
+=0					pm_control_count= 0
+=4					AE_CAP_MENU	= 4
+=$98c9					dc_dollar	= $98c9
+=27					WM_SIZED	= 27
+=$aec4					bk_error	= $aec4
+=$aeba					bk_current	= $aeba
+=$85bd					gm_restoring	= $85bd
+=$6a1c					gm_resort_slot	= $6a1c
+=$a62e					pm_positive	= $a62e
+=$942a					ae_km_up	= $942a
+=$3d96					N_FFORMAT	= $3d96
+=$4000					AC_BASE		= $4000
+=2					AE_OP_ALERT	= 2
+=$768e					gm_ult_delete	= $768e
+=$0100					WK_VSLIDE	= $0100
+=$614c					gm_setup_done	= $614c
+=$a634					pm_no_delta	= $a634
+=$9fef					gfx_text_unknown= $9fef
+=$9e7e					gfx_aligned_clear= $9e7e
+=$8605					gm_magic	= $8605
+=$6739					gm_print_screen	= $6739
+=64					GM_RECORD_SIZE	= 64
+=25					WM_HSLID	= 25
+=$9a3f					gfx_clip_limit	= $9a3f
+=16					AC_PAGES	= 16
+=$84ad					gm_drive_alert_hex= $84ad
+=$10					N_BADIMAGE	= $10
+=$6bc1					gm_fa		= $6bc1
+=$6bc5					gm_fb		= $6bc5
+=$3d40					N_APPNAME	= $3d40
+=$9ff1					gfx_text_code	= $9ff1
+=$a448					pm_install_return= $a448
+=$0008					WK_MOVER	= $0008
+=$a04a					gfx_text_load	= $a04a
+=$b0eb					bk_short_image	= $b0eb
+=$86d7					gm_file		= $86d7
+=$9fd1					gfx_text_failed	= $9fd1
+=$876e					gm_t8		= $876e
+=$b17d					bk_io_return	= $b17d
+=$1076					pk_restore_columns= $1076
+=$9d00					gfx_write_row	= $9d00
+=$9e97					gfx_aligned_copy= $9e97
+=$63a5					gm_redraw_window= $63a5
+=$1c50					N_DIRPAGE	= $1c50
+=4					N_BADHANDLE	= 4
+=10					MN_SELECTED	= 10
+=$c000					AE_LIMIT	= $c000
+=$3d1b					N_MSTATE	= $3d1b
+=$a66e					BP_POINTER_Y	= $a66e
+=$a66c					BP_POINTER_X	= $a66c
+=$3f00					N_SOURCEPATH	= $3f00
+=$9892					dc_byte		= $9892
+=$a67d					pm_sample	= $a67d
+=$1c2c					gfx_heap_fill	= $1c2c
+=$6e2f					gm_delete_one	= $6e2f
+=$819f					gm_icon_art	= $819f
+=$7e5a					gm_select_all	= $7e5a
+=$78c6					gm_suffix_no	= $78c6
+=$a5b8					pm_top		= $a5b8
+=$3d9a					N_DOCREQUEST	= $3d9a
+=$73bf					gm_ult_open	= $73bf
+=0					PM_KEYS_EXTERNAL= 0
+=$a673					pm_buttons	= $a673
+=$9ce6					gfx_store	= $9ce6
+=10					GM_REC_WINDOWS	= 10
+=3					WS_DELETE	= 3
+=$3d1a					N_MERROR	= $3d1a
+=$a668					BP_POINTER_STATE= $a668
+=0					NK_SAVED_BUFFER	= 0
+=64					AE_CAP_ACC	= 64
+=$6402					gm_icons_done	= $6402
+=$6f6c					gm_del_error	= $6f6c
+=$94f0					ae_ev_tick	= $94f0
+=$7349					gm_path_io	= $7349
+=$74b9					gm_fn_found	= $74b9
+=$98c5					dc_sa		= $98c5
+=$65ad					gm_click_at	= $65ad
+=$9968					gfx_rect	= $9968
+=$97d2					dc_get		= $97d2
+=$7f36					gm_band_row	= $7f36
+=$3d03					N_PAGE		= $3d03
+=$9f4b					gfx_band_allowed= $9f4b
+=$66ca					gm_menu_choice	= $66ca
+=1					UI_CARET	= 1
+=$9e99					gfx_aligned_copy_next= $9e99
+=$6237					gm_close_file	= $6237
+=$6e81					gm_del_ask	= $6e81
+=9					N_CORRUPT	= 9
+=$8375					gm_s_files	= $8375
+=$68c2					gm_scan		= $68c2
+=$b0fa					bk_close	= $b0fa
+=$aec1					bk_entry	= $aec1
+=$a5ba					pm_set_y	= $a5ba
+=$a585					pm_set_x	= $a585
+=$9af3					gfx_store_clip_next= $9af3
+=$a9e7					bp_return	= $a9e7
+=$9a27					gfx_clip_next	= $9a27
+=$a5bd					pm_hit_test	= $a5bd
+=$838d					gm_s_ok		= $838d
+=$9f33					gfx_span	= $9f33
+=$6763					gm_open_icon	= $6763
+=$10a9					pk_rejects	= $10a9
+=$1c29					N_WRITE		= $1c29
+=$62ee					gm_leave	= $62ee
+=$a588					pm_vertical	= $a588
+=$6ba3					gm_cmp_out	= $6ba3
+=$85c2					gm_spos		= $85c2
+=$1c29					gfx_heap_write	= $1c29
+=$9f27					gfx_clipped	= $9f27
+=$3d60					N_APPHEADER	= $3d60
+=$aebf					bk_length	= $aebf
+=16					MU_MESAG	= 16
+=$16					GM_SELECTED	= $16
+=$abbc					vm_pending	= $abbc
+=$9d94					gfx_band_done	= $9d94
+=$3d90					N_FSTATUS	= $3d90
+=$79bc					gm_rows_done	= $79bc
+=$94f2					ae_surface	= $94f2
+=$9ee8					gfx_select	= $9ee8
+=$c000					BK_LIMIT	= $c000
+=$a055					gfx_text_buffer	= $a055
+=$847f					gm_start_alert_hex= $847f
+=$8399					gm_s_delete	= $8399
+=$a9de					bp_close_failed	= $a9de
+=$7058					gm_drag_track	= $7058
+=$a097					gfx_text_high	= $a097
+=$963e					dc_command	= $963e
+=$1c35					N_RESERVE	= $1c35
+=$86ba					gm_mloaded	= $86ba
+=$9d7b					gfx_band_write	= $9d7b
+=$8765					gm_cy		= $8765
+=25					GM_BITS		= 25
+=$7808					gm_peek		= $7808
+=$9fb1					gfx_text	= $9fb1
+=$9e8f					gfx_aligned_store= $9e8f
+=$9d46					gfx_band_xor	= $9d46
+=$81ca					gm_label_usb	= $81ca
+=$6338					gm_alert_done	= $6338
+=$877a					gm_ww		= $877a
+=$9f30					gfx_y		= $9f30
+=$96e6					dc_status_read	= $96e6
+=$8779					gm_wy		= $8779
+=$8778					gm_wx		= $8778
+=$729a					gm_module_fail	= $729a
+=$8d04					ae_state	= $8d04
+=$b0e1					bk_bad_image	= $b0e1
+=5					WF_CURRXYWH	= 5
+=$b182					bk_select_code	= $b182
+=$877b					gm_wh		= $877b
+=$abc2					bp_started	= $abc2
+=$6098					gm_fatal_text	= $6098
+=$3d30					N_BROWSERPOS	= $3d30
+=$933d					ae_wait_moved	= $933d
+=$94fa					gm_path		= $94fa
+=$6838					gm_open_fail	= $6838
+=$0001					WK_NAME		= $0001
+=2					GM_NOCOPYASK	= 2
+=13					AE_OP_COUNT	= 13
+=$804b					gm_free_slot	= $804b
+=$14					N_CHECKSUM	= $14
+=10					AE_OP_SESSION	= 10
+=$7e06					gm_first_sel	= $7e06
+=$3d04					N_HANDLE	= $3d04
+=$6ce0					gm_info_icon	= $6ce0
+=127					DC_LFN		= 127
+=$9b18					gfx_clip_shift	= $9b18
+=$93d5					ae_km_move	= $93d5
+=$3d35					N_UIPTR		= $3d35
+=$9ee1					gfx_glyph_second_visible= $9ee1
+=$9e35					gfx_aligned_glyph= $9e35
+=$78c8					gm_paint_window	= $78c8
+=32					MU_TIMER	= 32
+=$8700					AE_BASE		= $8700
+=$7714					gm_iec_document	= $7714
+=$abe9					vd_pointer_x	= $abe9
+=$9357					ae_wait_time	= $9357
+=$5000					gm_rows		= $5000
+=$8847					gm_order	= $8847
+=$3d81					N_FHANDLE	= $3d81
+=$740a					gm_scan_ult	= $740a
+=$7933					gm_paint_reset	= $7933
+=$1068					pk_read_key	= $1068
+=2					WF_NAME		= 2
+=32					NSLOTS		= 32
+=$994c					gfx_finish	= $994c
+=$8769					gm_row		= $8769
+=$0010					WK_INFO		= $0010
+=$50					N_FIRST0	= $50
+=$abf7					bp_backend_pending= $abf7
+=$aec8					bk_carry	= $aec8
+=$9cab					gfx_load	= $9cab
+=$6fcd					gm_fail_head	= $6fcd
+=$6db7					gm_astr		= $6db7
+=$a5b4					pm_bottom	= $a5b4
+=$6680					gm_key_move	= $6680
+=$3d86					N_FNAMELEN	= $3d86
+=11					WF_FIRSTXYWH	= 11
+=$10ab					pk_columns	= $10ab
+=$8a4b					aes		= $8a4b
+=23					WM_FULLED	= 23
+=$a4a6					pm_settling	= $a4a6
+=$926b					ae_event_next	= $926b
+=121					GM_PRT_LFN	= 121
+=$6000					gm_image	= $6000
+=$8763					gm_item		= $8763
+=9					WS_OUTLINE	= 9
+=$72cd					gm_ult_probe	= $72cd
+=$9f4f					gfx_clip_pixels	= $9f4f
+=$aa55					bp_invoke	= $aa55
+=$9de8					gfx_band_load	= $9de8
+=$3d89					N_FCOUNT	= $3d89
+=$c000					N_APPLIMIT	= $c000
+=$6772					gm_open_drive	= $6772
+=$6891					gm_df_scan	= $6891
+=$9fb1					gfx_end		= $9fb1
+=$10a7					pk_next		= $10a7
+=$9de5					gfx_band_mask_ready= $9de5
+=$1074					pk_accept	= $1074
+=$b23a					bk_crc_left	= $b23a
+=$abbd					bp_file		= $abbd
+=$6c85					gm_aname_done	= $6c85
+=$70f2					gm_release_done	= $70f2
+=$b156					bk_read_chunk	= $b156
+=$86f5					gm_view		= $86f5
+=$a533					pm_absent	= $a533
+=$9db5					gfx_band_masked	= $9db5
+=$8143					gm_hex_error	= $8143
+=$6fe6					gm_refresh_loop	= $6fe6
+=0					GFX_FONT_COLUMNS= 0
+=$785e					gm_peek_sheet	= $785e
+=$3d02					N_BANK		= $3d02
+=$9b2a					gfx_clip_defaults= $9b2a
+=$76d2					gm_ult_del_error= $76d2
+=2					N_U_DRIVES	= 2
+=$4000					N_SERVICEBASE	= $4000
+=$7c18					gm_repaint_all	= $7c18
+=$3d21					N_DEVICE	= $3d21
+=$86df					gm_dev		= $86df
+=$676e					gm_open_none	= $676e
+=$9f57					gfx_clip_cells	= $9f57
+=$793b					gm_draw_rows	= $793b
+=$661d					gm_click_done	= $661d
+=1					GM_MOP_INFO	= 1
+=$a473					pm_poll		= $a473
+=$a096					gfx_text_index	= $a096
+=$76c0					gm_ult_del_unknown= $76c0
+=$b232					bk_count	= $b232
+=$8764					gm_cx		= $8764
+=$793a					gm_paint_done	= $793a
+=$98ee					sd_click	= $98ee
+=$1c6e					N_UQUERY	= $1c6e
+=$923f					ae_alert_step	= $923f
+=$3d17					N_MTOKEN	= $3d17
+=$9cdb					gfx_copy	= $9cdb
+=$aace					bp_load		= $aace
+=$1c56					N_WORKSPACE	= $1c56
+=$b23c					gm_module	= $b23c
+=$1c4d					N_FRELEASE	= $1c4d
+=$9cc7					gfx_clear	= $9cc7
+=$3c00					NHANDLES	= $3c00
+=$aec5					bk_operation	= $aec5
+=$a9aa					bp_dispose	= $a9aa
+=$b1de					bk_crc_get	= $b1de
+=$9957					gfx_success	= $9957
+=$693f					gm_scan_record	= $693f
+=$abcf					bp_state	= $abcf
+=$abd2					vd_fault	= $abd2
+=$9f3f					gfx_bits	= $9f3f
+=28					WM_MOVED	= 28
+=3					GM_MOP_FORMAT	= 3
+=$809b					gm_mul		= $809b
+=$7e2a					gm_each		= $7e2a
+=$95fe					gm_rec_addr	= $95fe
+=$abf5					ru_active	= $abf5
+=$9aec					gfx_empty	= $9aec
+=$3d39					N_UIFLAGS	= $3d39
+=$997a					gfx_glyph	= $997a
+=$8615					gm_inf_scratch	= $8615
+=$853f					gm_nlen		= $853f
+=$94c7					ae_dirty	= $94c7
+=$9372					ae_wait_done	= $9372
+=$6403					gm_draw_icons	= $6403
+=$86fd					gm_pos		= $86fd
+=$609b					gm_surface_setup= $609b
+=$87a4					gm_win_bits	= $87a4
+=$3d00					N_OWNER		= $3d00
+=21					GM_RECORD	= 21
+=$ae91					bk_services	= $ae91
+=$8185					gm_types	= $8185
+=$3d11					N_BUSY		= $3d11
+=$7940					gm_row_loop	= $7940
+=$62a7					gm_dirty_from	= $62a7
+=$86ff					gm_cmpb		= $86ff
+=$6f94					gm_status_text	= $6f94
+=$94a5					ae_session_write= $94a5
+=$3d2c					N_APPFORMAT	= $3d2c
+=$9f23					gfx_limits	= $9f23
+=$913c					ae_detach	= $913c
+=1					AE_CAP_ALERT	= 1
+=$9e00					gfx_band_clear	= $9e00
+=24					GM_CHUNK	= 24
+=$1300					N_LOWBASE	= $1300
+=$817e					gm_drive_title	= $817e
+=$61					GM_PAPER	= $61
+=$abe8					vd_pointer_visible= $abe8
+=0					PM_SECONDARY	= 0
+=$8780					gm_clip		= $8780
+=5					GM_ICONS	= 5
+=$04					N_FIRST1	= $04
+=$aebe					bk_pages	= $aebe
+=3					WF_INFO		= 3
+=$996e					gfx_colors	= $996e
+=$6b9e					gm_cmp_ordinal	= $6b9e
+=9					AE_OP_SHUTDOWN	= 9
+=$736e					gm_pr		= $736e
+=$76d5					gm_ucmd		= $76d5
+=$7beb					gm_scroll_to_selection= $7beb
+=$1c32					N_RELEASE	= $1c32
+=$6f91					gm_del_status	= $6f91
+=$8774					gm_mul_b	= $8774
+=$8773					gm_mul_a	= $8773
+=$70ea					gm_drop		= $70ea
+=$7da7					gm_select_set	= $7da7
+=$6233					gm_open_bad	= $6233
+=$6dd5					gm_anum		= $6dd5
+=$aa18					bp_ok		= $aa18
+=$8062					gm_select_mem	= $8062
+=$988e					dc_code		= $988e
+=$786d					gm_peek_kind	= $786d
+=$7c36					gm_update_slider= $7c36
+=$9f3a					gfx_mask	= $9f3a
+=$7216					gm_file_select	= $7216
+=$3d8d					N_FEOF		= $3d8d
+=$6ba7					gm_cmp_raw	= $6ba7
+=$9974					gfx_set_clip	= $9974
+=$3d88					N_FTYPE		= $3d88
+=$4f00					N_USTATUS	= $4f00
+=$3d87					N_FMODE		= $3d87
+=4					AE_OP_EVENT	= 4
+=$3d26					N_IOSTATUS	= $3d26
+=$8766					gm_i		= $8766
+=$86f7					gm_k		= $86f7
+=$8767					gm_j		= $8767
+=$9863					dc_field_done	= $9863
+=$86fe					gm_other	= $86fe
+=$86e2					gm_q		= $86e2
+=$86fb					gm_i2		= $86fb
+=$9d9a					gfx_band_select	= $9d9a
+=$6c71					gm_aname	= $6c71
+=$7279					gm_module_call	= $7279
+=$967b					dc_begin	= $967b
+=$9204					ae_register	= $9204
+=$6adc					gm_sort		= $6adc
+=$8a4b					ae_call		= $8a4b
+=8					MU_M2		= 8
+=$9af1					gfx_store_clip	= $9af1
+=$3d8e					N_FERROR	= $3d8e
+=$85ad					gm_s_free	= $85ad
+=$7b67					gm_arrowed	= $7b67
+=$81bc					gm_label_9	= $81bc
+=10					WS_TEXT		= 10
+=$71e7					gm_session_save	= $71e7
+=$a79b					nk_active	= $a79b
+=$7626					gm_title_usb	= $7626
+=$9894					dc_status	= $9894
+=$9f1a					gfx_pen		= $9f1a
+=7					N_REENTRANT	= 7
+=$72e9					gm_prt_probe	= $72e9
+=$765d					gm_title_end	= $765d
+=$81ad					gm_icon_label_lo= $81ad
+=$755b					gm_ult_enter	= $755b
+=$66a5					gm_key_set	= $66a5
+=$6d68					gm_info_sum	= $6d68
+=$a671					pm_pots		= $a671
+=$860a					gm_inf_name	= $860a
+=$aba3					vm_rows		= $aba3
+=$3d3d					N_UARG		= $3d3d
+=$a9e8					vm_present	= $a9e8
+=3					UI_BUFFER	= 3
+=$7623					gm_title_set	= $7623
+=$0002					WK_CLOSER	= $0002
+=$9a51					gfx_clip_copy	= $9a51
+=$6b41					gm_compare	= $6b41
+=$930a					ae_event_fired	= $930a
+=$9f36					gfx_columns	= $9f36
+=5					GM_MOP_USBINFO	= 5
+=$9f1c					gfx_error	= $9f1c
+=$6aa3					gm_chunk_next	= $6aa3
+=$5000					N_SERVICELIMIT	= $5000
+=$7874					gm_text_suffix	= $7874
+=$880c					gm_bitmask	= $880c
+=$7fd6					gm_launch_fail	= $7fd6
+=4					GM_MOP_CONTROL	= 4
+=$9e6c					gfx_aligned_ink	= $9e6c
+=$a390					pm_install	= $a390
+=8					GM_MOP_SAVEDESK	= 8
+=$7c90					gm_wset_simple	= $7c90
+=$85c5					gm_session	= $85c5
+=$8847					gm_dirpage	= $8847
+=$836a					gm_s_blocks	= $836a
+=$86aa					gm_lock_name	= $86aa
+=$9824					dc_field_track	= $9824
+=$94cb					ae_ev_params	= $94cb
+=1					FO_PRESENT	= 1
+=1					BP_TRACK_DIRTY	= 1
+=$abf8					bk_call		= $abf8
+=$6c73					gm_info_name	= $6c73
+=$9ec6					gfx_glyph_shift	= $9ec6
+=$83ee					gm_badname_alert= $83ee
+=$6eb4					gm_del_go	= $6eb4
+=26					WM_VSLID	= 26
+=7					UI_FILTER	= 7
+=$a9f7					vd_select	= $a9f7
+=$86a6					gm_alert_default= $86a6
+=$749e					gm_fn_next	= $749e
+=32					BK_OWNER	= 32
+=$81b7					gm_label_boot	= $81b7
+=$7767					gm_usb_document	= $7767
+=$9a03					gfx_pixel_limits= $9a03
+=$a981					bp_open_failed	= $a981
+=$6dec					gm_read_record	= $6dec
+=$5000					gm_sortbuf	= $5000
+=$a021					gfx_text_done	= $a021
+=$a67f					pm_init_saved	= $a67f
+=16					WF_VSLSIZE	= 16
+=$acd3					bk_service_bad	= $acd3
+=$84f9					gm_usht		= $84f9
+=$aa1c					bp_fault	= $aa1c
+=$7478					gm_ult_scan_done= $7478
+=0					BP_SHARED_MEMORY= 0
+=$a62f					pm_delta_done	= $a62f
+=$946b					ae_menu_read	= $946b
+=$b0d7					bk_load_success	= $b0d7
+=$9890					dc_track	= $9890
+=$6339					gm_alert_rows	= $6339
+=$1c62					N_MCALL		= $1c62
+=$81a4					gm_icon_on	= $81a4
+=$698b					gm_scan_skip	= $698b
+=$81ce					gm_label_printer= $81ce
+=$9d1c					gfx_band	= $9d1c
+=1					MU_KEYBD	= 1
+=$83e4					gm_s_bar	= $83e4
+=$a67e					pm_high		= $a67e
+=$3d2f					N_DESKTOPSEL	= $3d2f
+=16					AE_CAP_SESSION	= 16
+=$9a1d					gfx_limits_y	= $9a1d
+=$b0e6					bk_long_image	= $b0e6
+=$a544					pm_move		= $a544
+=16					GM_PAGES	= 16
+=$3d91					N_FBUSY		= $3d91
+=$86f3					gm_page		= $86f3
+=$990c					gfx_bind	= $990c
+=$9fe1					gfx_text_next	= $9fe1
+=$8788					gm_win_handle	= $8788
+=$6c0b					gm_view_checks	= $6c0b
+=$7aa0					gm_read_none	= $7aa0
+=$6fe1					gm_refresh_drive= $6fe1
+=$3d8f					N_FDOS		= $3d8f
+=$8456					gm_start_alert	= $8456
+=$6cdd					gm_info_fail	= $6cdd
+=$a97d					bp_open_bad	= $a97d
+=$8784					gm_rect		= $8784
+=$3d34					N_BROWSERNAME_LEN= $3d34
+=$b234					bk_offset	= $b234
+=$8771					gm_num		= $8771
+=7					WF_FULLXYWH	= 7
+=$98c7					dc_free		= $98c7
+=$0400					WK_RTARROW	= $0400
+=$614d					pm_select_surface= $614d
+=$9f4e					gfx_band_first	= $9f4e
+=$79bd					gm_rows_fail	= $79bd
+=$9fcf					gfx_text_badarg	= $9fcf
+=$9b2c					gfx_clip_reset_next= $9b2c
+=0					NK_LOCAL_HELP	= 0
+=$6bc9					gm_name_key	= $6bc9
+
+;******  Return to file: src/native/gemdesk-dlg.asm
+
+.b23c					gm_dlg:
+>b23c	4e 4d 4f 44			        .text "nmod"
+>b240	01 01 0e 00			        .byte 1,1,14,0
+>b244	a0 0b				        .word gm_dlg_end-gm_dlg
+>b246	00 00				        .word 0
+>b248	10 00				        .word dlg.entry-gm_dlg
+>b24a	00 00				        .word 0
+.b24c					dlg
+.b24c					entry:
+.b24c	a2 03		ldx #$03	        ldx #3                  ; forms draw on the desktop's surface
+.b24e	bd d3 86	lda $86d3,x	-       lda gm_surface,x
+.b251	9d 9a bd	sta $bd9a,x	        sta fo_surface,x
+.b254	ca		dex		        dex
+.b255	10 f7		bpl $b24e	        bpl -
+.b257	4c 5a b2	jmp $b25a	        jmp gm_info_dialog
+.b25a					gm_info_dialog:
+.b25a	a2 00		ldx #$00	        ldx #0                  ; the name into the field
+.b25c	bd 32 88	lda $8832,x	-       lda gm_rec,x
+.b25f	c9 a0		cmp #$a0	        cmp #$a0
+.b261	f0 08		beq $b26b	        beq +
+.b263	9d d9 b3	sta $b3d9,x	        sta gm_name_buf,x
+.b266	e8		inx		        inx
+.b267	e0 10		cpx #$10	        cpx #16
+.b269	d0 f1		bne $b25c	        bne -
+.b26b	8e d1 b3	stx $b3d1	+       stx gm_name_field
+.b26e	a9 00		lda #$00	        lda #0
+.b270	9d d9 b3	sta $b3d9,x	        sta gm_name_buf,x
+.b273	8d 02 87	sta $8702	        sta gm_alen             ; "Type: SEQ  Blocks: 1"
+.b276	20 86 6c	jsr $6c86	        jsr gm_atype
+.b279	ae 02 87	ldx $8702	        ldx gm_alen
+.b27c	a9 00		lda #$00	        lda #0
+.b27e	9d 03 87	sta $8703,x	        sta gm_abuf,x
+.b281	a2 00		ldx #$00	        ldx #0
+.b283	bd 03 87	lda $8703,x	-       lda gm_abuf,x
+.b286	9d ea b3	sta $b3ea,x	        sta gm_info_line,x
+.b289	f0 03		beq $b28e	        beq +
+.b28b	e8		inx		        inx
+.b28c	d0 f5		bne $b283	        bne -
+.b28e	ad 43 88	lda $8843	+       lda gm_rec+17           ; read-only: the lock bit of its type
+.b291	29 40		and #$40	        and #$40
+.b293	f0 02		beq $b297	        beq +
+.b295	a9 01		lda #$01	        lda #FOS_SELECTED
+.b297	8d 31 b4	sta $b431	+       sta gm_info_form+5+4*8+2
+.b29a	a9 0a		lda #$0a	        lda #<gm_info_form
+.b29c	a2 b4		ldx #$b4	        ldx #>gm_info_form
+.b29e	20 9d b3	jsr $b39d	        jsr gm_form
+.b2a1	b0 50		bcs $b2f3	        bcs gm_dialog_fail
+.b2a3	c9 05		cmp #$05	        cmp #5                  ; OK
+.b2a5	d0 4b		bne $b2f2	        bne gm_dialog_done
+.b2a7	ad 43 88	lda $8843	        lda gm_rec+17
+.b2aa	29 40		and #$40	        and #$40
+.b2ac	8d 85 b3	sta $b385	        sta gm_listed_lock
+.b2af	ad 31 b4	lda $b431	        lda gm_info_form+5+4*8+2
+.b2b2	4a		lsr a		        lsr
+.b2b3	a9 00		lda #$00	        lda #0
+.b2b5	90 02		bcc $b2b9	        bcc +
+.b2b7	a9 40		lda #$40	        lda #$40
+.b2b9	cd 85 b3	cmp $b385	+       cmp gm_listed_lock
+.b2bc	f0 17		beq $b2d5	        beq gm_info_name
+.b2be	09 80		ora #$80	        ora #$80                ; Read-only changed: the lock to set, and the name
+.b2c0	8d a9 86	sta $86a9	        sta gm_lock_want
+.b2c3	a2 0f		ldx #$0f	        ldx #15
+.b2c5	a9 a0		lda #$a0	-       lda #$a0
+.b2c7	ec d1 b3	cpx $b3d1	        cpx gm_name_field
+.b2ca	b0 03		bcs $b2cf	        bcs +
+.b2cc	bd d9 b3	lda $b3d9,x	        lda gm_name_buf,x
+.b2cf	9d aa 86	sta $86aa,x	+       sta gm_lock_name,x
+.b2d2	ca		dex		        dex
+.b2d3	10 f0		bpl $b2c5	        bpl -
+.b2d5					gm_info_name:
+.b2d5	a2 00		ldx #$00	        ldx #0                  ; the same name: nothing to do
+.b2d7	ec d1 b3	cpx $b3d1	-       cpx gm_name_field
+.b2da	f0 0b		beq $b2e7	        beq +
+.b2dc	bd d9 b3	lda $b3d9,x	        lda gm_name_buf,x
+.b2df	dd 32 88	cmp $8832,x	        cmp gm_rec,x
+.b2e2	d0 12		bne $b2f6	        bne gm_rename
+.b2e4	e8		inx		        inx
+.b2e5	d0 f0		bne $b2d7	        bne -
+.b2e7	e0 10		cpx #$10	+       cpx #16
+.b2e9	f0 07		beq $b2f2	        beq gm_dialog_done
+.b2eb	bd 32 88	lda $8832,x	        lda gm_rec,x
+.b2ee	c9 a0		cmp #$a0	        cmp #$a0
+.b2f0	d0 04		bne $b2f6	        bne gm_rename
+.b2f2					gm_dialog_done:
+.b2f2	60		rts		        rts
+.b2f3					gm_dialog_fail:
+.b2f3	4c ff 6b	jmp $6bff	        jmp gm_view_fail
+.b2f6					gm_rename:
+.b2f6	ad d1 b3	lda $b3d1	        lda gm_name_field
+.b2f9	f0 63		beq $b35e	        beq gm_rename_bad
+.b2fb	a0 03		ldy #$03	        ldy #3
+.b2fd	a2 00		ldx #$00	        ldx #0
+.b2ff	bd d9 b3	lda $b3d9,x	-       lda gm_name_buf,x       ; the new name
+.b302	20 86 b3	jsr $b386	        jsr gm_dos_char
+.b305	b0 57		bcs $b35e	        bcs gm_rename_bad
+.b307	99 66 98	sta $9866,y	        sta dc_text,y
+.b30a	c8		iny		        iny
+.b30b	e8		inx		        inx
+.b30c	ec d1 b3	cpx $b3d1	        cpx gm_name_field
+.b30f	d0 ee		bne $b2ff	        bne -
+.b311	a9 3d		lda #$3d	        lda #$3d                ; =
+.b313	99 66 98	sta $9866,y	        sta dc_text,y
+.b316	c8		iny		        iny
+.b317	a2 00		ldx #$00	        ldx #0
+.b319	bd 32 88	lda $8832,x	-       lda gm_rec,x            ; the old name
+.b31c	c9 a0		cmp #$a0	        cmp #$a0
+.b31e	f0 0e		beq $b32e	        beq +
+.b320	20 86 b3	jsr $b386	        jsr gm_dos_char
+.b323	b0 39		bcs $b35e	        bcs gm_rename_bad
+.b325	99 66 98	sta $9866,y	        sta dc_text,y
+.b328	c8		iny		        iny
+.b329	e8		inx		        inx
+.b32a	e0 10		cpx #$10	        cpx #16
+.b32c	d0 eb		bne $b319	        bne -
+.b32e	8c 65 98	sty $9865	+       sty dc_length
+.b331	a9 52		lda #$52	        lda #$52                ; R0:
+.b333	8d 66 98	sta $9866	        sta dc_text
+.b336	a9 30		lda #$30	        lda #$30
+.b338	8d 67 98	sta $9867	        sta dc_text+1
+.b33b	a9 3a		lda #$3a	        lda #$3a
+.b33d	8d 68 98	sta $9868	        sta dc_text+2
+.b340	ae de 86	ldx $86de	        ldx gm_slot
+.b343	bd 8c 87	lda $878c,x	        lda gm_win_dev,x
+.b346	8d 64 98	sta $9864	        sta dc_device
+.b349	8d df 86	sta $86df	        sta gm_dev
+.b34c	bd 90 87	lda $8790,x	        lda gm_win_fmt,x
+.b34f	8d e0 86	sta $86e0	        sta gm_fmt
+.b352	20 3e 96	jsr $963e	        jsr dc_command
+.b355	b0 0d		bcs $b364	        bcs gm_rename_error
+.b357	c9 00		cmp #$00	        cmp #0
+.b359	d0 17		bne $b372	        bne gm_rename_status
+.b35b	4c e1 6f	jmp $6fe1	        jmp gm_refresh_drive
+.b35e					gm_rename_bad:
+.b35e	20 7f b3	jsr $b37f	        jsr gm_lock_withdraw
+.b361	4c 63 6f	jmp $6f63	        jmp gm_del_badname
+.b364					gm_rename_error:
+.b364	48		pha		        pha
+.b365	20 7f b3	jsr $b37f	        jsr gm_lock_withdraw
+.b368	a9 72		lda #$72	        lda #<gm_s_norename
+.b36a	a2 b4		ldx #$b4	        ldx #>gm_s_norename
+.b36c	20 cd 6f	jsr $6fcd	        jsr gm_fail_head
+.b36f	4c 70 6f	jmp $6f70	        jmp gm_error_hex
+.b372					gm_rename_status:
+.b372	20 7f b3	jsr $b37f	        jsr gm_lock_withdraw
+.b375	a9 72		lda #$72	        lda #<gm_s_norename
+.b377	a2 b4		ldx #$b4	        ldx #>gm_s_norename
+.b379	20 cd 6f	jsr $6fcd	        jsr gm_fail_head
+.b37c	4c 94 6f	jmp $6f94	        jmp gm_status_text
+.b37f					gm_lock_withdraw:
+.b37f	a9 00		lda #$00	        lda #0
+.b381	8d a9 86	sta $86a9	        sta gm_lock_want
+.b384	60		rts		        rts
+>b385	00				gm_listed_lock: .byte 0
+.b386					gm_dos_char:
+.b386	8e 6d 87	stx $876d	        stx gm_math4
+.b389	a2 06		ldx #$06	        ldx #gm_bad_chars_end-gm_bad_chars-1
+.b38b	dd 1e 84	cmp $841e,x	-       cmp gm_bad_chars,x
+.b38e	f0 08		beq $b398	        beq +
+.b390	ca		dex		        dex
+.b391	10 f8		bpl $b38b	        bpl -
+.b393	ae 6d 87	ldx $876d	        ldx gm_math4
+.b396	18		clc		        clc
+.b397	60		rts		        rts
+.b398	ae 6d 87	ldx $876d	+       ldx gm_math4
+.b39b	38		sec		        sec
+.b39c	60		rts		        rts
+.b39d					gm_form:
+.b39d	8d cf b3	sta $b3cf	        sta gm_form_ptr
+.b3a0	8e d0 b3	stx $b3d0	        stx gm_form_ptr+1
+.b3a3	20 5f 61	jsr $615f	        jsr gm_bind
+.b3a6	b0 1e		bcs $b3c6	        bcs gm_form_done
+.b3a8	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b3ab	ad cf b3	lda $b3cf	        lda gm_form_ptr
+.b3ae	ae d0 b3	ldx $b3d0	        ldx gm_form_ptr+1
+.b3b1	20 88 b4	jsr $b488	        jsr fo_open
+.b3b4	b0 10		bcs $b3c6	        bcs gm_form_done
+.b3b6	20 74 b5	jsr $b574	        jsr fo_do
+.b3b9	b0 0c		bcs $b3c7	        bcs gm_form_close_error
+.b3bb	8d ce b3	sta $b3ce	        sta gm_form_exit
+.b3be	20 41 b5	jsr $b541	        jsr fo_close
+.b3c1	b0 03		bcs $b3c6	        bcs gm_form_done
+.b3c3	ad ce b3	lda $b3ce	        lda gm_form_exit
+.b3c6					gm_form_done:
+.b3c6	60		rts		        rts
+.b3c7					gm_form_close_error:
+.b3c7	48		pha		        pha
+.b3c8	20 41 b5	jsr $b541	        jsr fo_close
+.b3cb	68		pla		        pla
+.b3cc	38		sec		        sec
+.b3cd	60		rts		        rts
+>b3ce	00				gm_form_exit: .byte 0
+>b3cf	00 00				gm_form_ptr: .word 0
+>b3d1	00 00 10			gm_name_field: .byte 0,0,16     ; N_FEDIT record: length, caret, maximum,
+>b3d4	d9 b3				        .word gm_name_buf       ; buffer, 40/80-column views, IEC filename filter
+>b3d6	00 00 03			        .byte 0,0,3
+>b3d9	00 00 00 00 00 00 00 00		gm_name_buf: .fill 17,0
+>b3e1	00 00 00 00 00 00 00 00 00
+>b3ea	00 00 00 00 00 00 00 00		gm_info_line: .fill 32,0
+>b3f2	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>b402	00 00 00 00 00 00 00 00
+>b40a	ff 00 1e 0a 07			gm_info_form: .byte $ff,0,30,10,7
+>b40f	01 00 00 02 01 14		        .byte FOT_TEXT,0,0,2,1,20
+>b415	47 b4				        .word gm_t_info
+>b417	01 00 00 02 03 05		        .byte FOT_TEXT,0,0,2,3,5
+>b41d	58 b4				        .word gm_t_name
+>b41f	05 00 00 08 03 11		        .byte FOT_FIELD,0,0,8,3,17
+>b425	d1 b3				        .word gm_name_field
+>b427	01 00 00 02 04 1a		        .byte FOT_TEXT,0,0,2,4,26
+>b42d	ea b3				        .word gm_info_line
+>b42f	03 00 02 02 05 0c		        .byte FOT_CHECK,0,FOS_DISABLED,2,5,12
+>b435	5e b4				        .word gm_t_readonly
+>b437	02 03 00 08 07 08		        .byte FOT_BUTTON,FOF_DEFAULT|FOF_EXIT,0,8,7,8
+>b43d	68 b4				        .word gm_t_ok
+>b43f	02 06 00 12 07 08		        .byte FOT_BUTTON,FOF_CANCEL|FOF_EXIT,0,18,7,8
+>b445	6b b4				        .word gm_t_cancel
+>b447	49 74 65 6d 20 49 6e 66		gm_t_info: .byte 73,116,101,109,32,73,110,102,111,114,109,97,116,105,111,110,0   ; Item Information
+>b44f	6f 72 6d 61 74 69 6f 6e 00
+>b458	4e 61 6d 65 3a 00		gm_t_name: .byte 78,97,109,101,58,0   ; Name:
+>b45e	52 65 61 64 2d 6f 6e 6c		gm_t_readonly: .byte 82,101,97,100,45,111,110,108,121,0   ; Read-only
+>b466	79 00
+>b468	4f 4b 00			gm_t_ok: .byte 79,75,0   ; OK
+>b46b	43 61 6e 63 65 6c 00		gm_t_cancel: .byte 67,97,110,99,101,108,0   ; Cancel
+>b472	5b 33 5d 5b 43 6f 75 6c		gm_s_norename: .byte 91,51,93,91,67,111,117,108,100,32,110,111,116,32,114,101,110,97,109,101,124,0   ; [3][Could not rename|
+>b47a	64 20 6e 6f 74 20 72 65 6e 61 6d 65 7c 00
+
+;******  Processing file: src/native/forms.inc
+
+=1					FOT_TEXT = 1
+=2					FOT_BUTTON = 2
+=3					FOT_CHECK = 3
+=4					FOT_RADIO = 4
+=5					FOT_FIELD = 5
+=1					FOF_DEFAULT = 1                  ; flags
+=2					FOF_EXIT = 2
+=4					FOF_CANCEL = 4
+=1					FOS_SELECTED = 1                 ; state
+=2					FOS_DISABLED = 2
+=$61					FOC_PAPER = $61
+=$07					FOC_FOCUS = $07
+=$c1					FOC_GREY = $c1
+=32					FOT_MAX_OBJECTS = 32
+.b488					fo_open:
+.b488	8d a2 bd	sta $bda2	        sta fo_ptr
+.b48b	8e a3 bd	stx $bda3	        stx fo_ptr+1
+.b48e	8d 97 b4	sta $b497	        sta fo_hdr+1
+.b491	8e 98 b4	stx $b498	        stx fo_hdr+2
+.b494	a0 04		ldy #$04	        ldy #4
+.b496					fo_hdr:
+.b496	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.b499	99 a4 bd	sta $bda4,y	        sta fo_x,y
+.b49c	88		dey		        dey
+.b49d	10 f7		bpl $b496	        bpl fo_hdr
+.b49f	ad a8 bd	lda $bda8	        lda fo_n
+.b4a2	d0 03		bne $b4a7	        beq fo_bad
+.b4a4	4c 3d b5	jmp $b53d
+.b4a7	c9 21		cmp #$21	        cmp #FOT_MAX_OBJECTS+1
+.b4a9	b0 f9		bcs $b4a4	        bcs fo_bad
+.b4ab	ad a6 bd	lda $bda6	        lda fo_w
+.b4ae	c9 03		cmp #$03	        cmp #3
+.b4b0	90 f2		bcc $b4a4	        bcc fo_bad
+.b4b2	c9 27		cmp #$27	        cmp #39
+.b4b4	b0 ee		bcs $b4a4	        bcs fo_bad
+.b4b6	ad a7 bd	lda $bda7	        lda fo_h
+.b4b9	c9 03		cmp #$03	        cmp #3
+.b4bb	90 e7		bcc $b4a4	        bcc fo_bad
+.b4bd	c9 18		cmp #$18	        cmp #24
+.b4bf	b0 7c		bcs $b53d	        bcs fo_bad
+.b4c1	ad a4 bd	lda $bda4	        lda fo_x
+.b4c4	c9 ff		cmp #$ff	        cmp #$ff
+.b4c6	d0 18		bne $b4e0	        bne fo_placed
+.b4c8	a9 28		lda #$28	        lda #40                 ; centred below the menu bar
+.b4ca	38		sec		        sec
+.b4cb	ed a6 bd	sbc $bda6	        sbc fo_w
+.b4ce	4a		lsr a		        lsr
+.b4cf	8d a4 bd	sta $bda4	        sta fo_x
+.b4d2	a9 19		lda #$19	        lda #25
+.b4d4	38		sec		        sec
+.b4d5	ed a7 bd	sbc $bda7	        sbc fo_h
+.b4d8	4a		lsr a		        lsr
+.b4d9	d0 02		bne $b4dd	        bne +
+.b4db	a9 01		lda #$01	        lda #1
+.b4dd	8d a5 bd	sta $bda5	+       sta fo_y
+.b4e0					fo_placed:
+.b4e0	ad a5 bd	lda $bda5	        lda fo_y
+.b4e3	f0 58		beq $b53d	        beq fo_bad
+.b4e5	18		clc		        clc
+.b4e6	6d a7 bd	adc $bda7	        adc fo_h
+.b4e9	c9 1a		cmp #$1a	        cmp #26
+.b4eb	b0 50		bcs $b53d	        bcs fo_bad
+.b4ed	ad a4 bd	lda $bda4	        lda fo_x
+.b4f0	18		clc		        clc
+.b4f1	6d a6 bd	adc $bda6	        adc fo_w
+.b4f4	c9 29		cmp #$29	        cmp #41
+.b4f6	b0 45		bcs $b53d	        bcs fo_bad
+.b4f8	20 d2 bb	jsr $bbd2	        jsr fo_transfer_alloc   ; save the cells under the form
+.b4fb	b0 35		bcs $b532	        bcs fo_open_done
+.b4fd	a2 00		ldx #$00	        ldx #0                  ; fields: caret at the end
+.b4ff					fo_init_fields:
+.b4ff	8e b5 bd	stx $bdb5	        stx fo_i
+.b502	20 23 b8	jsr $b823	        jsr fo_fetch
+.b505	ad a9 bd	lda $bda9	        lda fo_type
+.b508	c9 05		cmp #$05	        cmp #FOT_FIELD
+.b50a	d0 0d		bne $b519	        bne +
+.b50c	20 75 b8	jsr $b875	        jsr fo_uiptr
+.b50f	a9 00		lda #$00	        lda #0
+.b511	8d 37 3d	sta $3d37	        sta N_UIKEY
+.b514	20 59 1c	jsr $1c59	        jsr N_FEDIT
+.b517	b0 1a		bcs $b533	        bcs fo_open_free
+.b519	ae b5 bd	ldx $bdb5	+       ldx fo_i
+.b51c	e8		inx		        inx
+.b51d	ec a8 bd	cpx $bda8	        cpx fo_n
+.b520	d0 dd		bne $b4ff	        bne fo_init_fields
+.b522	a9 ff		lda #$ff	        lda #$ff
+.b524	8d b4 bd	sta $bdb4	        sta fo_focus
+.b527	a9 01		lda #$01	        lda #1                  ; a press held from before is not a click
+.b529	8d bc bd	sta $bdbc	        sta fo_prev_button
+.b52c	20 8d b7	jsr $b78d	        jsr fo_next
+.b52f	20 82 b8	jsr $b882	        jsr fo_draw_all
+.b532					fo_open_done:
+.b532	60		rts		        rts
+.b533					fo_open_free:
+.b533	48		pha		        pha
+.b534	20 3f bd	jsr $bd3f	        jsr fo_select_save
+.b537	20 23 1c	jsr $1c23	        jsr N_FREE
+.b53a	68		pla		        pla
+.b53b	38		sec		        sec
+.b53c	60		rts		        rts
+.b53d					fo_bad:
+.b53d	a9 01		lda #$01	        lda #N_BADARG
+.b53f	38		sec		        sec
+.b540	60		rts		        rts
+.b541					fo_close:
+.b541	a9 01		lda #$01	        lda #1                  ; saved copy -> surface
+.b543	20 2e bc	jsr $bc2e	        jsr fo_transfer
+.b546	08		php		        php
+.b547	48		pha		        pha
+.b548	20 54 b5	jsr $b554	        jsr fo_mark_rows        ; a raw copy, unseen by the graphics core's tracking
+.b54b	20 3f bd	jsr $bd3f	        jsr fo_select_save
+.b54e	20 23 1c	jsr $1c23	        jsr N_FREE
+.b551	68		pla		        pla
+.b552	28		plp		        plp
+.b553	60		rts		        rts
+.b554					fo_mark_rows:
+.b554	ae a5 bd	ldx $bda5	        ldx fo_y
+.b557	ac a7 bd	ldy $bda7	        ldy fo_h
+.b55a	f0 0c		beq $b568	        beq +
+.b55c	a9 01		lda #$01	        lda #1
+.b55e	8d bc ab	sta $abbc	        sta vm_pending
+.b561	9d a3 ab	sta $aba3,x	-       sta vm_rows,x
+.b564	e8		inx		        inx
+.b565	88		dey		        dey
+.b566	d0 f9		bne $b561	        bne -
+.b568	60		rts		+       rts
+.b569					fo_redraw:
+.b569	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b56c	08		php		        php
+.b56d	48		pha		        pha
+.b56e	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b571	68		pla		        pla
+.b572	28		plp		        plp
+.b573	60		rts		        rts
+.b574					fo_do:
+.b574	20 b9 62	jsr $62b9	        jsr ae_present          ; the app's VDC mirror: rows the dialog redrew
+.b577	a9 01		lda #$01	        lda #1
+.b579	8d 12 3d	sta $3d12	        sta N_READY
+.b57c	20 3b 1c	jsr $1c3b	        jsr N_KEYIN
+.b57f	a2 00		ldx #$00	        ldx #0
+.b581	8e 12 3d	stx $3d12	        stx N_READY
+.b584	8d ba bd	sta $bdba	        sta fo_key
+.b587	20 73 a4	jsr $a473	        jsr pm_poll
+.b58a	a2 00		ldx #$00	        ldx #0                  ; a press is a change from up to down
+.b58c	ad 73 a6	lda $a673	        lda pm_buttons
+.b58f	f0 06		beq $b597	        beq +
+.b591	ad bc bd	lda $bdbc	        lda fo_prev_button
+.b594	d0 01		bne $b597	        bne +
+.b596	e8		inx		        inx
+.b597	8e bb bd	stx $bdbb	+       stx fo_press
+.b59a	ad 73 a6	lda $a673	        lda pm_buttons
+.b59d	f0 02		beq $b5a1	        beq +
+.b59f	a9 01		lda #$01	        lda #1
+.b5a1	8d bc bd	sta $bdbc	+       sta fo_prev_button
+.b5a4	ad ba bd	lda $bdba	        lda fo_key
+.b5a7	f0 05		beq $b5ae	        beq +
+.b5a9	20 ea b5	jsr $b5ea	        jsr fo_key_act
+.b5ac	b0 0a		bcs $b5b8	        bcs fo_do_result
+.b5ae	ad bb bd	lda $bdbb	+       lda fo_press
+.b5b1	f0 c1		beq $b574	        beq fo_do
+.b5b3	20 93 b6	jsr $b693	        jsr fo_click
+.b5b6	90 bc		bcc $b574	        bcc fo_do
+.b5b8					fo_do_result:
+.b5b8	ad 73 a6	lda $a673	-       lda pm_buttons          ; left with the pointer: the press ends here, at
+.b5bb	f0 13		beq $b5d0	        beq +                   ; its release, so the caller never sees it
+.b5bd	a9 01		lda #$01	        lda #1
+.b5bf	8d 12 3d	sta $3d12	        sta N_READY
+.b5c2	20 3b 1c	jsr $1c3b	        jsr N_KEYIN             ; (idle; a key typed meanwhile is dropped)
+.b5c5	a2 00		ldx #$00	        ldx #0
+.b5c7	8e 12 3d	stx $3d12	        stx N_READY
+.b5ca	20 73 a4	jsr $a473	        jsr pm_poll
+.b5cd	4c b8 b5	jmp $b5b8	        jmp -
+.b5d0	ad bd bd	lda $bdbd	+       lda fo_exit
+.b5d3	c9 ff		cmp #$ff	        cmp #$ff
+.b5d5	f0 02		beq $b5d9	        beq +
+.b5d7	18		clc		        clc
+.b5d8	60		rts		        rts
+.b5d9	ad be bd	lda $bdbe	+       lda fo_error
+.b5dc	38		sec		        sec
+.b5dd	60		rts		        rts
+.b5de					fo_fail:
+.b5de	8d be bd	sta $bdbe	        sta fo_error
+.b5e1	a9 ff		lda #$ff	        lda #$ff
+.b5e3	8d bd bd	sta $bdbd	        sta fo_exit
+.b5e6	38		sec		        sec
+.b5e7	60		rts		        rts
+.b5e8					fo_continue:
+.b5e8	18		clc		        clc
+.b5e9	60		rts		        rts
+.b5ea					fo_key_act:
+.b5ea	c9 1b		cmp #$1b	        cmp #27                 ; Esc: the cancel object
+.b5ec	d0 05		bne $b5f3	        bne +
+.b5ee	a9 04		lda #$04	        lda #FOF_CANCEL
+.b5f0	4c 68 b6	jmp $b668	        jmp fo_press_flagged
+.b5f3	c9 0d		cmp #$0d	+       cmp #13
+.b5f5	d0 1c		bne $b613	        bne +
+.b5f7	ae b4 bd	ldx $bdb4	        ldx fo_focus            ; Return: the focused button, else the default
+.b5fa	e0 ff		cpx #$ff	        cpx #$ff
+.b5fc	f0 10		beq $b60e	        beq fo_return_default
+.b5fe	20 23 b8	jsr $b823	        jsr fo_fetch
+.b601	ad a9 bd	lda $bda9	        lda fo_type
+.b604	c9 02		cmp #$02	        cmp #FOT_BUTTON
+.b606	d0 06		bne $b60e	        bne fo_return_default
+.b608	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b60b	4c f8 b6	jmp $b6f8	        jmp fo_act
+.b60e					fo_return_default:
+.b60e	a9 01		lda #$01	        lda #FOF_DEFAULT
+.b610	4c 68 b6	jmp $b668	        jmp fo_press_flagged
+.b613	c9 09		cmp #$09	+       cmp #9                  ; Tab, cursor down: next
+.b615	f0 0e		beq $b625	        beq fo_key_next
+.b617	c9 11		cmp #$11	        cmp #$11
+.b619	f0 0a		beq $b625	        beq fo_key_next
+.b61b	c9 91		cmp #$91	        cmp #$91
+.b61d	d0 0d		bne $b62c	        bne fo_key_other
+.b61f	20 b9 b7	jsr $b7b9	        jsr fo_prev
+.b622	4c 28 b6	jmp $b628	        jmp fo_focus_moved
+.b625					fo_key_next:
+.b625	20 8d b7	jsr $b78d	        jsr fo_next
+.b628					fo_focus_moved:
+.b628	b0 b4		bcs $b5de	        bcs fo_fail
+.b62a	18		clc		        clc
+.b62b	60		rts		        rts
+.b62c					fo_key_other:
+.b62c	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b62f	e0 ff		cpx #$ff	        cpx #$ff
+.b631	f0 b5		beq $b5e8	        beq fo_continue
+.b633	20 23 b8	jsr $b823	        jsr fo_fetch
+.b636	ad a9 bd	lda $bda9	        lda fo_type
+.b639	c9 05		cmp #$05	        cmp #FOT_FIELD
+.b63b	f0 0d		beq $b64a	        beq fo_edit
+.b63d	ad ba bd	lda $bdba	        lda fo_key              ; Space acts on the focused object
+.b640	c9 20		cmp #$20	        cmp #32
+.b642	d0 a4		bne $b5e8	        bne fo_continue
+.b644	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b647	4c f8 b6	jmp $b6f8	        jmp fo_act
+.b64a					fo_edit:
+.b64a	20 75 b8	jsr $b875	        jsr fo_uiptr
+.b64d	ad ba bd	lda $bdba	        lda fo_key
+.b650	8d 37 3d	sta $3d37	        sta N_UIKEY
+.b653	20 59 1c	jsr $1c59	        jsr N_FEDIT
+.b656	b0 86		bcs $b5de	        bcs fo_fail
+.b658	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b65b	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b65e	90 03		bcc $b663	        bcs fo_fail
+.b660	4c de b5	jmp $b5de
+.b663	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b666	18		clc		        clc
+.b667	60		rts		        rts
+.b668					fo_press_flagged:
+.b668	8d b9 bd	sta $bdb9	        sta fo_flag
+.b66b	a2 00		ldx #$00	        ldx #0
+.b66d	8e b5 bd	stx $bdb5	-       stx fo_i
+.b670	20 23 b8	jsr $b823	        jsr fo_fetch
+.b673	ad aa bd	lda $bdaa	        lda fo_flags
+.b676	2d b9 bd	and $bdb9	        and fo_flag
+.b679	f0 0d		beq $b688	        beq +
+.b67b	ad ab bd	lda $bdab	        lda fo_state
+.b67e	29 02		and #$02	        and #FOS_DISABLED
+.b680	d0 06		bne $b688	        bne +
+.b682	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b685	4c f8 b6	jmp $b6f8	        jmp fo_act
+.b688	ae b5 bd	ldx $bdb5	+       ldx fo_i
+.b68b	e8		inx		        inx
+.b68c	ec a8 bd	cpx $bda8	        cpx fo_n
+.b68f	d0 dc		bne $b66d	        bne -
+.b691	18		clc		        clc
+.b692	60		rts		        rts
+.b693					fo_click:
+.b693	ad 6d a6	lda $a66d	        lda pm_x+1              ; pointer cell
+.b696	4a		lsr a		        lsr
+.b697	ad 6c a6	lda $a66c	        lda pm_x
+.b69a	6a		ror a		        ror
+.b69b	4a		lsr a		        lsr
+.b69c	4a		lsr a		        lsr
+.b69d	8d c0 bd	sta $bdc0	        sta fo_cx
+.b6a0	ad 6e a6	lda $a66e	        lda pm_y
+.b6a3	4a		lsr a		        lsr
+.b6a4	4a		lsr a		        lsr
+.b6a5	4a		lsr a		        lsr
+.b6a6	8d c1 bd	sta $bdc1	        sta fo_cy
+.b6a9	a2 00		ldx #$00	        ldx #0
+.b6ab					fo_hit:
+.b6ab	8e b5 bd	stx $bdb5	        stx fo_i
+.b6ae	20 23 b8	jsr $b823	        jsr fo_fetch
+.b6b1	20 0d b8	jsr $b80d	        jsr fo_focusable
+.b6b4	90 34		bcc $b6ea	        bcc fo_hit_next
+.b6b6	ad c0 bd	lda $bdc0	        lda fo_cx
+.b6b9	38		sec		        sec
+.b6ba	ed b1 bd	sbc $bdb1	        sbc fo_ax
+.b6bd	90 2b		bcc $b6ea	        bcc fo_hit_next
+.b6bf	cd ae bd	cmp $bdae	        cmp fo_ow
+.b6c2	b0 26		bcs $b6ea	        bcs fo_hit_next
+.b6c4	ad c1 bd	lda $bdc1	        lda fo_cy
+.b6c7	38		sec		        sec
+.b6c8	ed b2 bd	sbc $bdb2	        sbc fo_ay
+.b6cb	90 1d		bcc $b6ea	        bcc fo_hit_next
+.b6cd	cd b3 bd	cmp $bdb3	        cmp fo_rows
+.b6d0	b0 18		bcs $b6ea	        bcs fo_hit_next
+.b6d2	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b6d5	20 e1 b7	jsr $b7e1	        jsr fo_set_focus
+.b6d8	b0 1b		bcs $b6f5	        bcs fo_click_fail
+.b6da	ad a9 bd	lda $bda9	        lda fo_type
+.b6dd	c9 05		cmp #$05	        cmp #FOT_FIELD
+.b6df	d0 03		bne $b6e4	        beq fo_continue
+.b6e1	4c e8 b5	jmp $b5e8
+.b6e4	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b6e7	4c f8 b6	jmp $b6f8	        jmp fo_act
+.b6ea					fo_hit_next:
+.b6ea	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b6ed	e8		inx		        inx
+.b6ee	ec a8 bd	cpx $bda8	        cpx fo_n
+.b6f1	d0 b8		bne $b6ab	        bne fo_hit
+.b6f3	18		clc		        clc
+.b6f4	60		rts		        rts
+.b6f5					fo_click_fail:
+.b6f5	4c de b5	jmp $b5de	        jmp fo_fail
+.b6f8					fo_act:
+.b6f8	8e b5 bd	stx $bdb5	        stx fo_i
+.b6fb	20 23 b8	jsr $b823	        jsr fo_fetch
+.b6fe	ad ab bd	lda $bdab	        lda fo_state
+.b701	29 02		and #$02	        and #FOS_DISABLED
+.b703	d0 dc		bne $b6e1	        bne fo_continue
+.b705	ad a9 bd	lda $bda9	        lda fo_type
+.b708	c9 02		cmp #$02	        cmp #FOT_BUTTON
+.b70a	d0 0f		bne $b71b	        bne +
+.b70c	ad aa bd	lda $bdaa	        lda fo_flags
+.b70f	29 06		and #$06	        and #FOF_EXIT|FOF_CANCEL
+.b711	f0 ce		beq $b6e1	        beq fo_continue
+.b713	ad b5 bd	lda $bdb5	        lda fo_i
+.b716	8d bd bd	sta $bdbd	        sta fo_exit
+.b719	38		sec		        sec
+.b71a	60		rts		        rts
+.b71b	c9 03		cmp #$03	+       cmp #FOT_CHECK
+.b71d	d0 13		bne $b732	        bne +
+.b71f	ad ab bd	lda $bdab	        lda fo_state
+.b722	49 01		eor #$01	        eor #FOS_SELECTED
+.b724	20 6c b8	jsr $b86c	        jsr fo_put_state
+.b727	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b72a	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b72d	b0 5b		bcs $b78a	        bcs fo_act_fail
+.b72f	4c 85 b7	jmp $b785	        jmp fo_act_done
+.b732	c9 04		cmp #$04	+       cmp #FOT_RADIO
+.b734	d0 ab		bne $b6e1	        bne fo_continue
+.b736	ad aa bd	lda $bdaa	        lda fo_flags
+.b739	29 f0		and #$f0	        and #$f0
+.b73b	8d b9 bd	sta $bdb9	        sta fo_flag             ; the group
+.b73e	ad b5 bd	lda $bdb5	        lda fo_i
+.b741	8d b7 bd	sta $bdb7	        sta fo_target
+.b744	a2 00		ldx #$00	        ldx #0
+.b746					fo_radio_loop:
+.b746	8e b5 bd	stx $bdb5	        stx fo_i
+.b749	20 23 b8	jsr $b823	        jsr fo_fetch
+.b74c	ad a9 bd	lda $bda9	        lda fo_type
+.b74f	c9 04		cmp #$04	        cmp #FOT_RADIO
+.b751	d0 29		bne $b77c	        bne fo_radio_next
+.b753	ad aa bd	lda $bdaa	        lda fo_flags
+.b756	29 f0		and #$f0	        and #$f0
+.b758	cd b9 bd	cmp $bdb9	        cmp fo_flag
+.b75b	d0 1f		bne $b77c	        bne fo_radio_next
+.b75d	ad ab bd	lda $bdab	        lda fo_state
+.b760	29 fe		and #$fe	        and #255-FOS_SELECTED
+.b762	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b765	ec b7 bd	cpx $bdb7	        cpx fo_target
+.b768	d0 02		bne $b76c	        bne +
+.b76a	09 01		ora #$01	        ora #FOS_SELECTED
+.b76c	cd ab bd	cmp $bdab	+       cmp fo_state
+.b76f	f0 0b		beq $b77c	        beq fo_radio_next
+.b771	20 6c b8	jsr $b86c	        jsr fo_put_state
+.b774	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b777	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b77a	b0 0e		bcs $b78a	        bcs fo_act_fail
+.b77c					fo_radio_next:
+.b77c	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b77f	e8		inx		        inx
+.b780	ec a8 bd	cpx $bda8	        cpx fo_n
+.b783	d0 c1		bne $b746	        bne fo_radio_loop
+.b785					fo_act_done:
+.b785	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b788	18		clc		        clc
+.b789	60		rts		        rts
+.b78a					fo_act_fail:
+.b78a	4c de b5	jmp $b5de	        jmp fo_fail
+.b78d					fo_next:
+.b78d	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b790	ad a8 bd	lda $bda8	        lda fo_n
+.b793	8d b8 bd	sta $bdb8	        sta fo_count
+.b796	e8		inx		-       inx
+.b797	ec a8 bd	cpx $bda8	        cpx fo_n
+.b79a	90 02		bcc $b79e	        bcc +
+.b79c	a2 00		ldx #$00	        ldx #0
+.b79e	8e b5 bd	stx $bdb5	+       stx fo_i
+.b7a1	20 23 b8	jsr $b823	        jsr fo_fetch
+.b7a4	20 0d b8	jsr $b80d	        jsr fo_focusable
+.b7a7	b0 0a		bcs $b7b3	        bcs +
+.b7a9	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b7ac	ce b8 bd	dec $bdb8	        dec fo_count
+.b7af	d0 e5		bne $b796	        bne -
+.b7b1	18		clc		        clc
+.b7b2	60		rts		        rts
+.b7b3	ae b5 bd	ldx $bdb5	+       ldx fo_i
+.b7b6	4c e1 b7	jmp $b7e1	        jmp fo_set_focus
+.b7b9					fo_prev:
+.b7b9	ae b4 bd	ldx $bdb4	        ldx fo_focus
+.b7bc	ad a8 bd	lda $bda8	        lda fo_n
+.b7bf	8d b8 bd	sta $bdb8	        sta fo_count
+.b7c2	ca		dex		-       dex
+.b7c3	10 04		bpl $b7c9	        bpl +
+.b7c5	ae a8 bd	ldx $bda8	        ldx fo_n
+.b7c8	ca		dex		        dex
+.b7c9	8e b5 bd	stx $bdb5	+       stx fo_i
+.b7cc	20 23 b8	jsr $b823	        jsr fo_fetch
+.b7cf	20 0d b8	jsr $b80d	        jsr fo_focusable
+.b7d2	b0 0a		bcs $b7de	        bcs +
+.b7d4	ae b5 bd	ldx $bdb5	        ldx fo_i
+.b7d7	ce b8 bd	dec $bdb8	        dec fo_count
+.b7da	d0 e6		bne $b7c2	        bne -
+.b7dc	18		clc		        clc
+.b7dd	60		rts		        rts
+.b7de	ae b5 bd	ldx $bdb5	+       ldx fo_i
+.b7e1					fo_set_focus:
+.b7e1	ad b4 bd	lda $bdb4	        lda fo_focus
+.b7e4	8e b4 bd	stx $bdb4	        stx fo_focus
+.b7e7	cd b4 bd	cmp $bdb4	        cmp fo_focus
+.b7ea	f0 12		beq $b7fe	        beq fo_focus_same
+.b7ec	c9 ff		cmp #$ff	        cmp #$ff
+.b7ee	f0 06		beq $b7f6	        beq +
+.b7f0	aa		tax		        tax
+.b7f1	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b7f4	b0 0c		bcs $b802	        bcs fo_focus_done
+.b7f6	ae b4 bd	ldx $bdb4	+       ldx fo_focus
+.b7f9	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b7fc	b0 04		bcs $b802	        bcs fo_focus_done
+.b7fe					fo_focus_same:
+.b7fe	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b801	18		clc		        clc
+.b802					fo_focus_done:
+.b802	08		php		        php
+.b803	48		pha		        pha
+.b804	ae b5 bd	ldx $bdb5	        ldx fo_i                ; callers expect fo_o to be this object
+.b807	20 23 b8	jsr $b823	        jsr fo_fetch
+.b80a	68		pla		        pla
+.b80b	28		plp		        plp
+.b80c	60		rts		        rts
+.b80d					fo_focusable:
+.b80d	ad a9 bd	lda $bda9	        lda fo_type
+.b810	c9 02		cmp #$02	        cmp #FOT_BUTTON
+.b812	90 0d		bcc $b821	        bcc +
+.b814	c9 06		cmp #$06	        cmp #FOT_FIELD+1
+.b816	b0 09		bcs $b821	        bcs +
+.b818	ad ab bd	lda $bdab	        lda fo_state
+.b81b	29 02		and #$02	        and #FOS_DISABLED
+.b81d	d0 02		bne $b821	        bne +
+.b81f	38		sec		        sec
+.b820	60		rts		        rts
+.b821	18		clc		+       clc
+.b822	60		rts		        rts
+.b823					fo_fetch:
+.b823	8a		txa		        txa
+.b824	0a		asl a		        asl
+.b825	0a		asl a		        asl
+.b826	0a		asl a		        asl
+.b827	18		clc		        clc
+.b828	69 05		adc #$05	        adc #5
+.b82a	18		clc		        clc
+.b82b	6d a2 bd	adc $bda2	        adc fo_ptr
+.b82e	8d 42 b8	sta $b842	        sta fo_obj_rd+1
+.b831	8d 72 b8	sta $b872	        sta fo_obj_wr+1
+.b834	ad a3 bd	lda $bda3	        lda fo_ptr+1
+.b837	69 00		adc #$00	        adc #0
+.b839	8d 43 b8	sta $b843	        sta fo_obj_rd+2
+.b83c	8d 73 b8	sta $b873	        sta fo_obj_wr+2
+.b83f	a0 07		ldy #$07	        ldy #7
+.b841					fo_obj_rd:
+.b841	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.b844	99 a9 bd	sta $bda9,y	        sta fo_type,y
+.b847	88		dey		        dey
+.b848	10 f7		bpl $b841	        bpl fo_obj_rd
+.b84a	ad a4 bd	lda $bda4	        lda fo_x
+.b84d	18		clc		        clc
+.b84e	6d ac bd	adc $bdac	        adc fo_ox
+.b851	8d b1 bd	sta $bdb1	        sta fo_ax
+.b854	ad a5 bd	lda $bda5	        lda fo_y
+.b857	18		clc		        clc
+.b858	6d ad bd	adc $bdad	        adc fo_oy
+.b85b	8d b2 bd	sta $bdb2	        sta fo_ay
+.b85e	a0 01		ldy #$01	        ldy #1
+.b860	ad a9 bd	lda $bda9	        lda fo_type
+.b863	c9 02		cmp #$02	        cmp #FOT_BUTTON
+.b865	d0 01		bne $b868	        bne +
+.b867	c8		iny		        iny
+.b868	8c b3 bd	sty $bdb3	+       sty fo_rows
+.b86b	60		rts		        rts
+.b86c					fo_put_state:
+.b86c	8d ab bd	sta $bdab	        sta fo_state
+.b86f	a0 02		ldy #$02	        ldy #2
+.b871					fo_obj_wr:
+.b871	99 ff ff	sta $ffff,y	        sta $ffff,y
+.b874	60		rts		        rts
+.b875					fo_uiptr:
+.b875	ad af bd	lda $bdaf	        lda fo_spec
+.b878	8d 35 3d	sta $3d35	        sta N_UIPTR
+.b87b	ad b0 bd	lda $bdb0	        lda fo_spec+1
+.b87e	8d 36 3d	sta $3d36	        sta N_UIPTR+1
+.b881	60		rts		        rts
+.b882					fo_draw_all:
+.b882	ad a4 bd	lda $bda4	        lda fo_x
+.b885	8d c2 bd	sta $bdc2	        sta fo_c0x
+.b888	18		clc		        clc
+.b889	6d a6 bd	adc $bda6	        adc fo_w
+.b88c	8d c4 bd	sta $bdc4	        sta fo_c1x
+.b88f	ad a5 bd	lda $bda5	        lda fo_y
+.b892	8d c3 bd	sta $bdc3	        sta fo_c0y
+.b895	18		clc		        clc
+.b896	6d a7 bd	adc $bda7	        adc fo_h
+.b899	8d c5 bd	sta $bdc5	        sta fo_c1y
+.b89c	a2 00		ldx #$00	        ldx #0
+.b89e	8e c6 bd	stx $bdc6	-       stx fo_inset
+.b8a1	8a		txa		        txa
+.b8a2	29 01		and #$01	        and #1                  ; insets 0 2 4 clear, 1 3 ink
+.b8a4	20 3f bb	jsr $bb3f	        jsr fo_box
+.b8a7	b0 26		bcs $b8cf	        bcs fo_draw_done
+.b8a9	ae c6 bd	ldx $bdc6	        ldx fo_inset
+.b8ac	e8		inx		        inx
+.b8ad	e0 05		cpx #$05	        cpx #5
+.b8af	d0 ed		bne $b89e	        bne -
+.b8b1	a9 61		lda #$61	        lda #FOC_PAPER
+.b8b3	20 91 bb	jsr $bb91	        jsr fo_cells
+.b8b6	b0 17		bcs $b8cf	        bcs fo_draw_done
+.b8b8	a2 00		ldx #$00	        ldx #0
+.b8ba	8e b6 bd	stx $bdb6	-       stx fo_j
+.b8bd	20 d0 b8	jsr $b8d0	        jsr fo_draw_obj
+.b8c0	b0 0d		bcs $b8cf	        bcs fo_draw_done
+.b8c2	ae b6 bd	ldx $bdb6	        ldx fo_j
+.b8c5	e8		inx		        inx
+.b8c6	ec a8 bd	cpx $bda8	        cpx fo_n
+.b8c9	d0 ef		bne $b8ba	        bne -
+.b8cb	20 2a 9b	jsr $9b2a	        jsr gfx_clip_defaults
+.b8ce	18		clc		        clc
+.b8cf					fo_draw_done:
+.b8cf	60		rts		        rts
+.b8d0					fo_draw_obj:
+.b8d0	8e b5 bd	stx $bdb5	        stx fo_i
+.b8d3	20 23 b8	jsr $b823	        jsr fo_fetch
+.b8d6	a9 61		lda #$61	        lda #FOC_PAPER           ; its colour
+.b8d8	8d bf bd	sta $bdbf	        sta fo_color
+.b8db	ad ab bd	lda $bdab	        lda fo_state
+.b8de	29 02		and #$02	        and #FOS_DISABLED
+.b8e0	f0 07		beq $b8e9	        beq +
+.b8e2	a9 c1		lda #$c1	        lda #FOC_GREY
+.b8e4	8d bf bd	sta $bdbf	        sta fo_color
+.b8e7	d0 14		bne $b8fd	        bne ++
+.b8e9	ad b5 bd	lda $bdb5	+       lda fo_i
+.b8ec	cd b4 bd	cmp $bdb4	        cmp fo_focus
+.b8ef	d0 0c		bne $b8fd	        bne +
+.b8f1	ad a9 bd	lda $bda9	        lda fo_type
+.b8f4	c9 05		cmp #$05	        cmp #FOT_FIELD           ; a field shows focus at its caret only
+.b8f6	f0 05		beq $b8fd	        beq +
+.b8f8	a9 07		lda #$07	        lda #FOC_FOCUS
+.b8fa	8d bf bd	sta $bdbf	        sta fo_color
+.b8fd	ad b1 bd	lda $bdb1	+       lda fo_ax               ; its cells, cleared
+.b900	8d c2 bd	sta $bdc2	        sta fo_c0x
+.b903	18		clc		        clc
+.b904	6d ae bd	adc $bdae	        adc fo_ow
+.b907	8d c4 bd	sta $bdc4	        sta fo_c1x
+.b90a	ad b2 bd	lda $bdb2	        lda fo_ay
+.b90d	8d c3 bd	sta $bdc3	        sta fo_c0y
+.b910	18		clc		        clc
+.b911	6d b3 bd	adc $bdb3	        adc fo_rows
+.b914	8d c5 bd	sta $bdc5	        sta fo_c1y
+.b917	a9 00		lda #$00	        lda #0
+.b919	8d c6 bd	sta $bdc6	        sta fo_inset
+.b91c	20 3f bb	jsr $bb3f	        jsr fo_box              ; A = 0: clear
+.b91f	b0 ae		bcs $b8cf	        bcs fo_draw_done
+.b921	ad a9 bd	lda $bda9	        lda fo_type
+.b924	c9 02		cmp #$02	        cmp #FOT_BUTTON
+.b926	f0 1d		beq $b945	        beq fo_draw_button
+.b928	c9 03		cmp #$03	        cmp #FOT_CHECK
+.b92a	f0 77		beq $b9a3	        beq fo_draw_toggle
+.b92c	c9 04		cmp #$04	        cmp #FOT_RADIO
+.b92e	f0 73		beq $b9a3	        beq fo_draw_toggle
+.b930	c9 05		cmp #$05	        cmp #FOT_FIELD
+.b932	d0 03		bne $b937	        bne +
+.b934	4c fe b9	jmp $b9fe	        jmp fo_draw_field
+.b937	20 f7 ba	jsr $baf7	+       jsr fo_label            ; text
+.b93a	ad b1 bd	lda $bdb1	        lda fo_ax
+.b93d	20 1b bb	jsr $bb1b	        jsr fo_text_at_row
+.b940	b0 8d		bcs $b8cf	        bcs fo_draw_done
+.b942	4c f7 b9	jmp $b9f7	        jmp fo_draw_colors
+.b945					fo_draw_button:
+.b945	a9 01		lda #$01	        lda #1                  ; a one-pixel frame; the default has two
+.b947	20 3f bb	jsr $bb3f	        jsr fo_box
+.b94a	b0 83		bcs $b8cf	        bcs fo_draw_done
+.b94c	ee c6 bd	inc $bdc6	        inc fo_inset
+.b94f	a9 00		lda #$00	        lda #0
+.b951	20 3f bb	jsr $bb3f	        jsr fo_box
+.b954	90 03		bcc $b959	        bcs fo_draw_done
+.b956	4c cf b8	jmp $b8cf
+.b959	ad aa bd	lda $bdaa	        lda fo_flags
+.b95c	29 01		and #$01	        and #FOF_DEFAULT
+.b95e	f0 11		beq $b971	        beq +
+.b960	a9 01		lda #$01	        lda #1
+.b962	20 3f bb	jsr $bb3f	        jsr fo_box
+.b965	b0 ef		bcs $b956	        bcs fo_draw_done
+.b967	ee c6 bd	inc $bdc6	        inc fo_inset
+.b96a	a9 00		lda #$00	        lda #0
+.b96c	20 3f bb	jsr $bb3f	        jsr fo_box
+.b96f	b0 e5		bcs $b956	        bcs fo_draw_done
+.b971	20 f7 ba	jsr $baf7	+       jsr fo_label            ; centred label, 4 pixels down
+.b974	ad ae bd	lda $bdae	        lda fo_ow
+.b977	38		sec		        sec
+.b978	ed 54 a0	sbc $a054	        sbc gfx_text_length
+.b97b	4a		lsr a		        lsr
+.b97c	18		clc		        clc
+.b97d	6d b1 bd	adc $bdb1	        adc fo_ax
+.b980	20 bd bb	jsr $bbbd	        jsr fo_times8
+.b983	8d 12 9f	sta $9f12	        sta gfx_x0
+.b986	8e 13 9f	stx $9f13	        stx gfx_x0+1
+.b989	ad b2 bd	lda $bdb2	        lda fo_ay
+.b98c	20 bd bb	jsr $bbbd	        jsr fo_times8
+.b98f	18		clc		        clc
+.b990	69 04		adc #$04	        adc #4
+.b992	8d 14 9f	sta $9f14	        sta gfx_y0
+.b995	8a		txa		        txa
+.b996	69 00		adc #$00	        adc #0
+.b998	8d 15 9f	sta $9f15	        sta gfx_y0+1
+.b99b	20 30 bb	jsr $bb30	        jsr fo_text
+.b99e	b0 5d		bcs $b9fd	        bcs fo_draw_fail
+.b9a0	4c f7 b9	jmp $b9f7	        jmp fo_draw_colors
+.b9a3					fo_draw_toggle:
+.b9a3	ad ab bd	lda $bdab	        lda fo_state            ; glyph: box or circle, empty or marked
+.b9a6	29 01		and #$01	        and #FOS_SELECTED
+.b9a8	8d c7 bd	sta $bdc7	        sta fo_t8
+.b9ab	ad a9 bd	lda $bda9	        lda fo_type
+.b9ae	38		sec		        sec
+.b9af	e9 03		sbc #$03	        sbc #FOT_CHECK
+.b9b1	0a		asl a		        asl
+.b9b2	0d c7 bd	ora $bdc7	        ora fo_t8
+.b9b5	0a		asl a		        asl
+.b9b6	0a		asl a		        asl
+.b9b7	0a		asl a		        asl
+.b9b8	a8		tay		        tay
+.b9b9	a2 00		ldx #$00	        ldx #0
+.b9bb	b9 7a bd	lda $bd7a,y	-       lda fo_glyphs,y
+.b9be	9d 3f 9f	sta $9f3f,x	        sta gfx_bits,x
+.b9c1	c8		iny		        iny
+.b9c2	e8		inx		        inx
+.b9c3	e0 08		cpx #$08	        cpx #8
+.b9c5	d0 f4		bne $b9bb	        bne -
+.b9c7	ad b1 bd	lda $bdb1	        lda fo_ax
+.b9ca	20 bd bb	jsr $bbbd	        jsr fo_times8
+.b9cd	8d 12 9f	sta $9f12	        sta gfx_x0
+.b9d0	8e 13 9f	stx $9f13	        stx gfx_x0+1
+.b9d3	ad b2 bd	lda $bdb2	        lda fo_ay
+.b9d6	20 bd bb	jsr $bbbd	        jsr fo_times8
+.b9d9	8d 14 9f	sta $9f14	        sta gfx_y0
+.b9dc	8e 15 9f	stx $9f15	        stx gfx_y0+1
+.b9df	a9 03		lda #$03	        lda #3
+.b9e1	8d 1a 9f	sta $9f1a	        sta gfx_pen
+.b9e4	20 7a 99	jsr $997a	        jsr gfx_glyph
+.b9e7	b0 14		bcs $b9fd	        bcs fo_draw_fail
+.b9e9	20 f7 ba	jsr $baf7	        jsr fo_label
+.b9ec	ad b1 bd	lda $bdb1	        lda fo_ax
+.b9ef	18		clc		        clc
+.b9f0	69 02		adc #$02	        adc #2
+.b9f2	20 1b bb	jsr $bb1b	        jsr fo_text_at_row
+.b9f5	b0 06		bcs $b9fd	        bcs fo_draw_fail
+.b9f7					fo_draw_colors:
+.b9f7	ad bf bd	lda $bdbf	        lda fo_color
+.b9fa	4c 91 bb	jmp $bb91	        jmp fo_cells
+.b9fd					fo_draw_fail:
+.b9fd	60		rts		        rts
+.b9fe					fo_draw_field:
+.b9fe	ad af bd	lda $bdaf	        lda fo_spec             ; record: length, caret, max, buffer, view
+.ba01	8d 13 ba	sta $ba13	        sta fo_rec_rd+1
+.ba04	8d 45 ba	sta $ba45	        sta fo_rec_wr+1
+.ba07	ad b0 bd	lda $bdb0	        lda fo_spec+1
+.ba0a	8d 14 ba	sta $ba14	        sta fo_rec_rd+2
+.ba0d	8d 46 ba	sta $ba46	        sta fo_rec_wr+2
+.ba10	a0 05		ldy #$05	        ldy #5
+.ba12					fo_rec_rd:
+.ba12	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.ba15	99 d6 bd	sta $bdd6,y	        sta fo_rec,y
+.ba18	88		dey		        dey
+.ba19	10 f7		bpl $ba12	        bpl fo_rec_rd
+.ba1b	ad d7 bd	lda $bdd7	        lda fo_rec+1            ; keep the caret inside the view
+.ba1e	cd db bd	cmp $bddb	        cmp fo_rec+5
+.ba21	b0 03		bcs $ba26	        bcs +
+.ba23	8d db bd	sta $bddb	        sta fo_rec+5
+.ba26	ad d7 bd	lda $bdd7	+       lda fo_rec+1
+.ba29	38		sec		        sec
+.ba2a	ed db bd	sbc $bddb	        sbc fo_rec+5
+.ba2d	cd ae bd	cmp $bdae	        cmp fo_ow
+.ba30	90 0d		bcc $ba3f	        bcc +
+.ba32	ad d7 bd	lda $bdd7	        lda fo_rec+1
+.ba35	38		sec		        sec
+.ba36	ed ae bd	sbc $bdae	        sbc fo_ow
+.ba39	18		clc		        clc
+.ba3a	69 01		adc #$01	        adc #1
+.ba3c	8d db bd	sta $bddb	        sta fo_rec+5
+.ba3f	ad db bd	lda $bddb	+       lda fo_rec+5
+.ba42	a0 05		ldy #$05	        ldy #5
+.ba44					fo_rec_wr:
+.ba44	99 ff ff	sta $ffff,y	        sta $ffff,y
+.ba47	ad d9 bd	lda $bdd9	        lda fo_rec+3            ; the visible bytes
+.ba4a	18		clc		        clc
+.ba4b	6d db bd	adc $bddb	        adc fo_rec+5
+.ba4e	8d 74 ba	sta $ba74	        sta fo_buf_rd+1
+.ba51	ad da bd	lda $bdda	        lda fo_rec+4
+.ba54	69 00		adc #$00	        adc #0
+.ba56	8d 75 ba	sta $ba75	        sta fo_buf_rd+2
+.ba59	ad d6 bd	lda $bdd6	        lda fo_rec
+.ba5c	38		sec		        sec
+.ba5d	ed db bd	sbc $bddb	        sbc fo_rec+5
+.ba60	b0 02		bcs $ba64	        bcs +
+.ba62	a9 00		lda #$00	        lda #0
+.ba64	cd ae bd	cmp $bdae	+       cmp fo_ow
+.ba67	90 03		bcc $ba6c	        bcc +
+.ba69	ad ae bd	lda $bdae	        lda fo_ow
+.ba6c	8d 54 a0	sta $a054	+       sta gfx_text_length
+.ba6f	a0 00		ldy #$00	        ldy #0
+.ba71	f0 07		beq $ba7a	        beq fo_buf_test
+.ba73					fo_buf_rd:
+.ba73	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.ba76	99 55 a0	sta $a055,y	        sta gfx_text_buffer,y
+.ba79	c8		iny		        iny
+.ba7a					fo_buf_test:
+.ba7a	cc 54 a0	cpy $a054	        cpy gfx_text_length
+.ba7d	d0 f4		bne $ba73	        bne fo_buf_rd
+.ba7f	ad b1 bd	lda $bdb1	        lda fo_ax
+.ba82	20 1b bb	jsr $bb1b	        jsr fo_text_at_row
+.ba85	b0 6f		bcs $baf6	        bcs fo_field_done
+.ba87	a9 01		lda #$01	        lda #1                  ; underline: the cells' last pixel row
+.ba89	8d 1a 9f	sta $9f1a	        sta gfx_pen
+.ba8c	ad b1 bd	lda $bdb1	        lda fo_ax
+.ba8f	20 bd bb	jsr $bbbd	        jsr fo_times8
+.ba92	8d 12 9f	sta $9f12	        sta gfx_x0
+.ba95	8e 13 9f	stx $9f13	        stx gfx_x0+1
+.ba98	ad c4 bd	lda $bdc4	        lda fo_c1x
+.ba9b	20 bd bb	jsr $bbbd	        jsr fo_times8
+.ba9e	8d 16 9f	sta $9f16	        sta gfx_x1
+.baa1	8e 17 9f	stx $9f17	        stx gfx_x1+1
+.baa4	ad b2 bd	lda $bdb2	        lda fo_ay
+.baa7	20 bd bb	jsr $bbbd	        jsr fo_times8
+.baaa	18		clc		        clc
+.baab	69 07		adc #$07	        adc #7
+.baad	8d 14 9f	sta $9f14	        sta gfx_y0
+.bab0	8a		txa		        txa
+.bab1	69 00		adc #$00	        adc #0
+.bab3	8d 15 9f	sta $9f15	        sta gfx_y0+1
+.bab6	ad 14 9f	lda $9f14	        lda gfx_y0
+.bab9	18		clc		        clc
+.baba	69 01		adc #$01	        adc #1
+.babc	8d 18 9f	sta $9f18	        sta gfx_y1
+.babf	ad 15 9f	lda $9f15	        lda gfx_y0+1
+.bac2	69 00		adc #$00	        adc #0
+.bac4	8d 19 9f	sta $9f19	        sta gfx_y1+1
+.bac7	20 68 99	jsr $9968	        jsr gfx_rect
+.baca	b0 2a		bcs $baf6	        bcs fo_field_done
+.bacc	ad bf bd	lda $bdbf	        lda fo_color
+.bacf	20 91 bb	jsr $bb91	        jsr fo_cells
+.bad2	b0 22		bcs $baf6	        bcs fo_field_done
+.bad4	ad b5 bd	lda $bdb5	        lda fo_i                ; focused: the caret cell
+.bad7	cd b4 bd	cmp $bdb4	        cmp fo_focus
+.bada	d0 19		bne $baf5	        bne fo_field_ok
+.badc	ad d7 bd	lda $bdd7	        lda fo_rec+1
+.badf	38		sec		        sec
+.bae0	ed db bd	sbc $bddb	        sbc fo_rec+5
+.bae3	18		clc		        clc
+.bae4	6d b1 bd	adc $bdb1	        adc fo_ax
+.bae7	8d c2 bd	sta $bdc2	        sta fo_c0x
+.baea	8d c4 bd	sta $bdc4	        sta fo_c1x
+.baed	ee c4 bd	inc $bdc4	        inc fo_c1x
+.baf0	a9 07		lda #$07	        lda #FOC_FOCUS
+.baf2	4c 91 bb	jmp $bb91	        jmp fo_cells
+.baf5					fo_field_ok:
+.baf5	18		clc		        clc
+.baf6					fo_field_done:
+.baf6	60		rts		        rts
+.baf7					fo_label:
+.baf7	ad af bd	lda $bdaf	        lda fo_spec
+.bafa	8d 06 bb	sta $bb06	        sta fo_label_rd+1
+.bafd	ad b0 bd	lda $bdb0	        lda fo_spec+1
+.bb00	8d 07 bb	sta $bb07	        sta fo_label_rd+2
+.bb03	a0 00		ldy #$00	        ldy #0
+.bb05					fo_label_rd:
+.bb05	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.bb08	f0 0d		beq $bb17	        beq +
+.bb0a	99 55 a0	sta $a055,y	        sta gfx_text_buffer,y
+.bb0d	c8		iny		        iny
+.bb0e	cc ae bd	cpy $bdae	        cpy fo_ow
+.bb11	b0 04		bcs $bb17	        bcs +
+.bb13	c0 26		cpy #$26	        cpy #38
+.bb15	d0 ee		bne $bb05	        bne fo_label_rd
+.bb17	8c 54 a0	sty $a054	+       sty gfx_text_length
+.bb1a	60		rts		        rts
+.bb1b					fo_text_at_row:
+.bb1b	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb1e	8d 12 9f	sta $9f12	        sta gfx_x0
+.bb21	8e 13 9f	stx $9f13	        stx gfx_x0+1
+.bb24	ad b2 bd	lda $bdb2	        lda fo_ay
+.bb27	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb2a	8d 14 9f	sta $9f14	        sta gfx_y0
+.bb2d	8e 15 9f	stx $9f15	        stx gfx_y0+1
+.bb30					fo_text:
+.bb30	ad 54 a0	lda $a054	        lda gfx_text_length
+.bb33	f0 08		beq $bb3d	        beq +
+.bb35	a9 01		lda #$01	        lda #1
+.bb37	8d 1a 9f	sta $9f1a	        sta gfx_pen
+.bb3a	4c b1 9f	jmp $9fb1	        jmp gfx_text
+.bb3d	18		clc		+       clc
+.bb3e	60		rts		        rts
+.bb3f					fo_box:
+.bb3f	8d 1a 9f	sta $9f1a	        sta gfx_pen
+.bb42	ad c2 bd	lda $bdc2	        lda fo_c0x
+.bb45	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb48	18		clc		        clc
+.bb49	6d c6 bd	adc $bdc6	        adc fo_inset
+.bb4c	8d 12 9f	sta $9f12	        sta gfx_x0
+.bb4f	8a		txa		        txa
+.bb50	69 00		adc #$00	        adc #0
+.bb52	8d 13 9f	sta $9f13	        sta gfx_x0+1
+.bb55	ad c3 bd	lda $bdc3	        lda fo_c0y
+.bb58	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb5b	18		clc		        clc
+.bb5c	6d c6 bd	adc $bdc6	        adc fo_inset
+.bb5f	8d 14 9f	sta $9f14	        sta gfx_y0
+.bb62	8a		txa		        txa
+.bb63	69 00		adc #$00	        adc #0
+.bb65	8d 15 9f	sta $9f15	        sta gfx_y0+1
+.bb68	ad c4 bd	lda $bdc4	        lda fo_c1x
+.bb6b	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb6e	38		sec		        sec
+.bb6f	ed c6 bd	sbc $bdc6	        sbc fo_inset
+.bb72	8d 16 9f	sta $9f16	        sta gfx_x1
+.bb75	8a		txa		        txa
+.bb76	e9 00		sbc #$00	        sbc #0
+.bb78	8d 17 9f	sta $9f17	        sta gfx_x1+1
+.bb7b	ad c5 bd	lda $bdc5	        lda fo_c1y
+.bb7e	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bb81	38		sec		        sec
+.bb82	ed c6 bd	sbc $bdc6	        sbc fo_inset
+.bb85	8d 18 9f	sta $9f18	        sta gfx_y1
+.bb88	8a		txa		        txa
+.bb89	e9 00		sbc #$00	        sbc #0
+.bb8b	8d 19 9f	sta $9f19	        sta gfx_y1+1
+.bb8e	4c 68 99	jmp $9968	        jmp gfx_rect
+.bb91					fo_cells:
+.bb91	8d 1b 9f	sta $9f1b	        sta gfx_color
+.bb94	a9 00		lda #$00	        lda #0
+.bb96	8d 13 9f	sta $9f13	        sta gfx_x0+1
+.bb99	8d 17 9f	sta $9f17	        sta gfx_x1+1
+.bb9c	8d 15 9f	sta $9f15	        sta gfx_y0+1
+.bb9f	8d 19 9f	sta $9f19	        sta gfx_y1+1
+.bba2	ad c2 bd	lda $bdc2	        lda fo_c0x
+.bba5	8d 12 9f	sta $9f12	        sta gfx_x0
+.bba8	ad c4 bd	lda $bdc4	        lda fo_c1x
+.bbab	8d 16 9f	sta $9f16	        sta gfx_x1
+.bbae	ad c3 bd	lda $bdc3	        lda fo_c0y
+.bbb1	8d 14 9f	sta $9f14	        sta gfx_y0
+.bbb4	ad c5 bd	lda $bdc5	        lda fo_c1y
+.bbb7	8d 18 9f	sta $9f18	        sta gfx_y1
+.bbba	4c 6e 99	jmp $996e	        jmp gfx_colors
+.bbbd					fo_times8:
+.bbbd	a2 00		ldx #$00	        ldx #0
+.bbbf	8e c7 bd	stx $bdc7	        stx fo_t8
+.bbc2	0a		asl a		        asl
+.bbc3	2e c7 bd	rol $bdc7	        rol fo_t8
+.bbc6	0a		asl a		        asl
+.bbc7	2e c7 bd	rol $bdc7	        rol fo_t8
+.bbca	0a		asl a		        asl
+.bbcb	2e c7 bd	rol $bdc7	        rol fo_t8
+.bbce	ae c7 bd	ldx $bdc7	        ldx fo_t8
+.bbd1	60		rts		        rts
+.bbd2					fo_transfer_alloc:
+.bbd2	ad a6 bd	lda $bda6	        lda fo_w
+.bbd5	ae a7 bd	ldx $bda7	        ldx fo_h
+.bbd8	20 51 bd	jsr $bd51	        jsr fo_mul              ; cells
+.bbdb	ad d4 bd	lda $bdd4	        lda fo_prod             ; *9 = *8 + *1
+.bbde	8d d0 bd	sta $bdd0	        sta fo_bytes
+.bbe1	ad d5 bd	lda $bdd5	        lda fo_prod+1
+.bbe4	8d d1 bd	sta $bdd1	        sta fo_bytes+1
+.bbe7	a2 03		ldx #$03	        ldx #3
+.bbe9	0e d4 bd	asl $bdd4	-       asl fo_prod
+.bbec	2e d5 bd	rol $bdd5	        rol fo_prod+1
+.bbef	ca		dex		        dex
+.bbf0	d0 f7		bne $bbe9	        bne -
+.bbf2	ad d4 bd	lda $bdd4	        lda fo_prod
+.bbf5	18		clc		        clc
+.bbf6	6d d0 bd	adc $bdd0	        adc fo_bytes
+.bbf9	ad d5 bd	lda $bdd5	        lda fo_prod+1
+.bbfc	6d d1 bd	adc $bdd1	        adc fo_bytes+1
+.bbff	18		clc		        clc
+.bc00	69 01		adc #$01	        adc #1                  ; pages, rounded up
+.bc02	8d 01 3d	sta $3d01	        sta N_PAGES
+.bc05	ad 20 3d	lda $3d20	        lda N_CURRENT
+.bc08	8d 00 3d	sta $3d00	        sta N_OWNER
+.bc0b	a9 ff		lda #$ff	        lda #$ff
+.bc0d	8d 02 3d	sta $3d02	        sta N_BANK
+.bc10	20 20 1c	jsr $1c20	        jsr N_ALLOC
+.bc13	90 03		bcc $bc18	        bcs fo_transfer_done
+.bc15	4c c2 bc	jmp $bcc2
+.bc18	a2 03		ldx #$03	        ldx #3
+.bc1a	bd 04 3d	lda $3d04,x	-       lda N_HANDLE,x
+.bc1d	9d 9e bd	sta $bd9e,x	        sta fo_save,x
+.bc20	ca		dex		        dex
+.bc21	10 f7		bpl $bc1a	        bpl -
+.bc23	a9 00		lda #$00	        lda #0
+.bc25	20 2e bc	jsr $bc2e	        jsr fo_transfer
+.bc28	90 03		bcc $bc2d	        bcc +
+.bc2a	4c 33 b5	jmp $b533	        jmp fo_open_free
+.bc2d	60		rts		+       rts
+.bc2e					fo_transfer:
+.bc2e	8d c8 bd	sta $bdc8	        sta fo_dir
+.bc31	a9 00		lda #$00	        lda #0
+.bc33	8d c9 bd	sta $bdc9	        sta fo_row
+.bc36	8d cc bd	sta $bdcc	        sta fo_soff
+.bc39	8d cd bd	sta $bdcd	        sta fo_soff+1
+.bc3c					fo_transfer_row:
+.bc3c	ad a5 bd	lda $bda5	        lda fo_y                ; bitmap: (y+row)*320 + x*8
+.bc3f	18		clc		        clc
+.bc40	6d c9 bd	adc $bdc9	        adc fo_row
+.bc43	8d c1 bd	sta $bdc1	        sta fo_cy
+.bc46	a9 00		lda #$00	        lda #0
+.bc48	8d cb bd	sta $bdcb	        sta fo_boff+1
+.bc4b	ad c1 bd	lda $bdc1	        lda fo_cy               ; *64
+.bc4e	a2 06		ldx #$06	        ldx #6
+.bc50	0a		asl a		-       asl
+.bc51	2e cb bd	rol $bdcb	        rol fo_boff+1
+.bc54	ca		dex		        dex
+.bc55	d0 f9		bne $bc50	        bne -
+.bc57	8d ca bd	sta $bdca	        sta fo_boff
+.bc5a	ad cb bd	lda $bdcb	        lda fo_boff+1           ; + *256
+.bc5d	18		clc		        clc
+.bc5e	6d c1 bd	adc $bdc1	        adc fo_cy
+.bc61	8d cb bd	sta $bdcb	        sta fo_boff+1
+.bc64	ad a4 bd	lda $bda4	        lda fo_x
+.bc67	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bc6a	18		clc		        clc
+.bc6b	6d ca bd	adc $bdca	        adc fo_boff
+.bc6e	8d ca bd	sta $bdca	        sta fo_boff
+.bc71	8a		txa		        txa
+.bc72	6d cb bd	adc $bdcb	        adc fo_boff+1
+.bc75	8d cb bd	sta $bdcb	        sta fo_boff+1
+.bc78	ad a6 bd	lda $bda6	        lda fo_w                ; w*8 bytes
+.bc7b	20 bd bb	jsr $bbbd	        jsr fo_times8
+.bc7e	8d ce bd	sta $bdce	        sta fo_len
+.bc81	8e cf bd	stx $bdcf	        stx fo_len+1
+.bc84	20 c3 bc	jsr $bcc3	        jsr fo_copy_run
+.bc87	b0 39		bcs $bcc2	        bcs fo_transfer_done
+.bc89	ad c1 bd	lda $bdc1	        lda fo_cy               ; colours: 8192 + (y+row)*40 + x
+.bc8c	a2 28		ldx #$28	        ldx #40
+.bc8e	20 51 bd	jsr $bd51	        jsr fo_mul
+.bc91	ad d4 bd	lda $bdd4	        lda fo_prod
+.bc94	18		clc		        clc
+.bc95	6d a4 bd	adc $bda4	        adc fo_x
+.bc98	8d ca bd	sta $bdca	        sta fo_boff
+.bc9b	ad d5 bd	lda $bdd5	        lda fo_prod+1
+.bc9e	69 20		adc #$20	        adc #$20
+.bca0	8d cb bd	sta $bdcb	        sta fo_boff+1
+.bca3	ad a6 bd	lda $bda6	        lda fo_w
+.bca6	8d ce bd	sta $bdce	        sta fo_len
+.bca9	a9 00		lda #$00	        lda #0
+.bcab	8d cf bd	sta $bdcf	        sta fo_len+1
+.bcae	20 c3 bc	jsr $bcc3	        jsr fo_copy_run
+.bcb1	b0 0f		bcs $bcc2	        bcs fo_transfer_done
+.bcb3	ee c9 bd	inc $bdc9	        inc fo_row
+.bcb6	ad c9 bd	lda $bdc9	        lda fo_row
+.bcb9	cd a7 bd	cmp $bda7	        cmp fo_h
+.bcbc	f0 03		beq $bcc1	        bne fo_transfer_row
+.bcbe	4c 3c bc	jmp $bc3c
+.bcc1	18		clc		        clc
+.bcc2					fo_transfer_done:
+.bcc2	60		rts		        rts
+.bcc3					fo_copy_run:
+.bcc3	ad c8 bd	lda $bdc8	        lda fo_dir
+.bcc6	d0 17		bne $bcdf	        bne +
+.bcc8	20 32 bd	jsr $bd32	        jsr fo_select_surface   ; surface -> buffer -> copy
+.bccb	20 0a bd	jsr $bd0a	        jsr fo_at_surface
+.bcce	20 26 1c	jsr $1c26	        jsr N_READ
+.bcd1	b0 36		bcs $bd09	        bcs fo_run_done
+.bcd3	20 3f bd	jsr $bd3f	        jsr fo_select_save
+.bcd6	20 19 bd	jsr $bd19	        jsr fo_at_save
+.bcd9	20 29 1c	jsr $1c29	        jsr N_WRITE
+.bcdc	4c f3 bc	jmp $bcf3	        jmp fo_run_next
+.bcdf	20 3f bd	jsr $bd3f	+       jsr fo_select_save      ; copy -> buffer -> surface
+.bce2	20 19 bd	jsr $bd19	        jsr fo_at_save
+.bce5	20 26 1c	jsr $1c26	        jsr N_READ
+.bce8	b0 1f		bcs $bd09	        bcs fo_run_done
+.bcea	20 32 bd	jsr $bd32	        jsr fo_select_surface
+.bced	20 0a bd	jsr $bd0a	        jsr fo_at_surface
+.bcf0	20 29 1c	jsr $1c29	        jsr N_WRITE
+.bcf3					fo_run_next:
+.bcf3	b0 14		bcs $bd09	        bcs fo_run_done
+.bcf5	ad cc bd	lda $bdcc	        lda fo_soff
+.bcf8	18		clc		        clc
+.bcf9	6d ce bd	adc $bdce	        adc fo_len
+.bcfc	8d cc bd	sta $bdcc	        sta fo_soff
+.bcff	ad cd bd	lda $bdcd	        lda fo_soff+1
+.bd02	6d cf bd	adc $bdcf	        adc fo_len+1
+.bd05	8d cd bd	sta $bdcd	        sta fo_soff+1
+.bd08	18		clc		        clc
+.bd09					fo_run_done:
+.bd09	60		rts		        rts
+.bd0a					fo_at_surface:
+.bd0a	ad ca bd	lda $bdca	        lda fo_boff
+.bd0d	8d 08 3d	sta $3d08	        sta N_OFFSET
+.bd10	ad cb bd	lda $bdcb	        lda fo_boff+1
+.bd13	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.bd16	4c 25 bd	jmp $bd25	        jmp fo_count_len
+.bd19					fo_at_save:
+.bd19	ad cc bd	lda $bdcc	        lda fo_soff
+.bd1c	8d 08 3d	sta $3d08	        sta N_OFFSET
+.bd1f	ad cd bd	lda $bdcd	        lda fo_soff+1
+.bd22	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.bd25					fo_count_len:
+.bd25	ad ce bd	lda $bdce	        lda fo_len
+.bd28	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.bd2b	ad cf bd	lda $bdcf	        lda fo_len+1
+.bd2e	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.bd31	60		rts		        rts
+.bd32					fo_select_surface:
+.bd32	a2 03		ldx #$03	        ldx #3
+.bd34	bd 9a bd	lda $bd9a,x	-       lda fo_surface,x
+.bd37	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.bd3a	ca		dex		        dex
+.bd3b	10 f7		bpl $bd34	        bpl -
+.bd3d	30 0b		bmi $bd4a	        bmi fo_owner
+.bd3f					fo_select_save:
+.bd3f	a2 03		ldx #$03	        ldx #3
+.bd41	bd 9e bd	lda $bd9e,x	-       lda fo_save,x
+.bd44	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.bd47	ca		dex		        dex
+.bd48	10 f7		bpl $bd41	        bpl -
+.bd4a					fo_owner:
+.bd4a	ad 20 3d	lda $3d20	        lda N_CURRENT
+.bd4d	8d 00 3d	sta $3d00	        sta N_OWNER
+.bd50	60		rts		        rts
+.bd51					fo_mul:
+.bd51	8d d2 bd	sta $bdd2	        sta fo_mul_a
+.bd54	8e d3 bd	stx $bdd3	        stx fo_mul_b
+.bd57	a9 00		lda #$00	        lda #0
+.bd59	8d d4 bd	sta $bdd4	        sta fo_prod
+.bd5c	8d d5 bd	sta $bdd5	        sta fo_prod+1
+.bd5f	a2 08		ldx #$08	        ldx #8
+.bd61	4e d3 bd	lsr $bdd3	-       lsr fo_mul_b
+.bd64	90 0a		bcc $bd70	        bcc +
+.bd66	18		clc		        clc
+.bd67	ad d5 bd	lda $bdd5	        lda fo_prod+1
+.bd6a	6d d2 bd	adc $bdd2	        adc fo_mul_a
+.bd6d	8d d5 bd	sta $bdd5	        sta fo_prod+1
+.bd70	6e d5 bd	ror $bdd5	+       ror fo_prod+1
+.bd73	6e d4 bd	ror $bdd4	        ror fo_prod
+.bd76	ca		dex		        dex
+.bd77	d0 e8		bne $bd61	        bne -
+.bd79	60		rts		        rts
+.bd7a					fo_glyphs:
+>bd7a	ff 81 81 81 81 81 81 ff		        .byte $ff,$81,$81,$81,$81,$81,$81,$ff
+>bd82	ff c3 a5 99 99 a5 c3 ff		        .byte $ff,$c3,$a5,$99,$99,$a5,$c3,$ff
+>bd8a	3c 42 81 81 81 81 42 3c		        .byte $3c,$42,$81,$81,$81,$81,$42,$3c
+>bd92	3c 42 99 bd bd 99 42 3c		        .byte $3c,$42,$99,$bd,$bd,$99,$42,$3c
+>bd9a	00 00 00 00			fo_surface: .fill 4,0
+>bd9e	00 00 00 00			fo_save: .fill 4,0
+>bda2	00 00				fo_ptr: .word 0
+>bda4	00				fo_x: .byte 0                   ; header copy: x, y, w, h, n
+>bda5	00				fo_y: .byte 0
+>bda6	00				fo_w: .byte 0
+>bda7	00				fo_h: .byte 0
+>bda8	00				fo_n: .byte 0
+>bda9	00				fo_type: .byte 0                ; fetched object: 8 bytes
+>bdaa	00				fo_flags: .byte 0
+>bdab	00				fo_state: .byte 0
+>bdac	00				fo_ox: .byte 0
+>bdad	00				fo_oy: .byte 0
+>bdae	00				fo_ow: .byte 0
+>bdaf	00 00				fo_spec: .word 0
+>bdb1	00				fo_ax: .byte 0
+>bdb2	00				fo_ay: .byte 0
+>bdb3	00				fo_rows: .byte 0
+>bdb4	ff				fo_focus: .byte $ff
+>bdb5	00				fo_i: .byte 0
+>bdb6	00				fo_j: .byte 0
+>bdb7	00				fo_target: .byte 0
+>bdb8	00				fo_count: .byte 0
+>bdb9	00				fo_flag: .byte 0
+>bdba	00				fo_key: .byte 0
+>bdbb	00				fo_press: .byte 0
+>bdbc	00				fo_prev_button: .byte 0
+>bdbd	00				fo_exit: .byte 0
+>bdbe	00				fo_error: .byte 0
+>bdbf	00				fo_color: .byte 0
+>bdc0	00				fo_cx: .byte 0
+>bdc1	00				fo_cy: .byte 0
+>bdc2	00				fo_c0x: .byte 0
+>bdc3	00				fo_c0y: .byte 0
+>bdc4	00				fo_c1x: .byte 0
+>bdc5	00				fo_c1y: .byte 0
+>bdc6	00				fo_inset: .byte 0
+>bdc7	00				fo_t8: .byte 0
+>bdc8	00				fo_dir: .byte 0
+>bdc9	00				fo_row: .byte 0
+>bdca	00 00				fo_boff: .word 0
+>bdcc	00 00				fo_soff: .word 0
+>bdce	00 00				fo_len: .word 0
+>bdd0	00 00				fo_bytes: .word 0
+>bdd2	00				fo_mul_a: .byte 0
+>bdd3	00				fo_mul_b: .byte 0
+>bdd4	00 00				fo_prod: .word 0
+>bdd6	00 00 00 00 00 00		fo_rec: .fill 6,0
+
+;******  Return to file: src/native/gemdesk-dlg.asm
+
+.bddc					gm_dlg_end:
+
+;******  End of listing

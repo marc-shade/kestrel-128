@@ -1,0 +1,1257 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -o target/native/calc.prg -L target/native/calc.lst src/native/calc.asm
+; Wed Sep 30 11:09:20 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/calc.asm
+
+
+;******  Processing file: src/native/api.inc
+
+=1					N_ABI_MAJOR = 1
+=14					N_ABI_MINOR = 14
+=$1c20					N_ALLOC         = $1c20
+=$1c23					N_FREE          = $1c23
+=$1c26					N_READ          = $1c26
+=$1c29					N_WRITE         = $1c29
+=$1c2c					N_FILL          = $1c2c
+=$1c2f					N_STATS         = $1c2f
+=$1c32					N_RELEASE       = $1c32
+=$1c35					N_RESERVE       = $1c35
+=$1c38					N_LAUNCH        = $1c38          ; checked PRG through owned IEC/Ultimate streams
+=$1c3b					N_KEYIN         = $1c3b          ; native GETIN with shared key-event accounting
+=$1c3e					N_EXIT          = $1c3e          ; one-way app exit, A=app result; restores saved stack
+=$1c41					N_FOPEN         = $1c41          ; owned read/create stream or Ultimate directory cursor
+=$1c44					N_FREAD         = $1c44          ; up to 512 file bytes, or one complete directory entry
+=$1c47					N_FWRITE        = $1c47          ; up to 512 bytes from N_BUFFER
+=$1c4a					N_FCLOSE        = $1c4a          ; close only this owned file
+=$1c4d					N_FRELEASE      = $1c4d          ; close every file owned by N_FOWNER
+=$1c50					N_DIRPAGE       = $1c50          ; one normalized directory page; no live stream on success
+=$1c53					N_REPLACE       = $1c53          ; leave app, request dispatcher launch with source fields
+=$1c56					N_WORKSPACE     = $1c56          ; leave app, request return to the memory workspace
+=$1c59					N_FEDIT         = $1c59          ; edit the active app's bounded field, no input polling
+=$1c5c					N_FDRAW         = $1c5c          ; draw that focused field at the current console position
+=$1c5f					N_MLOAD         = $1c5f          ; checked module from the original app's source folder
+=$1c62					N_MCALL         = $1c62          ; call the current module using its generation token
+=$1c65					N_MCLOSE        = $1c65          ; invalidate module; close/recover only its source stream
+=$1c68					N_VSHOW         = $1c68          ; experimental: present owned bank-0 $c000..$e3ff
+=$1c6b					N_VCLOSE        = $1c6b          ; experimental: restore text; keep surface allocation
+=$1c6e					N_UQUERY        = $1c6e          ; checked, read-only Ultimate query; shared file lock
+=$1c71					N_UCOMMAND      = $1c71          ; serialized UCI packet: N_BUFFER header + N_FCOUNT body bytes
+=$1bf0					N_NMIGATE       = $1bf0
+=$3d3e					N_NMIPTR        = $3d3e
+=$3d00					N_OWNER         = $3d00
+=$3d01					N_PAGES         = $3d01
+=$3d02					N_BANK          = $3d02
+=$3d03					N_PAGE          = $3d03
+=$3d04					N_HANDLE        = $3d04          ; four bytes
+=$3d08					N_OFFSET        = $3d08          ; word
+=$3d0a					N_COUNT         = $3d0a          ; word
+=$3d0c					N_VALUE         = $3d0c
+=$3d0d					N_ERROR         = $3d0d
+=$3d0e					N_FREE0         = $3d0e          ; free 256-byte pages, bank 0
+=$3d0f					N_FREE1         = $3d0f          ; free 256-byte pages, bank 1
+=$3d10					N_SLOTS         = $3d10          ; reusable descriptor slots
+=$3d11					N_BUSY          = $3d11
+=$3d12					N_READY         = $3d12
+=$3d13					N_KEYS          = $3d13          ; word: consumed keyboard events
+=$3d15					N_LASTKEY       = $3d15
+=$3d16					N_RESULT        = $3d16          ; workspace's last command result
+=$3d17					N_MTOKEN        = $3d17          ; LE24: MLOAD output / MCALL input; zero is invalid
+=$3d1a					N_MERROR        = $3d1a          ; gate/loader error; MCALL preserves module's A/carry
+=$3d1b					N_MSTATE        = $3d1b          ; read-only: 0 empty, 1 loading, 2 ready, 3 running, 4 close retained
+=$3d20					N_CURRENT       = $3d20          ; active app owner; 0 when no app owns the slot
+=$3d21					N_DEVICE        = $3d21          ; launch IEC device 8..30, or Ultimate DOS context 1/2
+=$3d22					N_NAMELEN       = $3d22          ; IEC launch name 1..16; Ultimate path length 1..255
+=$3d23					N_APPSTATE      = $3d23          ; 0 idle, 1 loading, 2 running, 3 cleanup, 4 retained error
+=$3d24					N_EXITCODE      = $3d24          ; last application's A on return/EXIT
+=$3d25					N_DOSCODE       = $3d25          ; DOS error code (decimal), when available
+=$3d26					N_IOSTATUS      = $3d26          ; first failed loader stream's nonzero transport status
+=$3d27					N_APPERROR      = $3d27          ; stable launch result, separate from heap ERROR
+=$3d28					N_ACTION        = $3d28          ; completed app request: 0 normal, 1 replace, 2 workspace
+=$3d29					N_BROWSERDEV    = $3d29          ; workspace/browser preferences (not file-call arguments)
+=$3d2a					N_BROWSERFMT    = $3d2a
+=$3d2b					N_BROWSERERROR  = $3d2b          ; last dispatcher error shown when the browser returns
+=$3d2c					N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
+=$3d2d					N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
+=$3de4					N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3de5					N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
+=31					N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
+=$3d2e					N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
+=$3d2f					N_DESKTOPSEL    = $3d2f          ; session: 0 Calc / 1 Editor / 2 Files / 3 Ultimate / 4 Claude / 5 Paint / 6 Sheet
+=$3d30					N_BROWSERPOS    = $3d30          ; dword: selected Ultimate directory ordinal
+=$3d34					N_BROWSERNAME_LEN = $3d34        ; ABI 1.5: selected raw name length, 0 when empty
+=$3d35					N_UIPTR         = $3d35          ; word: field-state address
+=$3d37					N_UIKEY         = $3d37
+=$3d38					N_UIWIDTH       = $3d38
+=$3d39					N_UIFLAGS       = $3d39          ; successful edit: bit 0 content, bit 1 caret changed
+=$3d3a					N_UIERROR       = $3d3a
+=$3d3b					N_UIBUSY        = $3d3b
+=$3d3c					N_UOP           = $3d3c
+=$3d3d					N_UARG          = $3d3d
+=0					N_U_IDENTIFY    = 0             ; UARG target 1..15; interface identification
+=1					N_U_HARDWARE    = 1             ; control hardware model, selector 0
+=2					N_U_DRIVES      = 2             ; control inventory, effective IEC addresses
+=3					N_U_POWER_A     = 3
+=4					N_U_POWER_B     = 4
+=5					N_U_INTERFACES  = 5             ; network interface count
+=6					N_U_MAC         = 6             ; UARG interface index
+=7					N_U_IP          = 7             ; UARG interface index; IP/mask/gateway
+=8					N_U_TIME        = 8             ; DOS GET_TIME; running cartridge RTC
+=9					N_U_QUERY_COUNT = 9
+=0					UI_LENGTH       = 0
+=1					UI_CARET        = 1
+=2					UI_MAXIMUM      = 2
+=3					UI_BUFFER       = 3
+=5					UI_VIEW40       = 5
+=6					UI_VIEW80       = 6
+=7					UI_FILTER       = 7
+=8					UI_STATE_BYTES  = 8
+=$3e00					N_BROWSERNAME   = $3e00          ; 256 bytes; restore selection after directory edits
+=$3d40					N_APPNAME       = $3d40          ; 16-byte filename, no wildcard/DOS syntax
+=$3d50					N_MHEADER       = $3d50          ; private: independent 16-byte module manifest
+=$3d60					N_APPHEADER     = $3d60          ; validated 32-byte native image manifest
+=$3f00					N_SOURCEPATH    = $3f00          ; private: original Ultimate app parent directory
+=$3a00					N_BUFFER        = $3a00          ; 512 bytes, bank 0, reserved
+=$3d80					N_FOWNER        = $3d80
+=$3d81					N_FHANDLE       = $3d81          ; four bytes
+=$3d85					N_FDEVICE       = $3d85          ; IEC 8..30 or Ultimate DOS context 1/2
+=$3d86					N_FNAMELEN      = $3d86
+=$3d87					N_FMODE         = $3d87
+=$3d88					N_FTYPE         = $3d88
+=$3d89					N_FCOUNT        = $3d89          ; requested word, 1..512
+=$3d8b					N_FACTUAL       = $3d8b          ; returned word; may be a prefix on I/O error
+=$3d8d					N_FEOF          = $3d8d          ; read handle has consumed its checked extent
+=$3d8e					N_FERROR        = $3d8e
+=$3d8f					N_FDOS          = $3d8f          ; IEC first error; Ultimate most recent numeric status
+=$3d90					N_FSTATUS       = $3d90          ; IEC serial error; Ultimate transport/verification detail
+=$3d91					N_FBUSY         = $3d91
+=$3d92					N_FPOSITION     = $3d92          ; LE32 byte position, or directory entries consumed
+=$3d96					N_FFORMAT       = $3d96          ; 0 D64, 1 D71, 2 D81, 3 Ultimate DOS
+=$4e00					N_UPATH         = $4e00          ; 256-byte path mailbox, bank 0, reserved
+=$4a00					N_BROWSERPATH   = $4a00          ; ABI 1.5: persistent browser path, 1..255 raw bytes
+=$4f00					N_USTATUS       = $4f00          ; last Ultimate status text, at most 31 bytes + NUL
+=$3d97					N_DPAGE         = $3d97          ; zero-based directory page, bounded by geometry
+=$3d98					N_DNEXT         = $3d98          ; next page ordinal, or $ff at directory end
+=$3d99					N_DCOUNT        = $3d99          ; 0 or 8 records returned in N_BUFFER
+=$3d9a					N_DOCREQUEST    = $3d9a          ; 0 none, $80 staged, 1 ready for this app only
+=$3d9b					N_DOCKIND       = $3d9b          ; 1 Editor text, 2 Paint UPNT, 3 Sheet USHT
+=$3d9c					N_DOCTYPE       = $3d9c          ; IEC 0 SEQ / 1 PRG / 2 USR; Ultimate must be 0
+=$3d9d					N_DOCRETURN     = $3d9d          ; 1 dispatcher returns to system Files, then clears
+=$3d9e					N_DOCRESUME     = $3d9e          ; dispatcher -> Files: restore selection once
+=$3da0					N_FNAME         = $3da0          ; 16 bytes
+=$3dc0					NFILES          = $3dc0          ; private: two 16-byte descriptors
+=$3de0					NFCMDS          = $3de0          ; private: two device bytes, two state bytes (0/1/2)
+=0					N_OK            = 0
+=1					N_BADARG        = 1
+=2					N_NOMEM         = 2
+=3					N_NOSLOT        = 3
+=4					N_BADHANDLE     = 4
+=5					N_WRONGOWNER    = 5
+=6					N_RANGE         = 6
+=7					N_REENTRANT     = 7
+=8					N_PLATFORM      = 8
+=9					N_CORRUPT       = 9
+=$10					N_BADIMAGE      = $10            ; invalid manifest/load address/ABI
+=$11					N_IOERROR       = $11            ; IEC or DOS failure (see DOSCODE/IOSTATUS)
+=$12					N_SHORTIMAGE    = $12            ; EOF before declared length
+=$13					N_LONGIMAGE     = $13            ; declared length reached without EOF
+=$14					N_CHECKSUM      = $14            ; image CRC16 does not match
+=$15					N_CHANNELS      = $15            ; reserved channels conflict / redirected console
+=$16					N_MEXHAUSTED    = $16            ; module generation retired until the next kernel boot
+=$6000					N_APPBASE       = $6000          ; bank 0 application executable slot
+=$c000					N_APPLIMIT      = $c000          ; exclusive: keep native editor/KERNAL visible
+=32					N_APPOWNER      = 32             ; one foreground app in this initial lifecycle
+=$1300					N_LOWBASE       = $1300          ; resident kernel section, initialized before heap use
+=$1c00					N_LOWLIMIT      = $1c00          ; exclusive; below the BASIC entry stub
+=$5000					N_RELOCBASE     = $5000          ; boot-only staging, reusable after relocation
+=$4000					N_SERVICEBASE   = $4000          ; resident Ultimate services and mailboxes
+=$5000					N_SERVICELIMIT  = $5000
+=$3800					NPAGES0         = $3800          ; page -> slot+1, 0 free, $ff reserved
+=$3900					NPAGES1         = $3900
+=$3c00					NHANDLES        = $3c00          ; 32 records of eight bytes
+=32					NSLOTS          = 32
+=$50					N_FIRST0        = $50            ; bank 0 $5000..$feff: 175 pages
+=$04					N_FIRST1        = $04            ; bank 1 $0400..$feff: 251 pages
+
+;******  Return to file: src/native/calc.asm
+
+=0					NATIVE_CALC_GRAPHICS=0
+.6000					app_image:
+>6000	4e 41 50 50			        .text "napp"
+>6004	01 01 06 00			        .byte 1,1,6,0          ; shared focused fields use ABI 1.6
+>6008	16 0c				        .word calc_end-app_image
+>600a	10 00				        .byte 16,0             ; 4 KiB code/data, zero-filled before loading
+>600c	20 00				        .word calc_entry-app_image
+>600e	00 00				        .word 0                ; build-native.py seals CRC16 over the image
+>6010	43 41 4c 43 55 4c 41 54		        .text "calculator",0
+>6018	4f 52 00
+>601b	00 00 00 00 00			        .fill N_APPBASE+32-*,0
+.6020					calc_entry:
+.6020	d8		cld		        cld
+.6021	ad 20 3d	lda $3d20	        lda N_CURRENT
+.6024	8d 6b 66	sta $666b	        sta owner
+.6027	8d 00 3d	sta $3d00	        sta N_OWNER
+.602a	a9 02		lda #$02	        lda #2
+.602c	8d 01 3d	sta $3d01	        sta N_PAGES
+.602f	a9 01		lda #$01	        lda #1
+.6031	8d 02 3d	sta $3d02	        sta N_BANK
+.6034	20 20 1c	jsr $1c20	        jsr N_ALLOC
+.6037	90 01		bcc $603a	        bcc calc_history_allocated
+.6039	60		rts		        rts                    ; launch reports app return code, cleans its slot
+.603a					calc_history_allocated:
+.603a	a2 03		ldx #$03	        ldx #3
+.603c					calc_keep_handle:
+.603c	bd 04 3d	lda $3d04,x	        lda N_HANDLE,x
+.603f	9d 6e 66	sta $666e,x	        sta history_handle,x
+.6042	ca		dex		        dex
+.6043	10 f7		bpl $603c	        bpl calc_keep_handle
+.6045	a9 00		lda #$00	        lda #0
+.6047	8d 72 66	sta $6672	        sta history_count
+.604a	8d 73 66	sta $6673	        sta history_head
+.604d	8d 74 66	sta $6674	        sta history_view
+.6050	8d 75 66	sta $6675	        sta history_pending
+.6053	8d 37 6a	sta $6a37	        sta save_mode
+.6056	8d 38 6a	sta $6a38	        sta save_status
+.6059	20 87 68	jsr $6887	        jsr save_source
+.605c	4c 1e 61	jmp $611e	        jmp c_clear
+.605f					cloop:
+.605f	a9 01		lda #$01	        lda #1
+.6061	8d 12 3d	sta $3d12	        sta N_READY
+.6064	20 3b 1c	jsr $1c3b	        jsr N_KEYIN
+.6067	f0 f6		beq $605f	        beq cloop
+.6069	a2 00		ldx #$00	        ldx #0
+.606b	8e 12 3d	stx $3d12	        stx N_READY
+.606e	ae 37 6a	ldx $6a37	        ldx save_mode
+.6071	f0 03		beq $6076	        beq *+5
+.6073	4c c3 66	jmp $66c3	        jmp save_key
+.6076	c9 1b		cmp #$1b	        cmp #$1b
+.6078	f0 74		beq $60ee	        beq calc_exit
+.607a	c9 43		cmp #$43	        cmp #$43
+.607c	f0 51		beq $60cf	        beq calc_clear
+.607e	c9 63		cmp #$63	        cmp #$63
+.6080	f0 4d		beq $60cf	        beq calc_clear
+.6082	c9 4e		cmp #$4e	        cmp #$4e
+.6084	f0 6d		beq $60f3	        beq calc_older
+.6086	c9 6e		cmp #$6e	        cmp #$6e
+.6088	f0 69		beq $60f3	        beq calc_older
+.608a	c9 42		cmp #$42	        cmp #$42
+.608c	f0 7c		beq $610a	        beq calc_newer
+.608e	c9 62		cmp #$62	        cmp #$62
+.6090	f0 78		beq $610a	        beq calc_newer
+.6092	c9 53		cmp #$53	        cmp #$53
+.6094	d0 03		bne $6099	        bne *+5
+.6096	4c 90 66	jmp $6690	        jmp save_begin
+.6099	c9 73		cmp #$73	        cmp #$73
+.609b	d0 03		bne $60a0	        bne *+5
+.609d	4c 90 66	jmp $6690	        jmp save_begin
+.60a0	ae 7f 66	ldx $667f	        ldx c_err
+.60a3	d0 ba		bne $605f	        bne cloop              ; ESC and history remain available during errors
+.60a5	c9 14		cmp #$14	        cmp #$14
+.60a7	d0 03		bne $60ac	        bne *+5
+.60a9	4c dc 61	jmp $61dc	        jmp c_del
+.60ac	c9 0d		cmp #$0d	        cmp #13
+.60ae	f0 22		beq $60d2	        beq calc_equal
+.60b0	c9 3d		cmp #$3d	        cmp #$3d
+.60b2	f0 1e		beq $60d2	        beq calc_equal
+.60b4	c9 2b		cmp #$2b	        cmp #$2b
+.60b6	f0 22		beq $60da	        beq calc_plus
+.60b8	c9 2d		cmp #$2d	        cmp #$2d
+.60ba	f0 23		beq $60df	        beq calc_minus
+.60bc	c9 2a		cmp #$2a	        cmp #$2a
+.60be	f0 24		beq $60e4	        beq calc_times
+.60c0	c9 2f		cmp #$2f	        cmp #$2f
+.60c2	f0 25		beq $60e9	        beq calc_divide
+.60c4	c9 30		cmp #$30	        cmp #$30
+.60c6	90 97		bcc $605f	        bcc cloop
+.60c8	c9 3a		cmp #$3a	        cmp #$3a
+.60ca	b0 93		bcs $605f	        bcs cloop
+.60cc	4c 40 61	jmp $6140	        jmp c_dig
+.60cf					calc_clear:
+.60cf	4c 1e 61	jmp $611e	        jmp c_clear
+.60d2					calc_equal:
+.60d2	a9 01		lda #$01	        lda #1
+.60d4	8d 75 66	sta $6675	        sta history_pending
+.60d7	4c 43 62	jmp $6243	        jmp c_eq
+.60da					calc_plus:
+.60da	a9 01		lda #$01	        lda #1
+.60dc	4c ed 61	jmp $61ed	        jmp c_op
+.60df					calc_minus:
+.60df	a9 02		lda #$02	        lda #2
+.60e1	4c ed 61	jmp $61ed	        jmp c_op
+.60e4					calc_times:
+.60e4	a9 03		lda #$03	        lda #3
+.60e6	4c ed 61	jmp $61ed	        jmp c_op
+.60e9					calc_divide:
+.60e9	a9 04		lda #$04	        lda #4
+.60eb	4c ed 61	jmp $61ed	        jmp c_op
+.60ee					calc_exit:
+.60ee	a9 00		lda #$00	        lda #0
+.60f0	4c 3e 1c	jmp $1c3e	        jmp N_EXIT             ; one-way exit drops app frames, releases all owners
+.60f3					calc_older:
+.60f3	18		clc		        clc
+.60f4	ad 74 66	lda $6674	        lda history_view
+.60f7	69 08		adc #$08	        adc #8
+.60f9	cd 72 66	cmp $6672	        cmp history_count
+.60fc	90 03		bcc $6101	        bcc *+5
+.60fe	4c 5f 60	jmp $605f	        jmp cloop
+.6101	8d 74 66	sta $6674	        sta history_view
+.6104	20 4f 64	jsr $644f	        jsr c_show
+.6107	4c 5f 60	jmp $605f	        jmp cloop
+.610a					calc_newer:
+.610a	ad 74 66	lda $6674	        lda history_view
+.610d	d0 03		bne $6112	        bne *+5
+.610f	4c 5f 60	jmp $605f	        jmp cloop
+.6112	38		sec		        sec
+.6113	e9 08		sbc #$08	        sbc #8
+.6115	8d 74 66	sta $6674	        sta history_view
+.6118	20 4f 64	jsr $644f	        jsr c_show
+.611b	4c 5f 60	jmp $605f	        jmp cloop
+
+;******  Processing file: src/native/calc-engine.inc
+
+.611e					c_clear:
+.611e	a9 00		lda #$00	        lda #$00
+.6120	8d 78 66	sta $6678	        sta c_acc
+.6123	8d 79 66	sta $6679	        sta c_acc+1
+.6126	8d 7a 66	sta $667a	        sta c_ent
+.6129	8d 7b 66	sta $667b	        sta c_ent+1
+.612c	8d 7c 66	sta $667c	        sta c_elen
+.612f	8d 7d 66	sta $667d	        sta c_pen
+.6132	8d 7f 66	sta $667f	        sta c_err
+.6135	a9 01		lda #$01	        lda #$01
+.6137	8d 7e 66	sta $667e	        sta c_fresh
+.613a	20 4f 64	jsr $644f	        jsr c_show
+.613d	4c 5f 60	jmp $605f	        jmp cloop
+.6140					c_dig:
+.6140	8d 82 66	sta $6682	        sta c_tmp2                      ; save the digit char before A is used
+.6143	ad 7e 66	lda $667e	        lda c_fresh
+.6146	f0 0e		beq $6156	        beq _dg_cont
+.6148	a9 00		lda #$00	        lda #$00
+.614a	8d 7a 66	sta $667a	        sta c_ent
+.614d	8d 7b 66	sta $667b	        sta c_ent+1
+.6150	8d 7c 66	sta $667c	        sta c_elen
+.6153	8d 7e 66	sta $667e	        sta c_fresh
+.6156					_dg_cont:
+.6156	ad 7c 66	lda $667c	        lda c_elen
+.6159	c9 08		cmp #$08	        cmp #$08
+.615b	b0 22		bcs $617f	        bcs _dg_rej                     ; entry cap: ignore the key
+.615d	ad 82 66	lda $6682	        lda c_tmp2
+.6160	38		sec		        sec
+.6161	e9 30		sbc #$30	        sbc #$30
+.6163	8d 82 66	sta $6682	        sta c_tmp2                      ; digit 0-9
+.6166	ad 7b 66	lda $667b	        lda c_ent+1
+.6169	c9 19		cmp #$19	        cmp #$19                        ; high byte of 6553 ($1999)
+.616b	90 15		bcc $6182	        bcc _dg_ok
+.616d	d0 10		bne $617f	        bne _dg_rej
+.616f	ad 7a 66	lda $667a	        lda c_ent
+.6172	c9 99		cmp #$99	        cmp #$99
+.6174	90 0c		bcc $6182	        bcc _dg_ok
+.6176	d0 07		bne $617f	        bne _dg_rej
+.6178	ad 82 66	lda $6682	        lda c_tmp2
+.617b	c9 06		cmp #$06	        cmp #$06
+.617d	90 03		bcc $6182	        bcc _dg_ok
+.617f					_dg_rej:
+.617f	4c 5f 60	jmp $605f	        jmp cloop
+.6182					_dg_ok:
+.6182	ad 7a 66	lda $667a	        lda c_ent
+.6185	8d 80 66	sta $6680	        sta c_tmp
+.6188	ad 7b 66	lda $667b	        lda c_ent+1
+.618b	8d 81 66	sta $6681	        sta c_tmp+1
+.618e	0e 80 66	asl $6680	        asl c_tmp
+.6191	2e 81 66	rol $6681	        rol c_tmp+1                     ; *2
+.6194	0e 80 66	asl $6680	        asl c_tmp
+.6197	2e 81 66	rol $6681	        rol c_tmp+1                     ; *4
+.619a	0e 80 66	asl $6680	        asl c_tmp
+.619d	2e 81 66	rol $6681	        rol c_tmp+1                     ; *8
+.61a0	ad 7a 66	lda $667a	        lda c_ent
+.61a3	0a		asl a		        asl a
+.61a4	8d 85 66	sta $6685	        sta c_rem
+.61a7	ad 7b 66	lda $667b	        lda c_ent+1
+.61aa	2a		rol a		        rol a
+.61ab	8d 86 66	sta $6686	        sta c_rem+1                     ; ent*2
+.61ae	ad 80 66	lda $6680	        lda c_tmp
+.61b1	18		clc		        clc
+.61b2	6d 85 66	adc $6685	        adc c_rem
+.61b5	8d 80 66	sta $6680	        sta c_tmp
+.61b8	ad 81 66	lda $6681	        lda c_tmp+1
+.61bb	6d 86 66	adc $6686	        adc c_rem+1
+.61be	8d 81 66	sta $6681	        sta c_tmp+1
+.61c1	ad 80 66	lda $6680	        lda c_tmp
+.61c4	18		clc		        clc
+.61c5	6d 82 66	adc $6682	        adc c_tmp2
+.61c8	8d 7a 66	sta $667a	        sta c_ent
+.61cb	ad 81 66	lda $6681	        lda c_tmp+1
+.61ce	69 00		adc #$00	        adc #$00
+.61d0	8d 7b 66	sta $667b	        sta c_ent+1
+.61d3	ee 7c 66	inc $667c	        inc c_elen
+.61d6	20 4f 64	jsr $644f	        jsr c_show
+.61d9	4c 5f 60	jmp $605f	        jmp cloop
+.61dc					c_del:
+.61dc	ad 7c 66	lda $667c	        lda c_elen
+.61df	f0 09		beq $61ea	        beq _cd_x
+.61e1	20 6b 63	jsr $636b	        jsr c_div10
+.61e4	ce 7c 66	dec $667c	        dec c_elen
+.61e7	20 4f 64	jsr $644f	        jsr c_show
+.61ea	4c 5f 60	jmp $605f	_cd_x:  jmp cloop
+.61ed					c_op:
+.61ed	8d 87 66	sta $6687	        sta c_opkey
+.61f0	ad 7c 66	lda $667c	        lda c_elen
+.61f3	f0 19		beq $620e	        beq _cop_ent                    ; no entry: keep acc, just pend
+.61f5	ad 7d 66	lda $667d	        lda c_pen
+.61f8	f0 08		beq $6202	        beq _cop_take
+.61fa	20 85 62	jsr $6285	        jsr c_fold
+.61fd	b0 2b		bcs $622a	        bcs _cop_err
+.61ff	4c 0e 62	jmp $620e	        jmp _cop_ent
+.6202					_cop_take:
+.6202	ad 7a 66	lda $667a	        lda c_ent
+.6205	8d 78 66	sta $6678	        sta c_acc
+.6208	ad 7b 66	lda $667b	        lda c_ent+1
+.620b	8d 79 66	sta $6679	        sta c_acc+1
+.620e					_cop_ent:
+.620e	ad 87 66	lda $6687	        lda c_opkey
+.6211	8d 7d 66	sta $667d	        sta c_pen
+.6214	a9 00		lda #$00	        lda #$00
+.6216	8d 7a 66	sta $667a	        sta c_ent
+.6219	8d 7b 66	sta $667b	        sta c_ent+1
+.621c	8d 7c 66	sta $667c	        sta c_elen
+.621f	a9 01		lda #$01	        lda #$01
+.6221	8d 7e 66	sta $667e	        sta c_fresh
+.6224	20 4f 64	jsr $644f	        jsr c_show
+.6227	4c 5f 60	jmp $605f	        jmp cloop
+.622a					_cop_err:
+.622a	a9 00		lda #$00	        lda #$00
+.622c	8d 7d 66	sta $667d	        sta c_pen
+.622f	8d 7c 66	sta $667c	        sta c_elen
+.6232	8d 7a 66	sta $667a	        sta c_ent
+.6235	8d 7b 66	sta $667b	        sta c_ent+1
+.6238	a9 01		lda #$01	        lda #$01
+.623a	8d 7e 66	sta $667e	        sta c_fresh
+.623d	20 4f 64	jsr $644f	        jsr c_show
+.6240	4c 5f 60	jmp $605f	        jmp cloop
+.6243					c_eq:
+.6243	ad 7d 66	lda $667d	        lda c_pen
+.6246	f0 37		beq $627f	        beq _ce_show                    ; nothing pending: just show
+.6248	20 85 62	jsr $6285	        jsr c_fold
+.624b	b0 19		bcs $6266	        bcs _ce_err
+.624d	a9 00		lda #$00	        lda #$00
+.624f	8d 7d 66	sta $667d	        sta c_pen
+.6252	8d 7c 66	sta $667c	        sta c_elen
+.6255	8d 7a 66	sta $667a	        sta c_ent
+.6258	8d 7b 66	sta $667b	        sta c_ent+1
+.625b	a9 01		lda #$01	        lda #$01
+.625d	8d 7e 66	sta $667e	        sta c_fresh
+.6260	20 4f 64	jsr $644f	        jsr c_show
+.6263	4c 5f 60	jmp $605f	        jmp cloop
+.6266					_ce_err:
+.6266	a9 00		lda #$00	        lda #$00
+.6268	8d 7d 66	sta $667d	        sta c_pen
+.626b	8d 7c 66	sta $667c	        sta c_elen
+.626e	8d 7a 66	sta $667a	        sta c_ent
+.6271	8d 7b 66	sta $667b	        sta c_ent+1
+.6274	a9 01		lda #$01	        lda #$01
+.6276	8d 7e 66	sta $667e	        sta c_fresh
+.6279	20 4f 64	jsr $644f	        jsr c_show
+.627c	4c 5f 60	jmp $605f	        jmp cloop
+.627f					_ce_show:
+.627f	20 4f 64	jsr $644f	        jsr c_show
+.6282	4c 5f 60	jmp $605f	        jmp cloop
+.6285					c_fold:
+.6285	ad 7d 66	lda $667d	        lda c_pen
+.6288	c9 01		cmp #$01	        cmp #$01
+.628a	f0 0e		beq $629a	        beq _f_add
+.628c	c9 02		cmp #$02	        cmp #$02
+.628e	f0 22		beq $62b2	        beq _f_sub
+.6290	c9 03		cmp #$03	        cmp #$03
+.6292	f0 3c		beq $62d0	        beq _f_mul
+.6294	c9 04		cmp #$04	        cmp #$04
+.6296	f0 58		beq $62f0	        beq _f_div
+.6298	18		clc		        clc
+.6299	60		rts		        rts
+.629a					_f_add:
+.629a	ad 78 66	lda $6678	        lda c_acc
+.629d	18		clc		        clc
+.629e	6d 7a 66	adc $667a	        adc c_ent
+.62a1	8d 78 66	sta $6678	        sta c_acc
+.62a4	ad 79 66	lda $6679	        lda c_acc+1
+.62a7	6d 7b 66	adc $667b	        adc c_ent+1
+.62aa	8d 79 66	sta $6679	        sta c_acc+1
+.62ad	90 1f		bcc $62ce	        bcc _native_arithmetic_ok
+.62af	4c c7 62	jmp $62c7	        jmp _native_arithmetic_overflow
+.62b2					_f_sub:
+.62b2	ad 78 66	lda $6678	        lda c_acc
+.62b5	38		sec		        sec
+.62b6	ed 7a 66	sbc $667a	        sbc c_ent
+.62b9	8d 78 66	sta $6678	        sta c_acc
+.62bc	ad 79 66	lda $6679	        lda c_acc+1
+.62bf	ed 7b 66	sbc $667b	        sbc c_ent+1
+.62c2	8d 79 66	sta $6679	        sta c_acc+1
+.62c5	b0 07		bcs $62ce	        bcs _native_arithmetic_ok
+.62c7					_native_arithmetic_overflow:
+.62c7	a9 02		lda #$02	        lda #2
+.62c9	8d 7f 66	sta $667f	        sta c_err
+.62cc	38		sec		        sec
+.62cd	60		rts		        rts
+.62ce					_native_arithmetic_ok:
+.62ce	18		clc		        clc
+.62cf	60		rts		        rts
+.62d0					_f_mul:
+.62d0	20 91 63	jsr $6391	        jsr umul32                      ; 32-bit product: low c_tmp, high c_rem
+.62d3	ad 80 66	lda $6680	        lda c_tmp
+.62d6	8d 78 66	sta $6678	        sta c_acc
+.62d9	ad 81 66	lda $6681	        lda c_tmp+1
+.62dc	8d 79 66	sta $6679	        sta c_acc+1
+.62df	ad 85 66	lda $6685	        lda c_rem
+.62e2	0d 86 66	ora $6686	        ora c_rem+1
+.62e5	f0 07		beq $62ee	        beq _fm_ok
+.62e7	a9 02		lda #$02	        lda #$02                        ; OVF
+.62e9	8d 7f 66	sta $667f	        sta c_err
+.62ec	38		sec		        sec
+.62ed	60		rts		        rts
+.62ee	18		clc		_fm_ok: clc
+.62ef	60		rts		        rts
+.62f0					_f_div:
+.62f0	ad 7a 66	lda $667a	        lda c_ent
+.62f3	0d 7b 66	ora $667b	        ora c_ent+1
+.62f6	d0 07		bne $62ff	        bne _fd_go
+.62f8	a9 01		lda #$01	        lda #$01                        ; DIV/0
+.62fa	8d 7f 66	sta $667f	        sta c_err
+.62fd	38		sec		        sec
+.62fe	60		rts		        rts
+.62ff	ad 78 66	lda $6678	_fd_go: lda c_acc
+.6302	8d 80 66	sta $6680	        sta c_tmp
+.6305	ad 79 66	lda $6679	        lda c_acc+1
+.6308	8d 81 66	sta $6681	        sta c_tmp+1
+.630b	20 1c 63	jsr $631c	        jsr udiv                        ; c_tmp / c_ent -> c_divs, c_rem
+.630e	ad 83 66	lda $6683	        lda c_divs
+.6311	8d 78 66	sta $6678	        sta c_acc
+.6314	ad 84 66	lda $6684	        lda c_divs+1
+.6317	8d 79 66	sta $6679	        sta c_acc+1
+.631a	18		clc		        clc
+.631b	60		rts		        rts
+.631c					udiv:
+.631c	a9 00		lda #$00	        lda #$00
+.631e	8d 83 66	sta $6683	        sta c_divs
+.6321	8d 84 66	sta $6684	        sta c_divs+1
+.6324	8d 85 66	sta $6685	        sta c_rem
+.6327	8d 86 66	sta $6686	        sta c_rem+1
+.632a	a2 10		ldx #$10	        ldx #$10
+.632c	0e 83 66	asl $6683	_ud_l:  asl c_divs
+.632f	2e 84 66	rol $6684	        rol c_divs+1
+.6332	0e 80 66	asl $6680	        asl c_tmp
+.6335	2e 81 66	rol $6681	        rol c_tmp+1                     ; shift the FULL 16-bit dividend
+.6338	2e 85 66	rol $6685	        rol c_rem
+.633b	2e 86 66	rol $6686	        rol c_rem+1
+.633e	b0 10		bcs $6350	        bcs _ud_do                      ; 17th bit set: rem > any 16-bit divisor
+.6340	ad 85 66	lda $6685	        lda c_rem
+.6343	38		sec		        sec
+.6344	ed 7a 66	sbc $667a	        sbc c_ent
+.6347	a8		tay		        tay
+.6348	ad 86 66	lda $6686	        lda c_rem+1
+.634b	ed 7b 66	sbc $667b	        sbc c_ent+1
+.634e	90 17		bcc $6367	        bcc _ud_n
+.6350	ad 85 66	lda $6685	_ud_do: lda c_rem
+.6353	38		sec		        sec
+.6354	ed 7a 66	sbc $667a	        sbc c_ent
+.6357	a8		tay		        tay
+.6358	ad 86 66	lda $6686	        lda c_rem+1
+.635b	ed 7b 66	sbc $667b	        sbc c_ent+1
+.635e	8d 86 66	sta $6686	        sta c_rem+1
+.6361	8c 85 66	sty $6685	        sty c_rem
+.6364	ee 83 66	inc $6683	        inc c_divs
+.6367	ca		dex		_ud_n:  dex
+.6368	d0 c2		bne $632c	        bne _ud_l
+.636a	60		rts		        rts
+.636b					c_div10:
+.636b	ad 7a 66	lda $667a	        lda c_ent
+.636e	8d 80 66	sta $6680	        sta c_tmp
+.6371	ad 7b 66	lda $667b	        lda c_ent+1
+.6374	8d 81 66	sta $6681	        sta c_tmp+1
+.6377	a9 0a		lda #$0a	        lda #$0a
+.6379	8d 7a 66	sta $667a	        sta c_ent
+.637c	a9 00		lda #$00	        lda #$00
+.637e	8d 7b 66	sta $667b	        sta c_ent+1
+.6381	20 1c 63	jsr $631c	        jsr udiv
+.6384	ad 83 66	lda $6683	        lda c_divs
+.6387	8d 7a 66	sta $667a	        sta c_ent
+.638a	ad 84 66	lda $6684	        lda c_divs+1
+.638d	8d 7b 66	sta $667b	        sta c_ent+1
+.6390	60		rts		        rts
+.6391					umul32:
+.6391	a9 00		lda #$00	        lda #$00
+.6393	8d 80 66	sta $6680	        sta c_tmp
+.6396	8d 81 66	sta $6681	        sta c_tmp+1
+.6399	8d 85 66	sta $6685	        sta c_rem
+.639c	8d 86 66	sta $6686	        sta c_rem+1
+.639f	a2 10		ldx #$10	        ldx #$10
+.63a1	0e 80 66	asl $6680	_um_l:  asl c_tmp                       ; product <<= 1 (32-bit)
+.63a4	2e 81 66	rol $6681	        rol c_tmp+1
+.63a7	2e 85 66	rol $6685	        rol c_rem
+.63aa	2e 86 66	rol $6686	        rol c_rem+1
+.63ad	ad 7b 66	lda $667b	        lda c_ent+1                     ; test the multiplier's current bit15
+.63b0	10 23		bpl $63d5	        bpl _um_s
+.63b2	ad 80 66	lda $6680	        lda c_tmp                       ; product += acc
+.63b5	18		clc		        clc
+.63b6	6d 78 66	adc $6678	        adc c_acc
+.63b9	8d 80 66	sta $6680	        sta c_tmp
+.63bc	ad 81 66	lda $6681	        lda c_tmp+1
+.63bf	6d 79 66	adc $6679	        adc c_acc+1
+.63c2	8d 81 66	sta $6681	        sta c_tmp+1
+.63c5	ad 85 66	lda $6685	        lda c_rem
+.63c8	69 00		adc #$00	        adc #$00
+.63ca	8d 85 66	sta $6685	        sta c_rem
+.63cd	ad 86 66	lda $6686	        lda c_rem+1
+.63d0	69 00		adc #$00	        adc #$00
+.63d2	8d 86 66	sta $6686	        sta c_rem+1
+.63d5	0e 7a 66	asl $667a	_um_s:  asl c_ent                       ; multiplier <<= 1
+.63d8	2e 7b 66	rol $667b	        rol c_ent+1
+.63db	ca		dex		        dex
+.63dc	d0 c3		bne $63a1	        bne _um_l
+.63de	60		rts		        rts
+.63df					fmt_dec:
+.63df	ad 80 66	lda $6680	        lda c_tmp
+.63e2	0d 81 66	ora $6681	        ora c_tmp+1
+.63e5	d0 0b		bne $63f2	        bne _fd_nz
+.63e7	a9 30		lda #$30	        lda #$30
+.63e9	8d 88 66	sta $6688	        sta dispbuf
+.63ec	a9 00		lda #$00	        lda #$00
+.63ee	8d 89 66	sta $6689	        sta dispbuf+1
+.63f1	60		rts		        rts
+.63f2	a9 00		lda #$00	_fd_nz: lda #$00                       ; digit count (NOT Y: d10tmp's tay
+.63f4	8d 82 66	sta $6682	        sta c_tmp2                      ; clobbers Y — count lives in c_tmp2)
+.63f7	20 1e 64	jsr $641e	_fd_l:  jsr d10tmp
+.63fa	ad 85 66	lda $6685	        lda c_rem
+.63fd	18		clc		        clc
+.63fe	69 30		adc #$30	        adc #$30
+.6400	48		pha		        pha                             ; digits pushed least-significant first
+.6401	ee 82 66	inc $6682	        inc c_tmp2
+.6404	ad 80 66	lda $6680	        lda c_tmp
+.6407	0d 81 66	ora $6681	        ora c_tmp+1
+.640a	d0 eb		bne $63f7	        bne _fd_l
+.640c	a0 00		ldy #$00	        ldy #$00
+.640e	68		pla		_fd_c:  pla
+.640f	99 88 66	sta $6688,y	        sta dispbuf,y
+.6412	c8		iny		        iny
+.6413	ce 82 66	dec $6682	        dec c_tmp2
+.6416	d0 f6		bne $640e	        bne _fd_c
+.6418	a9 00		lda #$00	        lda #$00
+.641a	99 88 66	sta $6688,y	        sta dispbuf,y
+.641d	60		rts		        rts
+.641e					d10tmp:
+.641e	a9 00		lda #$00	        lda #$00
+.6420	8d 85 66	sta $6685	        sta c_rem
+.6423	8d 86 66	sta $6686	        sta c_rem+1
+.6426	a2 10		ldx #$10	        ldx #$10
+.6428	0e 80 66	asl $6680	_d1l:   asl c_tmp
+.642b	2e 81 66	rol $6681	        rol c_tmp+1                     ; shift the FULL 16-bit dividend
+.642e	2e 85 66	rol $6685	        rol c_rem
+.6431	2e 86 66	rol $6686	        rol c_rem+1
+.6434	ad 85 66	lda $6685	        lda c_rem
+.6437	38		sec		        sec
+.6438	e9 0a		sbc #$0a	        sbc #$0a
+.643a	a8		tay		        tay
+.643b	ad 86 66	lda $6686	        lda c_rem+1
+.643e	e9 00		sbc #$00	        sbc #$00
+.6440	90 09		bcc $644b	        bcc _d1n
+.6442	8d 86 66	sta $6686	        sta c_rem+1
+.6445	8c 85 66	sty $6685	        sty c_rem
+.6448	ee 80 66	inc $6680	        inc c_tmp
+.644b	ca		dex		_d1n:   dex
+.644c	d0 da		bne $6428	        bne _d1l
+.644e	60		rts		        rts
+
+;******  Return to file: src/native/calc.asm
+
+.644f					c_show:
+.644f	ad 7c 66	lda $667c	        lda c_elen
+.6452	d0 14		bne $6468	        bne calc_show_entry
+.6454	ad 7e 66	lda $667e	        lda c_fresh
+.6457	f0 0f		beq $6468	        beq calc_show_entry
+.6459	ad 78 66	lda $6678	        lda c_acc
+.645c	8d 80 66	sta $6680	        sta c_tmp
+.645f	ad 79 66	lda $6679	        lda c_acc+1
+.6462	8d 81 66	sta $6681	        sta c_tmp+1
+.6465	4c 74 64	jmp $6474	        jmp calc_format
+.6468					calc_show_entry:
+.6468	ad 7a 66	lda $667a	        lda c_ent
+.646b	8d 80 66	sta $6680	        sta c_tmp
+.646e	ad 7b 66	lda $667b	        lda c_ent+1
+.6471	8d 81 66	sta $6681	        sta c_tmp+1
+.6474					calc_format:
+.6474	ad 7f 66	lda $667f	        lda c_err
+.6477	f0 20		beq $6499	        beq calc_number
+.6479	a2 00		ldx #$00	        ldx #0
+.647b	c9 01		cmp #$01	        cmp #1
+.647d	d0 0d		bne $648c	        bne calc_overflow
+.647f					calc_divzero_text:
+.647f	bd 61 66	lda $6661,x	        lda text_divzero,x
+.6482	9d 88 66	sta $6688,x	        sta dispbuf,x
+.6485	e8		inx		        inx
+.6486	c9 00		cmp #$00	        cmp #0
+.6488	d0 f5		bne $647f	        bne calc_divzero_text
+.648a	f0 10		beq $649c	        beq calc_formatted
+.648c					calc_overflow:
+.648c	bd 67 66	lda $6667,x	        lda text_overflow,x
+.648f	9d 88 66	sta $6688,x	        sta dispbuf,x
+.6492	e8		inx		        inx
+.6493	c9 00		cmp #$00	        cmp #0
+.6495	d0 f5		bne $648c	        bne calc_overflow
+.6497	f0 03		beq $649c	        beq calc_formatted
+.6499					calc_number:
+.6499	20 df 63	jsr $63df	        jsr fmt_dec
+.649c					calc_formatted:
+.649c	ad 75 66	lda $6675	        lda history_pending
+.649f	f0 03		beq $64a4	        beq calc_redraw
+.64a1	20 0c 65	jsr $650c	        jsr history_append
+.64a4					calc_redraw:
+.64a4	a9 00		lda #$00	        lda #0
+.64a6	8d 6c 66	sta $666c	        sta screen
+.64a9					calc_screen:
+.64a9	a5 d7		lda $d7		        lda $d7
+.64ab	2a		rol a		        rol
+.64ac	a9 00		lda #$00	        lda #0
+.64ae	2a		rol a		        rol
+.64af	cd 6c 66	cmp $666c	        cmp screen
+.64b2	f0 03		beq $64b7	        beq calc_screen_ready
+.64b4	20 5f ff	jsr $ff5f	        jsr $ff5f
+.64b7					calc_screen_ready:
+.64b7	a9 93		lda #$93	        lda #$93
+.64b9	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.64bc	a9 cd		lda #$cd	        lda #<text_title
+.64be	a2 65		ldx #$65	        ldx #>text_title
+.64c0	20 b3 65	jsr $65b3	        jsr puts
+.64c3	a9 88		lda #$88	        lda #<dispbuf
+.64c5	a2 66		ldx #$66	        ldx #>dispbuf
+.64c7	20 b3 65	jsr $65b3	        jsr puts
+.64ca	a9 ea		lda #$ea	        lda #<text_help
+.64cc	a2 65		ldx #$65	        ldx #>text_help
+.64ce	20 b3 65	jsr $65b3	        jsr puts
+.64d1	20 54 65	jsr $6554	        jsr history_show
+.64d4	20 d1 68	jsr $68d1	        jsr save_show
+.64d7	ee 6c 66	inc $666c	        inc screen
+.64da	ad 6c 66	lda $666c	        lda screen
+.64dd	c9 02		cmp #$02	        cmp #2
+.64df	d0 c8		bne $64a9	        bne calc_screen
+.64e1					calc_screen_done:
+.64e1	60		rts		        rts
+.64e2					history_select:
+.64e2	ad 6b 66	lda $666b	        lda owner
+.64e5	8d 00 3d	sta $3d00	        sta N_OWNER
+.64e8	a2 03		ldx #$03	        ldx #3
+.64ea					history_select_loop:
+.64ea	bd 6e 66	lda $666e,x	        lda history_handle,x
+.64ed	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.64f0	ca		dex		        dex
+.64f1	10 f7		bpl $64ea	        bpl history_select_loop
+.64f3	a9 10		lda #$10	        lda #16
+.64f5	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.64f8	a9 00		lda #$00	        lda #0
+.64fa	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.64fd	60		rts		        rts
+.64fe					history_offset:
+.64fe	0a		asl a		        asl
+.64ff	0a		asl a		        asl
+.6500	0a		asl a		        asl
+.6501	0a		asl a		        asl
+.6502	8d 08 3d	sta $3d08	        sta N_OFFSET
+.6505	a9 00		lda #$00	        lda #0
+.6507	2a		rol a		        rol
+.6508	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.650b	60		rts		        rts
+.650c					history_append:
+.650c	a9 00		lda #$00	        lda #0
+.650e	8d 75 66	sta $6675	        sta history_pending
+.6511	8d 74 66	sta $6674	        sta history_view
+.6514	20 e2 64	jsr $64e2	        jsr history_select
+.6517	a2 0f		ldx #$0f	        ldx #15
+.6519	a9 20		lda #$20	        lda #$20
+.651b					history_blank:
+.651b	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.651e	ca		dex		        dex
+.651f	10 fa		bpl $651b	        bpl history_blank
+.6521	a2 00		ldx #$00	        ldx #0
+.6523					history_text:
+.6523	bd 88 66	lda $6688,x	        lda dispbuf,x
+.6526	f0 08		beq $6530	        beq history_text_done
+.6528	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.652b	e8		inx		        inx
+.652c	e0 08		cpx #$08	        cpx #8
+.652e	d0 f3		bne $6523	        bne history_text
+.6530					history_text_done:
+.6530	ad 73 66	lda $6673	        lda history_head
+.6533	20 fe 64	jsr $64fe	        jsr history_offset
+.6536	20 29 1c	jsr $1c29	        jsr N_WRITE
+.6539	b0 16		bcs $6551	        bcs history_failure
+.653b	ee 73 66	inc $6673	        inc history_head
+.653e	ad 73 66	lda $6673	        lda history_head
+.6541	29 1f		and #$1f	        and #31
+.6543	8d 73 66	sta $6673	        sta history_head
+.6546	ad 72 66	lda $6672	        lda history_count
+.6549	c9 20		cmp #$20	        cmp #32
+.654b	f0 03		beq $6550	        beq history_appended
+.654d	ee 72 66	inc $6672	        inc history_count
+.6550					history_appended:
+.6550	60		rts		        rts
+.6551					history_failure:
+.6551	4c 3e 1c	jmp $1c3e	        jmp N_EXIT             ; loader preserves error as the app exit code
+.6554					history_show:
+.6554	20 e2 64	jsr $64e2	        jsr history_select
+.6557	a9 00		lda #$00	        lda #0
+.6559	8d 76 66	sta $6676	        sta history_row
+.655c	ad 72 66	lda $6672	        lda history_count
+.655f	d0 07		bne $6568	        bne history_row_loop
+.6561	a9 51		lda #$51	        lda #<text_empty
+.6563	a2 66		ldx #$66	        ldx #>text_empty
+.6565	4c b3 65	jmp $65b3	        jmp puts
+.6568					history_row_loop:
+.6568	18		clc		        clc
+.6569	ad 74 66	lda $6674	        lda history_view
+.656c	6d 76 66	adc $6676	        adc history_row
+.656f	cd 72 66	cmp $6672	        cmp history_count
+.6572	b0 3e		bcs $65b2	        bcs history_shown
+.6574	8d 77 66	sta $6677	        sta history_ordinal
+.6577	38		sec		        sec
+.6578	ad 73 66	lda $6673	        lda history_head
+.657b	e9 01		sbc #$01	        sbc #1
+.657d	38		sec		        sec
+.657e	ed 77 66	sbc $6677	        sbc history_ordinal
+.6581	29 1f		and #$1f	        and #31
+.6583	20 fe 64	jsr $64fe	        jsr history_offset
+.6586	20 26 1c	jsr $1c26	        jsr N_READ
+.6589	b0 c6		bcs $6551	        bcs history_failure
+.658b	a9 00		lda #$00	        lda #0
+.658d	8d 6d 66	sta $666d	        sta text_index
+.6590					history_print:
+.6590	ae 6d 66	ldx $666d	        ldx text_index
+.6593	bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.6596	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.6599	ee 6d 66	inc $666d	        inc text_index
+.659c	ad 6d 66	lda $666d	        lda text_index
+.659f	c9 10		cmp #$10	        cmp #16
+.65a1	d0 ed		bne $6590	        bne history_print
+.65a3	a9 0d		lda #$0d	        lda #13
+.65a5	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.65a8	ee 76 66	inc $6676	        inc history_row
+.65ab	ad 76 66	lda $6676	        lda history_row
+.65ae	c9 08		cmp #$08	        cmp #8
+.65b0	d0 b6		bne $6568	        bne history_row_loop
+.65b2					history_shown:
+.65b2	60		rts		        rts
+.65b3					puts:
+.65b3	8d ba 65	sta $65ba	        sta text_read+1
+.65b6	8e bb 65	stx $65bb	        stx text_read+2
+.65b9					text_read:
+.65b9	ad ff ff	lda $ffff	        lda $ffff
+.65bc	f0 0e		beq $65cc	        beq text_done
+.65be	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.65c1	ee ba 65	inc $65ba	        inc text_read+1
+.65c4	d0 f3		bne $65b9	        bne text_read
+.65c6	ee bb 65	inc $65bb	        inc text_read+2
+.65c9	4c b9 65	jmp $65b9	        jmp text_read
+.65cc					text_done:
+.65cc	60		rts		        rts
+>65cd	4b 45 53 54 52 45 4c 20		text_title: .text "kestrel calculator",13,13,"result: ",0
+>65d5	43 41 4c 43 55 4c 41 54 4f 52 0d 0d 52 45 53 55
+>65e5	4c 54 3a 20 00
+>65ea	0d 0d 30 2d 39 20 2b 20		text_help: .text 13,13,"0-9 + - * / =  del  c clear",13
+>65f2	2d 20 2a 20 2f 20 3d 20 20 44 45 4c 20 20 43 20
+>6602	43 4c 45 41 52 0d
+>6608	45 53 43 20 52 45 54 55		           .text "esc return   s save   n/b history",13,13
+>6610	52 4e 20 20 20 53 20 53 41 56 45 20 20 20 4e 2f
+>6620	42 20 48 49 53 54 4f 52 59 0d 0d
+>662b	48 49 53 54 4f 52 59 20		           .text "history (newest first, 32 retained):",13,0
+>6633	28 4e 45 57 45 53 54 20 46 49 52 53 54 2c 20 33
+>6643	32 20 52 45 54 41 49 4e 45 44 29 3a 0d 00
+>6651	4e 4f 20 52 45 53 55 4c		text_empty: .text "no results yet",13,0
+>6659	54 53 20 59 45 54 0d 00
+>6661	44 49 56 2f 30 00		text_divzero: .text "div/0",0
+>6667	4f 56 46 00			text_overflow: .text "ovf",0
+>666b	00				owner: .byte 0
+>666c	00				screen: .byte 0
+>666d	00				text_index: .byte 0
+>666e	00 00 00 00			history_handle: .fill 4,0
+>6672	00				history_count: .byte 0
+>6673	00				history_head: .byte 0
+>6674	00				history_view: .byte 0
+>6675	00				history_pending: .byte 0
+>6676	00				history_row: .byte 0
+>6677	00				history_ordinal: .byte 0
+>6678	00 00				c_acc: .word 0
+>667a	00 00				c_ent: .word 0
+>667c	00				c_elen: .byte 0
+>667d	00				c_pen: .byte 0
+>667e	00				c_fresh: .byte 0
+>667f	00				c_err: .byte 0
+>6680	00 00				c_tmp: .word 0
+>6682	00				c_tmp2: .byte 0
+>6683	00 00				c_divs: .word 0
+>6685	00 00				c_rem: .word 0
+>6687	00				c_opkey: .byte 0
+>6688	00 00 00 00 00 00 00 00		dispbuf: .fill 8,0
+
+;******  Processing file: src/native/calc-save.inc
+
+.6690					save_begin:
+.6690	20 c0 68	jsr $68c0	        jsr save_close_file
+.6693	90 03		bcc $6698	        bcc *+5
+.6695	4c 7f 68	jmp $687f	        jmp save_failed_closed
+.6698	ad 72 66	lda $6672	        lda history_count
+.669b	d0 08		bne $66a5	        bne save_prompt
+.669d	a9 04		lda #$04	        lda #4
+.669f	8d 38 6a	sta $6a38	        sta save_status
+.66a2	4c bd 66	jmp $66bd	        jmp save_redraw
+.66a5					save_prompt:
+.66a5	a9 00		lda #$00	        lda #0
+.66a7	8d 39 6a	sta $6a39	        sta save_length
+.66aa	8d 44 6a	sta $6a44	        sta save_name
+.66ad	8d 38 6a	sta $6a38	        sta save_status
+.66b0	8d 37 3d	sta $3d37	        sta N_UIKEY
+.66b3	20 eb 66	jsr $66eb	        jsr save_field_edit
+.66b6	b0 26		bcs $66de	        bcs save_input_error
+.66b8	a9 01		lda #$01	        lda #1
+.66ba	8d 37 6a	sta $6a37	        sta save_mode
+.66bd					save_redraw:
+.66bd	20 4f 64	jsr $644f	        jsr c_show
+.66c0	4c 5f 60	jmp $605f	        jmp cloop
+.66c3					save_key:
+.66c3	c9 1b		cmp #$1b	        cmp #27
+.66c5	f0 35		beq $66fc	        beq save_cancel
+.66c7	c9 0d		cmp #$0d	        cmp #13
+.66c9	d0 03		bne $66ce	        bne *+5
+.66cb	4c 07 67	jmp $6707	        jmp save_enter
+.66ce	8d 37 3d	sta $3d37	        sta N_UIKEY
+.66d1	20 eb 66	jsr $66eb	        jsr save_field_edit
+.66d4	b0 08		bcs $66de	        bcs save_input_error
+.66d6	ad 39 3d	lda $3d39	        lda N_UIFLAGS
+.66d9	f0 29		beq $6704	        beq save_key_done
+.66db	4c bd 66	jmp $66bd	        jmp save_redraw
+.66de					save_input_error:
+.66de	a9 00		lda #$00	        lda #0
+.66e0	8d 37 6a	sta $6a37	        sta save_mode
+.66e3	a9 06		lda #$06	        lda #6
+.66e5	8d 38 6a	sta $6a38	        sta save_status
+.66e8	4c bd 66	jmp $66bd	        jmp save_redraw
+.66eb					save_field_edit:
+.66eb	20 f1 66	jsr $66f1	        jsr save_field_pointer
+.66ee	4c 59 1c	jmp $1c59	        jmp N_FEDIT
+.66f1					save_field_pointer:
+.66f1	a9 39		lda #$39	        lda #<save_field
+.66f3	8d 35 3d	sta $3d35	        sta N_UIPTR
+.66f6	a9 6a		lda #$6a	        lda #>save_field
+.66f8	8d 36 3d	sta $3d36	        sta N_UIPTR+1
+.66fb	60		rts		        rts
+.66fc					save_cancel:
+.66fc	a9 00		lda #$00	        lda #0
+.66fe	8d 37 6a	sta $6a37	        sta save_mode
+.6701	4c bd 66	jmp $66bd	        jmp save_redraw
+.6704					save_key_done:
+.6704	4c 5f 60	jmp $605f	        jmp cloop
+.6707					save_enter:
+.6707	ad 39 6a	lda $6a39	        lda save_length
+.670a	f0 f8		beq $6704	        beq save_key_done
+.670c	a9 00		lda #$00	        lda #0
+.670e	8d 37 6a	sta $6a37	        sta save_mode
+.6711	8d 41 6a	sta $6a41	        sta save_size
+.6714	8d 42 6a	sta $6a42	        sta save_row
+.6717					save_collect:
+.6717	20 e2 64	jsr $64e2	        jsr history_select
+.671a	38		sec		        sec
+.671b	ad 73 66	lda $6673	        lda history_head
+.671e	ed 72 66	sbc $6672	        sbc history_count
+.6721	18		clc		        clc
+.6722	6d 42 6a	adc $6a42	        adc save_row
+.6725	29 1f		and #$1f	        and #31
+.6727	20 fe 64	jsr $64fe	        jsr history_offset
+.672a	20 26 1c	jsr $1c26	        jsr N_READ
+.672d	90 03		bcc $6732	        bcc *+5
+.672f	4c 51 65	jmp $6551	        jmp history_failure
+.6732	a2 00		ldx #$00	        ldx #0
+.6734	ac 41 6a	ldy $6a41	        ldy save_size
+.6737					save_collect_text:
+.6737	bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.673a	c9 20		cmp #$20	        cmp #$20
+.673c	f0 09		beq $6747	        beq save_collect_line
+.673e	99 55 6a	sta $6a55,y	        sta save_data,y
+.6741	c8		iny		        iny
+.6742	e8		inx		        inx
+.6743	e0 05		cpx #$05	        cpx #5
+.6745	d0 f0		bne $6737	        bne save_collect_text
+.6747					save_collect_line:
+.6747	a9 0d		lda #$0d	        lda #13
+.6749	99 55 6a	sta $6a55,y	        sta save_data,y
+.674c	c8		iny		        iny
+.674d	8c 41 6a	sty $6a41	        sty save_size
+.6750	ee 42 6a	inc $6a42	        inc save_row
+.6753	ad 42 6a	lda $6a42	        lda save_row
+.6756	cd 72 66	cmp $6672	        cmp history_count
+.6759	d0 bc		bne $6717	        bne save_collect
+.675b	ad 6b 66	lda $666b	        lda owner
+.675e	8d 80 3d	sta $3d80	        sta N_FOWNER
+.6761	ad 21 3d	lda $3d21	        lda N_DEVICE
+.6764	8d 85 3d	sta $3d85	        sta N_FDEVICE
+.6767	a9 00		lda #$00	        lda #0
+.6769	8d 88 3d	sta $3d88	        sta N_FTYPE
+.676c	ad 2c 3d	lda $3d2c	        lda N_APPFORMAT
+.676f	8d 96 3d	sta $3d96	        sta N_FFORMAT
+.6772	c9 03		cmp #$03	        cmp #3
+.6774	f0 14		beq $678a	        beq save_usb_name
+.6776	ad 39 6a	lda $6a39	        lda save_length
+.6779	8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.677c	a2 0f		ldx #$0f	        ldx #15
+.677e					save_filename:
+.677e	bd 44 6a	lda $6a44,x	        lda save_name,x
+.6781	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
+.6784	ca		dex		        dex
+.6785	10 f7		bpl $677e	        bpl save_filename
+.6787	4c b5 67	jmp $67b5	        jmp save_create
+.678a					save_usb_name:
+.678a	ad 15 6b	lda $6b15	        lda save_prefix
+.678d	f0 64		beq $67f3	        beq save_path_long
+.678f	18		clc		        clc
+.6790	6d 39 6a	adc $6a39	        adc save_length
+.6793	b0 5e		bcs $67f3	        bcs save_path_long
+.6795	8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.6798	a2 00		ldx #$00	        ldx #0
+.679a					save_usb_prefix:
+.679a	bd 16 6b	lda $6b16,x	        lda save_path,x
+.679d	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
+.67a0	e8		inx		        inx
+.67a1	ec 15 6b	cpx $6b15	        cpx save_prefix
+.67a4	d0 f4		bne $679a	        bne save_usb_prefix
+.67a6	a0 00		ldy #$00	        ldy #0
+.67a8					save_usb_leaf:
+.67a8	b9 44 6a	lda $6a44,y	        lda save_name,y
+.67ab	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
+.67ae	e8		inx		        inx
+.67af	c8		iny		        iny
+.67b0	cc 39 6a	cpy $6a39	        cpy save_length
+.67b3	d0 f3		bne $67a8	        bne save_usb_leaf
+.67b5					save_create:
+.67b5	a9 01		lda #$01	        lda #1
+.67b7	8d 87 3d	sta $3d87	        sta N_FMODE
+.67ba	20 ad 68	jsr $68ad	        jsr save_open_file
+.67bd	90 3c		bcc $67fb	        bcc save_created
+.67bf	a9 02		lda #$02	        lda #2
+.67c1	8d 38 6a	sta $6a38	        sta save_status
+.67c4	ad 8f 3d	lda $3d8f	        lda N_FDOS
+.67c7	c9 3f		cmp #$3f	        cmp #63
+.67c9	f0 18		beq $67e3	        beq save_file_exists
+.67cb	ad 2c 3d	lda $3d2c	        lda N_APPFORMAT
+.67ce	c9 03		cmp #$03	        cmp #3
+.67d0	d0 16		bne $67e8	        bne save_rejected
+.67d2	a2 00		ldx #$00	        ldx #0
+.67d4					save_exists_text:
+.67d4	bd 1f 6a	lda $6a1f,x	        lda save_exists_status,x
+.67d7	dd 00 4f	cmp $4f00,x	        cmp N_USTATUS,x
+.67da	d0 0c		bne $67e8	        bne save_rejected
+.67dc	c9 00		cmp #$00	        cmp #0
+.67de	f0 03		beq $67e3	        beq save_file_exists
+.67e0	e8		inx		        inx
+.67e1	d0 f1		bne $67d4	        bne save_exists_text
+.67e3					save_file_exists:
+.67e3	a9 03		lda #$03	        lda #3
+.67e5	8d 38 6a	sta $6a38	        sta save_status
+.67e8					save_rejected:
+.67e8	20 c0 68	jsr $68c0	        jsr save_close_file
+.67eb	90 03		bcc $67f0	        bcc *+5
+.67ed	4c 7f 68	jmp $687f	        jmp save_failed_closed
+.67f0	4c bd 66	jmp $66bd	        jmp save_redraw
+.67f3					save_path_long:
+.67f3	a9 05		lda #$05	        lda #5
+.67f5	8d 38 6a	sta $6a38	        sta save_status
+.67f8	4c bd 66	jmp $66bd	        jmp save_redraw
+.67fb					save_created:
+.67fb	a2 00		ldx #$00	        ldx #0
+.67fd					save_copy:
+.67fd	bd 55 6a	lda $6a55,x	        lda save_data,x
+.6800	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.6803	e8		inx		        inx
+.6804	ec 41 6a	cpx $6a41	        cpx save_size
+.6807	d0 f4		bne $67fd	        bne save_copy
+.6809	ad 41 6a	lda $6a41	        lda save_size
+.680c	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.680f	a9 00		lda #$00	        lda #0
+.6811	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.6814	20 47 1c	jsr $1c47	        jsr N_FWRITE
+.6817	90 03		bcc $681c	        bcc *+5
+.6819	4c 7c 68	jmp $687c	        jmp save_failed
+.681c	20 c0 68	jsr $68c0	        jsr save_close_file
+.681f	90 03		bcc $6824	        bcc *+5
+.6821	4c 7c 68	jmp $687c	        jmp save_failed
+.6824	a9 00		lda #$00	        lda #0
+.6826	8d 87 3d	sta $3d87	        sta N_FMODE
+.6829	20 ad 68	jsr $68ad	        jsr save_open_file
+.682c	90 03		bcc $6831	        bcc *+5
+.682e	4c 7c 68	jmp $687c	        jmp save_failed
+.6831	a9 00		lda #$00	        lda #0
+.6833	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.6836	a9 02		lda #$02	        lda #2
+.6838	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.683b	20 44 1c	jsr $1c44	        jsr N_FREAD
+.683e	90 03		bcc $6843	        bcc *+5
+.6840	4c 7c 68	jmp $687c	        jmp save_failed
+.6843	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.6846	d0 34		bne $687c	        bne save_failed
+.6848	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.684b	cd 41 6a	cmp $6a41	        cmp save_size
+.684e	d0 2c		bne $687c	        bne save_failed
+.6850	ad 8d 3d	lda $3d8d	        lda N_FEOF
+.6853	c9 01		cmp #$01	        cmp #1
+.6855	d0 25		bne $687c	        bne save_failed
+.6857	a2 00		ldx #$00	        ldx #0
+.6859					save_compare:
+.6859	bd 55 6a	lda $6a55,x	        lda save_data,x
+.685c	dd 00 3a	cmp $3a00,x	        cmp N_BUFFER,x
+.685f	d0 1b		bne $687c	        bne save_failed
+.6861	e8		inx		        inx
+.6862	ec 41 6a	cpx $6a41	        cpx save_size
+.6865	d0 f2		bne $6859	        bne save_compare
+.6867	20 c0 68	jsr $68c0	        jsr save_close_file
+.686a	90 03		bcc $686f	        bcc *+5
+.686c	4c 7c 68	jmp $687c	        jmp save_failed
+.686f	a9 00		lda #$00	        lda #0
+.6871	8d 43 6a	sta $6a43	        sta save_open
+.6874	a9 01		lda #$01	        lda #1
+.6876	8d 38 6a	sta $6a38	        sta save_status
+.6879	4c bd 66	jmp $66bd	        jmp save_redraw
+.687c					save_failed:
+.687c	20 c0 68	jsr $68c0	        jsr save_close_file      ; only checked CLOSE may retry; retain failure
+.687f					save_failed_closed:
+.687f	a9 02		lda #$02	        lda #2
+.6881	8d 38 6a	sta $6a38	        sta save_status
+.6884	4c bd 66	jmp $66bd	        jmp save_redraw
+.6887					save_source:
+.6887	a9 00		lda #$00	        lda #0
+.6889	8d 15 6b	sta $6b15	        sta save_prefix
+.688c	ad 2c 3d	lda $3d2c	        lda N_APPFORMAT
+.688f	c9 03		cmp #$03	        cmp #3
+.6891	d0 19		bne $68ac	        bne save_source_done
+.6893	a2 00		ldx #$00	        ldx #0
+.6895					save_source_byte:
+.6895	bd 00 4e	lda $4e00,x	        lda N_UPATH,x
+.6898	9d 16 6b	sta $6b16,x	        sta save_path,x
+.689b	c9 2f		cmp #$2f	        cmp #$2f
+.689d	d0 07		bne $68a6	        bne +
+.689f	8a		txa		        txa
+.68a0	18		clc		        clc
+.68a1	69 01		adc #$01	        adc #1
+.68a3	8d 15 6b	sta $6b15	        sta save_prefix
+.68a6	e8		inx		+       inx
+.68a7	ec 22 3d	cpx $3d22	        cpx N_NAMELEN
+.68aa	d0 e9		bne $6895	        bne save_source_byte
+.68ac					save_source_done:
+.68ac	60		rts		        rts
+.68ad					save_open_file:
+.68ad	a9 00		lda #$00	        lda #0
+.68af	8d 81 3d	sta $3d81	        sta N_FHANDLE
+.68b2	20 41 1c	jsr $1c41	        jsr N_FOPEN
+.68b5	08		php		        php
+.68b6	48		pha		        pha
+.68b7	ad 81 3d	lda $3d81	        lda N_FHANDLE
+.68ba	8d 43 6a	sta $6a43	        sta save_open           ; rejected Ultimate OPEN still requires CLOSE
+.68bd	68		pla		        pla
+.68be	28		plp		        plp
+.68bf	60		rts		        rts
+.68c0					save_close_file:
+.68c0	ad 43 6a	lda $6a43	        lda save_open
+.68c3	f0 0a		beq $68cf	        beq save_closed
+.68c5	20 4a 1c	jsr $1c4a	        jsr N_FCLOSE
+.68c8	b0 06		bcs $68d0	        bcs save_close_done
+.68ca	a9 00		lda #$00	        lda #0
+.68cc	8d 43 6a	sta $6a43	        sta save_open
+.68cf					save_closed:
+.68cf	18		clc		        clc
+.68d0					save_close_done:
+.68d0	60		rts		        rts
+.68d1					save_show:
+.68d1	ad 37 6a	lda $6a37	        lda save_mode
+.68d4	f0 24		beq $68fa	        beq save_show_status
+.68d6	a9 0d		lda #$0d	        lda #<save_prompt_text
+.68d8	a2 69		ldx #$69	        ldx #>save_prompt_text
+.68da	ac 2c 3d	ldy $3d2c	        ldy N_APPFORMAT
+.68dd	c0 03		cpy #$03	        cpy #3
+.68df	d0 04		bne $68e5	        bne +
+.68e1	a9 34		lda #$34	        lda #<save_usb_text
+.68e3	a2 69		ldx #$69	        ldx #>save_usb_text
+.68e5					+
+.68e5	20 b3 65	jsr $65b3	        jsr puts
+.68e8	20 f1 66	jsr $66f1	        jsr save_field_pointer
+.68eb	a9 13		lda #$13	        lda #19
+.68ed	8d 38 3d	sta $3d38	        sta N_UIWIDTH
+.68f0	20 5c 1c	jsr $1c5c	        jsr N_FDRAW
+.68f3	a9 55		lda #$55	        lda #<save_controls
+.68f5	a2 69		ldx #$69	        ldx #>save_controls
+.68f7	4c b3 65	jmp $65b3	        jmp puts
+.68fa					save_show_status:
+.68fa	ae 38 6a	ldx $6a38	        ldx save_status
+.68fd	f0 0d		beq $690c	        beq save_show_done
+.68ff	ca		dex		        dex
+.6900	bd 2b 6a	lda $6a2b,x	        lda save_messages_lo,x
+.6903	48		pha		        pha
+.6904	bd 31 6a	lda $6a31,x	        lda save_messages_hi,x
+.6907	aa		tax		        tax
+.6908	68		pla		        pla
+.6909	4c b3 65	jmp $65b3	        jmp puts
+.690c					save_show_done:
+.690c	60		rts		        rts
+>690d	0d 53 41 56 45 20 41 53		save_prompt_text: .text 13,"save as (seq file on iec disk)",13,"name: ",0
+>6915	20 28 53 45 51 20 46 49 4c 45 20 4f 4e 20 49 45
+>6925	43 20 44 49 53 4b 29 0d 4e 41 4d 45 3a 20 00
+>6934	0d 53 41 56 45 20 41 53		save_usb_text: .text 13,"save as (beside usb app)",13,"name: ",0
+>693c	20 28 42 45 53 49 44 45 20 55 53 42 20 41 50 50
+>694c	29 0d 4e 41 4d 45 3a 20 00
+>6955	0d 45 4e 54 45 52 20 53		save_controls: .text 13,"enter save   esc cancel",0
+>695d	41 56 45 20 20 20 45 53 43 20 43 41 4e 43 45 4c
+>696d	00
+>696e	0d 48 49 53 54 4f 52 59		save_ok: .text 13,"history saved and verified",0
+>6976	20 53 41 56 45 44 20 41 4e 44 20 56 45 52 49 46
+>6986	49 45 44 00
+>698a	0d 44 49 53 4b 20 45 52		save_error_text: .text 13,"disk error; file may be partial",0
+>6992	52 4f 52 3b 20 46 49 4c 45 20 4d 41 59 20 42 45
+>69a2	20 50 41 52 54 49 41 4c 00
+>69ab	0d 46 49 4c 45 20 45 58		save_exists: .text 13,"file exists - choose another name",0
+>69b3	49 53 54 53 20 2d 20 43 48 4f 4f 53 45 20 41 4e
+>69c3	4f 54 48 45 52 20 4e 41 4d 45 00
+>69ce	0d 4e 4f 20 52 45 53 55		save_empty: .text 13,"no results to save",0
+>69d6	4c 54 53 20 54 4f 20 53 41 56 45 00
+>69e2	0d 50 41 54 48 20 54 4f		save_long_path: .text 13,"path too long; shorten name",0
+>69ea	4f 20 4c 4f 4e 47 3b 20 53 48 4f 52 54 45 4e 20
+>69fa	4e 41 4d 45 00
+>69ff	0d 49 4e 50 55 54 20 55		save_input_text: .text 13,"input unavailable; esc returns",0
+>6a07	4e 41 56 41 49 4c 41 42 4c 45 3b 20 45 53 43 20
+>6a17	52 45 54 55 52 4e 53 00
+>6a1f	46 49 4c 45 20 45 58 49		save_exists_status: .text "file exists",0
+>6a27	53 54 53 00
+>6a2b	6e 8a ab ce e2 ff		save_messages_lo: .byte <save_ok,<save_error_text,<save_exists,<save_empty,<save_long_path,<save_input_text
+>6a31	69 69 69 69 69 69		save_messages_hi: .byte >save_ok,>save_error_text,>save_exists,>save_empty,>save_long_path,>save_input_text
+>6a37	00				save_mode: .byte 0
+>6a38	00				save_status: .byte 0
+.6a39					save_field:
+>6a39	00				save_length: .byte 0
+>6a3a	00				save_cursor: .byte 0
+>6a3b	10				        .byte 16
+>6a3c	44 6a				        .word save_name
+>6a3e	00 00				save_views: .fill 2,0
+>6a40	03				        .byte 3
+>6a41	00				save_size: .byte 0
+>6a42	00				save_row: .byte 0
+>6a43	00				save_open: .byte 0
+>6a44	00 00 00 00 00 00 00 00		save_name: .fill 17,0
+>6a4c	00 00 00 00 00 00 00 00 00
+>6a55	00 00 00 00 00 00 00 00		save_data: .fill 192,0
+>6a5d	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+;	...repeated 10 times (160 bytes)...
+>6b0d	00 00 00 00 00 00 00 00
+>6b15	00				save_prefix: .byte 0
+>6b16	00 00 00 00 00 00 00 00		save_path: .fill 256,0
+>6b1e	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+;	...repeated 14 times (224 bytes)...
+>6c0e	00 00 00 00 00 00 00 00
+
+;******  Return to file: src/native/calc.asm
+
+.6c16					calc_end:
+
+;******  End of listing

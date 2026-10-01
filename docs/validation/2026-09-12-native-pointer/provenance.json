@@ -1,0 +1,25 @@
+{
+  "physical_hardware_io": false,
+  "pushed": false,
+  "main_integrated": true,
+  "qualified_sessions": {
+    "pointer_cpu": 0,
+    "desktop_cpu": 0,
+    "claude_cpu": 0,
+    "vice40": 0,
+    "vice80": 0,
+    "serial": 0
+  },
+  "final_work": "/var/tmp/arc-scratch/uos-native-pointer-settled-n7fvgstw",
+  "base_commit": "5742c726b6ccdb7f962ef5d93209d30116674214",
+  "cpu_claude_reuse": {
+    "reason": "The Claude PRG, workspace kernel and test source are byte-identical after the final pointer-only timing change.",
+    "hashes": {
+      "target/native-desktop/claude.prg": "e6ae98bdd93869a9e1cc3e21462f10d5f0f23ea70a2e9e318f5c83e07ddab429",
+      "target/native/uos128.prg": "5e088ca4ead945a60d56b875ec0acf9be97f437c7ab533c2d22156b0bade9db3",
+      "tests/ci_native_claude.py": "bb8865e502964c2536b5b031f7656fa56ba48b66c09d6cf1e162053ca7ad0395"
+    }
+  },
+  "source_scope": "Desktop mouse input; Claude programmable-key ownership; qualification fixtures and docs",
+  "physical_limitation": "Native mouse/adapter hardware qualification remains pending; physical diagnostic backup must first use bank-aware CPU access."
+}

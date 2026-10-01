@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-prtscr-2lg6rmhl",
+  "checks": [
+    {
+      "name": "cold boot with a printer on device 4: the desktop shows the Printer icon"
+    },
+    {
+      "name": "HELP runs Print Screen and leaves the desktop exactly as it was"
+    },
+    {
+      "name": "the printer received 29 bit-image bands whose dots are exactly the emulated surface's set pixels, then CHR$(15)",
+      "bytes": 9339,
+      "dots": 5052
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-prtscr-2lg6rmhl/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-devicebackend4",
+    "1",
+    "-busdevice4",
+    "-pr4drv",
+    "raw",
+    "-pr4output",
+    "text",
+    "-pr4txtdev",
+    "0",
+    "-prtxtdev1",
+    "/var/tmp/arc-scratch/uos-gemdesk-prtscr-2lg6rmhl/printer.bin",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:53901"
+  ],
+  "printed_bytes": 9339
+}

@@ -1,0 +1,42 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.224,
+      "event_indices": [
+        49
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 74.235,
+      "event_indices": [
+        63
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 74.233,
+      "event_indices": [
+        71
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 11.339,
+      "event_indices": [
+        79
+      ]
+    }
+  },
+  "physical_file_seconds": {
+    "large_open": 38.309,
+    "large_save": 80.935,
+    "large_reopen": 38.314
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading and scanning the boot IEC browser. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

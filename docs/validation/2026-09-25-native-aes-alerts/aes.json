@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-4wsayrnj",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 3153,
+        "pages": 13,
+        "entry": 24608,
+        "crc16": 63471,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "00c45de5ab04c72262f2e00f291dedfab1e46f2d843e2a58885c8719c7aca410"
+      },
+      "AESVC.PRG": {
+        "bytes": 5566,
+        "pages": 22,
+        "bank": 1,
+        "entry": 36904,
+        "crc16": 3950,
+        "sha256": "7d34747f02f98f5140e8d7d11d673e61944f4250bfb4e13aafcb1be4c283ef80"
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "first app loads AESVC at bank-1 $9000 as owner 30; it survives exit",
+      "events": 2,
+      "instructions": 1630877,
+      "pages": 22
+    },
+    {
+      "name": "second app attaches without loading, sees persisted counters, unloads fully",
+      "events": 4,
+      "instructions": 533923
+    },
+    {
+      "name": "wrong identity or zero callback import (partial load) refused with BADIMAGE; restored image re-attaches",
+      "events": 8,
+      "instructions": 530089
+    },
+    {
+      "name": "occupied $9000 by another owner: clean allocation refusal, nothing adopted",
+      "events": 0,
+      "instructions": 569001,
+      "error": 2
+    },
+    {
+      "name": "corrupt AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 1626418,
+      "error": 20
+    },
+    {
+      "name": "missing AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 538726,
+      "error": 17
+    },
+    {
+      "name": "keyboard alert: exact frame, Tab/cursor focus with row masks, Return, exact restore",
+      "events": 8,
+      "instructions": 8714917,
+      "alert": {
+        "x": 6,
+        "y": 9,
+        "w": 27,
+        "h": 7
+      }
+    },
+    {
+      "name": "digits choose directly, Escape chooses Cancel, Return takes the default",
+      "events": 16,
+      "instructions": 22548667
+    },
+    {
+      "name": "1351-style press/release on the same button chooses it; release elsewhere does not",
+      "events": 21,
+      "instructions": 26623614
+    },
+    {
+      "name": "arbitrary pixels and colours under the alert are restored exactly",
+      "events": 23,
+      "instructions": 30082047
+    },
+    {
+      "name": "malformed strings and alerts over 250 cells are refused before any surface change",
+      "events": 31,
+      "instructions": 30127016
+    }
+  ]
+}

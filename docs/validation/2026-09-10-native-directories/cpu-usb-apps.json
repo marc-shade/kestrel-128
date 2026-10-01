@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "images": {
+    "uos128.prg": "5e0896d8b26a61430b660feb29f68693e503dc8a1495722ed708c9fae85c5ce9",
+    "browse.prg": "c3fb0ea873d078db1502a32c531e0242ec6f3f6557ec68a75edf2e45a11b5199",
+    "calc.prg": "8e6a281482706cbae8f7623ed11132e2018a9c7be4eaea36a6d5fe5f3e715265"
+  },
+  "cases": {
+    "bounded-path-field": {
+      "maximum_bytes": 255,
+      "field_frames": 1002,
+      "no_directory_or_file_io": true,
+      "cancel_preserves_selection_and_cache": true,
+      "quoted_path": true
+    },
+    "browser-usb-calculator-dispatch": {
+      "second_context": true,
+      "verified_history_bytes": 3,
+      "boot_browser_restored": true,
+      "missing_and_corrupt_images_rejected": true,
+      "workspace_return": true
+    },
+    "calculator-error-recovery": {
+      "short_write": true,
+      "reopen_comparison": true,
+      "uncertain_close_retained": true,
+      "no_new_open_until_checked_close": true,
+      "verified_recovery": true
+    },
+    "calculator-255-byte-source": {
+      "overlong_output_rejected_before_io": true,
+      "longest_output_bytes": 255,
+      "complete_verified_history": true
+    }
+  },
+  "checked_frames": 1002
+}

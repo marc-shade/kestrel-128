@@ -1,0 +1,31 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -o target/native-desktop/boot.prg -L target/native-desktop/boot.lst src/native/boot.asm
+; Wed Sep 30 11:09:20 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/boot.asm
+
+>0b00	43 42 4d			        .byte $43,$42,$4d       ; CBM signature (unshifted PETSCII)
+>0b03	00 0b				        .word $0b00
+>0b05	00 00				        .byte 0,0              ; no additional raw sectors
+>0b07	4b 45 53 54 52 45 4c 00		        .text "kestrel",0
+>0b0f	00				        .byte 0                ; no optional filename loaded by BOOT_CALL
+.0b10	a2 06		ldx #$06	        ldx #command_end-command-1
+.0b12					boot_key:
+.0b12	bd 20 0b	lda $0b20,x	        lda command,x
+.0b15	9d 4a 03	sta $034a,x	        sta $034a,x
+.0b18	ca		dex		        dex
+.0b19	10 f7		bpl $0b12	        bpl boot_key
+.0b1b	a9 07		lda #$07	        lda #command_end-command
+.0b1d	85 d0		sta $d0		        sta $d0
+.0b1f	60		rts		        rts
+>0b20	52 55 4e 22 55 22 0d		command: .byte $52,$55,$4e,$22,$55,$22,13 ; RUN"U" + Return
+.0b27					command_end:
+>0b27	00 00 00 00 00 00 00 00		        .fill $0c00-*,0
+>0b2f	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+;	...repeated 12 times (192 bytes)...
+>0bff	00
+
+;******  End of listing

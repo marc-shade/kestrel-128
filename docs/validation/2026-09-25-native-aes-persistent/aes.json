@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-caq4po23",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 2737,
+        "pages": 11,
+        "entry": 24608,
+        "crc16": 38746,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "e530e7c040907eaf0a8de68403cf6e64c25bbfa42959ee492d6c5a99e04acc76"
+      },
+      "AESVC.PRG": {
+        "bytes": 196,
+        "pages": 1,
+        "bank": 1,
+        "entry": 36904,
+        "crc16": 25030,
+        "sha256": "b20e97b1e00c2cd2ae877bb4ba8b67733618f9d5677453470c6d0fb34337dbb3"
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "first app loads AESVC at bank-1 $9000 as owner 30; it survives exit",
+      "events": 2,
+      "instructions": 525598,
+      "pages": 1
+    },
+    {
+      "name": "second app attaches without loading, sees persisted counters, unloads fully",
+      "events": 4,
+      "instructions": 464627
+    },
+    {
+      "name": "wrong identity or zero callback import (partial load) refused with BADIMAGE; restored image re-attaches",
+      "events": 8,
+      "instructions": 461655
+    },
+    {
+      "name": "occupied $9000 by another owner: clean allocation refusal, nothing adopted",
+      "events": 0,
+      "instructions": 480038,
+      "error": 2
+    },
+    {
+      "name": "corrupt AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 521943,
+      "error": 20
+    },
+    {
+      "name": "missing AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 471150,
+      "error": 17
+    }
+  ]
+}

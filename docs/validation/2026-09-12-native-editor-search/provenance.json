@@ -1,0 +1,38 @@
+{
+  "base_commit": "e140f3aae5ce1ca304654549ba74191ccd61f82c",
+  "physical_hardware_io": false,
+  "authenticated_claude_session": false,
+  "qualified_sessions": {
+    "search_cpu": 0,
+    "dialog_cpu": 0,
+    "document_cpu": 0,
+    "editor_cpu": 0,
+    "ultimate_editor_cpu": 0,
+    "redraw_cpu": 0,
+    "module_editor_cpu": 0,
+    "vice_search": 0,
+    "vice_suite": 0,
+    "desktop_cpu": 0
+  },
+  "desktop_report_origin": "/var/tmp/arc-scratch/uos-native-editor-search-guarded-bicpl81n/regression-desktop.json",
+  "desktop_report_images_identical": true,
+  "candidate": "/var/tmp/arc-scratch/uos-native-editor-search-guarded-bicpl81n",
+  "development_corrections": [
+    "The 90-page built-in prototype failed the actual VICE large-file/workspace allocation; final search shares the picker window.",
+    "A footer initially occupied all 40 columns and wrapped before its newline; final complete frames qualify both displays.",
+    "An initial CPU workspace fixture used C000 instead of the native DF00 reservation; corrected to the existing workspace helper.",
+    "The picker now borrows three unique buffers; its host decoder was updated for six direct pages and a partial final heap block. The executed RAM decoder test passes.",
+    "An eight-entry EOF fixture closed its directory before the retained-cursor test. The corrected forty-entry fixture proves both refusal and successful retry."
+  ],
+  "main_rebuild_byte_identical": true,
+  "pushed": false,
+  "documentation_only_updates_after_image_build": true,
+  "qualified_session_ids": {
+    "search": 42657,
+    "dialog": 78356,
+    "regressions": 47551,
+    "vice_search": 19487,
+    "vice_suite": 97896
+  },
+  "all_sessions_terminal": true
+}

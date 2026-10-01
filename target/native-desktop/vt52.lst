@@ -1,0 +1,1350 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -B -o target/native-desktop/vt52.prg -l target/native-desktop/vt52.sym -L target/native-desktop/vt52.lst src/native/vt52.asm
+; Wed Sep 30 12:50:00 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/vt52.asm
+
+
+;******  Processing file: src/native/api.inc
+
+=1					N_ABI_MAJOR = 1
+=14					N_ABI_MINOR = 14
+=$1c20					N_ALLOC         = $1c20
+=$1c23					N_FREE          = $1c23
+=$1c26					N_READ          = $1c26
+=$1c29					N_WRITE         = $1c29
+=$1c2c					N_FILL          = $1c2c
+=$1c2f					N_STATS         = $1c2f
+=$1c32					N_RELEASE       = $1c32
+=$1c35					N_RESERVE       = $1c35
+=$1c38					N_LAUNCH        = $1c38          ; checked PRG through owned IEC/Ultimate streams
+=$1c3b					N_KEYIN         = $1c3b          ; native GETIN with shared key-event accounting
+=$1c3e					N_EXIT          = $1c3e          ; one-way app exit, A=app result; restores saved stack
+=$1c41					N_FOPEN         = $1c41          ; owned read/create stream or Ultimate directory cursor
+=$1c44					N_FREAD         = $1c44          ; up to 512 file bytes, or one complete directory entry
+=$1c47					N_FWRITE        = $1c47          ; up to 512 bytes from N_BUFFER
+=$1c4a					N_FCLOSE        = $1c4a          ; close only this owned file
+=$1c4d					N_FRELEASE      = $1c4d          ; close every file owned by N_FOWNER
+=$1c50					N_DIRPAGE       = $1c50          ; one normalized directory page; no live stream on success
+=$1c53					N_REPLACE       = $1c53          ; leave app, request dispatcher launch with source fields
+=$1c56					N_WORKSPACE     = $1c56          ; leave app, request return to the memory workspace
+=$1c59					N_FEDIT         = $1c59          ; edit the active app's bounded field, no input polling
+=$1c5c					N_FDRAW         = $1c5c          ; draw that focused field at the current console position
+=$1c5f					N_MLOAD         = $1c5f          ; checked module from the original app's source folder
+=$1c62					N_MCALL         = $1c62          ; call the current module using its generation token
+=$1c65					N_MCLOSE        = $1c65          ; invalidate module; close/recover only its source stream
+=$1c68					N_VSHOW         = $1c68          ; experimental: present owned bank-0 $c000..$e3ff
+=$1c6b					N_VCLOSE        = $1c6b          ; experimental: restore text; keep surface allocation
+=$1c6e					N_UQUERY        = $1c6e          ; checked, read-only Ultimate query; shared file lock
+=$1c71					N_UCOMMAND      = $1c71          ; serialized UCI packet: N_BUFFER header + N_FCOUNT body bytes
+=$1bf0					N_NMIGATE       = $1bf0
+=$3d3e					N_NMIPTR        = $3d3e
+=$3d00					N_OWNER         = $3d00
+=$3d01					N_PAGES         = $3d01
+=$3d02					N_BANK          = $3d02
+=$3d03					N_PAGE          = $3d03
+=$3d04					N_HANDLE        = $3d04          ; four bytes
+=$3d08					N_OFFSET        = $3d08          ; word
+=$3d0a					N_COUNT         = $3d0a          ; word
+=$3d0c					N_VALUE         = $3d0c
+=$3d0d					N_ERROR         = $3d0d
+=$3d0e					N_FREE0         = $3d0e          ; free 256-byte pages, bank 0
+=$3d0f					N_FREE1         = $3d0f          ; free 256-byte pages, bank 1
+=$3d10					N_SLOTS         = $3d10          ; reusable descriptor slots
+=$3d11					N_BUSY          = $3d11
+=$3d12					N_READY         = $3d12
+=$3d13					N_KEYS          = $3d13          ; word: consumed keyboard events
+=$3d15					N_LASTKEY       = $3d15
+=$3d16					N_RESULT        = $3d16          ; workspace's last command result
+=$3d17					N_MTOKEN        = $3d17          ; LE24: MLOAD output / MCALL input; zero is invalid
+=$3d1a					N_MERROR        = $3d1a          ; gate/loader error; MCALL preserves module's A/carry
+=$3d1b					N_MSTATE        = $3d1b          ; read-only: 0 empty, 1 loading, 2 ready, 3 running, 4 close retained
+=$3d20					N_CURRENT       = $3d20          ; active app owner; 0 when no app owns the slot
+=$3d21					N_DEVICE        = $3d21          ; launch IEC device 8..30, or Ultimate DOS context 1/2
+=$3d22					N_NAMELEN       = $3d22          ; IEC launch name 1..16; Ultimate path length 1..255
+=$3d23					N_APPSTATE      = $3d23          ; 0 idle, 1 loading, 2 running, 3 cleanup, 4 retained error
+=$3d24					N_EXITCODE      = $3d24          ; last application's A on return/EXIT
+=$3d25					N_DOSCODE       = $3d25          ; DOS error code (decimal), when available
+=$3d26					N_IOSTATUS      = $3d26          ; first failed loader stream's nonzero transport status
+=$3d27					N_APPERROR      = $3d27          ; stable launch result, separate from heap ERROR
+=$3d28					N_ACTION        = $3d28          ; completed app request: 0 normal, 1 replace, 2 workspace
+=$3d29					N_BROWSERDEV    = $3d29          ; workspace/browser preferences (not file-call arguments)
+=$3d2a					N_BROWSERFMT    = $3d2a
+=$3d2b					N_BROWSERERROR  = $3d2b          ; last dispatcher error shown when the browser returns
+=$3d2c					N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
+=$3d2d					N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
+=$3de4					N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3de5					N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
+=31					N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
+=$3d2e					N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
+=$3d2f					N_DESKTOPSEL    = $3d2f          ; session: 0 Calc / 1 Editor / 2 Files / 3 Ultimate / 4 Claude / 5 Paint / 6 Sheet
+=$3d30					N_BROWSERPOS    = $3d30          ; dword: selected Ultimate directory ordinal
+=$3d34					N_BROWSERNAME_LEN = $3d34        ; ABI 1.5: selected raw name length, 0 when empty
+=$3d35					N_UIPTR         = $3d35          ; word: field-state address
+=$3d37					N_UIKEY         = $3d37
+=$3d38					N_UIWIDTH       = $3d38
+=$3d39					N_UIFLAGS       = $3d39          ; successful edit: bit 0 content, bit 1 caret changed
+=$3d3a					N_UIERROR       = $3d3a
+=$3d3b					N_UIBUSY        = $3d3b
+=$3d3c					N_UOP           = $3d3c
+=$3d3d					N_UARG          = $3d3d
+=0					N_U_IDENTIFY    = 0             ; UARG target 1..15; interface identification
+=1					N_U_HARDWARE    = 1             ; control hardware model, selector 0
+=2					N_U_DRIVES      = 2             ; control inventory, effective IEC addresses
+=3					N_U_POWER_A     = 3
+=4					N_U_POWER_B     = 4
+=5					N_U_INTERFACES  = 5             ; network interface count
+=6					N_U_MAC         = 6             ; UARG interface index
+=7					N_U_IP          = 7             ; UARG interface index; IP/mask/gateway
+=8					N_U_TIME        = 8             ; DOS GET_TIME; running cartridge RTC
+=9					N_U_QUERY_COUNT = 9
+=0					UI_LENGTH       = 0
+=1					UI_CARET        = 1
+=2					UI_MAXIMUM      = 2
+=3					UI_BUFFER       = 3
+=5					UI_VIEW40       = 5
+=6					UI_VIEW80       = 6
+=7					UI_FILTER       = 7
+=8					UI_STATE_BYTES  = 8
+=$3e00					N_BROWSERNAME   = $3e00          ; 256 bytes; restore selection after directory edits
+=$3d40					N_APPNAME       = $3d40          ; 16-byte filename, no wildcard/DOS syntax
+=$3d50					N_MHEADER       = $3d50          ; private: independent 16-byte module manifest
+=$3d60					N_APPHEADER     = $3d60          ; validated 32-byte native image manifest
+=$3f00					N_SOURCEPATH    = $3f00          ; private: original Ultimate app parent directory
+=$3a00					N_BUFFER        = $3a00          ; 512 bytes, bank 0, reserved
+=$3d80					N_FOWNER        = $3d80
+=$3d81					N_FHANDLE       = $3d81          ; four bytes
+=$3d85					N_FDEVICE       = $3d85          ; IEC 8..30 or Ultimate DOS context 1/2
+=$3d86					N_FNAMELEN      = $3d86
+=$3d87					N_FMODE         = $3d87
+=$3d88					N_FTYPE         = $3d88
+=$3d89					N_FCOUNT        = $3d89          ; requested word, 1..512
+=$3d8b					N_FACTUAL       = $3d8b          ; returned word; may be a prefix on I/O error
+=$3d8d					N_FEOF          = $3d8d          ; read handle has consumed its checked extent
+=$3d8e					N_FERROR        = $3d8e
+=$3d8f					N_FDOS          = $3d8f          ; IEC first error; Ultimate most recent numeric status
+=$3d90					N_FSTATUS       = $3d90          ; IEC serial error; Ultimate transport/verification detail
+=$3d91					N_FBUSY         = $3d91
+=$3d92					N_FPOSITION     = $3d92          ; LE32 byte position, or directory entries consumed
+=$3d96					N_FFORMAT       = $3d96          ; 0 D64, 1 D71, 2 D81, 3 Ultimate DOS
+=$4e00					N_UPATH         = $4e00          ; 256-byte path mailbox, bank 0, reserved
+=$4a00					N_BROWSERPATH   = $4a00          ; ABI 1.5: persistent browser path, 1..255 raw bytes
+=$4f00					N_USTATUS       = $4f00          ; last Ultimate status text, at most 31 bytes + NUL
+=$3d97					N_DPAGE         = $3d97          ; zero-based directory page, bounded by geometry
+=$3d98					N_DNEXT         = $3d98          ; next page ordinal, or $ff at directory end
+=$3d99					N_DCOUNT        = $3d99          ; 0 or 8 records returned in N_BUFFER
+=$3d9a					N_DOCREQUEST    = $3d9a          ; 0 none, $80 staged, 1 ready for this app only
+=$3d9b					N_DOCKIND       = $3d9b          ; 1 Editor text, 2 Paint UPNT, 3 Sheet USHT
+=$3d9c					N_DOCTYPE       = $3d9c          ; IEC 0 SEQ / 1 PRG / 2 USR; Ultimate must be 0
+=$3d9d					N_DOCRETURN     = $3d9d          ; 1 dispatcher returns to system Files, then clears
+=$3d9e					N_DOCRESUME     = $3d9e          ; dispatcher -> Files: restore selection once
+=$3da0					N_FNAME         = $3da0          ; 16 bytes
+=$3dc0					NFILES          = $3dc0          ; private: two 16-byte descriptors
+=$3de0					NFCMDS          = $3de0          ; private: two device bytes, two state bytes (0/1/2)
+=0					N_OK            = 0
+=1					N_BADARG        = 1
+=2					N_NOMEM         = 2
+=3					N_NOSLOT        = 3
+=4					N_BADHANDLE     = 4
+=5					N_WRONGOWNER    = 5
+=6					N_RANGE         = 6
+=7					N_REENTRANT     = 7
+=8					N_PLATFORM      = 8
+=9					N_CORRUPT       = 9
+=$10					N_BADIMAGE      = $10            ; invalid manifest/load address/ABI
+=$11					N_IOERROR       = $11            ; IEC or DOS failure (see DOSCODE/IOSTATUS)
+=$12					N_SHORTIMAGE    = $12            ; EOF before declared length
+=$13					N_LONGIMAGE     = $13            ; declared length reached without EOF
+=$14					N_CHECKSUM      = $14            ; image CRC16 does not match
+=$15					N_CHANNELS      = $15            ; reserved channels conflict / redirected console
+=$16					N_MEXHAUSTED    = $16            ; module generation retired until the next kernel boot
+=$6000					N_APPBASE       = $6000          ; bank 0 application executable slot
+=$c000					N_APPLIMIT      = $c000          ; exclusive: keep native editor/KERNAL visible
+=32					N_APPOWNER      = 32             ; one foreground app in this initial lifecycle
+=$1300					N_LOWBASE       = $1300          ; resident kernel section, initialized before heap use
+=$1c00					N_LOWLIMIT      = $1c00          ; exclusive; below the BASIC entry stub
+=$5000					N_RELOCBASE     = $5000          ; boot-only staging, reusable after relocation
+=$4000					N_SERVICEBASE   = $4000          ; resident Ultimate services and mailboxes
+=$5000					N_SERVICELIMIT  = $5000
+=$3800					NPAGES0         = $3800          ; page -> slot+1, 0 free, $ff reserved
+=$3900					NPAGES1         = $3900
+=$3c00					NHANDLES        = $3c00          ; 32 records of eight bytes
+=32					NSLOTS          = 32
+=$50					N_FIRST0        = $50            ; bank 0 $5000..$feff: 175 pages
+=$04					N_FIRST1        = $04            ; bank 1 $0400..$feff: 251 pages
+
+;******  Return to file: src/native/vt52.asm
+
+=$d600					VDC_ADDR = $d600
+=$d601					VDC_DATA = $d601
+=$de00					ACIA_DATA = $de00
+=$de01					ACIA_STATUS = $de01
+=$de02					ACIA_CMD = $de02
+=$de03					ACIA_CTRL = $de03
+=$1e					ACIA_CTRL_VAL = $1e             ; 19200 baud on the SwiftLink's doubled clock, 8N1
+=$09					ACIA_CMD_VAL = $09              ; DTR, receive interrupt, RTS on, transmit interrupt off
+=$0318					NMI_VECTOR = $0318
+=$ff33					NMI_EXIT = $ff33
+=$0800					ATTR_BASE = $0800
+=25					VT_ROWS = 25
+=80					VT_COLS = 80
+=$8c					VT_QUIT_KEY = $8c               ; F8
+.6000					vt_image:
+>6000	4e 41 50 50			        .text "napp"
+>6004	01 01 0e 00			        .byte 1,1,14,0
+>6008	00 0f				        .word vt_end-vt_image
+>600a	10 00				        .byte (vt_end-vt_image+48+255)/256,0
+>600c	20 00				        .word vt_start-vt_image
+>600e	00 00				        .word 0
+>6010	56 54 35 32 20 54 45 52		        .text "vt52 terminal",0
+>6018	4d 49 4e 41 4c 00
+>601e	00 00				        .fill N_APPBASE+32-*,0
+.6020					vt_start:
+.6020	d8		cld		        cld
+.6021	20 d5 65	jsr $65d5	        jsr vt_video_begin
+.6024	b0 43		bcs $6069	        bcs vt_no_serial        ; restores whatever was already changed
+.6026	20 cb 67	jsr $67cb	        jsr vt_acia_open
+.6029	b0 3e		bcs $6069	        bcs vt_no_serial
+.602b	20 de 60	jsr $60de	        jsr vt_reset
+.602e					vt_loop:
+.602e	ac 1d 6c	ldy $6c1d	-       ldy vt_rx_tail          ; everything received so far
+.6031	cc 1c 6c	cpy $6c1c	        cpy vt_rx_head
+.6034	f0 0d		beq $6043	        beq +
+.6036	b9 00 6e	lda $6e00,y	        lda vt_rx_buf,y
+.6039	c8		iny		        iny
+.603a	8c 1d 6c	sty $6c1d	        sty vt_rx_tail
+.603d	20 0a 61	jsr $610a	        jsr vt_put
+.6040	4c 2e 60	jmp $602e	        jmp -
+.6043	20 aa 65	jsr $65aa	+       jsr vt_place_cursor
+.6046	ad 19 6c	lda $6c19	        lda vt_quit_request     ; a non-serial NMI, a stuck transmitter or VDC
+.6049	d0 1b		bne $6066	        bne vt_quit
+.604b	a9 01		lda #$01	        lda #1
+.604d	8d 12 3d	sta $3d12	        sta N_READY
+.6050	20 3b 1c	jsr $1c3b	        jsr N_KEYIN
+.6053	a2 00		ldx #$00	        ldx #0
+.6055	8e 12 3d	stx $3d12	        stx N_READY
+.6058	c9 00		cmp #$00	        cmp #0
+.605a	f0 d2		beq $602e	        beq vt_loop
+.605c	c9 8c		cmp #$8c	        cmp #VT_QUIT_KEY
+.605e	f0 06		beq $6066	        beq vt_quit
+.6060	20 71 60	jsr $6071	        jsr vt_key
+.6063	4c 2e 60	jmp $602e	        jmp vt_loop
+.6066					vt_quit:
+.6066	20 46 68	jsr $6846	        jsr vt_acia_close
+.6069					vt_no_serial:
+.6069	20 2d 67	jsr $672d	        jsr vt_video_end
+.606c					vt_leave:
+.606c	a9 00		lda #$00	        lda #0
+.606e	4c 3e 1c	jmp $1c3e	        jmp N_EXIT
+.6071					vt_key:
+.6071	a2 03		ldx #$03	        ldx #3
+.6073	dd d6 60	cmp $60d6,x	-       cmp vt_cursor_keys,x
+.6076	f0 36		beq $60ae	        beq vt_key_cursor
+.6078	ca		dex		        dex
+.6079	10 f8		bpl $6073	        bpl -
+.607b	c9 14		cmp #$14	        cmp #$14                ; DEL: backspace
+.607d	d0 05		bne $6084	        bne +
+.607f	a9 08		lda #$08	        lda #8
+.6081	4c b8 60	jmp $60b8	        jmp vt_send
+.6084	c9 0d		cmp #$0d	+       cmp #$0d
+.6086	f0 30		beq $60b8	        beq vt_send
+.6088	c9 1b		cmp #$1b	        cmp #$1b
+.608a	f0 2c		beq $60b8	        beq vt_send
+.608c	c9 20		cmp #$20	        cmp #$20
+.608e	90 28		bcc $60b8	        bcc vt_send             ; Ctrl-letter and Tab are ASCII controls already
+.6090	c9 41		cmp #$41	        cmp #$41
+.6092	90 24		bcc $60b8	        bcc vt_send             ; space, digits, punctuation
+.6094	c9 5b		cmp #$5b	        cmp #$5b
+.6096	b0 05		bcs $609d	        bcs +
+.6098	09 20		ora #$20	        ora #$20                ; unshifted letters are lowercase
+.609a	4c b8 60	jmp $60b8	        jmp vt_send
+.609d	c9 60		cmp #$60	+       cmp #$60
+.609f	90 17		bcc $60b8	        bcc vt_send             ; [ \ ] ^ _
+.60a1	c9 c1		cmp #$c1	        cmp #$c1
+.60a3	90 30		bcc $60d5	        bcc vt_key_done
+.60a5	c9 db		cmp #$db	        cmp #$db
+.60a7	b0 2c		bcs $60d5	        bcs vt_key_done
+.60a9	29 7f		and #$7f	        and #$7f                ; shifted letters are uppercase
+.60ab	4c b8 60	jmp $60b8	        jmp vt_send
+.60ae					vt_key_cursor:
+.60ae	bd da 60	lda $60da,x	        lda vt_cursor_codes,x   ; (vt_send uses X)
+.60b1	48		pha		        pha
+.60b2	a9 1b		lda #$1b	        lda #27
+.60b4	20 b8 60	jsr $60b8	        jsr vt_send
+.60b7	68		pla		        pla
+.60b8					vt_send:
+.60b8	48		pha		        pha
+.60b9	a2 00		ldx #$00	        ldx #0
+.60bb	a0 00		ldy #$00	        ldy #0
+.60bd	ad 01 de	lda $de01	-       lda ACIA_STATUS
+.60c0	29 10		and #$10	        and #$10
+.60c2	d0 0d		bne $60d1	        bne +
+.60c4	ca		dex		        dex
+.60c5	d0 f6		bne $60bd	        bne -
+.60c7	88		dey		        dey
+.60c8	d0 f3		bne $60bd	        bne -
+.60ca	68		pla		        pla
+.60cb	a9 02		lda #$02	        lda #2
+.60cd	8d 19 6c	sta $6c19	        sta vt_quit_request
+.60d0	60		rts		        rts
+.60d1	68		pla		+       pla
+.60d2	8d 00 de	sta $de00	        sta ACIA_DATA
+.60d5					vt_key_done:
+.60d5	60		rts		        rts
+>60d6	91 11 1d 9d			vt_cursor_keys: .byte $91,$11,$1d,$9d
+>60da	41 42 43 44			vt_cursor_codes: .byte $41,$42,$43,$44 ; A B C D
+.60de					vt_reset:
+.60de	a9 00		lda #$00	        lda #0
+.60e0	8d fe 6b	sta $6bfe	        sta vt_state
+.60e3	8d ff 6b	sta $6bff	        sta vt_row
+.60e6	8d 00 6c	sta $6c00	        sta vt_col
+.60e9	8d 05 6c	sta $6c05	        sta vt_reverse
+.60ec	8d 01 6c	sta $6c01	        sta vt_saved_row
+.60ef	8d 02 6c	sta $6c02	        sta vt_saved_col
+.60f2	a9 01		lda #$01	        lda #1
+.60f4	8d 06 6c	sta $6c06	        sta vt_wrap
+.60f7	8d 07 6c	sta $6c07	        sta vt_cursor_on
+.60fa	a9 0f		lda #$0f	        lda #15
+.60fc	8d 03 6c	sta $6c03	        sta vt_fg
+.60ff	a9 00		lda #$00	        lda #0                  ; background: VDC register 26, low nibble
+.6101	8d 04 6c	sta $6c04	        sta vt_bg
+.6104	20 cd 65	jsr $65cd	        jsr vt_set_background
+.6107	4c 92 63	jmp $6392	        jmp vt_clear_all
+.610a					vt_put:
+.610a	ae fe 6b	ldx $6bfe	        ldx vt_state
+.610d	f0 4b		beq $615a	        beq vt_put_normal
+.610f	ca		dex		        dex
+.6110	d0 03		bne $6115	        beq vt_escape
+.6112	4c d5 61	jmp $61d5
+.6115	ca		dex		        dex
+.6116	f0 1e		beq $6136	        beq vt_y_row
+.6118	ca		dex		        dex
+.6119	f0 2d		beq $6148	        beq vt_y_col
+.611b	ca		dex		        dex
+.611c	f0 0d		beq $612b	        beq vt_fg_color
+.611e	29 0f		and #$0f	        and #15                 ; state 5: ESC c, background
+.6120	8d 04 6c	sta $6c04	        sta vt_bg
+.6123	a9 00		lda #$00	        lda #0
+.6125	8d fe 6b	sta $6bfe	        sta vt_state
+.6128	4c cd 65	jmp $65cd	        jmp vt_set_background
+.612b					vt_fg_color:
+.612b	29 0f		and #$0f	        and #15
+.612d	8d 03 6c	sta $6c03	        sta vt_fg
+.6130	a9 00		lda #$00	        lda #0
+.6132	8d fe 6b	sta $6bfe	        sta vt_state
+.6135	60		rts		        rts
+.6136					vt_y_row:
+.6136	38		sec		        sec
+.6137	e9 20		sbc #$20	        sbc #32
+.6139	c9 19		cmp #$19	        cmp #VT_ROWS
+.613b	90 02		bcc $613f	        bcc +
+.613d	a9 18		lda #$18	        lda #VT_ROWS-1
+.613f	8d ff 6b	sta $6bff	+       sta vt_row
+.6142	a9 03		lda #$03	        lda #3
+.6144	8d fe 6b	sta $6bfe	        sta vt_state
+.6147	60		rts		        rts
+.6148					vt_y_col:
+.6148	38		sec		        sec
+.6149	e9 20		sbc #$20	        sbc #32
+.614b	c9 50		cmp #$50	        cmp #VT_COLS
+.614d	90 02		bcc $6151	        bcc +
+.614f	a9 4f		lda #$4f	        lda #VT_COLS-1
+.6151	8d 00 6c	sta $6c00	+       sta vt_col
+.6154	a9 00		lda #$00	        lda #0
+.6156	8d fe 6b	sta $6bfe	        sta vt_state
+.6159	60		rts		        rts
+.615a					vt_put_normal:
+.615a	c9 20		cmp #$20	        cmp #32
+.615c	90 23		bcc $6181	        bcc vt_control
+.615e	c9 7f		cmp #$7f	        cmp #127
+.6160	b0 1e		bcs $6180	        bcs vt_ignore
+.6162	20 29 63	jsr $6329	        jsr vt_draw_char
+.6165	ee 00 6c	inc $6c00	        inc vt_col
+.6168	ad 00 6c	lda $6c00	        lda vt_col
+.616b	c9 50		cmp #$50	        cmp #VT_COLS
+.616d	90 11		bcc $6180	        bcc vt_ignore
+.616f	ad 06 6c	lda $6c06	        lda vt_wrap
+.6172	d0 04		bne $6178	        bne +
+.6174	ce 00 6c	dec $6c00	        dec vt_col              ; no wrap: stay on the last column
+.6177	60		rts		        rts
+.6178	a9 00		lda #$00	+       lda #0
+.617a	8d 00 6c	sta $6c00	        sta vt_col
+.617d	4c c7 61	jmp $61c7	        jmp vt_line_feed
+.6180					vt_ignore:
+.6180	60		rts		        rts
+.6181					vt_control:
+.6181	c9 1b		cmp #$1b	        cmp #27
+.6183	d0 06		bne $618b	        bne vt_c_cr
+.6185	a9 01		lda #$01	        lda #1
+.6187	8d fe 6b	sta $6bfe	        sta vt_state
+.618a	60		rts		        rts
+.618b					vt_c_cr:
+.618b	c9 0d		cmp #$0d	        cmp #13
+.618d	d0 06		bne $6195	        bne vt_c_bs
+.618f	a9 00		lda #$00	        lda #0
+.6191	8d 00 6c	sta $6c00	        sta vt_col
+.6194	60		rts		        rts
+.6195					vt_c_bs:
+.6195	c9 08		cmp #$08	        cmp #8
+.6197	d0 09		bne $61a2	        bne vt_c_tab
+.6199	ad 00 6c	lda $6c00	        lda vt_col
+.619c	f0 e2		beq $6180	        beq vt_ignore
+.619e	ce 00 6c	dec $6c00	        dec vt_col
+.61a1	60		rts		        rts
+.61a2					vt_c_tab:
+.61a2	c9 09		cmp #$09	        cmp #9
+.61a4	d0 12		bne $61b8	        bne vt_c_lf
+.61a6	ad 00 6c	lda $6c00	        lda vt_col              ; next multiple of 8, at most the last column
+.61a9	09 07		ora #$07	        ora #7
+.61ab	18		clc		        clc
+.61ac	69 01		adc #$01	        adc #1
+.61ae	c9 50		cmp #$50	        cmp #VT_COLS
+.61b0	90 02		bcc $61b4	        bcc +
+.61b2	a9 4f		lda #$4f	        lda #VT_COLS-1
+.61b4	8d 00 6c	sta $6c00	+       sta vt_col
+.61b7	60		rts		        rts
+.61b8					vt_c_lf:
+.61b8	c9 07		cmp #$07	        cmp #7                  ; BEL: the SID bell
+.61ba	d0 03		bne $61bf	        bne +
+.61bc	4c c4 68	jmp $68c4	        jmp sd_bell
+.61bf	c9 0a		cmp #$0a	+       cmp #10                 ; LF, VT and FF move down
+.61c1	90 bd		bcc $6180	        bcc vt_ignore
+.61c3	c9 0d		cmp #$0d	        cmp #13
+.61c5	b0 b9		bcs $6180	        bcs vt_ignore
+.61c7					vt_line_feed:
+.61c7	ad ff 6b	lda $6bff	        lda vt_row
+.61ca	c9 18		cmp #$18	        cmp #VT_ROWS-1
+.61cc	b0 04		bcs $61d2	        bcs +
+.61ce	ee ff 6b	inc $6bff	        inc vt_row
+.61d1	60		rts		        rts
+.61d2	4c a7 63	jmp $63a7	+       jmp vt_scroll_up
+.61d5					vt_escape:
+.61d5	a2 00		ldx #$00	        ldx #0
+.61d7	8e fe 6b	stx $6bfe	        stx vt_state
+.61da	a2 18		ldx #$18	        ldx #vt_esc_count-1
+.61dc	dd ee 61	cmp $61ee,x	-       cmp vt_esc_keys,x
+.61df	f0 04		beq $61e5	        beq +
+.61e1	ca		dex		        dex
+.61e2	10 f8		bpl $61dc	        bpl -
+.61e4	60		rts		        rts                     ; unknown: ignored
+.61e5	bd 20 62	lda $6220,x	+       lda vt_esc_hi,x
+.61e8	48		pha		        pha
+.61e9	bd 07 62	lda $6207,x	        lda vt_esc_lo,x
+.61ec	48		pha		        pha
+.61ed	60		rts		        rts
+>61ee	41 42 43 44 45 48 49 4a		vt_esc_keys: .byte $41,$42,$43,$44,$45,$48,$49,$4a,$4b,$4c,$4d,$59
+>61f6	4b 4c 4d 59
+>61fa	62 63 64 65 66 6a 6b 6c		        .byte $62,$63,$64,$65,$66,$6a,$6b,$6c,$6f,$70,$71,$76,$77
+>6202	6f 70 71 76 77
+=25					vt_esc_count = *-vt_esc_keys
+.6207					vt_esc_lo:
+>6207	38 41 4c 57 60 63		        .byte <(vt_up-1),<(vt_down-1),<(vt_right-1),<(vt_left-1),<(vt_clear_home-1),<(vt_home-1)
+>620d	6c 7a 83 c8 d3 de		        .byte <(vt_reverse_lf-1),<(vt_erase_eos-1),<(vt_erase_eol-1),<(vt_insert_line-1),<(vt_delete_line-1),<(vt_y_start-1)
+>6213	e4 ea 97 f0 f4 fa		        .byte <(vt_fg_start-1),<(vt_bg_start-1),<(vt_erase_sos-1),<(vt_cursor_show-1),<(vt_cursor_hide-1),<(vt_save-1)
+>6219	07 a0 b3 14 18 1e		        .byte <(vt_restore-1),<(vt_erase_line-1),<(vt_erase_sol-1),<(vt_reverse_on-1),<(vt_reverse_off-1),<(vt_wrap_on-1)
+>621f	22				        .byte <(vt_wrap_off-1)
+.6220					vt_esc_hi:
+>6220	62 62 62 62 62 62		        .byte >(vt_up-1),>(vt_down-1),>(vt_right-1),>(vt_left-1),>(vt_clear_home-1),>(vt_home-1)
+>6226	62 62 62 62 62 62		        .byte >(vt_reverse_lf-1),>(vt_erase_eos-1),>(vt_erase_eol-1),>(vt_insert_line-1),>(vt_delete_line-1),>(vt_y_start-1)
+>622c	62 62 62 62 62 62		        .byte >(vt_fg_start-1),>(vt_bg_start-1),>(vt_erase_sos-1),>(vt_cursor_show-1),>(vt_cursor_hide-1),>(vt_save-1)
+>6232	63 62 62 63 63 63		        .byte >(vt_restore-1),>(vt_erase_line-1),>(vt_erase_sol-1),>(vt_reverse_on-1),>(vt_reverse_off-1),>(vt_wrap_on-1)
+>6238	63				        .byte >(vt_wrap_off-1)
+.6239					vt_up:
+.6239	ad ff 6b	lda $6bff	        lda vt_row
+.623c	f0 03		beq $6241	        beq +
+.623e	ce ff 6b	dec $6bff	        dec vt_row
+.6241	60		rts		+       rts
+.6242					vt_down:
+.6242	ad ff 6b	lda $6bff	        lda vt_row
+.6245	c9 18		cmp #$18	        cmp #VT_ROWS-1
+.6247	b0 03		bcs $624c	        bcs +
+.6249	ee ff 6b	inc $6bff	        inc vt_row
+.624c	60		rts		+       rts
+.624d					vt_right:
+.624d	ad 00 6c	lda $6c00	        lda vt_col
+.6250	c9 4f		cmp #$4f	        cmp #VT_COLS-1
+.6252	b0 03		bcs $6257	        bcs +
+.6254	ee 00 6c	inc $6c00	        inc vt_col
+.6257	60		rts		+       rts
+.6258					vt_left:
+.6258	ad 00 6c	lda $6c00	        lda vt_col
+.625b	f0 03		beq $6260	        beq +
+.625d	ce 00 6c	dec $6c00	        dec vt_col
+.6260	60		rts		+       rts
+.6261					vt_clear_home:
+.6261	20 92 63	jsr $6392	        jsr vt_clear_all
+.6264					vt_home:
+.6264	a9 00		lda #$00	        lda #0
+.6266	8d ff 6b	sta $6bff	        sta vt_row
+.6269	8d 00 6c	sta $6c00	        sta vt_col
+.626c	60		rts		        rts
+.626d					vt_reverse_lf:
+.626d	ad ff 6b	lda $6bff	        lda vt_row
+.6270	f0 04		beq $6276	        beq +
+.6272	ce ff 6b	dec $6bff	        dec vt_row
+.6275	60		rts		        rts
+.6276	a9 00		lda #$00	+       lda #0                  ; at the top: the screen moves down
+.6278	4c dc 63	jmp $63dc	        jmp vt_open_line
+.627b					vt_erase_eos:
+.627b	20 cf 64	jsr $64cf	        jsr vt_cursor_offset
+.627e	20 e5 64	jsr $64e5	        jsr vt_range_to_end
+.6281	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.6284					vt_erase_eol:
+.6284	20 cf 64	jsr $64cf	        jsr vt_cursor_offset
+.6287	a9 50		lda #$50	        lda #VT_COLS
+.6289	38		sec		        sec
+.628a	ed 00 6c	sbc $6c00	        sbc vt_col
+.628d	8d 10 6c	sta $6c10	        sta vt_count
+.6290	a9 00		lda #$00	        lda #0
+.6292	8d 11 6c	sta $6c11	        sta vt_count+1
+.6295	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.6298					vt_erase_sos:
+.6298	20 cf 64	jsr $64cf	        jsr vt_cursor_offset
+.629b	20 f7 64	jsr $64f7	        jsr vt_range_from_start
+.629e	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.62a1					vt_erase_line:
+.62a1	ad ff 6b	lda $6bff	        lda vt_row
+.62a4	20 97 64	jsr $6497	        jsr vt_row_offset
+.62a7	a9 50		lda #$50	        lda #VT_COLS
+.62a9	8d 10 6c	sta $6c10	        sta vt_count
+.62ac	a9 00		lda #$00	        lda #0
+.62ae	8d 11 6c	sta $6c11	        sta vt_count+1
+.62b1	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.62b4					vt_erase_sol:
+.62b4	ad ff 6b	lda $6bff	        lda vt_row
+.62b7	20 97 64	jsr $6497	        jsr vt_row_offset
+.62ba	ae 00 6c	ldx $6c00	        ldx vt_col
+.62bd	e8		inx		        inx
+.62be	8e 10 6c	stx $6c10	        stx vt_count
+.62c1	a9 00		lda #$00	        lda #0
+.62c3	8d 11 6c	sta $6c11	        sta vt_count+1
+.62c6	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.62c9					vt_insert_line:
+.62c9	a9 00		lda #$00	        lda #0
+.62cb	8d 00 6c	sta $6c00	        sta vt_col
+.62ce	ad ff 6b	lda $6bff	        lda vt_row
+.62d1	4c dc 63	jmp $63dc	        jmp vt_open_line
+.62d4					vt_delete_line:
+.62d4	a9 00		lda #$00	        lda #0
+.62d6	8d 00 6c	sta $6c00	        sta vt_col
+.62d9	ad ff 6b	lda $6bff	        lda vt_row
+.62dc	4c ac 63	jmp $63ac	        jmp vt_close_line
+.62df					vt_y_start:
+.62df	a9 02		lda #$02	        lda #2
+.62e1	8d fe 6b	sta $6bfe	        sta vt_state
+.62e4	60		rts		        rts
+.62e5					vt_fg_start:
+.62e5	a9 04		lda #$04	        lda #4
+.62e7	8d fe 6b	sta $6bfe	        sta vt_state
+.62ea	60		rts		        rts
+.62eb					vt_bg_start:
+.62eb	a9 05		lda #$05	        lda #5
+.62ed	8d fe 6b	sta $6bfe	        sta vt_state
+.62f0	60		rts		        rts
+.62f1					vt_cursor_show:
+.62f1	a9 01		lda #$01	        lda #1
+.62f3	d0 02		bne $62f7	        bne +
+.62f5					vt_cursor_hide:
+.62f5	a9 00		lda #$00	        lda #0
+.62f7	8d 07 6c	sta $6c07	+       sta vt_cursor_on
+.62fa	60		rts		        rts
+.62fb					vt_save:
+.62fb	ad ff 6b	lda $6bff	        lda vt_row
+.62fe	8d 01 6c	sta $6c01	        sta vt_saved_row
+.6301	ad 00 6c	lda $6c00	        lda vt_col
+.6304	8d 02 6c	sta $6c02	        sta vt_saved_col
+.6307	60		rts		        rts
+.6308					vt_restore:
+.6308	ad 01 6c	lda $6c01	        lda vt_saved_row
+.630b	8d ff 6b	sta $6bff	        sta vt_row
+.630e	ad 02 6c	lda $6c02	        lda vt_saved_col
+.6311	8d 00 6c	sta $6c00	        sta vt_col
+.6314	60		rts		        rts
+.6315					vt_reverse_on:
+.6315	a9 40		lda #$40	        lda #$40
+.6317	d0 02		bne $631b	        bne +
+.6319					vt_reverse_off:
+.6319	a9 00		lda #$00	        lda #0
+.631b	8d 05 6c	sta $6c05	+       sta vt_reverse
+.631e	60		rts		        rts
+.631f					vt_wrap_on:
+.631f	a9 01		lda #$01	        lda #1
+.6321	d0 02		bne $6325	        bne +
+.6323					vt_wrap_off:
+.6323	a9 00		lda #$00	        lda #0
+.6325	8d 06 6c	sta $6c06	+       sta vt_wrap
+.6328	60		rts		        rts
+.6329					vt_draw_char:
+.6329	48		pha		        pha
+.632a	20 cf 64	jsr $64cf	        jsr vt_cursor_offset
+.632d	20 11 65	jsr $6511	        jsr vt_set_address
+.6330	68		pla		        pla
+.6331	20 2a 65	jsr $652a	        jsr vd_put
+.6334	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.6337	18		clc		        clc
+.6338	69 08		adc #$08	        adc #>ATTR_BASE
+.633a	a8		tay		        tay
+.633b	ad 0c 6c	lda $6c0c	        lda vt_offset
+.633e	20 17 65	jsr $6517	        jsr vd_address
+.6341	ad 03 6c	lda $6c03	        lda vt_fg
+.6344	0d 05 6c	ora $6c05	        ora vt_reverse
+.6347	09 80		ora #$80	        ora #$80                ; the alternate set holds the ASCII font
+.6349	4c 2a 65	jmp $652a	        jmp vd_put
+.634c					vt_erase_range:
+.634c	ad 10 6c	lda $6c10	        lda vt_count
+.634f	0d 11 6c	ora $6c11	        ora vt_count+1
+.6352	f0 2a		beq $637e	        beq +
+.6354	ad 10 6c	lda $6c10	        lda vt_count            ; the fills consume the count
+.6357	8d 12 6c	sta $6c12	        sta vt_count2
+.635a	ad 11 6c	lda $6c11	        lda vt_count+1
+.635d	8d 13 6c	sta $6c13	        sta vt_count2+1
+.6360	20 11 65	jsr $6511	        jsr vt_set_address
+.6363	a9 20		lda #$20	        lda #32
+.6365	20 31 65	jsr $6531	        jsr vd_fill
+.6368	20 7f 63	jsr $637f	        jsr vt_count_again
+.636b	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.636e	18		clc		        clc
+.636f	69 08		adc #$08	        adc #>ATTR_BASE
+.6371	a8		tay		        tay
+.6372	ad 0c 6c	lda $6c0c	        lda vt_offset
+.6375	20 17 65	jsr $6517	        jsr vd_address
+.6378	20 8c 63	jsr $638c	        jsr vt_plain_attr
+.637b	4c 31 65	jmp $6531	        jmp vd_fill
+.637e	60		rts		+       rts
+.637f					vt_count_again:
+.637f	ad 12 6c	lda $6c12	        lda vt_count2
+.6382	8d 10 6c	sta $6c10	        sta vt_count
+.6385	ad 13 6c	lda $6c13	        lda vt_count2+1
+.6388	8d 11 6c	sta $6c11	        sta vt_count+1
+.638b	60		rts		        rts
+.638c					vt_plain_attr:
+.638c	ad 03 6c	lda $6c03	        lda vt_fg
+.638f	09 80		ora #$80	        ora #$80
+.6391	60		rts		        rts
+.6392					vt_clear_all:
+.6392	a9 00		lda #$00	        lda #0
+.6394	8d 0c 6c	sta $6c0c	        sta vt_offset
+.6397	8d 0d 6c	sta $6c0d	        sta vt_offset+1
+.639a	a9 d0		lda #$d0	        lda #<(VT_ROWS*VT_COLS)
+.639c	8d 10 6c	sta $6c10	        sta vt_count
+.639f	a9 07		lda #$07	        lda #>(VT_ROWS*VT_COLS)
+.63a1	8d 11 6c	sta $6c11	        sta vt_count+1
+.63a4	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.63a7					vt_scroll_up:
+.63a7	a9 00		lda #$00	        lda #0
+.63a9	4c ac 63	jmp $63ac	        jmp vt_close_line
+.63ac					vt_close_line:
+.63ac	8d 08 6c	sta $6c08	        sta vt_line
+.63af	c9 18		cmp #$18	        cmp #VT_ROWS-1
+.63b1	b0 24		bcs $63d7	        bcs vt_close_last
+.63b3	20 97 64	jsr $6497	        jsr vt_row_offset       ; destination: row A
+.63b6	ad 0c 6c	lda $6c0c	        lda vt_offset
+.63b9	8d 0e 6c	sta $6c0e	        sta vt_dest
+.63bc	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.63bf	8d 0f 6c	sta $6c0f	        sta vt_dest+1
+.63c2	ad 08 6c	lda $6c08	        lda vt_line             ; source: row A+1
+.63c5	18		clc		        clc
+.63c6	69 01		adc #$01	        adc #1
+.63c8	20 97 64	jsr $6497	        jsr vt_row_offset
+.63cb	a9 18		lda #$18	        lda #VT_ROWS-1          ; count: (24-A) rows
+.63cd	38		sec		        sec
+.63ce	ed 08 6c	sbc $6c08	        sbc vt_line
+.63d1	20 78 64	jsr $6478	        jsr vt_rows_count
+.63d4	20 27 64	jsr $6427	        jsr vt_copy_both
+.63d7					vt_close_last:
+.63d7	a9 18		lda #$18	        lda #VT_ROWS-1
+.63d9	4c 17 64	jmp $6417	        jmp vt_blank_row
+.63dc					vt_open_line:
+.63dc	8d 08 6c	sta $6c08	        sta vt_line
+.63df	a9 17		lda #$17	        lda #VT_ROWS-2
+.63e1	8d 09 6c	sta $6c09	        sta vt_i
+.63e4	ad 09 6c	lda $6c09	-       lda vt_i
+.63e7	30 2b		bmi $6414	        bmi +
+.63e9	cd 08 6c	cmp $6c08	        cmp vt_line
+.63ec	90 26		bcc $6414	        bcc +
+.63ee	18		clc		        clc                     ; row i -> row i+1
+.63ef	69 01		adc #$01	        adc #1
+.63f1	20 97 64	jsr $6497	        jsr vt_row_offset
+.63f4	ad 0c 6c	lda $6c0c	        lda vt_offset
+.63f7	8d 0e 6c	sta $6c0e	        sta vt_dest
+.63fa	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.63fd	8d 0f 6c	sta $6c0f	        sta vt_dest+1
+.6400	ad 09 6c	lda $6c09	        lda vt_i
+.6403	20 97 64	jsr $6497	        jsr vt_row_offset
+.6406	a9 01		lda #$01	        lda #1
+.6408	20 78 64	jsr $6478	        jsr vt_rows_count
+.640b	20 27 64	jsr $6427	        jsr vt_copy_both
+.640e	ce 09 6c	dec $6c09	        dec vt_i
+.6411	4c e4 63	jmp $63e4	        jmp -
+.6414	ad 08 6c	lda $6c08	+       lda vt_line
+.6417					vt_blank_row:
+.6417	20 97 64	jsr $6497	        jsr vt_row_offset
+.641a	a9 50		lda #$50	        lda #VT_COLS
+.641c	8d 10 6c	sta $6c10	        sta vt_count
+.641f	a9 00		lda #$00	        lda #0
+.6421	8d 11 6c	sta $6c11	        sta vt_count+1
+.6424	4c 4c 63	jmp $634c	        jmp vt_erase_range
+.6427					vt_copy_both:
+.6427	ad 10 6c	lda $6c10	        lda vt_count            ; the copy consumes the count
+.642a	8d 12 6c	sta $6c12	        sta vt_count2
+.642d	ad 11 6c	lda $6c11	        lda vt_count+1
+.6430	8d 13 6c	sta $6c13	        sta vt_count2+1
+.6433	20 4b 64	jsr $644b	        jsr vt_copy
+.6436	20 7f 63	jsr $637f	        jsr vt_count_again
+.6439	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.643c	18		clc		        clc
+.643d	69 08		adc #$08	        adc #>ATTR_BASE
+.643f	8d 0d 6c	sta $6c0d	        sta vt_offset+1
+.6442	ad 0f 6c	lda $6c0f	        lda vt_dest+1
+.6445	18		clc		        clc
+.6446	69 08		adc #$08	        adc #>ATTR_BASE
+.6448	8d 0f 6c	sta $6c0f	        sta vt_dest+1
+.644b					vt_copy:
+.644b	ad 0f 6c	lda $6c0f	        lda vt_dest+1
+.644e	a2 12		ldx #$12	        ldx #18
+.6450	20 77 65	jsr $6577	        jsr vd_reg_write
+.6453	ad 0e 6c	lda $6c0e	        lda vt_dest
+.6456	a2 13		ldx #$13	        ldx #19
+.6458	20 77 65	jsr $6577	        jsr vd_reg_write
+.645b	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.645e	a2 20		ldx #$20	        ldx #32
+.6460	20 77 65	jsr $6577	        jsr vd_reg_write
+.6463	ad 0c 6c	lda $6c0c	        lda vt_offset
+.6466	a2 21		ldx #$21	        ldx #33
+.6468	20 77 65	jsr $6577	        jsr vd_reg_write
+.646b	ad 16 6c	lda $6c16	        lda vt_reg24
+.646e	09 80		ora #$80	        ora #$80                ; block copy
+.6470	a2 18		ldx #$18	        ldx #24
+.6472	20 77 65	jsr $6577	        jsr vd_reg_write
+.6475	4c 4c 65	jmp $654c	        jmp vd_blocks
+.6478					vt_rows_count:
+.6478	aa		tax		        tax
+.6479	a9 00		lda #$00	        lda #0
+.647b	8d 10 6c	sta $6c10	        sta vt_count
+.647e	8d 11 6c	sta $6c11	        sta vt_count+1
+.6481	e0 00		cpx #$00	        cpx #0
+.6483	f0 11		beq $6496	        beq vt_rows_done
+.6485	ad 10 6c	lda $6c10	-       lda vt_count
+.6488	18		clc		        clc
+.6489	69 50		adc #$50	        adc #VT_COLS
+.648b	8d 10 6c	sta $6c10	        sta vt_count
+.648e	90 03		bcc $6493	        bcc +
+.6490	ee 11 6c	inc $6c11	        inc vt_count+1
+.6493	ca		dex		+       dex
+.6494	d0 ef		bne $6485	        bne -
+.6496					vt_rows_done:
+.6496	60		rts		        rts
+.6497					vt_row_offset:
+.6497	a2 00		ldx #$00	        ldx #0
+.6499	8e 0d 6c	stx $6c0d	        stx vt_offset+1
+.649c	0a		asl a		        asl
+.649d	0a		asl a		        asl
+.649e	0a		asl a		        asl
+.649f	0a		asl a		        asl                     ; row*16 < 512: only this shift can carry
+.64a0	2e 0d 6c	rol $6c0d	        rol vt_offset+1
+.64a3	8d 0c 6c	sta $6c0c	        sta vt_offset
+.64a6	8d 0a 6c	sta $6c0a	        sta vt_math
+.64a9	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.64ac	8d 0b 6c	sta $6c0b	        sta vt_math+1
+.64af	0e 0c 6c	asl $6c0c	        asl vt_offset           ; *64
+.64b2	2e 0d 6c	rol $6c0d	        rol vt_offset+1
+.64b5	0e 0c 6c	asl $6c0c	        asl vt_offset
+.64b8	2e 0d 6c	rol $6c0d	        rol vt_offset+1
+.64bb	ad 0c 6c	lda $6c0c	        lda vt_offset
+.64be	18		clc		        clc
+.64bf	6d 0a 6c	adc $6c0a	        adc vt_math
+.64c2	8d 0c 6c	sta $6c0c	        sta vt_offset
+.64c5	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.64c8	6d 0b 6c	adc $6c0b	        adc vt_math+1
+.64cb	8d 0d 6c	sta $6c0d	        sta vt_offset+1
+.64ce	60		rts		        rts
+.64cf					vt_cursor_offset:
+.64cf	ad ff 6b	lda $6bff	        lda vt_row
+.64d2	20 97 64	jsr $6497	        jsr vt_row_offset
+.64d5	ad 0c 6c	lda $6c0c	        lda vt_offset
+.64d8	18		clc		        clc
+.64d9	6d 00 6c	adc $6c00	        adc vt_col
+.64dc	8d 0c 6c	sta $6c0c	        sta vt_offset
+.64df	90 03		bcc $64e4	        bcc +
+.64e1	ee 0d 6c	inc $6c0d	        inc vt_offset+1
+.64e4	60		rts		+       rts
+.64e5					vt_range_to_end:
+.64e5	a9 d0		lda #$d0	        lda #<(VT_ROWS*VT_COLS)
+.64e7	38		sec		        sec
+.64e8	ed 0c 6c	sbc $6c0c	        sbc vt_offset
+.64eb	8d 10 6c	sta $6c10	        sta vt_count
+.64ee	a9 07		lda #$07	        lda #>(VT_ROWS*VT_COLS)
+.64f0	ed 0d 6c	sbc $6c0d	        sbc vt_offset+1
+.64f3	8d 11 6c	sta $6c11	        sta vt_count+1
+.64f6	60		rts		        rts
+.64f7					vt_range_from_start:
+.64f7	ad 0c 6c	lda $6c0c	        lda vt_offset
+.64fa	18		clc		        clc
+.64fb	69 01		adc #$01	        adc #1
+.64fd	8d 10 6c	sta $6c10	        sta vt_count
+.6500	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.6503	69 00		adc #$00	        adc #0
+.6505	8d 11 6c	sta $6c11	        sta vt_count+1
+.6508	a9 00		lda #$00	        lda #0
+.650a	8d 0c 6c	sta $6c0c	        sta vt_offset
+.650d	8d 0d 6c	sta $6c0d	        sta vt_offset+1
+.6510	60		rts		        rts
+.6511					vt_set_address:
+.6511	ac 0d 6c	ldy $6c0d	        ldy vt_offset+1
+.6514	ad 0c 6c	lda $6c0c	        lda vt_offset
+.6517					vd_address:
+.6517	48		pha		        pha
+.6518	98		tya		        tya
+.6519	a2 12		ldx #$12	        ldx #18
+.651b	20 77 65	jsr $6577	        jsr vd_reg_write
+.651e	68		pla		        pla
+.651f	a2 13		ldx #$13	        ldx #19
+.6521	20 77 65	jsr $6577	        jsr vd_reg_write
+.6524	a2 1f		ldx #$1f	        ldx #31
+.6526	8e 00 d6	stx $d600	        stx VDC_ADDR
+.6529	60		rts		        rts
+.652a					vd_put:
+.652a	20 8b 65	jsr $658b	        jsr vd_wait
+.652d	8d 01 d6	sta $d601	        sta VDC_DATA
+.6530	60		rts		        rts
+.6531					vd_fill:
+.6531	20 2a 65	jsr $652a	        jsr vd_put
+.6534	ad 10 6c	lda $6c10	        lda vt_count
+.6537	38		sec		        sec
+.6538	e9 01		sbc #$01	        sbc #1
+.653a	8d 10 6c	sta $6c10	        sta vt_count
+.653d	b0 03		bcs $6542	        bcs +
+.653f	ce 11 6c	dec $6c11	        dec vt_count+1
+.6542	ad 16 6c	lda $6c16	+       lda vt_reg24
+.6545	29 7f		and #$7f	        and #$7f                ; block fill
+.6547	a2 18		ldx #$18	        ldx #24
+.6549	20 77 65	jsr $6577	        jsr vd_reg_write
+.654c					vd_blocks:
+.654c	ad 11 6c	lda $6c11	        lda vt_count+1
+.654f	d0 09		bne $655a	        bne +
+.6551	ad 10 6c	lda $6c10	        lda vt_count
+.6554	f0 20		beq $6576	        beq vd_blocks_done
+.6556	c9 ff		cmp #$ff	        cmp #255
+.6558	90 02		bcc $655c	        bcc ++
+.655a	a9 ff		lda #$ff	+       lda #255
+.655c	8d 0a 6c	sta $6c0a	+       sta vt_math
+.655f	a2 1e		ldx #$1e	        ldx #30
+.6561	20 77 65	jsr $6577	        jsr vd_reg_write
+.6564	ad 10 6c	lda $6c10	        lda vt_count
+.6567	38		sec		        sec
+.6568	ed 0a 6c	sbc $6c0a	        sbc vt_math
+.656b	8d 10 6c	sta $6c10	        sta vt_count
+.656e	b0 dc		bcs $654c	        bcs vd_blocks
+.6570	ce 11 6c	dec $6c11	        dec vt_count+1
+.6573	4c 4c 65	jmp $654c	        jmp vd_blocks
+.6576					vd_blocks_done:
+.6576	60		rts		        rts
+.6577					vd_reg_write:
+.6577	8e 00 d6	stx $d600	        stx VDC_ADDR
+.657a	20 8b 65	jsr $658b	        jsr vd_wait
+.657d	8d 01 d6	sta $d601	        sta VDC_DATA
+.6580	60		rts		        rts
+.6581					vd_reg_read:
+.6581	8e 00 d6	stx $d600	        stx VDC_ADDR
+.6584	20 8b 65	jsr $658b	        jsr vd_wait
+.6587	ad 01 d6	lda $d601	        lda VDC_DATA
+.658a	60		rts		        rts
+.658b					vd_wait:
+.658b	48		pha		        pha
+.658c	a9 00		lda #$00	        lda #0
+.658e	8d 14 6c	sta $6c14	        sta vt_wait
+.6591	8d 15 6c	sta $6c15	        sta vt_wait+1
+.6594	2c 00 d6	bit $d600	-       bit VDC_ADDR
+.6597	30 0f		bmi $65a8	        bmi +
+.6599	ce 14 6c	dec $6c14	        dec vt_wait
+.659c	d0 f6		bne $6594	        bne -
+.659e	ce 15 6c	dec $6c15	        dec vt_wait+1
+.65a1	d0 f1		bne $6594	        bne -
+.65a3	a9 03		lda #$03	        lda #3
+.65a5	8d 19 6c	sta $6c19	        sta vt_quit_request
+.65a8	68		pla		+       pla
+.65a9	60		rts		        rts
+.65aa					vt_place_cursor:
+.65aa	ad 07 6c	lda $6c07	        lda vt_cursor_on
+.65ad	f0 17		beq $65c6	        beq +
+.65af	20 cf 64	jsr $64cf	        jsr vt_cursor_offset
+.65b2	ad 0d 6c	lda $6c0d	        lda vt_offset+1
+.65b5	a2 0e		ldx #$0e	        ldx #14
+.65b7	20 77 65	jsr $6577	        jsr vd_reg_write
+.65ba	ad 0c 6c	lda $6c0c	        lda vt_offset
+.65bd	a2 0f		ldx #$0f	        ldx #15
+.65bf	20 77 65	jsr $6577	        jsr vd_reg_write
+.65c2	a9 60		lda #$60	        lda #$60                ; blinking
+.65c4	d0 02		bne $65c8	        bne ++
+.65c6	a9 20		lda #$20	+       lda #$20                ; off
+.65c8	a2 0a		ldx #$0a	+       ldx #10
+.65ca	4c 77 65	jmp $6577	        jmp vd_reg_write
+.65cd					vt_set_background:
+.65cd	ad 04 6c	lda $6c04	        lda vt_bg
+.65d0	a2 1a		ldx #$1a	        ldx #26
+.65d2	4c 77 65	jmp $6577	        jmp vd_reg_write
+=37					VT_SAVED_REGS = 37
+.65d5					vt_video_begin:
+.65d5	ad 20 3d	lda $3d20	        lda N_CURRENT           ; the kernel's font copy lives in an owned allocation
+.65d8	8d 00 3d	sta $3d00	        sta N_OWNER
+.65db	a9 10		lda #$10	        lda #16
+.65dd	8d 01 3d	sta $3d01	        sta N_PAGES
+.65e0	a9 ff		lda #$ff	        lda #$ff
+.65e2	8d 02 3d	sta $3d02	        sta N_BANK
+.65e5	20 20 1c	jsr $1c20	        jsr N_ALLOC
+.65e8	90 01		bcc $65eb	        bcc +
+.65ea	60		rts		        rts
+.65eb	a2 03		ldx #$03	+       ldx #3
+.65ed	bd 04 3d	lda $3d04,x	-       lda N_HANDLE,x
+.65f0	9d 25 6c	sta $6c25,x	        sta vt_font_token,x
+.65f3	ca		dex		        dex
+.65f4	10 f7		bpl $65ed	        bpl -
+.65f6	08		php		        php                     ; one code per programmable key (F8 would type MONITOR)
+.65f7	78		sei		        sei
+.65f8	a2 00		ldx #$00	        ldx #0
+.65fa	bd 00 10	lda $1000,x	-       lda $1000,x
+.65fd	9d 4e 6c	sta $6c4e,x	        sta vt_saved_keys,x
+.6600	e8		inx		        inx
+.6601	d0 f7		bne $65fa	        bne -
+.6603	a2 09		ldx #$09	        ldx #9
+.6605	a9 01		lda #$01	-       lda #1
+.6607	9d 00 10	sta $1000,x	        sta $1000,x
+.660a	bd c1 67	lda $67c1,x	        lda vt_native_keys,x
+.660d	9d 0a 10	sta $100a,x	        sta $100a,x
+.6610	ca		dex		        dex
+.6611	10 f2		bpl $6605	        bpl -
+.6613	a9 00		lda #$00	        lda #0
+.6615	85 d1		sta $d1		        sta $d1
+.6617	85 d2		sta $d2		        sta $d2
+.6619	28		plp		        plp
+.661a	a5 d7		lda $d7		        lda $d7
+.661c	8d 1e 6c	sta $6c1e	        sta vt_saved_screen
+.661f	a2 00		ldx #$00	        ldx #0
+.6621	e0 1f		cpx #$1f	-       cpx #31                 ; never read the data port as a register
+.6623	f0 06		beq $662b	        beq +
+.6625	20 81 65	jsr $6581	        jsr vd_reg_read
+.6628	9d 29 6c	sta $6c29,x	        sta vt_saved_vdc,x
+.662b	e8		inx		+       inx
+.662c	e0 25		cpx #$25	        cpx #VT_SAVED_REGS
+.662e	d0 f1		bne $6621	        bne -
+.6630	ad 41 6c	lda $6c41	        lda vt_saved_vdc+24
+.6633	8d 16 6c	sta $6c16	        sta vt_reg24
+.6636	a9 01		lda #$01	        lda #1
+.6638	8d 17 6c	sta $6c17	        sta vt_phase
+.663b	ad 1e 6c	lda $6c1e	        lda vt_saved_screen     ; the 80-column screen
+.663e	30 03		bmi $6643	        bmi +
+.6640	20 5f ff	jsr $ff5f	        jsr $ff5f
+.6643	a9 93		lda #$93	+       lda #$93
+.6645	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.6648	20 f9 66	jsr $66f9	        jsr vt_font_address     ; save the alternate character set (4 KiB)
+.664b	20 8b 65	jsr $658b	        jsr vd_wait             ; prime the read latch, then point again
+.664e	ad 01 d6	lda $d601	        lda VDC_DATA
+.6651	20 f9 66	jsr $66f9	        jsr vt_font_address
+.6654	a9 00		lda #$00	        lda #0
+.6656	8d 18 6c	sta $6c18	        sta vt_chunk
+.6659	a2 00		ldx #$00	-       ldx #0                  ; 512 bytes into N_BUFFER
+.665b	20 8b 65	jsr $658b	-       jsr vd_wait
+.665e	ad 01 d6	lda $d601	        lda VDC_DATA
+.6661	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.6664	e8		inx		        inx
+.6665	d0 f4		bne $665b	        bne -
+.6667	20 8b 65	jsr $658b	-       jsr vd_wait
+.666a	ad 01 d6	lda $d601	        lda VDC_DATA
+.666d	9d 00 3b	sta $3b00,x	        sta N_BUFFER+256,x
+.6670	e8		inx		        inx
+.6671	d0 f4		bne $6667	        bne -
+.6673	20 07 67	jsr $6707	        jsr vt_font_chunk
+.6676	20 29 1c	jsr $1c29	        jsr N_WRITE
+.6679	90 01		bcc $667c	        bcc +
+.667b	60		rts		        rts                     ; phase 1: the caller restores what was changed
+.667c	ee 18 6c	inc $6c18	+       inc vt_chunk
+.667f	ad 18 6c	lda $6c18	        lda vt_chunk
+.6682	c9 08		cmp #$08	        cmp #8
+.6684	d0 d3		bne $6659	        bne ---
+.6686	a9 02		lda #$02	        lda #2
+.6688	8d 17 6c	sta $6c17	        sta vt_phase
+.668b	20 f9 66	jsr $66f9	        jsr vt_font_address     ; the ASCII font: codes 32..126, 8 of 16 rows
+.668e	a9 00		lda #$00	        lda #0
+.6690	aa		tax		        tax
+.6691	20 2a 65	jsr $652a	-       jsr vd_put              ; codes 0..31 blank
+.6694	e8		inx		        inx
+.6695	d0 fa		bne $6691	        bne -
+.6697	20 2a 65	jsr $652a	-       jsr vd_put
+.669a	e8		inx		        inx
+.669b	d0 fa		bne $6697	        bne -
+.669d	a9 06		lda #$06	        lda #<vt_font
+.669f	8d ac 66	sta $66ac	        sta vt_font_read+1
+.66a2	a9 69		lda #$69	        lda #>vt_font
+.66a4	8d ad 66	sta $66ad	        sta vt_font_read+2
+.66a7	a2 5f		ldx #$5f	        ldx #95
+.66a9	a0 00		ldy #$00	-       ldy #0
+.66ab					vt_font_read:
+.66ab	b9 ff ff	lda $ffff,y	        lda $ffff,y
+.66ae	20 2a 65	jsr $652a	        jsr vd_put
+.66b1	c8		iny		        iny
+.66b2	c0 08		cpy #$08	        cpy #8
+.66b4	d0 f5		bne $66ab	        bne vt_font_read
+.66b6	a9 00		lda #$00	        lda #0
+.66b8	20 2a 65	jsr $652a	-       jsr vd_put
+.66bb	88		dey		        dey
+.66bc	d0 fa		bne $66b8	        bne -
+.66be	ad ac 66	lda $66ac	        lda vt_font_read+1
+.66c1	18		clc		        clc
+.66c2	69 08		adc #$08	        adc #8
+.66c4	8d ac 66	sta $66ac	        sta vt_font_read+1
+.66c7	90 03		bcc $66cc	        bcc +
+.66c9	ee ad 66	inc $66ad	        inc vt_font_read+2
+.66cc	ca		dex		+       dex
+.66cd	d0 da		bne $66a9	        bne --
+.66cf	a9 00		lda #$00	        lda #0                  ; screen at $0000, attributes at $0800
+.66d1	a2 0c		ldx #$0c	        ldx #12
+.66d3	20 77 65	jsr $6577	        jsr vd_reg_write
+.66d6	e8		inx		        inx
+.66d7	20 77 65	jsr $6577	        jsr vd_reg_write
+.66da	a2 15		ldx #$15	        ldx #21
+.66dc	20 77 65	jsr $6577	        jsr vd_reg_write
+.66df	a2 1b		ldx #$1b	        ldx #27
+.66e1	20 77 65	jsr $6577	        jsr vd_reg_write
+.66e4	a9 08		lda #$08	        lda #>ATTR_BASE
+.66e6	a2 14		ldx #$14	        ldx #20
+.66e8	20 77 65	jsr $6577	        jsr vd_reg_write
+.66eb	ad 42 6c	lda $6c42	        lda vt_saved_vdc+25     ; text mode with attributes
+.66ee	29 7f		and #$7f	        and #$7f
+.66f0	09 40		ora #$40	        ora #$40
+.66f2	a2 19		ldx #$19	        ldx #25
+.66f4	20 77 65	jsr $6577	        jsr vd_reg_write
+.66f7	18		clc		        clc
+.66f8	60		rts		        rts
+.66f9					vt_font_address:
+.66f9	ad 45 6c	lda $6c45	        lda vt_saved_vdc+28
+.66fc	29 e0		and #$e0	        and #$e0
+.66fe	18		clc		        clc
+.66ff	69 10		adc #$10	        adc #$10
+.6701	a8		tay		        tay
+.6702	a9 00		lda #$00	        lda #0
+.6704	4c 17 65	jmp $6517	        jmp vd_address
+.6707					vt_font_chunk:
+.6707	ad 20 3d	lda $3d20	        lda N_CURRENT
+.670a	8d 00 3d	sta $3d00	        sta N_OWNER
+.670d	a2 03		ldx #$03	        ldx #3
+.670f	bd 25 6c	lda $6c25,x	-       lda vt_font_token,x
+.6712	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.6715	ca		dex		        dex
+.6716	10 f7		bpl $670f	        bpl -
+.6718	a9 00		lda #$00	        lda #0
+.671a	8d 08 3d	sta $3d08	        sta N_OFFSET
+.671d	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.6720	ad 18 6c	lda $6c18	        lda vt_chunk
+.6723	0a		asl a		        asl
+.6724	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.6727	a9 02		lda #$02	        lda #2
+.6729	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.672c	60		rts		        rts
+.672d					vt_video_end:
+.672d	ad 17 6c	lda $6c17	        lda vt_phase
+.6730	c9 02		cmp #$02	        cmp #2
+.6732	90 2e		bcc $6762	        bcc vt_font_kept
+.6734	20 f9 66	jsr $66f9	        jsr vt_font_address     ; the saved font back
+.6737	a9 00		lda #$00	        lda #0
+.6739	8d 18 6c	sta $6c18	        sta vt_chunk
+.673c	20 07 67	jsr $6707	-       jsr vt_font_chunk
+.673f	20 26 1c	jsr $1c26	        jsr N_READ
+.6742	b0 1e		bcs $6762	        bcs vt_font_kept        ; unreadable: leave our font rather than garbage
+.6744	a2 00		ldx #$00	        ldx #0
+.6746	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.6749	20 2a 65	jsr $652a	        jsr vd_put
+.674c	e8		inx		        inx
+.674d	d0 f7		bne $6746	        bne -
+.674f	bd 00 3b	lda $3b00,x	-       lda N_BUFFER+256,x
+.6752	20 2a 65	jsr $652a	        jsr vd_put
+.6755	e8		inx		        inx
+.6756	d0 f7		bne $674f	        bne -
+.6758	ee 18 6c	inc $6c18	        inc vt_chunk
+.675b	ad 18 6c	lda $6c18	        lda vt_chunk
+.675e	c9 08		cmp #$08	        cmp #8
+.6760	d0 da		bne $673c	        bne ---
+.6762					vt_font_kept:
+.6762	ad 17 6c	lda $6c17	        lda vt_phase
+.6765	f0 47		beq $67ae	        beq vt_video_done
+.6767	a0 00		ldy #$00	        ldy #0                  ; the VDC mode
+.6769	be af 67	ldx $67af,y	-       ldx vt_restore_regs,y
+.676c	bd 29 6c	lda $6c29,x	        lda vt_saved_vdc,x
+.676f	20 77 65	jsr $6577	        jsr vd_reg_write
+.6772	c8		iny		        iny
+.6773	c0 12		cpy #$12	        cpy #vt_restore_count
+.6775	d0 f2		bne $6769	        bne -
+.6777	ad 20 3d	lda $3d20	        lda N_CURRENT           ; the font copy
+.677a	8d 00 3d	sta $3d00	        sta N_OWNER
+.677d	a2 03		ldx #$03	        ldx #3
+.677f	bd 25 6c	lda $6c25,x	-       lda vt_font_token,x
+.6782	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.6785	ca		dex		        dex
+.6786	10 f7		bpl $677f	        bpl -
+.6788	20 23 1c	jsr $1c23	        jsr N_FREE
+.678b	ad 1e 6c	lda $6c1e	        lda vt_saved_screen     ; the screen the kernel had
+.678e	c5 d7		cmp $d7		        cmp $d7
+.6790	f0 03		beq $6795	        beq +
+.6792	20 5f ff	jsr $ff5f	        jsr $ff5f
+.6795	08		php		+       php
+.6796	78		sei		        sei
+.6797	a2 00		ldx #$00	        ldx #0
+.6799	bd 4e 6c	lda $6c4e,x	-       lda vt_saved_keys,x
+.679c	9d 00 10	sta $1000,x	        sta $1000,x
+.679f	e8		inx		        inx
+.67a0	d0 f7		bne $6799	        bne -
+.67a2	a9 00		lda #$00	        lda #0
+.67a4	85 d1		sta $d1		        sta $d1
+.67a6	85 d2		sta $d2		        sta $d2
+.67a8	28		plp		        plp
+.67a9	a9 00		lda #$00	        lda #0
+.67ab	8d 17 6c	sta $6c17	        sta vt_phase
+.67ae					vt_video_done:
+.67ae	60		rts		        rts
+>67af	0a 0b 0c 0d 0e 0f 14 15		vt_restore_regs: .byte 10,11,12,13,14,15,20,21,24,25,26,27,28,29,32,33,18,19
+>67b7	18 19 1a 1b 1c 1d 20 21 12 13
+=18					vt_restore_count = *-vt_restore_regs
+>67c1	85 89 86 8a 87 8b 88 8c		vt_native_keys: .byte $85,$89,$86,$8a,$87,$8b,$88,$8c,$83,$84
+>67c9	83 84
+.67cb					vt_acia_open:
+.67cb	ad 03 de	lda $de03	        lda ACIA_CTRL
+.67ce	8d 1f 6c	sta $6c1f	        sta vt_saved_control
+.67d1	ad 02 de	lda $de02	        lda ACIA_CMD
+.67d4	8d 20 6c	sta $6c20	        sta vt_saved_command
+.67d7	2d 1f 6c	and $6c1f	        and vt_saved_control
+.67da	c9 ff		cmp #$ff	        cmp #$ff                ; floating: absent
+.67dc	f0 66		beq $6844	        beq vt_acia_absent
+.67de	ad 20 6c	lda $6c20	        lda vt_saved_command
+.67e1	29 01		and #$01	        and #1                  ; DTR already on: in use
+.67e3	d0 5f		bne $6844	        bne vt_acia_absent
+.67e5	a9 1e		lda #$1e	        lda #ACIA_CTRL_VAL
+.67e7	8d 03 de	sta $de03	        sta ACIA_CTRL
+.67ea	cd 03 de	cmp $de03	        cmp ACIA_CTRL
+.67ed	d0 4f		bne $683e	        bne vt_acia_restore
+.67ef	08		php		        php
+.67f0	78		sei		        sei
+.67f1	a9 00		lda #$00	        lda #0
+.67f3	8d 1c 6c	sta $6c1c	        sta vt_rx_head
+.67f6	8d 1d 6c	sta $6c1d	        sta vt_rx_tail
+.67f9	8d 19 6c	sta $6c19	        sta vt_quit_request
+.67fc	8d 02 de	sta $de02	        sta ACIA_CMD            ; the interrupt source is off while installing
+.67ff	ad 01 de	lda $de01	        lda ACIA_STATUS
+.6802	ad 00 de	lda $de00	        lda ACIA_DATA
+.6805	ad 18 03	lda $0318	        lda NMI_VECTOR
+.6808	8d 21 6c	sta $6c21	        sta vt_old_nmi
+.680b	ad 19 03	lda $0319	        lda NMI_VECTOR+1
+.680e	8d 22 6c	sta $6c22	        sta vt_old_nmi+1
+.6811	ad 3e 3d	lda $3d3e	        lda N_NMIPTR
+.6814	8d 23 6c	sta $6c23	        sta vt_old_gate
+.6817	ad 3f 3d	lda $3d3f	        lda N_NMIPTR+1
+.681a	8d 24 6c	sta $6c24	        sta vt_old_gate+1
+.681d	a9 95		lda #$95	        lda #<vt_nmi
+.681f	8d 3e 3d	sta $3d3e	        sta N_NMIPTR
+.6822	a9 68		lda #$68	        lda #>vt_nmi
+.6824	8d 3f 3d	sta $3d3f	        sta N_NMIPTR+1
+.6827	a9 f0		lda #$f0	        lda #<N_NMIGATE
+.6829	8d 18 03	sta $0318	        sta NMI_VECTOR
+.682c	a9 1b		lda #$1b	        lda #>N_NMIGATE
+.682e	8d 19 03	sta $0319	        sta NMI_VECTOR+1
+.6831	a9 01		lda #$01	        lda #1
+.6833	8d 1a 6c	sta $6c1a	        sta vt_serial_owned
+.6836	a9 09		lda #$09	        lda #ACIA_CMD_VAL
+.6838	8d 02 de	sta $de02	        sta ACIA_CMD
+.683b	28		plp		        plp
+.683c	18		clc		        clc
+.683d	60		rts		        rts
+.683e					vt_acia_restore:
+.683e	ad 1f 6c	lda $6c1f	        lda vt_saved_control
+.6841	8d 03 de	sta $de03	        sta ACIA_CTRL
+.6844					vt_acia_absent:
+.6844	38		sec		        sec
+.6845	60		rts		        rts
+.6846					vt_acia_close:
+.6846	ad 1a 6c	lda $6c1a	        lda vt_serial_owned
+.6849	d0 01		bne $684c	        bne +
+.684b	60		rts		        rts
+.684c	a2 00		ldx #$00	+       ldx #0                  ; let the last byte leave the transmitter
+.684e	ad 01 de	lda $de01	-       lda ACIA_STATUS
+.6851	29 10		and #$10	        and #$10
+.6853	d0 03		bne $6858	        bne +
+.6855	ca		dex		        dex
+.6856	d0 f6		bne $684e	        bne -                   ; (bounded; close regardless)
+.6858	a2 18		ldx #$18	+       ldx #24                 ; one character time at 19200 baud and more
+.685a	ca		dex		-       dex
+.685b	d0 fd		bne $685a	        bne -
+.685d	08		php		        php
+.685e	78		sei		        sei
+.685f	a9 00		lda #$00	        lda #0
+.6861	8d 02 de	sta $de02	        sta ACIA_CMD
+.6864	ad 01 de	lda $de01	        lda ACIA_STATUS
+.6867	ad 00 de	lda $de00	        lda ACIA_DATA
+.686a	ad 21 6c	lda $6c21	        lda vt_old_nmi
+.686d	8d 18 03	sta $0318	        sta NMI_VECTOR
+.6870	ad 22 6c	lda $6c22	        lda vt_old_nmi+1
+.6873	8d 19 03	sta $0319	        sta NMI_VECTOR+1
+.6876	ad 23 6c	lda $6c23	        lda vt_old_gate
+.6879	8d 3e 3d	sta $3d3e	        sta N_NMIPTR
+.687c	ad 24 6c	lda $6c24	        lda vt_old_gate+1
+.687f	8d 3f 3d	sta $3d3f	        sta N_NMIPTR+1
+.6882	ad 1f 6c	lda $6c1f	        lda vt_saved_control
+.6885	8d 03 de	sta $de03	        sta ACIA_CTRL
+.6888	ad 20 6c	lda $6c20	        lda vt_saved_command
+.688b	8d 02 de	sta $de02	        sta ACIA_CMD
+.688e	a9 00		lda #$00	        lda #0
+.6890	8d 1a 6c	sta $6c1a	        sta vt_serial_owned
+.6893	28		plp		        plp
+.6894	60		rts		        rts
+.6895					vt_nmi:
+.6895	ad 01 de	lda $de01	        lda ACIA_STATUS         ; reading clears the interrupt
+.6898	29 08		and #$08	        and #$08                ; a received byte?
+.689a	f0 1d		beq $68b9	        beq vt_nmi_other
+.689c	ad 00 de	lda $de00	        lda ACIA_DATA
+.689f	ae 1c 6c	ldx $6c1c	        ldx vt_rx_head
+.68a2	e8		inx		        inx
+.68a3	ec 1d 6c	cpx $6c1d	        cpx vt_rx_tail
+.68a6	f0 0b		beq $68b3	        beq +                   ; full: dropped and counted
+.68a8	ca		dex		        dex
+.68a9	9d 00 6e	sta $6e00,x	        sta vt_rx_buf,x
+.68ac	e8		inx		        inx
+.68ad	8e 1c 6c	stx $6c1c	        stx vt_rx_head
+.68b0	4c 33 ff	jmp $ff33	        jmp NMI_EXIT
+.68b3	ee 1b 6c	inc $6c1b	+       inc vt_rx_dropped
+.68b6	4c 33 ff	jmp $ff33	        jmp NMI_EXIT
+.68b9					vt_nmi_other:
+.68b9	ad 0d dd	lda $dd0d	        lda $dd0d               ; RESTORE or CIA2: leave the terminal
+.68bc	a9 01		lda #$01	        lda #1
+.68be	8d 19 6c	sta $6c19	        sta vt_quit_request
+.68c1	4c 33 ff	jmp $ff33	        jmp NMI_EXIT
+
+;******  Processing file: src/native/sound.inc
+
+=14985					SD_BELL_FREQ = 14985            ; 880 Hz on a PAL C128 (985,248 Hz clock)
+.68c4					sd_bell:
+.68c4	a9 00		lda #$00	        lda #0
+.68c6	8d 04 d4	sta $d404	        sta $d404               ; gate off: the next gate on restarts the envelope
+.68c9	a9 89		lda #$89	        lda #<SD_BELL_FREQ
+.68cb	8d 00 d4	sta $d400	        sta $d400
+.68ce	a9 3a		lda #$3a	        lda #>SD_BELL_FREQ
+.68d0	8d 01 d4	sta $d401	        sta $d401
+.68d3	a9 09		lda #$09	        lda #$09                ; attack 2 ms, decay 750 ms
+.68d5	8d 05 d4	sta $d405	        sta $d405
+.68d8	a9 00		lda #$00	        lda #$00                ; sustain 0, release 6 ms
+.68da	8d 06 d4	sta $d406	        sta $d406
+.68dd	a9 0f		lda #$0f	        lda #$0f                ; volume 15, no filter ($d418 is write-only)
+.68df	8d 18 d4	sta $d418	        sta $d418
+.68e2	a9 11		lda #$11	        lda #$11                ; triangle, gate on
+.68e4	8d 04 d4	sta $d404	        sta $d404
+.68e7	60		rts		        rts
+.68e8					sd_click:
+.68e8	a9 00		lda #$00	        lda #0
+.68ea	8d 04 d4	sta $d404	        sta $d404
+.68ed	8d 00 d4	sta $d400	        sta $d400
+.68f0	8d 05 d4	sta $d405	        sta $d405               ; attack 2 ms, decay 6 ms
+.68f3	8d 06 d4	sta $d406	        sta $d406               ; sustain 0, release 6 ms
+.68f6	a9 40		lda #$40	        lda #$40                ; a high noise rate
+.68f8	8d 01 d4	sta $d401	        sta $d401
+.68fb	a9 0f		lda #$0f	        lda #$0f
+.68fd	8d 18 d4	sta $d418	        sta $d418
+.6900	a9 81		lda #$81	        lda #$81                ; noise, gate on
+.6902	8d 04 d4	sta $d404	        sta $d404
+.6905	60		rts		        rts
+
+;******  Return to file: src/native/vt52.asm
+
+>6906	00 00 00 00 00 00 00 00		vt_font: .binary "graphics/font8.bin"
+>690e	10 10 10 10 10 00 10 00 28 28 28 00 00 00 00 00
+>691e	28 7c 28 28 7c 28 00 00 10 3c 50 38 14 78 10 00
+>692e	60 64 08 10 20 4c 0c 00 30 48 50 20 54 48 34 00
+>693e	10 10 20 00 00 00 00 00 08 10 20 20 20 10 08 00
+>694e	20 10 08 08 08 10 20 00 00 54 38 7c 38 54 00 00
+>695e	00 10 10 7c 10 10 00 00 00 00 00 00 10 10 20 00
+>696e	00 00 00 7c 00 00 00 00 00 00 00 00 00 30 30 00
+>697e	04 04 08 10 20 40 40 00 38 44 4c 54 64 44 38 00
+>698e	10 30 10 10 10 10 38 00 38 44 04 08 10 20 7c 00
+>699e	78 04 04 38 04 04 78 00 08 18 28 48 7c 08 08 00
+>69ae	7c 40 40 78 04 04 78 00 18 20 40 78 44 44 38 00
+>69be	7c 04 08 10 20 20 20 00 38 44 44 38 44 44 38 00
+>69ce	38 44 44 3c 04 08 30 00 00 30 30 00 30 30 00 00
+>69de	00 30 30 00 10 10 20 00 08 10 20 40 20 10 08 00
+>69ee	00 00 7c 00 7c 00 00 00 20 10 08 04 08 10 20 00
+>69fe	38 44 04 08 10 00 10 00 38 44 5c 54 5c 40 38 00
+>6a0e	38 44 44 7c 44 44 44 00 78 44 44 78 44 44 78 00
+>6a1e	38 44 40 40 40 44 38 00 78 44 44 44 44 44 78 00
+>6a2e	7c 40 40 78 40 40 7c 00 7c 40 40 78 40 40 40 00
+>6a3e	38 44 40 5c 44 44 3c 00 44 44 44 7c 44 44 44 00
+>6a4e	38 10 10 10 10 10 38 00 1c 08 08 08 48 48 30 00
+>6a5e	44 48 50 60 50 48 44 00 40 40 40 40 40 40 7c 00
+>6a6e	44 6c 54 54 44 44 44 00 44 64 64 54 4c 4c 44 00
+>6a7e	38 44 44 44 44 44 38 00 78 44 44 78 40 40 40 00
+>6a8e	38 44 44 44 54 48 34 00 78 44 44 78 50 48 44 00
+>6a9e	3c 40 40 38 04 04 78 00 7c 10 10 10 10 10 10 00
+>6aae	44 44 44 44 44 44 38 00 44 44 44 44 44 28 10 00
+>6abe	44 44 44 54 54 54 28 00 44 44 28 10 28 44 44 00
+>6ace	44 44 28 10 10 10 10 00 7c 04 08 10 20 40 7c 00
+>6ade	38 20 20 20 20 20 38 00 40 40 20 10 08 04 04 00
+>6aee	38 08 08 08 08 08 38 00 10 28 44 00 00 00 00 00
+>6afe	00 00 00 00 00 00 7c 00 20 10 08 00 00 00 00 00
+>6b0e	00 00 38 04 3c 44 3c 00 40 40 78 44 44 44 78 00
+>6b1e	00 00 38 44 40 44 38 00 04 04 3c 44 44 44 3c 00
+>6b2e	00 00 38 44 7c 40 38 00 18 24 20 78 20 20 20 00
+>6b3e	00 3c 44 44 3c 04 38 00 40 40 78 44 44 44 44 00
+>6b4e	10 00 30 10 10 10 38 00 08 00 18 08 08 48 30 00
+>6b5e	40 40 48 50 60 50 48 00 30 10 10 10 10 10 38 00
+>6b6e	00 00 68 54 54 54 54 00 00 00 78 44 44 44 44 00
+>6b7e	00 00 38 44 44 44 38 00 00 78 44 44 78 40 40 00
+>6b8e	00 3c 44 44 3c 04 04 00 00 00 58 64 40 40 40 00
+>6b9e	00 00 3c 40 38 04 78 00 20 20 78 20 20 24 18 00
+>6bae	00 00 44 44 44 44 3c 00 00 00 44 44 44 28 10 00
+>6bbe	00 00 44 44 54 54 28 00 00 00 44 28 10 28 44 00
+>6bce	00 44 44 44 3c 04 38 00 00 00 7c 08 10 20 7c 00
+>6bde	08 10 10 20 10 10 08 00 10 10 10 10 10 10 10 00
+>6bee	20 10 10 08 10 10 20 00 00 00 24 58 00 00 00 00
+>6bfe	00				vt_state: .byte 0
+>6bff	00				vt_row: .byte 0
+>6c00	00				vt_col: .byte 0
+>6c01	00				vt_saved_row: .byte 0
+>6c02	00				vt_saved_col: .byte 0
+>6c03	0f				vt_fg: .byte 15
+>6c04	00				vt_bg: .byte 0
+>6c05	00				vt_reverse: .byte 0
+>6c06	01				vt_wrap: .byte 1
+>6c07	01				vt_cursor_on: .byte 1
+>6c08	00				vt_line: .byte 0
+>6c09	00				vt_i: .byte 0
+>6c0a	00 00				vt_math: .word 0
+>6c0c	00 00				vt_offset: .word 0
+>6c0e	00 00				vt_dest: .word 0
+>6c10	00 00				vt_count: .word 0
+>6c12	00 00				vt_count2: .word 0
+>6c14	00 00				vt_wait: .word 0
+>6c16	00				vt_reg24: .byte 0
+>6c17	00				vt_phase: .byte 0
+>6c18	00				vt_chunk: .byte 0
+>6c19	00				vt_quit_request: .byte 0
+>6c1a	00				vt_serial_owned: .byte 0
+>6c1b	00				vt_rx_dropped: .byte 0
+>6c1c	00				vt_rx_head: .byte 0
+>6c1d	00				vt_rx_tail: .byte 0
+>6c1e	00				vt_saved_screen: .byte 0
+>6c1f	00				vt_saved_control: .byte 0
+>6c20	00				vt_saved_command: .byte 0
+>6c21	00 00				vt_old_nmi: .word 0
+>6c23	00 00				vt_old_gate: .word 0
+>6c25	00 00 00 00			vt_font_token: .fill 4,0
+>6c29	00 00 00 00 00 00 00 00		vt_saved_vdc: .fill VT_SAVED_REGS,0
+>6c31	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>6c41	00 00 00 00 00 00 00 00 00 00 00 00 00
+>6c4e	00 00 00 00 00 00 00 00		vt_saved_keys: .fill 256,0
+>6c56	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+;	...repeated 14 times (224 bytes)...
+>6d46	00 00 00 00 00 00 00 00
+>6d4e					        .align 256
+>6e00	00 00 00 00 00 00 00 00		vt_rx_buf: .fill 256,0
+>6e08	00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+;	...repeated 14 times (224 bytes)...
+>6ef8	00 00 00 00 00 00 00 00
+.6f00					vt_end:
+
+;******  End of listing

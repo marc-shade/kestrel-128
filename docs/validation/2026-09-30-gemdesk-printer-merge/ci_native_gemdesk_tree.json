@@ -1,0 +1,57 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "a USB folder dropped on another USB window is copied as a tree: CREATE_DIR for it and its subfolder, every file copied and compared, the source unchanged, and both windows listed again",
+      "frames": 260,
+      "instructions": 28489954,
+      "folders": [
+        "/Usb0/Dest/Proj",
+        "/Usb0/Dest/Proj/Sub"
+      ]
+    },
+    {
+      "name": "a folder whose name is a folder on the target is merged into it (no CREATE_DIR): each file on both asks Replace, Skip or Stop by its own name, in the source folder's order",
+      "frames": 312,
+      "instructions": 45954282
+    },
+    {
+      "name": "a Move in which a name was skipped keeps the whole source folder",
+      "frames": 364,
+      "instructions": 63920751
+    },
+    {
+      "name": "a folder whose name is a file on the target is refused (FILE_STAT finds a file) over the progress window; nothing is made",
+      "frames": 532,
+      "instructions": 76746217
+    },
+    {
+      "name": "a folder dropped on a window showing that folder is refused: it cannot be copied into itself",
+      "frames": 699,
+      "instructions": 89534622
+    },
+    {
+      "name": "Esc during a folder copy stops it before the next entry; the folder made so far stays, is said to, and is listed",
+      "frames": 867,
+      "instructions": 103118084
+    },
+    {
+      "name": "Move of a folder: the tree is copied and compared, then the source's files and subfolders are deleted deepest first and the emptied folder last",
+      "frames": 1034,
+      "instructions": 117474945,
+      "deleted": [
+        "/Usb0/Proj/Sub/c.bin",
+        "/Usb0/Proj/Sub",
+        "/Usb0/Proj/a.txt",
+        "/Usb0/Proj/b.prg",
+        "/Usb0/Proj"
+      ]
+    },
+    {
+      "name": "a folder dropped on a drive icon is refused before anything is opened or made",
+      "frames": 1088,
+      "instructions": 122738873
+    }
+  ]
+}

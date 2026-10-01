@@ -1,0 +1,36 @@
+vd_registers: .byte 10,12,13,18,19,20,21,24,25,26,27,28,32,33
+vd_register_count=*-vd_registers
+vd_saved: .fill vd_register_count,0
+vd_handle: .fill 4,0
+vd_phase: .byte 0              ; 0 untouched, 1 registers/probe, 2 full snapshot
+vd_live: .byte 0
+vd_color: .byte 0
+vd_fault: .byte 0
+vd_stack: .byte 0
+vd_base: .byte 0
+vd_pages: .byte 0
+vd_left: .byte 0
+vd_index: .byte 0
+vd_row: .byte 0
+vd_column: .byte 0
+vd_addr: .word 0
+vd_math: .word 0
+vd_distance: .word 0
+vd_font_low: .byte 0
+vd_font_high: .byte 0
+vd_count: .byte 0
+vd_length: .byte 0
+vd_wait_low: .byte 0
+vd_wait_high: .byte 0
+vd_probe_live: .byte 0
+vd_probe_low: .byte 0
+vd_probe_high: .byte 0
+vd_pointer_visible: .byte 0
+vd_pointer_x: .word 0
+vd_pointer_y: .byte 0
+vd_pointer_shift: .byte 0
+vd_pointer_rows: .byte 0
+vd_pointer_line: .byte 0
+vd_pointer_at: .byte 0
+vd_mask: .fill 3,0
+vd_under: .fill 48,0

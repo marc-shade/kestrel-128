@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "hardware_io": false,
+  "kernel_sha256": "45281b86a55f93c6402a7b0159075148d0f19086471c504bf859332c0b25e63d",
+  "physical_initiating_failure_proven": false,
+  "model_limit": "Synthetic status-read delays, not measured cartridge timing.",
+  "cases": {
+    "open-directory-delayed-abort": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3290856,
+      "abort_wait_interrupts": 0
+    },
+    "delay-0": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 0,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3289814,
+      "abort_wait_interrupts": 0
+    },
+    "delay-1": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 1,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3289823,
+      "abort_wait_interrupts": 0
+    },
+    "delay-1000": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 1000,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3298820,
+      "abort_wait_interrupts": 0
+    },
+    "command-11": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3290141,
+      "abort_wait_interrupts": 0
+    },
+    "command-12": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3290424,
+      "abort_wait_interrupts": 0
+    },
+    "command-14": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3293759,
+      "abort_wait_interrupts": 0
+    },
+    "ack": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3291050,
+      "abort_wait_interrupts": 0
+    },
+    "ack-accepted": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 100,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 2963356,
+      "abort_wait_interrupts": 0
+    },
+    "abort-wait-irqs-and-decimal": {
+      "first_status": 255,
+      "abort_requests": 1,
+      "abort_status_reads": 1000,
+      "no_command_replay": true,
+      "immediate_explicit_close_passed": true,
+      "instructions": 3301914,
+      "abort_wait_interrupts": 123
+    },
+    "malformed-packet": {
+      "first_status": 252,
+      "immediate_explicit_close_passed": true
+    },
+    "abort-never-completes": {
+      "bounded_return": true,
+      "owner_retained": true,
+      "abort_requests": 1,
+      "no_implicit_replay": true,
+      "external_completion_then_explicit_close": true,
+      "status_reads": 327681,
+      "instructions": 6244316
+    },
+    "foreign-transaction": {
+      "no_command": true,
+      "no_abort": true
+    },
+    "other-context-file": {
+      "contents_preserved": true,
+      "stream_preserved": true,
+      "all_released": true
+    }
+  }
+}

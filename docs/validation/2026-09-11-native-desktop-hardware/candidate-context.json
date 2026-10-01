@@ -1,0 +1,37 @@
+{
+  "physical_hardware_io": false,
+  "physical_qualification": "V1 preflight failed before native boot; recovery passed; later V2/V3 failures and cleanup retained separately",
+  "root": "/var/tmp/arc-scratch/uos-native-desktop-hardware",
+  "command": [
+    "python3",
+    "-u",
+    "hw_ultimate_check.py",
+    "--native-desktop"
+  ],
+  "launcher_archive": "2026-09-11-native-desktop-launcher",
+  "launcher_manifest_sha256": "7ea7406837c0b6284e5d1a11f3e163ec806e94b953aa92a3723a02b2b4b90fe5",
+  "kernel_sha256": "e612e81d89b365d9a2f5836c9e89643ec21c1a92463ec7a0fe51a00206e2e54e",
+  "disk_sha256": "e301b7d407fd8d6222c660b691f80608b5f601f54e38800e9024e1fa485b3097",
+  "desktop_sha256": "e26cfbd8d1f178ec7fc394baa6d34d75416da9f9784b467b64e8ce45d671d7b6",
+  "files_sha256": "aa4eca7f1842596b3869ac03a9217ef247994d8c266d615071bb8a400a754077",
+  "input_manifest_sha256": "d8946a0bb219b43cd80faacb79cc606cb26da3761a74d11f8c34be4427a2f13c",
+  "frozen_inputs": 383,
+  "rebuild": "build-desktop-hardware.py",
+  "qualification": "CPU-captured complete VIC surface, VDC text and mode registers; physical video pixels are not captured",
+  "runtime_audit": {
+    "immutable_bytes": 11971,
+    "mutable_bytes": 1581,
+    "known_mutable_locations": "Explicit data and address operands only; raw values retained"
+  },
+  "hardware_changes": "None yet; prepared test mounts a private read-only D64, restores the existing deployment, and reclaims only its two verified temporary uploads",
+  "shared_native_workflow_preflight": {
+    "passed": true,
+    "physical_hardware_io": false,
+    "captures": 60,
+    "irq_chunks": 209,
+    "bytes": 101184,
+    "desktop_views": 5,
+    "screen_pairs": 6,
+    "events": 19
+  }
+}

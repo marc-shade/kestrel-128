@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-editor-print-54pfjlwy",
+  "checks": [
+    {
+      "name": "the Editor started from the launcher and holds the typed document",
+      "length": 33
+    },
+    {
+      "name": "Ctrl-P reports \"printed\"",
+      "status": 32
+    },
+    {
+      "name": "VICE's device-4 printer printed the document line for line",
+      "lines": [
+        "Hello, World!",
+        "second line: 42",
+        "END"
+      ]
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-editor-print-54pfjlwy/uos128.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-devicebackend4",
+    "1",
+    "-busdevice4",
+    "-pr4drv",
+    "ascii",
+    "-pr4output",
+    "text",
+    "-pr4txtdev",
+    "0",
+    "-prtxtdev1",
+    "/var/tmp/arc-scratch/uos-editor-print-54pfjlwy/printer.txt",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:41027"
+  ],
+  "printer_output": "Hello, World!\nsecond line: 42\nEND"
+}

@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "kernel_sha256": "fa50479506853fc303527c2583c618053fe3864071997bf427950469b18a5dbc",
+  "cases": {
+    "reads": {
+      "sizes": [
+        0,
+        1,
+        255,
+        256,
+        511,
+        512,
+        513,
+        66053
+      ],
+      "commands": 161
+    },
+    "writes": {
+      "bytes": 2317,
+      "sha256": "ec8dbd75f07e2649e55777b5b36a8b810b23363d09226cc45b43353557cadc84",
+      "write_lengths": [
+        1,
+        255,
+        256,
+        257,
+        511,
+        511,
+        1,
+        511,
+        1,
+        13
+      ]
+    },
+    "ownership": {
+      "mixed_backends": true,
+      "foreign_file_preserved": true,
+      "foreign_transaction_preserved": true
+    },
+    "failures": {
+      "cases": [
+        "short-read",
+        "read-error",
+        "overlong",
+        "bad-status",
+        "short-write",
+        "verify",
+        "tail-write",
+        "seek",
+        "missing-open-close-84",
+        "uncertain-close-retry",
+        "absent"
+      ]
+    },
+    "names_and_platform": {
+      "longest_path": 255,
+      "creation_component_limit": 127,
+      "irq_attempts": 238,
+      "zero_page_preserved": true
+    },
+    "protocol_edges": {
+      "bounded_timeout": true,
+      "first_error_retained_across_packets": true,
+      "extent_bytes": 16777217,
+      "reentry_rejected": true
+    }
+  }
+}

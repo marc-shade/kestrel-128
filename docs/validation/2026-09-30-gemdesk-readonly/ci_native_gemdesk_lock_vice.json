@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p",
+  "checks": [
+    {
+      "name": "Show Info from the keyboard: Tab to Read-only, Space ticks it"
+    },
+    {
+      "name": "after OK the drive is listed again and Show Info reads the file back as read-only"
+    },
+    {
+      "name": "after the emulator exits, the D81 entry reads $C1 (SEQ, locked; the other file unchanged) and c1541 lists it as locked",
+      "rows": [
+        "4    \"notes\"            seq<",
+        "2    \"game\"             prg "
+      ]
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-9",
+    "/var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p/data9.d81",
+    "-drive9true",
+    "-drive9type",
+    "1581",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:50797"
+  ],
+  "listing": "OPENCBM: opening dynamic library libopencbm.so failed!\nD81 disk image recognised: /var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p/data9.d81, 80 tracks.\nUnit 8 drive 0: D81 disk image attached: /var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p/data9.d81.\n0 \"data nine       \" 09 3d\n4    \"notes\"            seq<\n2    \"game\"             prg \n3154 blocks free.\nUnit 8 drive 0: D81 disk image detached: /var/tmp/arc-scratch/uos-gemdesk-lock-nw6tyj8p/data9.d81.\n"
+}

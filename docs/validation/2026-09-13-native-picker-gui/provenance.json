@@ -1,0 +1,49 @@
+{
+  "base_commit": "e632b33a80e6dd7a2b4d38fc95d4a988b8f45e30",
+  "physical_hardware_io": false,
+  "pushed": false,
+  "candidate": "/var/tmp/arc-scratch/uos-native-picker-gui-x38ww1wb",
+  "frozen": "/var/tmp/arc-scratch/uos-picker-frozen-tzxe11em",
+  "qualified_folders": {
+    "vice40": "/var/tmp/arc-scratch/uos-native-pointer-iec-9kssnhhy",
+    "vice80": "/var/tmp/arc-scratch/uos-native-pointer-iec-2s515mn4",
+    "keyboard": "/var/tmp/arc-scratch/uos-native-desktop-iec-w55lsik6",
+    "serial": "/var/tmp/arc-scratch/uos-native-suite-iec-2tn196p8",
+    "editoriec": "/var/tmp/arc-scratch/uos-native-editor-gui-iec-srveyp5j"
+  },
+  "qualified_session_exit_codes": {
+    "keyboard_v12": 0,
+    "mouse_v12": 0,
+    "paths_v12": 0,
+    "large_v12": 0,
+    "formats_v12": 0,
+    "callers_v12": 0,
+    "fallback_v12": 0,
+    "paint_ultimate_v13": 0,
+    "vice40_v16": 0,
+    "vice80_v16": 0,
+    "vice_keyboard_v12": 0,
+    "vice_serial_v12": 0,
+    "vice_large_v13": 0
+  },
+  "vice_jobs": {
+    "vice40": "vice40_v16",
+    "vice80": "vice80_v16",
+    "keyboard": "vice_keyboard_v12",
+    "serial": "vice_serial_v12",
+    "editoriec": "vice_large_v13"
+  },
+  "qualification": "Individual terminal-zero processes. The failed original Paint navigation test remains preliminary evidence; its corrected run is qualified separately.",
+  "test_driver_changes": [
+    "Paint keyboard focus navigation",
+    "Pin large IEC observer controls to bank-0 RAM and admit idle captures",
+    "Wait for foreground input completion before steering an already reached mouse target",
+    "Hold host keys until the native ROM-fed counter acknowledges one event; retain exact completion assertions",
+    "Use a separate device-9 data disk for the full module copy, selected through graphical Device and Use Here controls"
+  ],
+  "physical_limits": [
+    "bank-aware diagnostic high-RAM restoration",
+    "live native serial shutdown observation",
+    "full native suite physical qualification"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "passed": false,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-vice-cj72j6q0",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 5345,
+        "pages": 21,
+        "entry": 24608,
+        "crc16": 19275,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "ecfcc0b4ddeedfab26775ae4077828584b68c5263fada8ca56496adf9319b338"
+      },
+      "AESVC.PRG": {
+        "bytes": 14077,
+        "pages": 55,
+        "bank": 1,
+        "entry": 34856,
+        "crc16": 8256,
+        "sha256": "c9c36b3d99963b9128a14a6267865517389ff8f08fc8d398241c5d4883cb5309"
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "cold boot; AESDEMO loads AESVC.PRG into bank-1 $8800 and attaches (version 1.6)",
+      "status": "01063f00010001000101010000"
+    },
+    {
+      "name": "alert: exact frames on the VIC surface, Tab, Return, exact restore"
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-aes-vice-cj72j6q0/aes.d64",
+    "-drive8true",
+    "-drive8type",
+    "1541",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:46401"
+  ],
+  "image_matching_bytes": 14068
+}

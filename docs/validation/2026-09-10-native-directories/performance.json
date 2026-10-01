@@ -1,0 +1,85 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.222,
+      "event_indices": [
+        106,
+        109
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 44.039,
+      "event_indices": [
+        121
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 41.819,
+      "event_indices": [
+        124
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 11.338,
+      "event_indices": [
+        130
+      ]
+    }
+  },
+  "physical_directory_entries": 1096,
+  "physical_next_pages": {
+    "actions": 32,
+    "seconds": [
+      7.28,
+      7.282,
+      7.281,
+      7.283,
+      7.28,
+      7.283,
+      7.28,
+      7.28,
+      7.283,
+      7.281,
+      7.283,
+      7.281,
+      7.28,
+      7.283,
+      7.278,
+      7.281,
+      7.283,
+      7.281,
+      7.282,
+      7.281,
+      7.283,
+      7.283,
+      7.28,
+      7.282,
+      7.279,
+      7.282,
+      7.282,
+      7.281,
+      7.283,
+      7.281,
+      7.281,
+      7.282
+    ],
+    "initial_quiet_seconds": 1,
+    "minimum": 7.278,
+    "median": 7.281,
+    "maximum": 7.283
+  },
+  "physical_file_seconds": {
+    "large_open": 38.31,
+    "large_save": 78.884,
+    "large_reopen": 38.307
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading the boot browser and scanning its retained Ultimate folder. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

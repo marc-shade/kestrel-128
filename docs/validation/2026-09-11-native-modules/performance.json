@@ -1,0 +1,99 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.219,
+      "event_indices": [
+        60,
+        118
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 42.793,
+      "event_indices": [
+        140
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 41.767,
+      "event_indices": [
+        143
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 11.343,
+      "event_indices": [
+        150
+      ]
+    }
+  },
+  "physical_directory_entries": 1096,
+  "physical_next_pages": {
+    "actions": 32,
+    "seconds": [
+      7.277,
+      7.28,
+      7.279,
+      7.279,
+      7.279,
+      7.281,
+      7.279,
+      7.279,
+      7.277,
+      7.278,
+      7.28,
+      7.279,
+      7.278,
+      7.28,
+      7.279,
+      7.277,
+      7.281,
+      7.279,
+      7.277,
+      7.28,
+      7.279,
+      7.279,
+      7.28,
+      7.279,
+      7.278,
+      7.281,
+      7.279,
+      7.28,
+      7.279,
+      7.279,
+      7.278,
+      7.278
+    ],
+    "initial_quiet_seconds": 1,
+    "minimum": 7.277,
+    "median": 7.279,
+    "maximum": 7.281
+  },
+  "physical_file_seconds": {
+    "large_open": 38.307,
+    "large_save": 78.886,
+    "large_reopen": 38.309
+  },
+  "physical_iec_file_seconds": {
+    "large_open": 289.888,
+    "large_save": 537.522,
+    "large_reopen": 295.979
+  },
+  "physical_cold_picker_seconds": {
+    "usb": 9.308,
+    "iec": 42.363
+  },
+  "physical_iec_transport": {
+    "read_only_observation_retries": 1,
+    "tcp_connection_retries": 0,
+    "uncertain_writes": 0
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading the boot browser and scanning its retained Ultimate folder. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

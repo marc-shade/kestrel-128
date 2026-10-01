@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "source_report_sha256": "5ece84ed100ef0e5eed35d67dfbee218e883df0917d27abce82768c552475f8c",
+  "roms": {
+    "0x4000": {
+      "bytes": 16384,
+      "sha256": "ccb0d516219f12857fef3ae7409fff072e47b9480d7eafb5eea7e0b188c958f5"
+    },
+    "0x8000": {
+      "bytes": 16384,
+      "sha256": "121b7c7f15f9b72e83f293f8fb3c4686730ee02359cea71d18a72c6f489cd2d7"
+    }
+  },
+  "observations": [
+    {
+      "label": "ultimate-existing-file-rejected-app-state",
+      "address": 33857,
+      "count": 594,
+      "whole_sample_matches_reference_rom": true,
+      "sha256": "f99cb3f373291a089daa9794b246c33ebb8fdf9a53f0b90401df1feb76e6a847"
+    },
+    {
+      "label": "diagnostic-reopen-2-document-state",
+      "address": 27250,
+      "count": 128,
+      "whole_sample_matches_reference_rom": true,
+      "sha256": "38448cbd8f08531da0902a674ba1352f4b994955cc8dae2acc8cca50959347b8"
+    },
+    {
+      "label": "diagnostic-reopen-4-first-transport-state",
+      "address": 18014,
+      "count": 41,
+      "whole_sample_matches_reference_rom": true,
+      "sha256": "1ab1287cf54e961b681b7c42eb945459034da1f11bd25aecaa81c58a7ac3a011"
+    },
+    {
+      "label": "diagnostic-reopen-6-first-ultimate-status",
+      "address": 20224,
+      "count": 32,
+      "whole_sample_matches_reference_rom": true,
+      "sha256": "c9faf0122e31234dfdb87a25b9a2e0a1caace778991f87185fc25228d1e01ed8"
+    },
+    {
+      "label": "diagnostic-reopen-6-app-state",
+      "address": 33857,
+      "count": 594,
+      "whole_sample_matches_reference_rom": true,
+      "sha256": "f99cb3f373291a089daa9794b246c33ebb8fdf9a53f0b90401df1feb76e6a847"
+    }
+  ],
+  "all_disagreements_match_rom": true,
+  "qualification": "Compares retained DMA bytes with installed C128 BASIC ROM images; does not establish the cause of DMA mapping or the native USB failure. CPU captures remain authoritative for RAM."
+}

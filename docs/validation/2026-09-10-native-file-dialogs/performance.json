@@ -1,0 +1,94 @@
+{
+  "physical_launches": {
+    "usb-calculator": {
+      "elapsed_seconds": 3.223,
+      "event_indices": [
+        106
+      ]
+    },
+    "usb-missing": {
+      "elapsed_seconds": 44.028,
+      "event_indices": [
+        121
+      ]
+    },
+    "usb-corrupt": {
+      "elapsed_seconds": 41.77,
+      "event_indices": [
+        124
+      ]
+    },
+    "usb-editor": {
+      "elapsed_seconds": 15.396,
+      "event_indices": [
+        130
+      ]
+    }
+  },
+  "physical_directory_entries": 1096,
+  "physical_next_pages": {
+    "actions": 32,
+    "seconds": [
+      7.282,
+      7.282,
+      7.281,
+      7.28,
+      7.282,
+      7.28,
+      7.282,
+      7.283,
+      7.281,
+      7.284,
+      7.282,
+      7.283,
+      7.283,
+      7.281,
+      7.281,
+      7.283,
+      7.281,
+      7.282,
+      7.28,
+      7.281,
+      7.283,
+      7.281,
+      7.281,
+      7.281,
+      7.281,
+      7.283,
+      7.281,
+      7.28,
+      7.283,
+      7.28,
+      7.281,
+      7.282
+    ],
+    "initial_quiet_seconds": 1,
+    "minimum": 7.28,
+    "median": 7.281,
+    "maximum": 7.284
+  },
+  "physical_file_seconds": {
+    "large_open": 38.31,
+    "large_save": 78.961,
+    "large_reopen": 38.311
+  },
+  "physical_iec_file_seconds": {
+    "large_open": 346.834,
+    "large_save": 537.49,
+    "large_reopen": 295.961
+  },
+  "physical_iec_transport": {
+    "read_only_observation_retries": 1,
+    "tcp_connection_retries": 0,
+    "uncertain_writes": 0
+  },
+  "quiet_seconds": {
+    "boot": 60,
+    "key_or_literal_queue": 4,
+    "io_initial": 30,
+    "capture": 2,
+    "poll": 2
+  },
+  "host_request_timeout_seconds": 60,
+  "qualification": "Observed workflow times include quiet intervals and host monitoring. The IEC large Open also includes one retried read-only observation timeout. Successful USB launches use a 1-second initial quiet interval. Missing/corrupt launch times include reloading the boot browser and scanning its retained Ultimate folder. File-operation times exclude typing the path; these are not isolated throughput or keyboard benchmarks."
+}

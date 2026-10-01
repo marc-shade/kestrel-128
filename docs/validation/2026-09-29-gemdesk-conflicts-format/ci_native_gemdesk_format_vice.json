@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm",
+  "checks": [
+    {
+      "name": "File:Format from the keyboard: drive 9, name BLANK, ID B1, and the confirmation (Cancel the default)"
+    },
+    {
+      "name": "while the 1581 formats, a \"Formatting disk\" window is on the desktop"
+    },
+    {
+      "name": "afterwards drive 9 is listed again (empty) and the drive's own listing reports 3160 blocks free",
+      "seconds": 7.5
+    },
+    {
+      "name": "after the emulator exits, c1541 reads drive 9 as BLANK,B1 with no files and 3160 blocks free",
+      "header": "0 \"blank           \" b1 3d"
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-9",
+    "/var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm/data9.d81",
+    "-drive9true",
+    "-drive9type",
+    "1581",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:46485"
+  ],
+  "format_seconds_host": 7.5,
+  "listing": "OPENCBM: opening dynamic library libopencbm.so failed!\nD81 disk image recognised: /var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm/data9.d81, 80 tracks.\nUnit 8 drive 0: D81 disk image attached: /var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm/data9.d81.\n0 \"blank           \" b1 3d\nEmpty image\n3160 blocks free.\nUnit 8 drive 0: D81 disk image detached: /var/tmp/arc-scratch/uos-gemdesk-format-fwu3vbhm/data9.d81.\n"
+}

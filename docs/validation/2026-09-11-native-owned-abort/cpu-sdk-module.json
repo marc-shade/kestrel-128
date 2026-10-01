@@ -1,0 +1,139 @@
+{
+  "passed": true,
+  "hardware_io": false,
+  "kernel_sha256": "45281b86a55f93c6402a7b0159075148d0f19086471c504bf859332c0b25e63d",
+  "build": {
+    "abi": "1.7",
+    "parent": {
+      "bytes": 554,
+      "pages": 4,
+      "entry": 24608,
+      "crc16": 5809,
+      "window": 25344,
+      "title": "MODULE DEMO"
+    },
+    "module": {
+      "bytes": 29,
+      "origin": 25344,
+      "entry": 25360,
+      "crc16": 62308,
+      "parent_crc16": 5809
+    },
+    "images": {
+      "MODULEDEMO.PRG": {
+        "bytes": 556,
+        "sha256": "bcabd0df26b05cf21236f5e1169e45b13df91868da034da6ad4362ca600d94fc"
+      },
+      "COUNTER.PRG": {
+        "bytes": 31,
+        "sha256": "008f45b7856346f3bffe956156dc5c7dffe0a055b3e0012968a9eb2540dae77f"
+      }
+    }
+  },
+  "cases": {
+    "source-0-context-1": {
+      "warm_calls": 256,
+      "warm_calls_have_no_io": true,
+      "reload_resets_state": true,
+      "original_source_preserved": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "source-1-context-1": {
+      "warm_calls": 3,
+      "warm_calls_have_no_io": true,
+      "reload_resets_state": true,
+      "original_source_preserved": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "source-2-context-1": {
+      "warm_calls": 3,
+      "warm_calls_have_no_io": true,
+      "reload_resets_state": true,
+      "original_source_preserved": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "source-3-context-1": {
+      "warm_calls": 3,
+      "warm_calls_have_no_io": true,
+      "reload_resets_state": true,
+      "original_source_preserved": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "source-3-context-2": {
+      "warm_calls": 3,
+      "warm_calls_have_no_io": true,
+      "reload_resets_state": true,
+      "original_source_preserved": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "missing-source-0": {
+      "error": 17,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "missing-source-3": {
+      "error": 17,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "checksum-source-0": {
+      "error": 20,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "checksum-source-3": {
+      "error": 20,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "parent-source-0": {
+      "error": 16,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "parent-source-3": {
+      "error": 16,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "short-source-0": {
+      "error": 18,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "short-source-3": {
+      "error": 18,
+      "no_implicit_io_retry": true,
+      "explicit_retry_passed": true,
+      "both_complete_screens": true,
+      "exit_releases_all": true
+    },
+    "stale-call-token": {
+      "gate_error_distinct": true,
+      "explicit_retry_passed": true
+    },
+    "ultimate-retained-close": {
+      "no_implicit_io_retry": true,
+      "explicit_checked_cleanup": true
+    }
+  }
+}

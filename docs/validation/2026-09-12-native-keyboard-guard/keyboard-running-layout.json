@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "initial image",
+      "immutable_bytes": 11975,
+      "mutable_bytes": 1581
+    },
+    {
+      "name": "all declared mutable bytes change",
+      "changed_bytes": 1581
+    },
+    {
+      "name": "reject altered opcode beside mutable operand",
+      "region": "low",
+      "symbol": "heap_buffer_read",
+      "address": 5912
+    },
+    {
+      "name": "reject altered opcode beside mutable operand",
+      "region": "main",
+      "symbol": "app_image_store",
+      "address": 8651
+    },
+    {
+      "name": "reject altered opcode beside mutable operand",
+      "region": "service",
+      "symbol": "module_store",
+      "address": 18533
+    },
+    {
+      "name": "reject constant/padding between mutable fields",
+      "address": 12436
+    },
+    {
+      "name": "reject constant/padding between mutable fields",
+      "address": 19200
+    }
+  ]
+}

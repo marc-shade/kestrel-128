@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-acc-sfrl9x16",
+  "checks": [
+    {
+      "name": "cold boot: GEMDESK loads DESK1.ACC into bank-1 $4000; the desktop matches the oracle"
+    },
+    {
+      "name": "the Desk menu lists Calculator; choosing it opens the accessory's window"
+    },
+    {
+      "name": "keys typed while the window is on top reach the accessory: 12 + 3 = 15"
+    },
+    {
+      "name": "1351 clicks on the keypad reach the accessory: * 4 = gives 60"
+    },
+    {
+      "name": "the close box closes the window and the desktop is restored exactly"
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-acc-sfrl9x16/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-controlport1device",
+    "3",
+    "-mouse",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:35393"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "base_commit": "c2201737345bcc92c899ca1a5b8a53e4890013f4",
+  "containing_commit": "the signed commit that adds this record",
+  "source_files": 298,
+  "final_serial_runs": {
+    "vice-f8": "/var/tmp/arc-scratch/uos-native-claude-iec-9fw1a4pu",
+    "vice-host-exit": "/var/tmp/arc-scratch/uos-native-claude-iec-a_xjfgtf"
+  },
+  "upstream_firmware_reference": {
+    "repository": "https://github.com/GideonZ/1541ultimate",
+    "commit": "a01c04e8267a0d916b7203cb34dcf1127f75981d",
+    "file": "software/io/acia/modem.cc",
+    "sha256": "852d5884cd32578492396f4ad552eff9d0b03a755d987973d5ae65c7f3706ccb",
+    "physical_firmware_identity_established": false
+  },
+  "external_helpers": {
+    "<home>/.claude/skills/commodore-basic/bin/cbm": "508c86cb55a4728bef2ded2f8d1d0d807a75c2f807e397fd36686c539afdd553"
+  },
+  "hardware": {
+    "read_only_discovery": true,
+    "native_apps_booted": false,
+    "model_requests": false
+  },
+  "earlier_successful_serial_runs": [
+    "/var/tmp/arc-scratch/uos-native-claude-iec-f0gx8kmu",
+    "/var/tmp/arc-scratch/uos-native-claude-iec-ppzsvv5c",
+    "/var/tmp/arc-scratch/uos-native-claude-iec-l33wyp7e"
+  ],
+  "excluded_test_invocation": {
+    "command": "python3 -B -m unittest discover -s apps/claude/host -p test_bridge.py",
+    "exit_code": 5,
+    "tests_run": 0,
+    "correction": "Ran the supplied direct runner; render.log records 30/30 passing checks"
+  }
+}

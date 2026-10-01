@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-copy-bbdwql46",
+  "checks": [
+    {
+      "name": "drive 9 opens with the SEQ file listed",
+      "entries": 1
+    },
+    {
+      "name": "the row dragged onto the Boot icon with the mouse asks Copy, Move or Cancel (Copy is the default)"
+    },
+    {
+      "name": "after Copy, drive 8 lists the file with its type (SEQ) and block count",
+      "blocks": 12,
+      "seconds": 3.5
+    },
+    {
+      "name": "after the emulator exits, c1541 reads the copy on drive 8 byte-identical to the 3,000-byte source, which is unchanged",
+      "bytes": 3000
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-copy-bbdwql46/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-9",
+    "/var/tmp/arc-scratch/uos-gemdesk-copy-bbdwql46/data9.d81",
+    "-drive9true",
+    "-drive9type",
+    "1581",
+    "-controlport1device",
+    "3",
+    "-mouse",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:49379"
+  ],
+  "copy_seconds_host": 3.5
+}

@@ -1,0 +1,226 @@
+{
+  "passed": false,
+  "physical_hardware_io": true,
+  "host": "192.0.2.237",
+  "work": "<tmp>/uos-hardware-gem-r3my7z94",
+  "gem_d81_sha256": "36e5d30e3d007100ac1ae9c57c72ee20e195057aa415517c3ff73e56a657308b",
+  "private_disk_sha256": "0ae8b59d3e6bc79463efb978b40d8b1b9684ef1536a537075269cb09cc54055d",
+  "checks": [
+    {
+      "name": "boot from gem.d81 on the 1581-mode drive: uOS runs GEMDESK",
+      "surface_sha256": "d2611c4f8dabacd1d5b6690c555464615dc20ff9cf991d7872fa1f58ea7ce652"
+    },
+    {
+      "name": "the 8 key lists the D81, sorted by name",
+      "surface_sha256": "46ffecd83c0d3d766cc0542c5a7a1618e4eac1766d9f6108e45cd349281b4a55",
+      "entries": 26
+    },
+    {
+      "name": "Return launches Calculator through the dispatcher"
+    },
+    {
+      "name": "leaving Calculator reloads GEMDESK, which reopens its window with the selection",
+      "surface_sha256": "b2cca656c3f68b80a3ce6964eeae08ea4b363216fa0de543ff363ce0c41df8e2"
+    },
+    {
+      "name": "Return on a SEQ file opens it in the Editor: the surface matches the Editor oracle",
+      "surface_sha256": "c7f6b7575f8120f57ea73ca17ae1b2ecbb5fbb23ac1e1e81f493934930626454"
+    },
+    {
+      "name": "leaving the Editor returns to GEMDESK with the document selected",
+      "surface_sha256": "509ba8e62a066d120e804bb7ea794da6a30a938faf4ab8808531edfe2c6295a1"
+    }
+  ],
+  "events": [
+    {
+      "key": 56,
+      "seconds": 14.9
+    },
+    {
+      "key": 17,
+      "seconds": 12.8
+    },
+    {
+      "key": 17,
+      "seconds": 19.4
+    },
+    {
+      "key": 17,
+      "seconds": 12.3
+    },
+    {
+      "key": 13,
+      "seconds": 72.3
+    },
+    {
+      "key": 27,
+      "seconds": 70.8
+    },
+    {
+      "key": 17,
+      "seconds": 27.8
+    },
+    {
+      "key": 17,
+      "seconds": 17.9
+    },
+    {
+      "key": 17,
+      "seconds": 80.0
+    },
+    {
+      "key": 17,
+      "seconds": 20.0
+    },
+    {
+      "key": 17,
+      "seconds": 20.1
+    },
+    {
+      "key": 17,
+      "seconds": 10.7
+    },
+    {
+      "key": 17,
+      "seconds": 16.2
+    },
+    {
+      "key": 17,
+      "seconds": 12.2
+    },
+    {
+      "key": 17,
+      "seconds": 35.9
+    },
+    {
+      "key": 17,
+      "seconds": 20.2
+    },
+    {
+      "key": 17,
+      "seconds": 47.3
+    },
+    {
+      "key": 17,
+      "seconds": 11.4
+    },
+    {
+      "key": 17,
+      "seconds": 16.5
+    },
+    {
+      "key": 13,
+      "seconds": 106.7
+    },
+    {
+      "key": 27,
+      "seconds": 120.1
+    },
+    {
+      "key": 17,
+      "seconds": 13.8
+    },
+    {
+      "key": 17,
+      "seconds": 15.1
+    },
+    {
+      "key": 13,
+      "seconds": 184.8
+    }
+  ],
+  "control_requests": [
+    {
+      "method": "POST",
+      "path": "/v1/drives/a:mount?type=d81&mode=readonly",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "sent_bytes": 819200,
+      "sent_sha256": "0ae8b59d3e6bc79463efb978b40d8b1b9684ef1536a537075269cb09cc54055d",
+      "status": 200,
+      "body_hex": "7b200a20202253756273797322203a20322c0a202022467479706522203a20313538312c0a202022636f6d6d616e6422203a2033383137362c0a20202266696c6522203a20222f54656d702f74656d7030303032222c0a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/machine:reset",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/drives/a:remove",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/drives/a:set_mode?mode=1541",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226d6f646522203a202231353431222c0a2020226572726f727322203a205b20205d0a7d"
+    },
+    {
+      "method": "PUT",
+      "path": "/v1/machine:reset",
+      "request_started": true,
+      "response_received": true,
+      "replayed": false,
+      "status": 200,
+      "body_hex": "7b200a2020226572726f727322203a205b20205d0a7d"
+    }
+  ],
+  "upload_checks": [
+    {
+      "path": "/Temp/temp0002",
+      "drive": "a",
+      "expected_bytes": 819200,
+      "size_verified": true,
+      "stored_bytes": 819200
+    }
+  ],
+  "uncertain_writes": [],
+  "drive_a_before": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1541",
+    "rom": "1541.rom",
+    "image_file": "",
+    "image_path": ""
+  },
+  "ultimate_version": {
+    "version": "0.1",
+    "errors": []
+  },
+  "upload_path": "/Temp/temp0002",
+  "drive_a_native": {
+    "enabled": true,
+    "bus_id": 8,
+    "type": "1581",
+    "rom": "1581.rom",
+    "image_file": "/Temp/temp0002",
+    "image_path": ""
+  },
+  "error": "AssertionError: ('paint', [(820, 16, 56), (821, 48, 68), (822, 16, 68), (823, 16, 60), (828, 0, 120), (829, 0, 68), (830, 0, 68), (831, 0, 68), (1136, 16, 4), (1137, 16, 8), (1138, 56, 48), (1144, 0, 68)])",
+  "restore": {
+    "drive_a_after": {
+      "enabled": true,
+      "bus_id": 8,
+      "type": "1541",
+      "rom": "1541.rom",
+      "image_file": "",
+      "image_path": ""
+    },
+    "drive_a_matches": true,
+    "upload_absent": true,
+    "reset_after": true
+  }
+}

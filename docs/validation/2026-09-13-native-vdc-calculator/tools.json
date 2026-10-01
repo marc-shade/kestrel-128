@@ -1,0 +1,62 @@
+{
+  "python": {
+    "command": [
+      "python3",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "Python 3.14.7\n"
+  },
+  "64tass": {
+    "command": [
+      "64tass",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "64tass Turbo Assembler Macro V1.60.3243\n"
+  },
+  "cc65": {
+    "command": [
+      "cc65",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "cc65 V2.18 - Fedora 2.19-15.fc44\n"
+  },
+  "vice": {
+    "command": [
+      "x128",
+      "--version"
+    ],
+    "exit_code": 0,
+    "output": "x128 (VICE 3.10)\n\n"
+  },
+  "c1541": {
+    "command": [
+      "c1541",
+      "-version"
+    ],
+    "exit_code": 0,
+    "output": "OPENCBM: opening dynamic library libopencbm.so failed!\nc1541 (VICE 3.10)\n"
+  },
+  "cpu_python": {
+    "command": [
+      "<home>/.venvs/uos-tests/bin/python3",
+      "-c",
+      "import sys,importlib.metadata; print(sys.version); print(\"py65=\"+importlib.metadata.version(\"py65\"))"
+    ],
+    "exit_code": 0,
+    "output": "3.14.7 (main, Aug 10 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]\npy65=1.2.0\n"
+  },
+  "cbmsrc": {
+    "command": [
+      "git",
+      "-C",
+      "<home>/code/cbmsrc",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "output": "01bd60f162ef92212ef0cb67546ae8f42be34168\n"
+  }
+}

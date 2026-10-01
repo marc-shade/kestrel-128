@@ -1,0 +1,43 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "HELP prints the desktop: 29 bit-image bands whose dots are exactly the set bitmap pixels, then CHR$(15)",
+      "frames": 36,
+      "instructions": 15785020,
+      "bytes": 9339,
+      "dots": 4735
+    },
+    {
+      "name": "Options:Print Screen closes the menu, then prints the same dump",
+      "frames": 36,
+      "instructions": 22925302
+    },
+    {
+      "name": "Esc stops after the band being printed and returns the printer to text mode",
+      "frames": 36,
+      "instructions": 25013177
+    },
+    {
+      "name": "without a printer, HELP reports that none answers on device 4",
+      "frames": 36,
+      "instructions": 27688143
+    },
+    {
+      "name": "Control Panel: printer 5 with Lowercase off; Print Screen goes to device 5, secondary address 0",
+      "frames": 100,
+      "instructions": 38631080
+    },
+    {
+      "name": "the printer is saved with the desktop (record bytes 60, 61); a cold start restores it and probes device 5 for the Printer icon",
+      "frames": 0,
+      "instructions": 13797307
+    },
+    {
+      "name": "a missing printer is named by its device; choosing a device that does not answer removes the Printer icon",
+      "frames": 130,
+      "instructions": 56040558
+    }
+  ]
+}

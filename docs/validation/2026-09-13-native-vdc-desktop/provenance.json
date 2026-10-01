@@ -1,0 +1,47 @@
+{
+  "base_commit": "5975914bead1ccd09e4d7da90255702a991f2838",
+  "physical_hardware_io": false,
+  "pushed": false,
+  "candidate": "/var/tmp/arc-scratch/uos-native-vdc-desktop-fcm_g0mm",
+  "cpu_jobs": [
+    "cpu-core-final-v1",
+    "cpu-launch-final-v1",
+    "cpu-pointer-final-v2",
+    "cpu-setup-final-v1",
+    "cpu-fault-v2"
+  ],
+  "vice_jobs": {
+    "vice40": "full16-40-v1",
+    "vice80": "full64-80-v2",
+    "serial40": "serial16-v1",
+    "serial80": "serial64-v1",
+    "keyboard64": "keyboard64-v1",
+    "keyboard16": "keyboard16-80-v1",
+    "boot64-40": "boot64-40-v1"
+  },
+  "qualified_folders": {
+    "vice40": "/var/tmp/arc-scratch/uos-native-pointer-iec-ympo5om5",
+    "vice80": "/var/tmp/arc-scratch/uos-native-pointer-iec-9bq7j119",
+    "serial40": "/var/tmp/arc-scratch/uos-native-claude-iec-j8gehzuu",
+    "serial80": "/var/tmp/arc-scratch/uos-native-claude-iec-jklqcgk2",
+    "keyboard64": "/var/tmp/arc-scratch/uos-native-desktop-iec-5z80bv46",
+    "keyboard16": "/var/tmp/arc-scratch/uos-native-desktop-iec-36xjae6g",
+    "boot64-40": "/var/tmp/arc-scratch/uos-native-pointer-iec-yw3mslsm"
+  },
+  "notes": [
+    "All counted qualified processes must have a terminal supervisor exit zero; the fault CPU run has a separately identified terminal tool-session observation.",
+    "Only desktop.prg and the two suite disks differ among 24 native images.",
+    "The dedicated VDC model overrides both VDC ports. Its first final core/launch runs used the earlier generic VIC fixture, retained by hash.",
+    "The first full mouse workflow driver differs only in failure diagnostics; its actual run.py is retained by hash.",
+    "Each emulator uses a private X display. Mouse workflows need a 1920x1200 screen to contain the VDC window grab center.",
+    "The boot64-40 workflow checks the initial frame only; six other VICE workflows exercise app sessions and returns.",
+    "The first 64 KiB full mouse run timed out after Files loaded and began directory reading. Its exact VDC snapshot restoration already passed. The failure is retained; a retry uses unchanged images, assertions and deadline with additional failure diagnostics."
+  ],
+  "remaining": [
+    "VDC graphics and shared display lifetime inside apps",
+    "Physical native suite and VDC qualification",
+    "Independent monitor focus and extended desktop roles",
+    "Application switching and display backing storage",
+    "Broader OS and application roadmap"
+  ]
+}

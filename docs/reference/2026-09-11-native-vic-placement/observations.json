@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-11",
+  "purpose": "Disposable native VIC placement and explicit client restoration experiment",
+  "physical_hardware_io": false,
+  "kernel_display_lease": false,
+  "base_commit": "2bde88b41e7227c2d8fc3fe2e185a20ae6e2df73",
+  "native_kernel_sha256": "45281b86a55f93c6402a7b0159075148d0f19086471c504bf859332c0b25e63d",
+  "source_disk_sha256": "279ea21079c19181a0c5827a9c05cbf55fd5e23a90ef74c5e157c0f48f024a36",
+  "runs": {
+    "probe": "uos-native-display-probe-ia7jhoqk",
+    "initial-client": "uos-native-vic-placement-_i0kqj8e",
+    "first-canvas-parser-failure": "uos-native-vic-placement-3e1x1cly",
+    "canvas-length-diagnostic": "uos-native-vic-placement-l2osg4l2",
+    "corrected": "uos-native-vic-placement-1clgbi1i",
+    "negative-control": "uos-native-vic-placement-773zhum9"
+  },
+  "platform_inputs": {
+    "<home>/geos128/uos/src/native/api.inc": {
+      "bytes": 11733,
+      "sha256": "55701deaffd79d94f22ea3372f77c5d2c28e6efd4fddc11a1efdf76ca4571a3d"
+    },
+    "<home>/geos128/uos/native_capture.py": {
+      "bytes": 7354,
+      "sha256": "1eb8893522aa336c981d3a20e7f46c104756742f44c850cd7b9add458ea0deb8"
+    },
+    "<home>/geos128/uos/tests/ci_fm.py": {
+      "bytes": 37100,
+      "sha256": "3cd662bf48acd3479d2dad9668a9457f9e0ac38cfe70666833b66c017a0973a3"
+    },
+    "<home>/.claude/skills/commodore-basic/bin/cbm": {
+      "bytes": 26372,
+      "sha256": "508c86cb55a4728bef2ded2f8d1d0d807a75c2f807e397fd36686c539afdd553"
+    },
+    "/usr/bin/x128": {
+      "bytes": 3837984,
+      "sha256": "0ee740e5b35eb42ebe95337f6f30b3376c3156c034be83b8dfa4c6e11a9c3d17"
+    },
+    "/usr/bin/64tass": {
+      "bytes": 746632,
+      "sha256": "0d604370f55d9491e302612c51c11e6c636f44b3368b2b9ae5f00cd2a3b6cfe9"
+    },
+    "/usr/share/vice/C128/kernal-318020-05.bin": {
+      "bytes": 16384,
+      "sha256": "64ed21ad31da2840aa90eab70c6ed4731f63268a1b3c5cf85273e28d6cfa6d4d"
+    }
+  },
+  "initial_visual_result": "Failed: character-ROM overlay visible despite RAM and explicit restoration checks passing.",
+  "corrected_visual_result": "Two complete 320x200 palette-index comparisons pass; both explicit exit and normal return restore the port, registers, ownership and both text consoles.",
+  "negative_control": "The original 432-byte client fails the new rendered-pixel oracle, matching only 96 complete stripe rows out of 200.",
+  "canvas_length_discrepancy": "Installed VICE Display Get declares104448 pixels but sends104444. All64000 checked active pixels are present; four trailing bytes remain missing and no padding is inserted.",
+  "graphics_storage": {
+    "bank": 0,
+    "bitmap_start": 49152,
+    "bitmap_bytes": 8192,
+    "matrix_start": 57344,
+    "matrix_bytes": 1024,
+    "pages": 36,
+    "app_pages": 4
+  },
+  "source_references": [
+    "https://vice-emu.sourceforge.io/vice_13.html",
+    "https://raw.githubusercontent.com/VICE-Team/svn-mirror/main/vice/src/monitor/monitor_binary.c"
+  ],
+  "remaining": [
+    "kernel-enforced display ownership and automatic teardown",
+    "app replacement and failed launch lifecycle",
+    "clipped drawing and text primitives",
+    "native VDC graphics",
+    "physical hardware and file I/O while graphics are active",
+    "large editor document with desktop allocations"
+  ]
+}

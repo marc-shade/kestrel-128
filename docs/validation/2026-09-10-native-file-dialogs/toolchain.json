@@ -1,0 +1,52 @@
+{
+  "python": "3.14.7 (main, Aug 10 2026, 00:00:00) [GCC 16.1.1 20260515 (Red Hat 16.1.1-2)]",
+  "commands": {
+    "assembler": {
+      "command": [
+        "64tass",
+        "--version"
+      ],
+      "exit_code": 0,
+      "output": "64tass Turbo Assembler Macro V1.60.3243"
+    },
+    "disk_tool": {
+      "command": [
+        "c1541",
+        "-version"
+      ],
+      "exit_code": 0,
+      "output": "OPENCBM: opening dynamic library libopencbm.so failed!\nc1541 (VICE 3.10)"
+    },
+    "emulator": {
+      "command": [
+        "x128",
+        "-version"
+      ],
+      "exit_code": 0,
+      "output": "x128 (VICE 3.10)"
+    },
+    "py65": {
+      "command": [
+        "<home>/.venvs/uos-tests/bin/python",
+        "-c",
+        "import importlib.metadata;print(importlib.metadata.version(\"py65\"))"
+      ],
+      "exit_code": 0,
+      "output": "1.2.0"
+    }
+  },
+  "roms": {
+    "basiclo-318018-04.bin": {
+      "bytes": 16384,
+      "sha256": "ccb0d516219f12857fef3ae7409fff072e47b9480d7eafb5eea7e0b188c958f5"
+    },
+    "basichi-318019-04.bin": {
+      "bytes": 16384,
+      "sha256": "121b7c7f15f9b72e83f293f8fb3c4686730ee02359cea71d18a72c6f489cd2d7"
+    },
+    "kernal-318020-05.bin": {
+      "bytes": 16384,
+      "sha256": "64ed21ad31da2840aa90eab70c6ed4731f63268a1b3c5cf85273e28d6cfa6d4d"
+    }
+  }
+}

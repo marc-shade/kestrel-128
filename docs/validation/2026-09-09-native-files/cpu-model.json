@@ -1,0 +1,3519 @@
+{
+  "passed": true,
+  "kernel_sha256": "2b5fefc6f4334ca59039c2b9ac981080489ec4d4972f8855650660d85b31ef09",
+  "cases": {
+    "binary-read-eof-stale": {
+      "calls": 10,
+      "instructions": 119140,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "two-owners-copy-exclusive": {
+      "calls": 14,
+      "instructions": 186472,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "open",
+          123,
+          8,
+          9,
+          "434f50592c532c57"
+        ],
+        [
+          "close",
+          123
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ],
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "434f50592c532c57"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exclusive-name-across-types": {
+      "calls": 1,
+      "instructions": 4095,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c57"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "deferred-dos-error-at-close": {
+      "calls": 4,
+      "instructions": 12497,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c57"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "owner-release-generation": {
+      "calls": 10,
+      "instructions": 63847,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "open",
+          125,
+          9,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          9,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          9,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          9,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          123,
+          9,
+          9,
+          "4f544845522c502c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ],
+        [
+          "close",
+          123
+        ],
+        [
+          "close",
+          125
+        ],
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-0": {
+      "calls": 3,
+      "instructions": 20185,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-1": {
+      "calls": 4,
+      "instructions": 23067,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-2": {
+      "calls": 4,
+      "instructions": 23107,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-3": {
+      "calls": 4,
+      "instructions": 23154,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-4": {
+      "calls": 4,
+      "instructions": 23201,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-253": {
+      "calls": 4,
+      "instructions": 34904,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-254": {
+      "calls": 4,
+      "instructions": 34951,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-255": {
+      "calls": 4,
+      "instructions": 36015,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-256": {
+      "calls": 5,
+      "instructions": 38898,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-257": {
+      "calls": 5,
+      "instructions": 38945,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-507": {
+      "calls": 5,
+      "instructions": 50695,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-508": {
+      "calls": 5,
+      "instructions": 50742,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-509": {
+      "calls": 5,
+      "instructions": 51806,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "exact-extent-510": {
+      "calls": 5,
+      "instructions": 51853,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "legitimate-link-like-data": {
+      "calls": 3,
+      "instructions": 20597,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "stream-extent-mismatch-9": {
+      "calls": 3,
+      "instructions": 20826,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "stream-extent-mismatch-11": {
+      "calls": 3,
+      "instructions": 20876,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "geometry-last-sector-0": {
+      "calls": 3,
+      "instructions": 21244,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          35,
+          16
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "5349585445454e2d4c455454455253212c552c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "geometry-last-sector-1": {
+      "calls": 3,
+      "instructions": 21267,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          70,
+          16
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "5349585445454e2d4c455454455253212c552c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "geometry-last-sector-2": {
+      "calls": 3,
+      "instructions": 21273,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          40,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          80,
+          39
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "5349585445454e2d4c455454455253212c552c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "multiple-directory-sectors": {
+      "calls": 3,
+      "instructions": 38406,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          16
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "46494c4531362c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-zero-final-length": {
+      "calls": 1,
+      "instructions": 13649,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-cycle": {
+      "calls": 1,
+      "instructions": 13655,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-zero-track": {
+      "calls": 1,
+      "instructions": 12657,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-track-high": {
+      "calls": 1,
+      "instructions": 12659,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-sector-high": {
+      "calls": 1,
+      "instructions": 12669,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-directory-data": {
+      "calls": 1,
+      "instructions": 12645,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-blocks-zero": {
+      "calls": 1,
+      "instructions": 12638,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-blocks-excess": {
+      "calls": 1,
+      "instructions": 12635,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-blocks-early-end": {
+      "calls": 1,
+      "instructions": 13647,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-directory-cycle": {
+      "calls": 1,
+      "instructions": 156707,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-directory-wrong-track": {
+      "calls": 1,
+      "instructions": 12625,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "corrupt-directory-header": {
+      "calls": 1,
+      "instructions": 12628,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "metadata-disk-error": {
+      "calls": 1,
+      "instructions": 13575,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "metadata-close-uncertain": {
+      "calls": 2,
+      "instructions": 16172,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "zero-owner": {
+      "calls": 1,
+      "instructions": 2461,
+      "events": []
+    },
+    "owner-255": {
+      "calls": 1,
+      "instructions": 2463,
+      "events": []
+    },
+    "device-low": {
+      "calls": 1,
+      "instructions": 2485,
+      "events": []
+    },
+    "device-high": {
+      "calls": 1,
+      "instructions": 2487,
+      "events": []
+    },
+    "mode": {
+      "calls": 1,
+      "instructions": 2491,
+      "events": []
+    },
+    "type": {
+      "calls": 1,
+      "instructions": 2494,
+      "events": []
+    },
+    "format": {
+      "calls": 1,
+      "instructions": 2497,
+      "events": []
+    },
+    "name-empty": {
+      "calls": 1,
+      "instructions": 2499,
+      "events": []
+    },
+    "name-long": {
+      "calls": 1,
+      "instructions": 2501,
+      "events": []
+    },
+    "name-2a": {
+      "calls": 1,
+      "instructions": 2509,
+      "events": []
+    },
+    "name-3f": {
+      "calls": 1,
+      "instructions": 2511,
+      "events": []
+    },
+    "name-2c": {
+      "calls": 1,
+      "instructions": 2513,
+      "events": []
+    },
+    "name-3a": {
+      "calls": 1,
+      "instructions": 2515,
+      "events": []
+    },
+    "name-2f": {
+      "calls": 1,
+      "instructions": 2517,
+      "events": []
+    },
+    "name-5c": {
+      "calls": 1,
+      "instructions": 2519,
+      "events": []
+    },
+    "name-40": {
+      "calls": 1,
+      "instructions": 2521,
+      "events": []
+    },
+    "name-23": {
+      "calls": 1,
+      "instructions": 2523,
+      "events": []
+    },
+    "name-24": {
+      "calls": 1,
+      "instructions": 2525,
+      "events": []
+    },
+    "name-1f": {
+      "calls": 1,
+      "instructions": 2505,
+      "events": []
+    },
+    "name-7f": {
+      "calls": 1,
+      "instructions": 2507,
+      "events": []
+    },
+    "foreign-lfn": {
+      "calls": 1,
+      "instructions": 2724,
+      "events": []
+    },
+    "foreign-data": {
+      "calls": 1,
+      "instructions": 2728,
+      "events": []
+    },
+    "foreign-same-device": {
+      "calls": 1,
+      "instructions": 2728,
+      "events": []
+    },
+    "foreign-command": {
+      "calls": 1,
+      "instructions": 2728,
+      "events": []
+    },
+    "command-lfn": {
+      "calls": 1,
+      "instructions": 2720,
+      "events": []
+    },
+    "metadata-lfn": {
+      "calls": 1,
+      "instructions": 2715,
+      "events": []
+    },
+    "table-count": {
+      "calls": 1,
+      "instructions": 2702,
+      "events": []
+    },
+    "count-0": {
+      "calls": 2,
+      "instructions": 22883,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ]
+      ]
+    },
+    "count-513": {
+      "calls": 2,
+      "instructions": 22883,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ]
+      ]
+    },
+    "count-65535": {
+      "calls": 2,
+      "instructions": 22881,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ]
+      ]
+    },
+    "read-prefix-poison-close": {
+      "calls": 4,
+      "instructions": 41202,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "write-prefix-poison": {
+      "calls": 4,
+      "instructions": 21033,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c57"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "deferred-final-byte-error": {
+      "calls": 3,
+      "instructions": 9709,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c57"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "uncertain-close-122": {
+      "calls": 3,
+      "instructions": 20094,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "uncertain-close-124": {
+      "calls": 3,
+      "instructions": 20129,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "open-fault-122": {
+      "calls": 1,
+      "instructions": 14234,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "open-fault-124": {
+      "calls": 1,
+      "instructions": 2935,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "open-fault-126": {
+      "calls": 1,
+      "instructions": 3506,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "status-37582c204241440d": {
+      "calls": 1,
+      "instructions": 3515,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "status-303058204241440d": {
+      "calls": 1,
+      "instructions": 3503,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "status-30302c204e4f205445524d494e41544f52": {
+      "calls": 1,
+      "instructions": 4033,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "status-7878787878787878787878787878787878787878787878787878787878787878787878787878787878": {
+      "calls": 1,
+      "instructions": 5419,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "atomic-corrupt-release": {
+      "calls": 3,
+      "instructions": 31040,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          123,
+          8,
+          9,
+          "4e4f54452c532c52"
+        ]
+      ]
+    },
+    "generation-carry-retirement": {
+      "calls": 6,
+      "instructions": 52750,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ],
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ],
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          123,
+          8,
+          9,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          123
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "position-overflow": {
+      "calls": 2,
+      "instructions": 22896,
+      "events": [
+        [
+          "open",
+          124,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          0
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          2
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          3
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          4
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          5
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          6
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          8,
+          8,
+          "4e4f54452c532c52"
+        ]
+      ]
+    },
+    "interrupt-masked": {
+      "calls": 1,
+      "instructions": 21,
+      "events": []
+    },
+    "busy": {
+      "calls": 1,
+      "instructions": 16,
+      "events": []
+    },
+    "app-auto-close": {
+      "calls": 4,
+      "instructions": 64982,
+      "events": [
+        [
+          "open",
+          124,
+          9,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          9,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          9,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          9,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          9,
+          8,
+          "4f544845522c532c52"
+        ],
+        [
+          "open",
+          121,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          120,
+          8,
+          7,
+          "434845434b2c502c52"
+        ],
+        [
+          "close",
+          120
+        ],
+        [
+          "close",
+          121
+        ],
+        [
+          "open",
+          125,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          123,
+          8,
+          9,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          123
+        ],
+        [
+          "close",
+          125
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    },
+    "app-retains-close-error": {
+      "calls": 4,
+      "instructions": 63684,
+      "events": [
+        [
+          "open",
+          124,
+          9,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          9,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          9,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          9,
+          1,
+          0
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          122,
+          9,
+          8,
+          "4f544845522c532c52"
+        ],
+        [
+          "open",
+          121,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          120,
+          8,
+          7,
+          "434845434b2c502c52"
+        ],
+        [
+          "close",
+          120
+        ],
+        [
+          "close",
+          121
+        ],
+        [
+          "open",
+          125,
+          8,
+          15,
+          ""
+        ],
+        [
+          "open",
+          126,
+          8,
+          10,
+          "23"
+        ],
+        [
+          "block-read",
+          8,
+          18,
+          1
+        ],
+        [
+          "block-read",
+          8,
+          1,
+          1
+        ],
+        [
+          "close",
+          126
+        ],
+        [
+          "open",
+          123,
+          8,
+          9,
+          "4e4f54452c532c52"
+        ],
+        [
+          "close",
+          123
+        ],
+        [
+          "close",
+          125
+        ],
+        [
+          "close",
+          122
+        ],
+        [
+          "close",
+          124
+        ]
+      ]
+    }
+  }
+}

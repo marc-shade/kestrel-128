@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-vice-zgqun5t4",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 5294,
+        "pages": 21,
+        "entry": 24608,
+        "crc16": 56648,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "80d83b73fd34ee3b79a502d2f9c3fd9b6b2865396c78b0a25d5e9b3adcca1591"
+      },
+      "AESVC.PRG": {
+        "bytes": 14077,
+        "pages": 55,
+        "bank": 1,
+        "entry": 34856,
+        "crc16": 8256,
+        "sha256": "c9c36b3d99963b9128a14a6267865517389ff8f08fc8d398241c5d4883cb5309"
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "cold boot; AESDEMO loads AESVC.PRG into bank-1 $8800 and attaches (version 1.4)",
+      "status": "01063f00010001000101010000"
+    },
+    {
+      "name": "alert: exact frames on the VIC surface, Tab, Return, exact restore"
+    },
+    {
+      "name": "menu bar: F1, cursor keys past a disabled item, Return queues MN_SELECTED"
+    },
+    {
+      "name": "windows: open three, top, move, close \u2014 frames, fills and markers match the painter"
+    },
+    {
+      "name": "U unloads: every owner-30 page returns (175/251/32 free)"
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-aes-vice-zgqun5t4/aes.d64",
+    "-drive8true",
+    "-drive8type",
+    "1541",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:49291"
+  ],
+  "image_matching_bytes": 14068
+}

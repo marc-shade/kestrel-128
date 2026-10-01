@@ -1,0 +1,19 @@
+{
+  "cpu-fault-v2": {
+    "session_id": 4566,
+    "exit_code": 0,
+    "driver_sha256_at_sealing": "33523570eb4f86f161757901144f4d9ac3a001c5ef291290270a346a48096758",
+    "generic_vic_fixture_sha256": "d5b36d0a7d9ee9fde2bd316cfe91e6d55360b9921d179532ca5b360bccc9d771",
+    "report_sha256": "820edb1572371bd74ce89cf140b19f94a47a6789ae7154e4e8562a879ad5c85b",
+    "command": [
+      "<home>/.venvs/uos-tests/bin/python3",
+      "-B",
+      "tests/ci_native_vdc_desktop.py",
+      "--case",
+      "fault",
+      "--report",
+      "/var/tmp/arc-scratch/uos-vdc-cpu-fault-v2.json"
+    ],
+    "note": "Terminal exit zero was observed through exec session 4566 before supervisor adoption for this case. The report has six groups and pins both executable images. The test driver has not changed since this run; the inherited generic VIC bus used the earlier fixture retained in run-sources. This is a retained tool-session observation, not a supervisor receipt."
+  }
+}

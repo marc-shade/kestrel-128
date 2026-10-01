@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "a USB folder dropped on another USB window is copied as a tree: CREATE_DIR for it and its subfolder, every file copied and compared, the source unchanged, and both windows listed again",
+      "frames": 261,
+      "instructions": 27984239,
+      "folders": [
+        "/Usb0/Dest/Proj",
+        "/Usb0/Dest/Proj/Sub"
+      ]
+    },
+    {
+      "name": "a folder whose name exists on the target is refused (FILE_STAT finds it) over the progress window; nothing is made",
+      "frames": 313,
+      "instructions": 36056931
+    },
+    {
+      "name": "a folder dropped on a window showing that folder is refused: it cannot be copied into itself",
+      "frames": 481,
+      "instructions": 48636797
+    },
+    {
+      "name": "Esc during a folder copy stops it before the next entry; the folder made so far stays, is said to, and is listed",
+      "frames": 649,
+      "instructions": 61945268
+    },
+    {
+      "name": "Move of a folder: the tree is copied and compared, then the source's files and subfolders are deleted deepest first and the emptied folder last",
+      "frames": 818,
+      "instructions": 75891256,
+      "deleted": [
+        "/Usb0/Proj/Sub/c.bin",
+        "/Usb0/Proj/Sub",
+        "/Usb0/Proj/a.txt",
+        "/Usb0/Proj/b.prg",
+        "/Usb0/Proj"
+      ]
+    },
+    {
+      "name": "a folder dropped on a drive icon is refused before anything is opened or made",
+      "frames": 872,
+      "instructions": 81090493
+    }
+  ]
+}

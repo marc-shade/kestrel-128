@@ -1,0 +1,2444 @@
+
+; 64tass Turbo Assembler Macro V1.60.3243 listing file
+; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gdses.bin -l target/native-desktop/gdses.sym -L target/native-desktop/gdses.lst src/native/gemdesk-ses.asm
+; Wed Sep 30 12:50:10 2026
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: src/native/gemdesk-ses.asm
+
+
+;******  Processing file: target/native-desktop/gemdesk.sym
+
+=$944a					ae_km_hold	= $944a
+=$3d0d					N_ERROR		= $3d0d
+=$ae83					bk_fetch_tail	= $ae83
+=$acd8					bk_service_call	= $acd8
+=2					MU_BUTTON	= 2
+=$9920					gfx_bind_handle	= $9920
+=$7ad3					gm_clip_to_rect	= $7ad3
+=$81a9					gm_icon_dev_lo	= $81a9
+=$b228					bk_stub		= $b228
+=$75cd					gm_set_title	= $75cd
+=$7ca4					gm_set_rect	= $7ca4
+=$9799					dc_line		= $9799
+=$7338					gm_path_store	= $7338
+=15					WF_HSLSIZE	= 15
+=$6263					gm_n32_bit	= $6263
+=$85a9					gm_usb_title	= $85a9
+=$a68c					pm_saved	= $a68c
+=$1bf0					N_NMIGATE	= $1bf0
+=16					AE_DATA_PAGES	= 16
+=$3d9e					N_DOCRESUME	= $3d9e
+=$9319					ae_event_wait	= $9319
+=1					AE_OP_STATUS	= 1
+=$5000					N_RELOCBASE	= $5000
+=$614d					bp_select_surface= $614d
+=8					UI_STATE_BYTES	= 8
+=$99b9					gfx_glyph_add	= $99b9
+=$9758					dc_bad		= $9758
+=$3d3e					N_NMIPTR	= $3d3e
+=$7ba0					gm_scroll_down	= $7ba0
+=$6584					gm_hit_next	= $6584
+=$9ca2					gfx_glyph_first	= $9ca2
+=$1c5f					N_MLOAD		= $1c5f
+=$79be					gm_format_row	= $79be
+=5					WS_GET		= 5
+=$7f61					gm_open_entry	= $7f61
+=$3de0					NFCMDS		= $3de0
+=$a098					gfx_font	= $a098
+=$aece					bk_load		= $aece
+=$b129					bk_close_done	= $b129
+=$86f1					gm_dev_format	= $86f1
+=$5000					GM_WORKSPACE	= $5000
+=$16					GM_DESK		= $16
+=$6307					gm_alert_icon	= $6307
+=$a667					pm_active	= $a667
+=6					UI_VIEW80	= 6
+=5					N_U_INTERFACES	= 5
+=12					GM_MOP_PRINT	= 12
+=$1c2c					N_FILL		= $1c2c
+=$71fe					gm_restore_color= $71fe
+=1					N_ABI_MAJOR	= 1
+=6					WF_PREVXYWH	= 6
+=$3dc0					NFILES		= $3dc0
+=$7488					gm_ult_fullname	= $7488
+=11					AE_OP_DCLICK	= 11
+=$7b9d					gm_page_down	= $7b9d
+=$624a					gm_wcall	= $624a
+=$948e					ae_menu_copied	= $948e
+=$76e1					gm_ucmd_at	= $76e1
+=$750c					gm_fn_close	= $750c
+=$61b0					gm_open_aesvc	= $61b0
+=$620a					gm_open_now	= $620a
+=$841e					gm_bad_chars	= $841e
+=$6c86					gm_atype	= $6c86
+=7					GM_MOP_RESTORE	= 7
+=$99d4					gfx_glyph_empty	= $99d4
+=$ace5					bk_dispatch	= $ace5
+=$acb7					bk_protect_code	= $acb7
+=$3d85					N_FDEVICE	= $3d85
+=$879c					gm_win_sel	= $879c
+=$6e1a					gm_delete	= $6e1a
+=$12					N_SHORTIMAGE	= $12
+=11					GM_MOP_DISKCOPY	= 11
+=$1014					pk_entry	= $1014
+=$1c20					N_ALLOC		= $1c20
+=$a60d					pm_delta	= $a60d
+=$8777					gm_divisor	= $8777
+=$7654					gm_title_q	= $7654
+=$702b					gm_refresh_next	= $702b
+=$73a3					gm_upath_to_path= $73a3
+=$876d					gm_math4	= $876d
+=$876c					gm_math3	= $876c
+=$876b					gm_math2	= $876b
+=$8702					gm_alen		= $8702
+=$3d3b					N_UIBUSY	= $3d3b
+=$6907					gm_scan_page	= $6907
+=$6189					gm_aes_ready	= $6189
+=$a637					pm_place	= $a637
+=1					AE_MIRROR	= 1
+=$ad96					bk_compare_cookie= $ad96
+=22					WM_CLOSED	= 22
+=$943d					ae_km_keys	= $943d
+=$6a87					gm_chunk_heap	= $6a87
+=$81d6					gm_icon_bits	= $81d6
+=$86d0					gm_s_nomodule2	= $86d0
+=$abd6					vd_handle	= $abd6
+=$9f77					gfx_right_masks	= $9f77
+=$7aa1					gm_read_done	= $7aa1
+=$6615					gm_deselect_icon= $6615
+=$a9ce					bp_closed	= $a9ce
+=$877c					gm_ix0		= $877c
+=$877e					gm_ix1		= $877e
+=$ace8					bk_service_return= $ace8
+=$0020					WK_SIZER	= $0020
+=$3d50					N_MHEADER	= $3d50
+=$91e0					ae_attach	= $91e0
+=$6cc8					gm_info_end	= $6cc8
+=$9e89					gfx_aligned_set	= $9e89
+=$9866					dc_text		= $9866
+=$10ac					pk_extended	= $10ac
+=$8623					gm_s_nosave	= $8623
+=$6020					gm_start	= $6020
+=$664d					gm_key		= $664d
+=$10ad					pk_rejected	= $10ad
+=$683f					gm_icon_drive	= $683f
+=$a5d4					pm_button	= $a5d4
+=2					AE_CAP_EVENT	= 2
+=$6fab					gm_del_text_end	= $6fab
+=$3d2e					N_BROWSERLEN	= $3d2e
+=$6054					gm_loop		= $6054
+=$9891					dc_iostatus	= $9891
+=$8645					gm_mtoken	= $8645
+=$aecd					bk_relative	= $aecd
+=$a470					pm_close_return	= $a470
+=$1070					pk_reject	= $1070
+=$9ca5					gfx_glyph_ink	= $9ca5
+=$7aa2					gm_work		= $7aa2
+=$ac86					bk_callback	= $ac86
+=$a5f6					pm_release	= $a5f6
+=$3d2a					N_BROWSERFMT	= $3d2a
+=$1c4a					N_FCLOSE	= $1c4a
+=$7bb5					gm_scrolled	= $7bb5
+=$6aef					gm_ins_outer	= $6aef
+=$6c2a					gm_show_info	= $6c2a
+=$9959					gfx_guard	= $9959
+=$84fe					gm_suffix	= $84fe
+=$9450					ae_menu_install	= $9450
+=$8819					gm_bnow		= $8819
+=$9a85					gfx_clip_compared= $9a85
+=$6bfe					gm_view_done	= $6bfe
+=$9f1e					gfx_owner	= $9f1e
+=$8084					gm_times8	= $8084
+=$7d3b					gm_select_entry	= $7d3b
+=5					AE_OP_POST	= 5
+=$a054					gfx_text_length	= $a054
+=$7e83					gm_band		= $7e83
+=$b03c					bk_load_more	= $b03c
+=$740f					gm_ult_scan_next= $740f
+=6					WS_FIND		= 6
+=$6e69					gm_del_named	= $6e69
+=3					AE_OP_STEP	= 3
+=$10ae					pk_mask		= $10ae
+=$8818					gm_banchor	= $8818
+=$878c					gm_win_dev	= $878c
+=$608f					gm_fatal	= $608f
+=$7cb4					gm_fulled	= $7cb4
+=$3d0e					N_FREE0		= $3d0e
+=$3d0f					N_FREE1		= $3d0f
+=$aa1e					vd_poll		= $aa1e
+=$1c6b					N_VCLOSE	= $1c6b
+=9					N_U_QUERY_COUNT	= 9
+=$86e7					gm_digits	= $86e7
+=$7644					gm_title_char	= $7644
+=$a532					pm_poll_return	= $a532
+=$6ad7					gm_rec_put	= $6ad7
+=48					AE_CLICK_TICKS	= 48
+=$a674					pm_down		= $a674
+=$8703					gm_abuf		= $8703
+=$837e					gm_s_used	= $837e
+=$8050					gm_free_mem	= $8050
+=$3d2b					N_BROWSERERROR	= $3d2b
+=$7539					gm_ult_document	= $7539
+=195					GM_MAX_ENTRIES	= 195
+=$0004					WK_FULLER	= $0004
+=$8815					gm_bi		= $8815
+=$9c6c					gfx_column	= $9c6c
+=$77a7					gm_document_launch= $77a7
+=$8814					gm_bm		= $8814
+=$6b3a					gm_next_gap	= $6b3a
+=6					N_U_MAC		= 6
+=$62bb					gm_am_row	= $62bb
+=$9f4c					gfx_band_left	= $9f4c
+=$1c2f					N_STATS		= $1c2f
+=$85c4					gm_stop		= $85c4
+=$aec7					bk_result	= $aec7
+=$a679					pm_step		= $a679
+=$9b01					gfx_clip_cell	= $9b01
+=$9441					ae_km_dx	= $9441
+=$9445					ae_km_dy	= $9445
+=$86a8					gm_prt_sa	= $86a8
+=$9214					ae_stream_taken	= $9214
+=$3d28					N_ACTION	= $3d28
+=$9c01					gfx_bitmap_row	= $9c01
+=$abcf					vd_phase	= $abcf
+=$80ca					gm_div		= $80ca
+=8					WF_HSLIDE	= 8
+=$9b92					gfx_failed	= $9b92
+=$9f37					gfx_remaining	= $9f37
+=$3d99					N_DCOUNT	= $3d99
+=$9eab					gfx_glyph_row	= $9eab
+=4					MU_M1		= 4
+=$70f3					gm_drag_box	= $70f3
+=4					N_U_POWER_B	= 4
+=$77f2					gm_ult_peek	= $77f2
+=$9f3e					gfx_second	= $9f3e
+=3					N_U_POWER_A	= 3
+=$66ac					gm_key_done	= $66ac
+=$7372					gm_pw		= $7372
+=$925f					ae_event	= $925f
+=$9415					ae_km_y		= $9415
+=$671b					gm_menu_options	= $671b
+=$a698					pm_shape	= $a698
+=$ab6f					vm_dirty	= $ab6f
+=$750a					gm_fn_missing	= $750a
+=16					GM_BELL		= 16
+=$aeb2					bk_file		= $aeb2
+=6					AE_OP_MENU	= 6
+=32					AE_CAP_DCLICK	= 32
+=$6dcb					gm_aput		= $6dcb
+=$3d16					N_RESULT	= $3d16
+=$64e3					gm_copy		= $64e3
+=$a390					gfx_text_end	= $a390
+=$9dc9					gfx_band_pixel	= $9dc9
+=$ade5					bk_check_code	= $ade5
+=$6420					gm_draw_icon	= $6420
+=$625f					gm_n32_digit	= $625f
+=$6eef					gm_del_many	= $6eef
+=$6000					N_APPBASE	= $6000
+=$85c3					gm_sslot	= $85c3
+=2					GM_MOP_PREFS	= 2
+=$83a5					gm_s_undone	= $83a5
+=$aba2					vm_first	= $aba2
+=$7fdd					gm_launcher	= $7fdd
+=$6e4d					gm_del_copy	= $6e4d
+=$abc3					bp_result	= $abc3
+=$68ba					gm_df_found	= $68ba
+=$6529					gm_label_clear	= $6529
+=$81c4					gm_label_trash	= $81c4
+=$8816					gm_ei		= $8816
+=$9f1f					gfx_handle	= $9f1f
+=$86dd					gm_new_icon	= $86dd
+=$7513					gm_ult_open_entry= $7513
+=$9f39					gfx_right	= $9f39
+=$1c5c					N_FDRAW		= $1c5c
+=$a680					pm_registers	= $a680
+=$68be					gm_df_done	= $68be
+=$7c8d					gm_wset_value	= $7c8d
+=$6528					gm_icon_done	= $6528
+=$3d9b					N_DOCKIND	= $3d9b
+=$6f37					gm_del_all	= $6f37
+=$8026					gm_close_slot	= $8026
+=$857a					gm_s_usbfail	= $857a
+=$97f0					dc_get_bad	= $97f0
+=$86de					gm_slot		= $86de
+=$abc6					bp_name		= $abc6
+=$b0f5					bk_load_badarg	= $b0f5
+=$a66c					pm_x		= $a66c
+=$a66e					pm_y		= $a66e
+=$63fb					gm_icons_clip_reset= $63fb
+=$ada9					bk_platform	= $ada9
+=$8700					gm_total	= $8700
+=$a8a6					nk_saved_callback= $a8a6
+=$83ce					gm_s_nodelete	= $83ce
+=$3d37					N_UIKEY		= $3d37
+=$3d9d					N_DOCRETURN	= $3d9d
+=$8296					gm_menu		= $8296
+=$b238					bk_crc		= $b238
+=$69ab					gm_scan_fail	= $69ab
+=$8540					gm_s_notusb	= $8540
+=$71e6					gm_session_built= $71e6
+=$acc6					bk_protect_parent= $acc6
+=$109e					pk_pass		= $109e
+=$3d01					N_PAGES		= $3d01
+=$87a0					gm_nsel		= $87a0
+=$8644					gm_mop		= $8644
+=8					N_U_TIME	= 8
+=$7117					gm_session_build= $7117
+=$3d2d					N_BOOTDEVICE	= $3d2d
+=$877f					gm_iy1		= $877f
+=$877d					gm_iy0		= $877d
+=$84b5					gm_full_alert	= $84b5
+=$8790					gm_win_fmt	= $8790
+=$9f47					gfx_glyph_bounds= $9f47
+=$9318					ae_event_done	= $9318
+=6					GM_MOP_COPY	= 6
+=$6419					gm_icon_next	= $6419
+=$aeb6					bk_cookie	= $aeb6
+=$7fd7					gm_launcher_leave= $7fd7
+=$922b					ae_alert_read	= $922b
+=$6f96					gm_del_text	= $6f96
+=$84e4					gm_confirm	= $84e4
+=$0040					WK_UPARROW	= $0040
+=$7b65					gm_clip_empty	= $7b65
+=$8808					gm_slot25	= $8808
+=$94db					ae_ev_result	= $94db
+=9					WF_VSLIDE	= 9
+=$981e					dc_digit	= $981e
+=$7e51					gm_each_call	= $7e51
+=$91e6					ae_load		= $91e6
+=$9cd2					gfx_set		= $9cd2
+=$6dbf					gm_astr_src	= $6dbf
+=$69b5					gm_sort_write	= $69b5
+=$adbb					bk_bad_handle	= $adbb
+=$75ca					gm_close_full	= $75ca
+=$66dd					gm_menu_control	= $66dd
+=$b236					bk_expected	= $b236
+=$a960					bp_loaded	= $a960
+=$10af					pk_masks	= $10af
+=8					AE_CAP_WINDOW	= 8
+=$4e00					N_UPATH		= $4e00
+=$69aa					gm_scan_done	= $69aa
+=$7d1f					gm_row_under	= $7d1f
+=$a580					pm_left		= $a580
+=$835d					gm_s_head	= $835d
+=$9215					ae_alert_open	= $9215
+=$7592					gm_close_or_up	= $7592
+=4					GM_PRINTER	= 4
+=$7f35					gm_band_done	= $7f35
+=$7ffe					gm_slot_of	= $7ffe
+=$661e					gm_repaint_icon_sel= $661e
+=3					GM_USB		= 3
+=$0080					WK_DNARROW	= $0080
+=$9ae9					gfx_clipped_bitmap= $9ae9
+=$3d08					N_OFFSET	= $3d08
+=$a449					pm_close	= $a449
+=$69cb					gm_write_chunk	= $69cb
+=$614d					gm_select_surface= $614d
+=$975c					dc_channels	= $975c
+=$9f5f					gfx_clip_full	= $9f5f
+=$98ca					sd_bell		= $98ca
+=$7d70					gm_toggle	= $7d70
+=1					WS_OPEN		= 1
+=$1c26					N_READ		= $1c26
+=1					gfx_track_dirty	= 1
+=$7bbb					gm_scroll_done	= $7bbb
+=$76c9					gm_ult_del_done	= $76c9
+=$9f6f					gfx_left_masks	= $9f6f
+=$7228					gm_module_run	= $7228
+=$b075					bk_load_eof	= $b075
+=$10ba					pk_end		= $10ba
+=$3d12					N_READY		= $3d12
+=$86f8					gm_m		= $86f8
+=$abeb					vd_pointer_y	= $abeb
+=1					N_U_HARDWARE	= 1
+=$6341					gm_message	= $6341
+=$81b2					gm_icon_label_hi= $81b2
+=$6ad7					gm_rec_dst	= $6ad7
+=$aa80					bp_gate_failed	= $aa80
+=$9865					dc_length	= $9865
+=$6b26					gm_ins_place	= $6b26
+=$61af					gm_aes_failed	= $61af
+=$a676					pm_hit		= $a676
+=8					WS_SURFACE	= 8
+=$6596					gm_pointer_cell	= $6596
+=$4a00					N_BROWSERPATH	= $4a00
+=$63a4					gm_message_done	= $63a4
+=$62b9					ae_present	= $62b9
+=$6f51					gm_relist_slot	= $6f51
+=$7eb8					gm_band_loop	= $7eb8
+=$3d24					N_EXITCODE	= $3d24
+=$9a8e					gfx_clip_start	= $9a8e
+=$8065					gm_select_mem_x	= $8065
+=$85bc					gm_desk_color	= $85bc
+=$9449					ae_km_click	= $9449
+=$abd1					vd_color	= $abd1
+=0					N_OK		= 0
+=4					GM_WINDOWS	= 4
+=$3d3c					N_UOP		= $3d3c
+=$3d20					N_CURRENT	= $3d20
+=$a66a					pm_pending	= $a66a
+=0					GFX_TEXT_STORAGE= 0
+=$abf6					ru_probe_live	= $abf6
+=$1c3e					N_EXIT		= $1c3e
+=$ab6b					bp_argument	= $ab6b
+=$1c41					N_FOPEN		= $1c41
+=$3d25					N_DOSCODE	= $3d25
+=0					AE_OP_ATTACH	= 0
+=$abc1					bp_prefix	= $abc1
+=$86dc					gm_icon_sel	= $86dc
+=$86d3					gm_surface	= $86d3
+=$3d23					N_APPSTATE	= $3d23
+=$881a					gm_batch	= $881a
+=2					UI_MAXIMUM	= 2
+=$9754					dc_io		= $9754
+=$8609					gm_dclick	= $8609
+=$94ef					ae_ev_first	= $94ef
+=$a8a8					nk_filter_image	= $a8a8
+=$a669					pm_tick		= $a669
+=$73fa					gm_ult_read	= $73fa
+=$9ecf					gfx_glyph_shifted= $9ecf
+=$79d9					gm_rec_src	= $79d9
+=$62f4					gm_alert	= $62f4
+=$9f3c					gfx_cover	= $9f3c
+=$943c					ae_km_done	= $943c
+=$a675					pm_arm		= $a675
+=$8947					gm_win_plen	= $8947
+=$99ae					gfx_glyph_negative= $99ae
+=10					GM_MOP_PRTSCR	= 10
+=60					GM_REC_PRINTER	= 60
+=$894b					gm_name		= $894b
+=2					WS_CLOSE	= 2
+=$a718					nk_install	= $a718
+=$9a90					gfx_clip_replace= $9a90
+=$aec3					bk_busy		= $aec3
+=$9801					dc_restore	= $9801
+=$16					N_MEXHAUSTED	= $16
+=14985					SD_BELL_FREQ	= 14985
+=$9493					ae_menu_set	= $9493
+=$8775					gm_prod		= $8775
+=$6bb4					gm_cmp_rev	= $6bb4
+=$86a9					gm_lock_want	= $86a9
+=$1c26					gfx_heap_read	= $1c26
+=$aa4d					bp_pointer	= $aa4d
+=$abd0					vd_live		= $abd0
+=$6aae					gm_copy_rec	= $6aae
+=1					N_BADARG	= 1
+=$7031					gm_release	= $7031
+=12					AE_OP_ACC	= 12
+=$9998					gfx_glyph_origin= $9998
+=$ab2b					bp_open_source	= $ab2b
+=$a678					pm_moved	= $a678
+=$93fd					ae_km_left	= $93fd
+=13					GM_MOP_LOCK	= 13
+=$1c23					N_FREE		= $1c23
+=$aa8a					bp_arguments	= $aa8a
+=$9a11					gfx_color_limits= $9a11
+=$658b					gm_click	= $658b
+=$7322					gm_prt_quiet	= $7322
+=0					N_U_IDENTIFY	= 0
+=$9b95					gfx_bitmap_setup= $9b95
+=20					WM_REDRAW	= 20
+=$80ea					gm_cells_hi0	= $80ea
+=$7506					gm_fn_long	= $7506
+=$3d98					N_DNEXT		= $3d98
+=$8832					gm_rec		= $8832
+=$65ec					gm_click_desktop= $65ec
+=$1c53					N_REPLACE	= $1c53
+=$94f1					ae_ev_window	= $94f1
+=$8487					gm_drive_alert	= $8487
+=$8179					gm_cards_name	= $8179
+=$7485					gm_ult_scan_fail0= $7485
+=$adad					bk_invalid	= $adad
+=$a770					nk_close	= $a770
+=$94f9					ae_pointer_buttons= $94f9
+=$abc4					bp_carry	= $abc4
+=$9c5c					gfx_bitmap_loaded= $9c5c
+=$70ed					gm_drop_print	= $70ed
+=$6b83					gm_cmp_name	= $6b83
+=$7dd4					gm_bit_set	= $7dd4
+=$86fc					gm_ins_val	= $86fc
+=$3d9c					N_DOCTYPE	= $3d9c
+=$9e11					gfx_band_store	= $9e11
+=$9f7f					gfx_rows	= $9f7f
+=$683e					gm_open_quiet	= $683e
+=$3d13					N_KEYS		= $3d13
+=96					GM_APP_PAGES	= 96
+=$9ab6					gfx_nonempty_x	= $9ab6
+=$93a0					ae_key_mouse	= $93a0
+=$97f1					dc_get_end	= $97f1
+=$853e					gm_target	= $853e
+=$86e6					gm_ndig		= $86e6
+=0					PM_KEYS_OWNED	= 0
+=$7376					gm_path_root	= $7376
+=$86e0					gm_fmt		= $86e0
+=$6ade					gm_gap_loop	= $6ade
+=$5000					AE_DATA		= $5000
+=$7326					gm_path_page	= $7326
+=$6000					BK_BASE		= $6000
+=$abd4					vd_base		= $abd4
+=$9b56					gfx_color_x	= $9b56
+=$6eee					gm_del_none	= $6eee
+=$86bc					gm_s_nomodule	= $86bc
+=$876a					gm_math		= $876a
+=$86db					gm_start_error	= $86db
+=$ae87					bk_jump_tail	= $ae87
+=$8826					gm_mem1		= $8826
+=$8822					gm_mem0		= $8822
+=$882e					gm_mem3		= $882e
+=$882a					gm_mem2		= $882a
+=$85be					gm_orect	= $85be
+=$8501					gm_s_unproven	= $8501
+=$ada5					bk_nested	= $ada5
+=8					AE_OP_WINDOW	= 8
+=$768d					gm_ult_attr	= $768d
+=$abec					vs_reu		= $abec
+=$3de4					N_BOOTFORMAT	= $3de4
+=0					BP_HISTORY	= 0
+=$9437					ae_km_eaten	= $9437
+=$1c68					N_VSHOW		= $1c68
+=$11					N_IOERROR	= $11
+=$9a9c					gfx_clip_keep	= $9a9c
+=$9f12					gfx_x0		= $9f12
+=$9f16					gfx_x1		= $9f16
+=$8ad9					ae_callback	= $8ad9
+=$3d38					N_UIWIDTH	= $3d38
+=$9f1d					gfx_bound	= $9f1d
+=$6bd6					gm_set_view	= $6bd6
+=$83e6					gm_s_error	= $83e6
+=$8362					gm_s_type	= $8362
+=$adbd					bk_finish	= $adbd
+=$66ad					gm_key_drive	= $66ad
+=$6a7d					gm_chunk_size	= $6a7d
+=$3d29					N_BROWSERDEV	= $3d29
+=$6fae					gm_printable	= $6fae
+=30					N_AESOWNER	= 30
+=$3de5					N_CLIPBOARD	= $3de5
+=$9993					gfx_glyph_failed= $9993
+=$9d83					gfx_band_next	= $9d83
+=$3d3a					N_UIERROR	= $3d3a
+=$9ef0					gfx_restore_handle= $9ef0
+=$6fc9					gm_del_head	= $6fc9
+=$3da0					N_FNAME		= $3da0
+=$6a1b					gm_chunk_fail	= $6a1b
+=$6569					gm_icon_hit	= $6569
+=$a94e					vd_open		= $a94e
+=7					AE_MINOR	= 7
+=$acf9					bk_enter	= $acf9
+=$a76f					nk_return	= $a76f
+=$70c6					gm_row_drop	= $70c6
+=$9d55					gfx_xor_load	= $9d55
+=$94f8					ae_pointer_y	= $94f8
+=$94f6					ae_pointer_x	= $94f6
+=$1c00					N_LOWLIMIT	= $1c00
+=$7a59					gm_read_rows	= $7a59
+=8					N_PLATFORM	= 8
+=$7dec					gm_bit		= $7dec
+=$6f70					gm_error_hex	= $6f70
+=$7512					gm_fn_done	= $7512
+=$a095					gfx_text_left	= $a095
+=7					WS_FILL		= 7
+=$9f38					gfx_left	= $9f38
+=$3d0c					N_VALUE		= $3d0c
+=$84e5					gm_editor_name	= $84e5
+=$86bb					gm_mwanted	= $86bb
+=32					N_APPOWNER	= 32
+=$adb1					bk_enter_failed	= $adb1
+=$9751					dc_open_failed	= $9751
+=$615f					gm_bind		= $615f
+=$13					N_LONGIMAGE	= $13
+=$9b16					gfx_clip_divide	= $9b16
+=$aa0b					bp_presented	= $aa0b
+=$9380					ae_read_pointer	= $9380
+=$84f5					gm_upnt		= $84f5
+=$946e					ae_menu_write	= $946e
+=$61					GM_ICON_SELECTED= $61
+=$9a77					gfx_clip_intersect= $9a77
+=$86a7					gm_prt_dev	= $86a7
+=12					WF_NEXTXYWH	= 12
+=$7bcb					gm_vslid	= $7bcb
+=$a668					pm_seen		= $a668
+=$8699					gm_mop_module	= $8699
+=29					N_ACCOWNER	= 29
+=$8170					gm_aesvc_name	= $8170
+=0					WS_CREATE	= 0
+=$6bff					gm_view_fail	= $6bff
+=$3d10					N_SLOTS		= $3d10
+=$9d97					gfx_band_failed	= $9d97
+=$9f1b					gfx_color	= $9f1b
+=0					UI_LENGTH	= 0
+=$8770					gm_rb		= $8770
+=$1c59					N_FEDIT		= $1c59
+=$944b					ae_post		= $944b
+=$9f2f					gfx_operation	= $9f2f
+=10					WF_TOP		= 10
+=$b193					bk_write_chunk	= $b193
+=$8648					gm_mod_names	= $8648
+=$6168					gm_aes_setup	= $6168
+=$abc5					bp_error	= $abc5
+=$84fd					gm_doc_kind	= $84fd
+=$98bc					dc_saved	= $98bc
+=$876f					gm_ra		= $876f
+=$705b					gm_drag_loop	= $705b
+=$9a5a					gfx_clip_high	= $9a5a
+=$9711					dc_read		= $9711
+=$1c3b					N_KEYIN		= $1c3b
+=$9adb					gfx_glyph_unclipped= $9adb
+=$a019					gfx_text_advance= $a019
+=$7480					gm_ult_scan_fail= $7480
+=$1c38					N_LAUNCH	= $1c38
+=$6ab0					gm_rec_src2	= $6ab0
+=$86f9					gm_gap		= $86f9
+=$86f2					gm_count	= $86f2
+=$94a1					ae_session_read	= $94a1
+=4					GM_KEYCLICK	= 4
+=$974e					dc_close_failed	= $974e
+=$9f35					gfx_xbyte	= $9f35
+=$988f					dc_code2	= $988f
+=$9a4a					gfx_clip_zero	= $9a4a
+=$a577					pm_right	= $a577
+=$8817					gm_bend		= $8817
+=$a79c					nk_codes	= $a79c
+=14					N_ABI_MINOR	= 14
+=$7182					gm_session_window= $7182
+=$8099					gm_mulrec	= $8099
+=$ab20					bp_iec_name	= $ab20
+=$7d5b					gm_select_index	= $7d5b
+=$a677					pm_event	= $a677
+=$7665					gm_not_usb	= $7665
+=3					N_NOSLOT	= 3
+=$91d5					ae_unload	= $91d5
+=$15					N_CHANNELS	= $15
+=$94af					ae_dclick	= $94af
+=$3d27					N_APPERROR	= $3d27
+=$3e00					N_BROWSERNAME	= $3e00
+=$9ea2					gfx_aligned_write= $9ea2
+=5					UI_VIEW40	= 5
+=$3900					NPAGES1		= $3900
+=$3800					NPAGES0		= $3800
+=$9434					ae_km_set_y	= $9434
+=$b145					bk_select_file	= $b145
+=0					BP_STATE_STORAGE= 0
+=$a66b					pm_sample_line	= $a66b
+=$95fa					gm_paths	= $95fa
+=$9f31					gfx_offset	= $9f31
+=2					N_NOMEM		= 2
+=$aeae					bk_handle	= $aeae
+=$9864					dc_device	= $9864
+=7					N_U_IP		= 7
+=$9271					ae_event_sample	= $9271
+=$819a					gm_icon_y	= $819a
+=9					GM_REC_COUNT	= 9
+=$86f4					gm_drag		= $86f4
+=$881b					gm_s_items	= $881b
+=$85a1					gm_s_usbhex	= $85a1
+=$97f3					dc_close	= $97f3
+=$aead					bk_state	= $aead
+=$9c7d					gfx_mask_last	= $9c7d
+=$9b36					gfx_color_rows	= $9b36
+=$9e0b					gfx_band_set	= $9e0b
+=$68b7					gm_df_next	= $68b7
+=17					WF_DESKCOLOR	= 17
+=$68bf					gm_df_none	= $68bf
+=$1c65					N_MCLOSE	= $1c65
+=$3a00					N_BUFFER	= $3a00
+=$6a2f					gm_load_chunk	= $6a2f
+=$3d97					N_DPAGE		= $3d97
+=$61fa					gm_open_iec	= $61fa
+=$86e1					gm_mbit		= $86e1
+=$766e					gm_usb_error	= $766e
+=$7873					gm_peek_done	= $7873
+=$0800					WK_HSLIDE	= $0800
+=$9f3d					gfx_first	= $9f3d
+=$a67b					pm_columns	= $a67b
+=$ac5c					bk_return	= $ac5c
+=$6afb					gm_ins_inner	= $6afb
+=$3d15					N_LASTKEY	= $3d15
+=$7bbc					gm_max_top	= $7bbc
+=$a00f					gfx_text_saturate= $a00f
+=$a67c					pm_previous	= $a67c
+=31					N_CLIPOWNER	= 31
+=$adc9					bk_check_tails	= $adc9
+=$98c6					dc_eoi		= $98c6
+=40					DC_MAX		= 40
+=$9760					dc_blocks_free	= $9760
+=$8425					gm_about	= $8425
+=$3d0a					N_COUNT		= $3d0a
+=$8794					gm_win_count	= $8794
+=$9f18					gfx_y1		= $9f18
+=$9f14					gfx_y0		= $9f14
+=$9f3b					gfx_old		= $9f3b
+=$aeca					bk_saved_regs	= $aeca
+=6					GM_GAP_COUNT	= 6
+=$3d8b					N_FACTUAL	= $3d8b
+=$6d15					gm_info_page	= $6d15
+=$9b45					gfx_color_multiply= $9b45
+=$abd5					vd_pages	= $abd5
+=$b1c8					bk_crc_buffer	= $b1c8
+=$3d92					N_FPOSITION	= $3d92
+=$b220					bk_prefix	= $b220
+=$6f63					gm_del_badname	= $6f63
+=$6e25					gm_delete_slot	= $6e25
+=$6bd3					gm_menu_view	= $6bd3
+=$7386					gm_path_to_upath= $7386
+=0					BP_MODE		= 0
+=$a66f					pm_old		= $a66f
+=$99d9					gfx_begin	= $99d9
+=6					N_RANGE		= 6
+=$6746					gm_open_selection= $6746
+=$86f6					gm_vslot	= $86f6
+=$7656					gm_title_ok	= $7656
+=$6165					pm_find_hit	= $6165
+=$3d80					N_FOWNER	= $3d80
+=$8160					gm_hex_digits	= $8160
+=$63bb					gm_redraw_desktop= $63bb
+=$3d22					N_NAMELEN	= $3d22
+=$662f					gm_redraw_icon_cells= $662f
+=$a7a6					nk_saved_keys	= $a7a6
+=$b0f0					bk_checksum	= $b0f0
+=1					AE_MAJOR	= 1
+=$a026					gfx_load_glyph	= $a026
+=$9d5a					gfx_xor_store	= $9d5a
+=$8798					gm_win_top	= $8798
+=$abed					vs_token	= $abed
+=$800d					gm_top_slot	= $800d
+=$699c					gm_scan_end	= $699c
+=$755e					gm_ult_rescan	= $755e
+=$9893					dc_status_length= $9893
+=7					AE_OP_MENU_SET	= 7
+=$7870					gm_peek_close	= $7870
+=5					N_WRONGOWNER	= 5
+=$1c47					N_FWRITE	= $1c47
+=24					WM_ARROWED	= 24
+=$8768					gm_art		= $8768
+=$97c7					dc_listed	= $97c7
+=$0200					WK_LFARROW	= $0200
+=$9c47					gfx_read_row	= $9c47
+=$625a					gm_anum32	= $625a
+=$aec6					bk_service	= $aec6
+=$abda					vd_saved	= $abda
+=$1c71					N_UCOMMAND	= $1c71
+=$86fa					gm_gapi		= $86fa
+=$1c44					N_FREAD		= $1c44
+=$8107					gm_decimal4	= $8107
+=$80f9					gm_decimal2	= $80f9
+=$b23c					gm_end		= $b23c
+=$94ee					ae_ev_key	= $94ee
+=1					AE_POINTER	= 1
+=$8393					gm_gaps		= $8393
+=$8425					gm_bad_chars_end= $8425
+=8					GM_NOOVERASK	= 8
+=$b131					bk_close_source	= $b131
+=4					WS_SET		= 4
+=9					GM_MOP_NEWFOLDER= 9
+=$aec9					bk_saved_rcr	= $aec9
+=21					WM_TOPPED	= 21
+=$6861					gm_drive_format	= $6861
+=4					WF_WORKXYWH	= 4
+=$a994					vd_close	= $a994
+=0					pm_control_count= 0
+=4					AE_CAP_MENU	= 4
+=$98c9					dc_dollar	= $98c9
+=27					WM_SIZED	= 27
+=$aec4					bk_error	= $aec4
+=$aeba					bk_current	= $aeba
+=$85bd					gm_restoring	= $85bd
+=$6a1c					gm_resort_slot	= $6a1c
+=$a62e					pm_positive	= $a62e
+=$942a					ae_km_up	= $942a
+=$3d96					N_FFORMAT	= $3d96
+=$4000					AC_BASE		= $4000
+=2					AE_OP_ALERT	= 2
+=$768e					gm_ult_delete	= $768e
+=$0100					WK_VSLIDE	= $0100
+=$614c					gm_setup_done	= $614c
+=$a634					pm_no_delta	= $a634
+=$9fef					gfx_text_unknown= $9fef
+=$9e7e					gfx_aligned_clear= $9e7e
+=$8605					gm_magic	= $8605
+=$6739					gm_print_screen	= $6739
+=64					GM_RECORD_SIZE	= 64
+=25					WM_HSLID	= 25
+=$9a3f					gfx_clip_limit	= $9a3f
+=16					AC_PAGES	= 16
+=$84ad					gm_drive_alert_hex= $84ad
+=$10					N_BADIMAGE	= $10
+=$6bc1					gm_fa		= $6bc1
+=$6bc5					gm_fb		= $6bc5
+=$3d40					N_APPNAME	= $3d40
+=$9ff1					gfx_text_code	= $9ff1
+=$a448					pm_install_return= $a448
+=$0008					WK_MOVER	= $0008
+=$a04a					gfx_text_load	= $a04a
+=$b0eb					bk_short_image	= $b0eb
+=$86d7					gm_file		= $86d7
+=$9fd1					gfx_text_failed	= $9fd1
+=$876e					gm_t8		= $876e
+=$b17d					bk_io_return	= $b17d
+=$1076					pk_restore_columns= $1076
+=$9d00					gfx_write_row	= $9d00
+=$9e97					gfx_aligned_copy= $9e97
+=$63a5					gm_redraw_window= $63a5
+=$1c50					N_DIRPAGE	= $1c50
+=4					N_BADHANDLE	= 4
+=10					MN_SELECTED	= 10
+=$c000					AE_LIMIT	= $c000
+=$3d1b					N_MSTATE	= $3d1b
+=$a66e					BP_POINTER_Y	= $a66e
+=$a66c					BP_POINTER_X	= $a66c
+=$3f00					N_SOURCEPATH	= $3f00
+=$9892					dc_byte		= $9892
+=$a67d					pm_sample	= $a67d
+=$1c2c					gfx_heap_fill	= $1c2c
+=$6e2f					gm_delete_one	= $6e2f
+=$819f					gm_icon_art	= $819f
+=$7e5a					gm_select_all	= $7e5a
+=$78c6					gm_suffix_no	= $78c6
+=$a5b8					pm_top		= $a5b8
+=$3d9a					N_DOCREQUEST	= $3d9a
+=$73bf					gm_ult_open	= $73bf
+=0					PM_KEYS_EXTERNAL= 0
+=$a673					pm_buttons	= $a673
+=$9ce6					gfx_store	= $9ce6
+=10					GM_REC_WINDOWS	= 10
+=3					WS_DELETE	= 3
+=$3d1a					N_MERROR	= $3d1a
+=$a668					BP_POINTER_STATE= $a668
+=0					NK_SAVED_BUFFER	= 0
+=64					AE_CAP_ACC	= 64
+=$6402					gm_icons_done	= $6402
+=$6f6c					gm_del_error	= $6f6c
+=$94f0					ae_ev_tick	= $94f0
+=$7349					gm_path_io	= $7349
+=$74b9					gm_fn_found	= $74b9
+=$98c5					dc_sa		= $98c5
+=$65ad					gm_click_at	= $65ad
+=$9968					gfx_rect	= $9968
+=$97d2					dc_get		= $97d2
+=$7f36					gm_band_row	= $7f36
+=$3d03					N_PAGE		= $3d03
+=$9f4b					gfx_band_allowed= $9f4b
+=$66ca					gm_menu_choice	= $66ca
+=1					UI_CARET	= 1
+=$9e99					gfx_aligned_copy_next= $9e99
+=$6237					gm_close_file	= $6237
+=$6e81					gm_del_ask	= $6e81
+=9					N_CORRUPT	= 9
+=$8375					gm_s_files	= $8375
+=$68c2					gm_scan		= $68c2
+=$b0fa					bk_close	= $b0fa
+=$aec1					bk_entry	= $aec1
+=$a5ba					pm_set_y	= $a5ba
+=$a585					pm_set_x	= $a585
+=$9af3					gfx_store_clip_next= $9af3
+=$a9e7					bp_return	= $a9e7
+=$9a27					gfx_clip_next	= $9a27
+=$a5bd					pm_hit_test	= $a5bd
+=$838d					gm_s_ok		= $838d
+=$9f33					gfx_span	= $9f33
+=$6763					gm_open_icon	= $6763
+=$10a9					pk_rejects	= $10a9
+=$1c29					N_WRITE		= $1c29
+=$62ee					gm_leave	= $62ee
+=$a588					pm_vertical	= $a588
+=$6ba3					gm_cmp_out	= $6ba3
+=$85c2					gm_spos		= $85c2
+=$1c29					gfx_heap_write	= $1c29
+=$9f27					gfx_clipped	= $9f27
+=$3d60					N_APPHEADER	= $3d60
+=$aebf					bk_length	= $aebf
+=16					MU_MESAG	= 16
+=$16					GM_SELECTED	= $16
+=$abbc					vm_pending	= $abbc
+=$9d94					gfx_band_done	= $9d94
+=$3d90					N_FSTATUS	= $3d90
+=$79bc					gm_rows_done	= $79bc
+=$94f2					ae_surface	= $94f2
+=$9ee8					gfx_select	= $9ee8
+=$c000					BK_LIMIT	= $c000
+=$a055					gfx_text_buffer	= $a055
+=$847f					gm_start_alert_hex= $847f
+=$8399					gm_s_delete	= $8399
+=$a9de					bp_close_failed	= $a9de
+=$7058					gm_drag_track	= $7058
+=$a097					gfx_text_high	= $a097
+=$963e					dc_command	= $963e
+=$1c35					N_RESERVE	= $1c35
+=$86ba					gm_mloaded	= $86ba
+=$9d7b					gfx_band_write	= $9d7b
+=$8765					gm_cy		= $8765
+=25					GM_BITS		= 25
+=$7808					gm_peek		= $7808
+=$9fb1					gfx_text	= $9fb1
+=$9e8f					gfx_aligned_store= $9e8f
+=$9d46					gfx_band_xor	= $9d46
+=$81ca					gm_label_usb	= $81ca
+=$6338					gm_alert_done	= $6338
+=$877a					gm_ww		= $877a
+=$9f30					gfx_y		= $9f30
+=$96e6					dc_status_read	= $96e6
+=$8779					gm_wy		= $8779
+=$8778					gm_wx		= $8778
+=$729a					gm_module_fail	= $729a
+=$8d04					ae_state	= $8d04
+=$b0e1					bk_bad_image	= $b0e1
+=5					WF_CURRXYWH	= 5
+=$b182					bk_select_code	= $b182
+=$877b					gm_wh		= $877b
+=$abc2					bp_started	= $abc2
+=$6098					gm_fatal_text	= $6098
+=$3d30					N_BROWSERPOS	= $3d30
+=$933d					ae_wait_moved	= $933d
+=$94fa					gm_path		= $94fa
+=$6838					gm_open_fail	= $6838
+=$0001					WK_NAME		= $0001
+=2					GM_NOCOPYASK	= 2
+=13					AE_OP_COUNT	= 13
+=$804b					gm_free_slot	= $804b
+=$14					N_CHECKSUM	= $14
+=10					AE_OP_SESSION	= 10
+=$7e06					gm_first_sel	= $7e06
+=$3d04					N_HANDLE	= $3d04
+=$6ce0					gm_info_icon	= $6ce0
+=127					DC_LFN		= 127
+=$9b18					gfx_clip_shift	= $9b18
+=$93d5					ae_km_move	= $93d5
+=$3d35					N_UIPTR		= $3d35
+=$9ee1					gfx_glyph_second_visible= $9ee1
+=$9e35					gfx_aligned_glyph= $9e35
+=$78c8					gm_paint_window	= $78c8
+=32					MU_TIMER	= 32
+=$8700					AE_BASE		= $8700
+=$7714					gm_iec_document	= $7714
+=$abe9					vd_pointer_x	= $abe9
+=$9357					ae_wait_time	= $9357
+=$5000					gm_rows		= $5000
+=$8847					gm_order	= $8847
+=$3d81					N_FHANDLE	= $3d81
+=$740a					gm_scan_ult	= $740a
+=$7933					gm_paint_reset	= $7933
+=$1068					pk_read_key	= $1068
+=2					WF_NAME		= 2
+=32					NSLOTS		= 32
+=$994c					gfx_finish	= $994c
+=$8769					gm_row		= $8769
+=$0010					WK_INFO		= $0010
+=$50					N_FIRST0	= $50
+=$abf7					bp_backend_pending= $abf7
+=$aec8					bk_carry	= $aec8
+=$9cab					gfx_load	= $9cab
+=$6fcd					gm_fail_head	= $6fcd
+=$6db7					gm_astr		= $6db7
+=$a5b4					pm_bottom	= $a5b4
+=$6680					gm_key_move	= $6680
+=$3d86					N_FNAMELEN	= $3d86
+=11					WF_FIRSTXYWH	= 11
+=$10ab					pk_columns	= $10ab
+=$8a4b					aes		= $8a4b
+=23					WM_FULLED	= 23
+=$a4a6					pm_settling	= $a4a6
+=$926b					ae_event_next	= $926b
+=121					GM_PRT_LFN	= 121
+=$6000					gm_image	= $6000
+=$8763					gm_item		= $8763
+=9					WS_OUTLINE	= 9
+=$72cd					gm_ult_probe	= $72cd
+=$9f4f					gfx_clip_pixels	= $9f4f
+=$aa55					bp_invoke	= $aa55
+=$9de8					gfx_band_load	= $9de8
+=$3d89					N_FCOUNT	= $3d89
+=$c000					N_APPLIMIT	= $c000
+=$6772					gm_open_drive	= $6772
+=$6891					gm_df_scan	= $6891
+=$9fb1					gfx_end		= $9fb1
+=$10a7					pk_next		= $10a7
+=$9de5					gfx_band_mask_ready= $9de5
+=$1074					pk_accept	= $1074
+=$b23a					bk_crc_left	= $b23a
+=$abbd					bp_file		= $abbd
+=$6c85					gm_aname_done	= $6c85
+=$70f2					gm_release_done	= $70f2
+=$b156					bk_read_chunk	= $b156
+=$86f5					gm_view		= $86f5
+=$a533					pm_absent	= $a533
+=$9db5					gfx_band_masked	= $9db5
+=$8143					gm_hex_error	= $8143
+=$6fe6					gm_refresh_loop	= $6fe6
+=0					GFX_FONT_COLUMNS= 0
+=$785e					gm_peek_sheet	= $785e
+=$3d02					N_BANK		= $3d02
+=$9b2a					gfx_clip_defaults= $9b2a
+=$76d2					gm_ult_del_error= $76d2
+=2					N_U_DRIVES	= 2
+=$4000					N_SERVICEBASE	= $4000
+=$7c18					gm_repaint_all	= $7c18
+=$3d21					N_DEVICE	= $3d21
+=$86df					gm_dev		= $86df
+=$676e					gm_open_none	= $676e
+=$9f57					gfx_clip_cells	= $9f57
+=$793b					gm_draw_rows	= $793b
+=$661d					gm_click_done	= $661d
+=1					GM_MOP_INFO	= 1
+=$a473					pm_poll		= $a473
+=$a096					gfx_text_index	= $a096
+=$76c0					gm_ult_del_unknown= $76c0
+=$b232					bk_count	= $b232
+=$8764					gm_cx		= $8764
+=$793a					gm_paint_done	= $793a
+=$98ee					sd_click	= $98ee
+=$1c6e					N_UQUERY	= $1c6e
+=$923f					ae_alert_step	= $923f
+=$3d17					N_MTOKEN	= $3d17
+=$9cdb					gfx_copy	= $9cdb
+=$aace					bp_load		= $aace
+=$1c56					N_WORKSPACE	= $1c56
+=$b23c					gm_module	= $b23c
+=$1c4d					N_FRELEASE	= $1c4d
+=$9cc7					gfx_clear	= $9cc7
+=$3c00					NHANDLES	= $3c00
+=$aec5					bk_operation	= $aec5
+=$a9aa					bp_dispose	= $a9aa
+=$b1de					bk_crc_get	= $b1de
+=$9957					gfx_success	= $9957
+=$693f					gm_scan_record	= $693f
+=$abcf					bp_state	= $abcf
+=$abd2					vd_fault	= $abd2
+=$9f3f					gfx_bits	= $9f3f
+=28					WM_MOVED	= 28
+=3					GM_MOP_FORMAT	= 3
+=$809b					gm_mul		= $809b
+=$7e2a					gm_each		= $7e2a
+=$95fe					gm_rec_addr	= $95fe
+=$abf5					ru_active	= $abf5
+=$9aec					gfx_empty	= $9aec
+=$3d39					N_UIFLAGS	= $3d39
+=$997a					gfx_glyph	= $997a
+=$8615					gm_inf_scratch	= $8615
+=$853f					gm_nlen		= $853f
+=$94c7					ae_dirty	= $94c7
+=$9372					ae_wait_done	= $9372
+=$6403					gm_draw_icons	= $6403
+=$86fd					gm_pos		= $86fd
+=$609b					gm_surface_setup= $609b
+=$87a4					gm_win_bits	= $87a4
+=$3d00					N_OWNER		= $3d00
+=21					GM_RECORD	= 21
+=$ae91					bk_services	= $ae91
+=$8185					gm_types	= $8185
+=$3d11					N_BUSY		= $3d11
+=$7940					gm_row_loop	= $7940
+=$62a7					gm_dirty_from	= $62a7
+=$86ff					gm_cmpb		= $86ff
+=$6f94					gm_status_text	= $6f94
+=$94a5					ae_session_write= $94a5
+=$3d2c					N_APPFORMAT	= $3d2c
+=$9f23					gfx_limits	= $9f23
+=$913c					ae_detach	= $913c
+=1					AE_CAP_ALERT	= 1
+=$9e00					gfx_band_clear	= $9e00
+=24					GM_CHUNK	= 24
+=$1300					N_LOWBASE	= $1300
+=$817e					gm_drive_title	= $817e
+=$61					GM_PAPER	= $61
+=$abe8					vd_pointer_visible= $abe8
+=0					PM_SECONDARY	= 0
+=$8780					gm_clip		= $8780
+=5					GM_ICONS	= 5
+=$04					N_FIRST1	= $04
+=$aebe					bk_pages	= $aebe
+=3					WF_INFO		= 3
+=$996e					gfx_colors	= $996e
+=$6b9e					gm_cmp_ordinal	= $6b9e
+=9					AE_OP_SHUTDOWN	= 9
+=$736e					gm_pr		= $736e
+=$76d5					gm_ucmd		= $76d5
+=$7beb					gm_scroll_to_selection= $7beb
+=$1c32					N_RELEASE	= $1c32
+=$6f91					gm_del_status	= $6f91
+=$8774					gm_mul_b	= $8774
+=$8773					gm_mul_a	= $8773
+=$70ea					gm_drop		= $70ea
+=$7da7					gm_select_set	= $7da7
+=$6233					gm_open_bad	= $6233
+=$6dd5					gm_anum		= $6dd5
+=$aa18					bp_ok		= $aa18
+=$8062					gm_select_mem	= $8062
+=$988e					dc_code		= $988e
+=$786d					gm_peek_kind	= $786d
+=$7c36					gm_update_slider= $7c36
+=$9f3a					gfx_mask	= $9f3a
+=$7216					gm_file_select	= $7216
+=$3d8d					N_FEOF		= $3d8d
+=$6ba7					gm_cmp_raw	= $6ba7
+=$9974					gfx_set_clip	= $9974
+=$3d88					N_FTYPE		= $3d88
+=$4f00					N_USTATUS	= $4f00
+=$3d87					N_FMODE		= $3d87
+=4					AE_OP_EVENT	= 4
+=$3d26					N_IOSTATUS	= $3d26
+=$8766					gm_i		= $8766
+=$86f7					gm_k		= $86f7
+=$8767					gm_j		= $8767
+=$9863					dc_field_done	= $9863
+=$86fe					gm_other	= $86fe
+=$86e2					gm_q		= $86e2
+=$86fb					gm_i2		= $86fb
+=$9d9a					gfx_band_select	= $9d9a
+=$6c71					gm_aname	= $6c71
+=$7279					gm_module_call	= $7279
+=$967b					dc_begin	= $967b
+=$9204					ae_register	= $9204
+=$6adc					gm_sort		= $6adc
+=$8a4b					ae_call		= $8a4b
+=8					MU_M2		= 8
+=$9af1					gfx_store_clip	= $9af1
+=$3d8e					N_FERROR	= $3d8e
+=$85ad					gm_s_free	= $85ad
+=$7b67					gm_arrowed	= $7b67
+=$81bc					gm_label_9	= $81bc
+=10					WS_TEXT		= 10
+=$71e7					gm_session_save	= $71e7
+=$a79b					nk_active	= $a79b
+=$7626					gm_title_usb	= $7626
+=$9894					dc_status	= $9894
+=$9f1a					gfx_pen		= $9f1a
+=7					N_REENTRANT	= 7
+=$72e9					gm_prt_probe	= $72e9
+=$765d					gm_title_end	= $765d
+=$81ad					gm_icon_label_lo= $81ad
+=$755b					gm_ult_enter	= $755b
+=$66a5					gm_key_set	= $66a5
+=$6d68					gm_info_sum	= $6d68
+=$a671					pm_pots		= $a671
+=$860a					gm_inf_name	= $860a
+=$aba3					vm_rows		= $aba3
+=$3d3d					N_UARG		= $3d3d
+=$a9e8					vm_present	= $a9e8
+=3					UI_BUFFER	= 3
+=$7623					gm_title_set	= $7623
+=$0002					WK_CLOSER	= $0002
+=$9a51					gfx_clip_copy	= $9a51
+=$6b41					gm_compare	= $6b41
+=$930a					ae_event_fired	= $930a
+=$9f36					gfx_columns	= $9f36
+=5					GM_MOP_USBINFO	= 5
+=$9f1c					gfx_error	= $9f1c
+=$6aa3					gm_chunk_next	= $6aa3
+=$5000					N_SERVICELIMIT	= $5000
+=$7874					gm_text_suffix	= $7874
+=$880c					gm_bitmask	= $880c
+=$7fd6					gm_launch_fail	= $7fd6
+=4					GM_MOP_CONTROL	= 4
+=$9e6c					gfx_aligned_ink	= $9e6c
+=$a390					pm_install	= $a390
+=8					GM_MOP_SAVEDESK	= 8
+=$7c90					gm_wset_simple	= $7c90
+=$85c5					gm_session	= $85c5
+=$8847					gm_dirpage	= $8847
+=$836a					gm_s_blocks	= $836a
+=$86aa					gm_lock_name	= $86aa
+=$9824					dc_field_track	= $9824
+=$94cb					ae_ev_params	= $94cb
+=1					FO_PRESENT	= 1
+=1					BP_TRACK_DIRTY	= 1
+=$abf8					bk_call		= $abf8
+=$6c73					gm_info_name	= $6c73
+=$9ec6					gfx_glyph_shift	= $9ec6
+=$83ee					gm_badname_alert= $83ee
+=$6eb4					gm_del_go	= $6eb4
+=26					WM_VSLID	= 26
+=7					UI_FILTER	= 7
+=$a9f7					vd_select	= $a9f7
+=$86a6					gm_alert_default= $86a6
+=$749e					gm_fn_next	= $749e
+=32					BK_OWNER	= 32
+=$81b7					gm_label_boot	= $81b7
+=$7767					gm_usb_document	= $7767
+=$9a03					gfx_pixel_limits= $9a03
+=$a981					bp_open_failed	= $a981
+=$6dec					gm_read_record	= $6dec
+=$5000					gm_sortbuf	= $5000
+=$a021					gfx_text_done	= $a021
+=$a67f					pm_init_saved	= $a67f
+=16					WF_VSLSIZE	= 16
+=$acd3					bk_service_bad	= $acd3
+=$84f9					gm_usht		= $84f9
+=$aa1c					bp_fault	= $aa1c
+=$7478					gm_ult_scan_done= $7478
+=0					BP_SHARED_MEMORY= 0
+=$a62f					pm_delta_done	= $a62f
+=$946b					ae_menu_read	= $946b
+=$b0d7					bk_load_success	= $b0d7
+=$9890					dc_track	= $9890
+=$6339					gm_alert_rows	= $6339
+=$1c62					N_MCALL		= $1c62
+=$81a4					gm_icon_on	= $81a4
+=$698b					gm_scan_skip	= $698b
+=$81ce					gm_label_printer= $81ce
+=$9d1c					gfx_band	= $9d1c
+=1					MU_KEYBD	= 1
+=$83e4					gm_s_bar	= $83e4
+=$a67e					pm_high		= $a67e
+=$3d2f					N_DESKTOPSEL	= $3d2f
+=16					AE_CAP_SESSION	= 16
+=$9a1d					gfx_limits_y	= $9a1d
+=$b0e6					bk_long_image	= $b0e6
+=$a544					pm_move		= $a544
+=16					GM_PAGES	= 16
+=$3d91					N_FBUSY		= $3d91
+=$86f3					gm_page		= $86f3
+=$990c					gfx_bind	= $990c
+=$9fe1					gfx_text_next	= $9fe1
+=$8788					gm_win_handle	= $8788
+=$6c0b					gm_view_checks	= $6c0b
+=$7aa0					gm_read_none	= $7aa0
+=$6fe1					gm_refresh_drive= $6fe1
+=$3d8f					N_FDOS		= $3d8f
+=$8456					gm_start_alert	= $8456
+=$6cdd					gm_info_fail	= $6cdd
+=$a97d					bp_open_bad	= $a97d
+=$8784					gm_rect		= $8784
+=$3d34					N_BROWSERNAME_LEN= $3d34
+=$b234					bk_offset	= $b234
+=$8771					gm_num		= $8771
+=7					WF_FULLXYWH	= 7
+=$98c7					dc_free		= $98c7
+=$0400					WK_RTARROW	= $0400
+=$614d					pm_select_surface= $614d
+=$9f4e					gfx_band_first	= $9f4e
+=$79bd					gm_rows_fail	= $79bd
+=$9fcf					gfx_text_badarg	= $9fcf
+=$9b2c					gfx_clip_reset_next= $9b2c
+=0					NK_LOCAL_HELP	= 0
+=$6bc9					gm_name_key	= $6bc9
+
+;******  Return to file: src/native/gemdesk-ses.asm
+
+.b23c					gm_ses:
+>b23c	4e 4d 4f 44			        .text "nmod"
+>b240	01 01 0e 00			        .byte 1,1,14,0
+>b244	76 0a				        .word gm_ses_end-gm_ses
+>b246	00 00				        .word 0
+>b248	10 00				        .word ses.entry-gm_ses
+>b24a	00 00				        .word 0
+.b24c					ses
+.b24c					entry:
+.b24c	ad 44 86	lda $8644	        lda gm_mop
+.b24f	c9 07		cmp #$07	        cmp #GM_MOP_RESTORE
+.b251	f0 03		beq $b256	        beq gm_restore
+.b253	4c df b3	jmp $b3df	        jmp gm_save_desktop
+.b256					gm_restore:
+.b256	20 53 b4	jsr $b453	        jsr acc_start           ; the desk accessory first: the menu shows it
+.b259	a9 ff		lda #$ff	        lda #$ff                ; the AES's current double-click speed
+.b25b	20 af 94	jsr $94af	        jsr ae_dclick
+.b25e	b0 03		bcs $b263	        bcs +
+.b260	8d 09 86	sta $8609	        sta gm_dclick
+.b263	20 a1 94	jsr $94a1	+       jsr ae_session_read
+.b266	b0 10		bcs $b278	        bcs gm_restore_file
+.b268	a2 3f		ldx #$3f	        ldx #GM_RECORD_SIZE-1
+.b26a	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b26d	9d c5 85	sta $85c5,x	        sta gm_session,x
+.b270	ca		dex		        dex
+.b271	10 f7		bpl $b26a	        bpl -
+.b273	20 39 b3	jsr $b339	        jsr gm_session_valid
+.b276	90 08		bcc $b280	        bcc gm_restore_apply
+.b278					gm_restore_file:
+.b278	20 5c b3	jsr $b35c	        jsr gm_load_desktop
+.b27b	90 03		bcc $b280	        bcs gm_restore_color
+.b27d	4c fe 71	jmp $71fe
+.b280					gm_restore_apply:
+.b280	ad c9 85	lda $85c9	        lda gm_session+4
+.b283	29 1f		and #$1f	        and #1|GM_NOCOPYASK|GM_KEYCLICK|GM_NOOVERASK|GM_BELL
+.b285	8d e4 84	sta $84e4	        sta gm_confirm
+.b288	ad ca 85	lda $85ca	        lda gm_session+5
+.b28b	8d f5 86	sta $86f5	        sta gm_view
+.b28e	ad cb 85	lda $85cb	        lda gm_session+6
+.b291	8d bc 85	sta $85bc	        sta gm_desk_color
+.b294	ad cc 85	lda $85cc	        lda gm_session+7
+.b297	8d 22 0a	sta $0a22	        sta $0a22               ; key repeat
+.b29a	ad cd 85	lda $85cd	        lda gm_session+8
+.b29d	8d 09 86	sta $8609	        sta gm_dclick
+.b2a0	20 af 94	jsr $94af	        jsr ae_dclick
+.b2a3	ad 01 86	lda $8601	        lda gm_session+GM_REC_PRINTER   ; the printer (records saved before hold 0:
+.b2a6	c9 04		cmp #$04	        cmp #4                          ; device 4, as the start probed)
+.b2a8	f0 04		beq $b2ae	        beq +
+.b2aa	c9 05		cmp #$05	        cmp #5
+.b2ac	d0 0e		bne $b2bc	        bne ++
+.b2ae	8d a7 86	sta $86a7	+       sta gm_prt_dev
+.b2b1	ad 02 86	lda $8602	        lda gm_session+GM_REC_PRINTER+1
+.b2b4	29 07		and #$07	        and #7                  ; 7 or 0
+.b2b6	8d a8 86	sta $86a8	        sta gm_prt_sa
+.b2b9	20 e9 72	jsr $72e9	        jsr gm_prt_probe        ; its icon; the desktop is repainted at the end
+.b2bc	a9 01		lda #$01	+       lda #1
+.b2be	8d bd 85	sta $85bd	        sta gm_restoring
+.b2c1	a9 00		lda #$00	        lda #0
+.b2c3	8d c3 85	sta $85c3	        sta gm_sslot            ; record index
+.b2c6	a9 0a		lda #$0a	        lda #GM_REC_WINDOWS
+.b2c8	8d c2 85	sta $85c2	        sta gm_spos
+.b2cb					gm_restore_loop:
+.b2cb	ad c3 85	lda $85c3	        lda gm_sslot
+.b2ce	cd ce 85	cmp $85ce	        cmp gm_session+GM_REC_COUNT
+.b2d1	b0 5e		bcs $b331	        bcs gm_restore_done
+.b2d3	ac c2 85	ldy $85c2	        ldy gm_spos
+.b2d6	b9 c5 85	lda $85c5,y	        lda gm_session,y
+.b2d9	8d df 86	sta $86df	        sta gm_dev
+.b2dc	b9 c6 85	lda $85c6,y	        lda gm_session+1,y
+.b2df	8d e0 86	sta $86e0	        sta gm_fmt
+.b2e2	a2 00		ldx #$00	        ldx #0
+.b2e4	b9 c7 85	lda $85c7,y	-       lda gm_session+2,y
+.b2e7	9d be 85	sta $85be,x	        sta gm_orect,x
+.b2ea	c8		iny		        iny
+.b2eb	e8		inx		        inx
+.b2ec	e0 04		cpx #$04	        cpx #4
+.b2ee	d0 f4		bne $b2e4	        bne -
+.b2f0	20 72 67	jsr $6772	        jsr gm_open_drive       ; nothing opens if the drive cannot be read now
+.b2f3	ae de 86	ldx $86de	        ldx gm_slot
+.b2f6	bd 88 87	lda $8788,x	        lda gm_win_handle,x
+.b2f9	f0 27		beq $b322	        beq gm_restore_next
+.b2fb	20 a2 7a	jsr $7aa2	        jsr gm_work
+.b2fe	20 bc 7b	jsr $7bbc	        jsr gm_max_top
+.b301	ac c2 85	ldy $85c2	        ldy gm_spos
+.b304	d9 cb 85	cmp $85cb,y	        cmp gm_session+6,y      ; the saved top row, if the listing still has it
+.b307	90 03		bcc $b30c	        bcc +
+.b309	b9 cb 85	lda $85cb,y	        lda gm_session+6,y
+.b30c	ae de 86	ldx $86de	+       ldx gm_slot
+.b30f	9d 98 87	sta $8798,x	        sta gm_win_top,x
+.b312	b9 cc 85	lda $85cc,y	        lda gm_session+7,y
+.b315	dd 94 87	cmp $8794,x	        cmp gm_win_count,x
+.b318	90 02		bcc $b31c	        bcc +
+.b31a	a9 ff		lda #$ff	        lda #$ff
+.b31c	20 a7 7d	jsr $7da7	+       jsr gm_select_set
+.b31f	20 36 7c	jsr $7c36	        jsr gm_update_slider
+.b322					gm_restore_next:
+.b322	ad c2 85	lda $85c2	        lda gm_spos
+.b325	18		clc		        clc
+.b326	69 08		adc #$08	        adc #8
+.b328	8d c2 85	sta $85c2	        sta gm_spos
+.b32b	ee c3 85	inc $85c3	        inc gm_sslot
+.b32e	4c cb b2	jmp $b2cb	        jmp gm_restore_loop
+.b331					gm_restore_done:
+.b331	a9 00		lda #$00	        lda #0
+.b333	8d bd 85	sta $85bd	        sta gm_restoring
+.b336	4c fe 71	jmp $71fe	        jmp gm_restore_color    ; (in the core: Preferences uses it too)
+.b339					gm_session_valid:
+.b339	a2 03		ldx #$03	        ldx #3
+.b33b	bd c5 85	lda $85c5,x	-       lda gm_session,x
+.b33e	dd 05 86	cmp $8605,x	        cmp gm_magic,x
+.b341	d0 17		bne $b35a	        bne +
+.b343	ca		dex		        dex
+.b344	10 f5		bpl $b33b	        bpl -
+.b346	ad ca 85	lda $85ca	        lda gm_session+5
+.b349	c9 04		cmp #$04	        cmp #4
+.b34b	b0 0d		bcs $b35a	        bcs +
+.b34d	ad cd 85	lda $85cd	        lda gm_session+8        ; double-click speed 0..4
+.b350	c9 05		cmp #$05	        cmp #5
+.b352	b0 06		bcs $b35a	        bcs +
+.b354	ad ce 85	lda $85ce	        lda gm_session+GM_REC_COUNT
+.b357	c9 05		cmp #$05	        cmp #GM_WINDOWS+1
+.b359	60		rts		        rts                     ; carry clear when at most four windows
+.b35a	38		sec		+       sec
+.b35b	60		rts		        rts
+.b35c					gm_load_desktop:
+.b35c	a9 00		lda #$00	        lda #0
+.b35e	20 9b b3	jsr $b39b	        jsr gm_desktop_open
+.b361	b0 37		bcs $b39a	        bcs gm_load_done
+.b363	a9 40		lda #$40	        lda #GM_RECORD_SIZE
+.b365	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b368	a9 00		lda #$00	        lda #0
+.b36a	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b36d	20 16 72	jsr $7216	        jsr gm_file_select
+.b370	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b373	b0 20		bcs $b395	        bcs gm_load_close       ; (closing may reuse N_BUFFER and the counts)
+.b375	a2 3f		ldx #$3f	        ldx #GM_RECORD_SIZE-1
+.b377	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b37a	9d c5 85	sta $85c5,x	        sta gm_session,x
+.b37d	ca		dex		        dex
+.b37e	10 f7		bpl $b377	        bpl -
+.b380	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.b383	d0 07		bne $b38c	        bne +
+.b385	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.b388	c9 0a		cmp #$0a	        cmp #GM_REC_WINDOWS
+.b38a	90 08		bcc $b394	        bcc gm_load_short
+.b38c	20 37 62	jsr $6237	+       jsr gm_close_file
+.b38f	b0 09		bcs $b39a	        bcs gm_load_done
+.b391	4c 39 b3	jmp $b339	        jmp gm_session_valid
+.b394					gm_load_short:
+.b394	38		sec		        sec
+.b395					gm_load_close:
+.b395	08		php		        php
+.b396	20 37 62	jsr $6237	        jsr gm_close_file
+.b399	28		plp		        plp
+.b39a					gm_load_done:
+.b39a	60		rts		        rts
+.b39b					gm_desktop_open:
+.b39b	8d 87 3d	sta $3d87	        sta N_FMODE
+.b39e	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b3a1	8d 80 3d	sta $3d80	        sta N_FOWNER
+.b3a4	ad 2d 3d	lda $3d2d	        lda N_BOOTDEVICE
+.b3a7	8d 85 3d	sta $3d85	        sta N_FDEVICE
+.b3aa	ad e4 3d	lda $3de4	        lda N_BOOTFORMAT
+.b3ad	8d 96 3d	sta $3d96	        sta N_FFORMAT
+.b3b0	a2 0a		ldx #$0a	        ldx #10
+.b3b2	bd 0a 86	lda $860a,x	-       lda gm_inf_name,x
+.b3b5	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
+.b3b8	ca		dex		        dex
+.b3b9	10 f7		bpl $b3b2	        bpl -
+.b3bb	a9 0b		lda #$0b	        lda #11
+.b3bd	8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.b3c0	a9 00		lda #$00	        lda #0
+.b3c2	8d 88 3d	sta $3d88	        sta N_FTYPE             ; SEQ
+.b3c5	a2 03		ldx #$03	        ldx #3
+.b3c7	9d 81 3d	sta $3d81,x	-       sta N_FHANDLE,x
+.b3ca	ca		dex		        dex
+.b3cb	10 fa		bpl $b3c7	        bpl -
+.b3cd	20 41 1c	jsr $1c41	        jsr N_FOPEN
+.b3d0	b0 0c		bcs $b3de	        bcs +
+.b3d2	a2 03		ldx #$03	        ldx #3
+.b3d4	bd 81 3d	lda $3d81,x	-       lda N_FHANDLE,x
+.b3d7	9d d7 86	sta $86d7,x	        sta gm_file,x
+.b3da	ca		dex		        dex
+.b3db	10 f7		bpl $b3d4	        bpl -
+.b3dd	18		clc		        clc
+.b3de	60		rts		+       rts
+.b3df					gm_save_desktop:
+.b3df	20 17 71	jsr $7117	        jsr gm_session_build
+.b3e2	ad 2d 3d	lda $3d2d	        lda N_BOOTDEVICE        ; scratch the old one (none is not an error)
+.b3e5	8d 64 98	sta $9864	        sta dc_device
+.b3e8	a2 0d		ldx #$0d	        ldx #13
+.b3ea	bd 15 86	lda $8615,x	-       lda gm_inf_scratch,x
+.b3ed	9d 66 98	sta $9866,x	        sta dc_text,x
+.b3f0	ca		dex		        dex
+.b3f1	10 f7		bpl $b3ea	        bpl -
+.b3f3	a9 0e		lda #$0e	        lda #14
+.b3f5	8d 65 98	sta $9865	        sta dc_length
+.b3f8	20 3e 96	jsr $963e	        jsr dc_command
+.b3fb	b0 33		bcs $b430	        bcs gm_save_error
+.b3fd	c9 01		cmp #$01	        cmp #1
+.b3ff	d0 41		bne $b442	        bne gm_save_status
+.b401	a9 01		lda #$01	        lda #1                  ; create
+.b403	20 9b b3	jsr $b39b	        jsr gm_desktop_open
+.b406	b0 28		bcs $b430	        bcs gm_save_error
+.b408	a2 3f		ldx #$3f	        ldx #GM_RECORD_SIZE-1
+.b40a	bd c5 85	lda $85c5,x	-       lda gm_session,x
+.b40d	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.b410	ca		dex		        dex
+.b411	10 f7		bpl $b40a	        bpl -
+.b413	a9 40		lda #$40	        lda #GM_RECORD_SIZE
+.b415	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b418	a9 00		lda #$00	        lda #0
+.b41a	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b41d	20 16 72	jsr $7216	        jsr gm_file_select
+.b420	20 47 1c	jsr $1c47	        jsr N_FWRITE
+.b423	b0 06		bcs $b42b	        bcs gm_save_write_error
+.b425	20 37 62	jsr $6237	        jsr gm_close_file       ; a failed close is an error too
+.b428	b0 06		bcs $b430	        bcs gm_save_error
+.b42a	60		rts		        rts
+.b42b					gm_save_write_error:
+.b42b	48		pha		        pha
+.b42c	20 37 62	jsr $6237	        jsr gm_close_file
+.b42f	68		pla		        pla
+.b430					gm_save_error:
+.b430	48		pha		        pha
+.b431	a9 23		lda #$23	        lda #<gm_s_nosave
+.b433	a2 86		ldx #$86	        ldx #>gm_s_nosave
+.b435	48		pha		        pha
+.b436	a9 00		lda #$00	        lda #0
+.b438	8d 02 87	sta $8702	        sta gm_alen
+.b43b	68		pla		        pla
+.b43c	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b43f	4c 70 6f	jmp $6f70	        jmp gm_error_hex
+.b442					gm_save_status:
+.b442	a9 23		lda #$23	        lda #<gm_s_nosave
+.b444	a2 86		ldx #$86	        ldx #>gm_s_nosave
+.b446	48		pha		        pha
+.b447	a9 00		lda #$00	        lda #0
+.b449	8d 02 87	sta $8702	        sta gm_alen
+.b44c	68		pla		        pla
+.b44d	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b450	4c 94 6f	jmp $6f94	        jmp gm_status_text
+.b453					acc_start:
+.b453	20 fc ba	jsr $bafc	        jsr dacc.bk_attach
+.b456	90 4b		bcc $b4a3	        bcc acc_install
+.b458	c9 04		cmp #$04	        cmp #N_BADHANDLE
+.b45a	f0 03		beq $b45f	        beq +
+.b45c	4c b7 b4	jmp $b4b7	        jmp acc_failed
+.b45f	a2 08		ldx #$08	+       ldx #8                  ; gm_open_aesvc opens the name in gm_aesvc_name
+.b461	bd 70 81	lda $8170,x	-       lda gm_aesvc_name,x
+.b464	9d f9 b4	sta $b4f9,x	        sta acc_saved,x
+.b467	bd f0 b4	lda $b4f0,x	        lda acc_name,x
+.b46a	9d 70 81	sta $8170,x	        sta gm_aesvc_name,x
+.b46d	ca		dex		        dex
+.b46e	10 f1		bpl $b461	        bpl -
+.b470	20 b0 61	jsr $61b0	        jsr gm_open_aesvc
+.b473	08		php		        php
+.b474	a2 08		ldx #$08	        ldx #8
+.b476	bd f9 b4	lda $b4f9,x	-       lda acc_saved,x
+.b479	9d 70 81	sta $8170,x	        sta gm_aesvc_name,x
+.b47c	ca		dex		        dex
+.b47d	10 f7		bpl $b476	        bpl -
+.b47f	28		plp		        plp
+.b480	b0 34		bcs $b4b6	        bcs acc_none            ; none there (or unreadable): no accessory
+.b482	20 02 b8	jsr $b802	        jsr dacc.bk_load
+.b485	08		php		        php
+.b486	48		pha		        pha
+.b487	ad e6 b7	lda $b7e6	        lda dacc.bk_file        ; zero: refused before taking the stream
+.b48a	0d e1 b7	ora $b7e1	        ora dacc.bk_state
+.b48d	d0 03		bne $b492	        bne +
+.b48f	20 37 62	jsr $6237	        jsr gm_close_file
+.b492	68		pla		+       pla
+.b493	28		plp		        plp
+.b494	90 0d		bcc $b4a3	        bcc acc_install
+.b496	48		pha		        pha
+.b497	ad e1 b7	lda $b7e1	        lda dacc.bk_state       ; never keep a partial image
+.b49a	f0 03		beq $b49f	        beq +
+.b49c	20 2e ba	jsr $ba2e	        jsr dacc.bk_close
+.b49f	68		pla		+       pla
+.b4a0	4c b7 b4	jmp $b4b7	        jmp acc_failed
+.b4a3					acc_install:
+.b4a3	a9 01		lda #$01	        lda #1
+.b4a5	8d 00 3a	sta $3a00	        sta N_BUFFER
+.b4a8	a9 0c		lda #$0c	        lda #AE_OP_ACC
+.b4aa	20 4b 8a	jsr $8a4b	        jsr ae_call
+.b4ad	b0 08		bcs $b4b7	        bcs acc_failed
+.b4af	a9 96		lda #$96	        lda #<gm_menu
+.b4b1	a2 82		ldx #$82	        ldx #>gm_menu
+.b4b3	4c 50 94	jmp $9450	        jmp ae_menu_install
+.b4b6					acc_none:
+.b4b6	60		rts		        rts
+.b4b7					acc_failed:
+.b4b7	48		pha		        pha
+.b4b8	a9 00		lda #$00	        lda #0
+.b4ba	8d 02 87	sta $8702	        sta gm_alen
+.b4bd	a9 02		lda #$02	        lda #<acc_s_failed
+.b4bf	a2 b5		ldx #$b5	        ldx #>acc_s_failed
+.b4c1	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b4c4	68		pla		        pla
+.b4c5	48		pha		        pha
+.b4c6	4a		lsr a		        lsr
+.b4c7	4a		lsr a		        lsr
+.b4c8	4a		lsr a		        lsr
+.b4c9	4a		lsr a		        lsr
+.b4ca	aa		tax		        tax
+.b4cb	bd 60 81	lda $8160,x	        lda gm_hex_digits,x
+.b4ce	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b4d1	68		pla		        pla
+.b4d2	29 0f		and #$0f	        and #15
+.b4d4	aa		tax		        tax
+.b4d5	bd 60 81	lda $8160,x	        lda gm_hex_digits,x
+.b4d8	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b4db	a9 8d		lda #$8d	        lda #<gm_s_ok
+.b4dd	a2 83		ldx #$83	        ldx #>gm_s_ok
+.b4df	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b4e2	a9 00		lda #$00	        lda #0
+.b4e4	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b4e7	a9 03		lda #$03	        lda #<gm_abuf
+.b4e9	a2 87		ldx #$87	        ldx #>gm_abuf
+.b4eb	a0 01		ldy #$01	        ldy #1
+.b4ed	4c f4 62	jmp $62f4	        jmp gm_alert
+>b4f0	44 45 53 4b 31 2e 41 43		acc_name: .byte 68,69,83,75,49,46,65,67,67
+>b4f8	43
+>b4f9	00 00 00 00 00 00 00 00		acc_saved: .fill 9,0
+>b501	00
+>b502	5b 33 5d 5b 43 6f 75 6c		acc_s_failed: .byte 91,51,93,91,67,111,117,108,100,32,110,111,116,32,108,111,97,100,124,68,69,83,75,49,46,65,67,67,58,32,101,114,114,111,114,32,36,0
+>b50a	64 20 6e 6f 74 20 6c 6f 61 64 7c 44 45 53 4b 31
+>b51a	2e 41 43 43 3a 20 65 72 72 6f 72 20 24 00
+.b528					dacc
+=$4000					BK_BASE = AC_BASE
+=20480					BK_LIMIT = AC_BASE+AC_PAGES*256
+=29					BK_OWNER = N_ACCOWNER
+
+;******  Processing file: src/native/banked.inc
+
+=$6000					BK_BASE = $6000
+=$c000					BK_LIMIT = $c000
+=32					BK_OWNER = N_APPOWNER         ; owner of the bank-1 code allocation
+.b528					bk_call:
+.b528	08		php		        php
+.b529	48		pha		        pha
+.b52a	20 2d b6	jsr $b62d	        jsr bk_enter
+.b52d	90 03		bcc $b532	        bcs bk_enter_failed
+.b52f	4c e5 b6	jmp $b6e5
+.b532	68		pla		        pla
+.b533	8d f9 b7	sta $b7f9	        sta bk_operation
+.b536	ad e1 b7	lda $b7e1	        lda bk_state
+.b539	c9 02		cmp #$02	        cmp #2
+.b53b	f0 03		beq $b540	        bne bk_bad_handle
+.b53d	4c ef b6	jmp $b6ef
+.b540	20 19 b7	jsr $b719	        jsr bk_check_code
+.b543	90 03		bcc $b548	        bcs bk_finish
+.b545	4c f1 b6	jmp $b6f1
+.b548	20 fd b6	jsr $b6fd	        jsr bk_check_tails
+.b54b	b0 f8		bcs $b545	        bcs bk_finish
+.b54d	a2 02		ldx #$02	        ldx #2
+.b54f	b5 06		lda $06,x	-       lda $06,x
+.b551	9d fe b7	sta $b7fe,x	        sta bk_saved_regs,x
+.b554	ca		dex		        dex
+.b555	10 f8		bpl $b54f	        bpl -
+.b557	ad 06 d5	lda $d506	        lda $d506
+.b55a	8d fd b7	sta $b7fd	        sta bk_saved_rcr
+.b55d	09 03		ora #$03	        ora #3                ; bottom 16 KiB common while bank-1 code runs
+.b55f	8d 06 d5	sta $d506	        sta $d506
+.b562	a9 00		lda #$00	        lda #0
+.b564	8d 12 3d	sta $3d12	        sta N_READY
+.b567	85 07		sta $07		        sta $07
+.b569	85 08		sta $08		        sta $08
+.b56b	ad f9 b7	lda $b7f9	        lda bk_operation
+.b56e	85 06		sta $06		        sta $06
+.b570	a9 b5		lda #$b5	        lda #>(bk_return-1)
+.b572	48		pha		        pha
+.b573	a9 8b		lda #$8b	        lda #<(bk_return-1)
+.b575	48		pha		        pha
+.b576	a9 40		lda #$40	        lda #>(BK_BASE+16-1)   ; validated bank-1 exit stub: LDX #$0e / JMP $02ab
+.b578	48		pha		        pha
+.b579	a9 0f		lda #$0f	        lda #<(BK_BASE+16-1)
+.b57b	48		pha		        pha
+.b57c	ad f6 b7	lda $b7f6	        lda bk_entry+1
+.b57f	48		pha		        pha
+.b580	ad f5 b7	lda $b7f5	        lda bk_entry
+.b583	48		pha		        pha
+.b584	a9 20		lda #$20	        lda #$20
+.b586	48		pha		        pha
+.b587	a9 4e		lda #$4e	        lda #$4e
+.b589	4c f2 02	jmp $02f2	        jmp $02f2
+.b58c					bk_return:
+.b58c	8d fb b7	sta $b7fb	        sta bk_result
+.b58f	08		php		        php
+.b590	68		pla		        pla
+.b591	29 01		and #$01	        and #1
+.b593	8d fc b7	sta $b7fc	        sta bk_carry
+.b596	ad fd b7	lda $b7fd	        lda bk_saved_rcr
+.b599	8d 06 d5	sta $d506	        sta $d506
+.b59c	a2 02		ldx #$02	        ldx #2
+.b59e	bd fe b7	lda $b7fe,x	-       lda bk_saved_regs,x
+.b5a1	95 06		sta $06,x	        sta $06,x
+.b5a3	ca		dex		        dex
+.b5a4	10 f8		bpl $b59e	        bpl -
+.b5a6	a9 00		lda #$00	        lda #0
+.b5a8	8d f7 b7	sta $b7f7	        sta bk_busy
+.b5ab	8d f8 b7	sta $b7f8	        sta bk_error
+.b5ae	28		plp		        plp
+.b5af	ad fb b7	lda $b7fb	        lda bk_result
+.b5b2	4e fc b7	lsr $b7fc	        lsr bk_carry
+.b5b5	60		rts		        rts
+.b5b6					bk_callback:
+.b5b6	8d fa b7	sta $b7fa	        sta bk_service
+.b5b9	ad fd b7	lda $b7fd	        lda bk_saved_rcr
+.b5bc	8d 06 d5	sta $d506	        sta $d506
+.b5bf	ad fa b7	lda $b7fa	        lda bk_service
+.b5c2	c9 1c		cmp #$1c	        cmp #28
+.b5c4	b0 41		bcs $b607	        bcs bk_service_bad
+.b5c6	aa		tax		        tax
+.b5c7	bd c5 b7	lda $b7c5,x	        lda bk_services,x
+.b5ca	f0 3b		beq $b607	        beq bk_service_bad
+.b5cc	e0 08		cpx #$08	        cpx #8
+.b5ce	b0 3c		bcs $b60c	        bcs bk_service_call
+.b5d0	e0 05		cpx #$05	        cpx #5                ; STATS needs no owner
+.b5d2	f0 38		beq $b60c	        beq bk_service_call
+.b5d4	ad 00 3d	lda $3d00	        lda N_OWNER
+.b5d7	c9 20		cmp #$20	        cmp #N_APPOWNER
+.b5d9	f0 02		beq $b5dd	        beq +
+.b5db	c9 1d		cmp #$1d	        cmp #BK_OWNER         ; a persistent component also owns its data
+.b5dd					+
+.b5dd	d0 28		bne $b607	        bne bk_service_bad
+.b5df	e0 01		cpx #$01	        cpx #1                ; FREE, WRITE and FILL cannot alter active code
+.b5e1	f0 08		beq $b5eb	        beq bk_protect_code
+.b5e3	e0 03		cpx #$03	        cpx #3
+.b5e5	f0 04		beq $b5eb	        beq bk_protect_code
+.b5e7	e0 04		cpx #$04	        cpx #4
+.b5e9	d0 21		bne $b60c	        bne bk_service_call
+.b5eb					bk_protect_code:
+.b5eb	a2 03		ldx #$03	        ldx #3
+.b5ed	bd 04 3d	lda $3d04,x	-       lda N_HANDLE,x
+.b5f0	dd e2 b7	cmp $b7e2,x	        cmp bk_handle,x
+.b5f3	d0 05		bne $b5fa	        bne bk_protect_parent
+.b5f5	ca		dex		        dex
+.b5f6	10 f5		bpl $b5ed	        bpl -
+.b5f8	30 0d		bmi $b607	        bmi bk_service_bad
+.b5fa					bk_protect_parent:
+.b5fa	a2 03		ldx #$03	        ldx #3
+.b5fc	bd 04 3d	lda $3d04,x	-       lda N_HANDLE,x
+.b5ff	dd ea b7	cmp $b7ea,x	        cmp bk_cookie,x
+.b602	d0 08		bne $b60c	        bne bk_service_call
+.b604	ca		dex		        dex
+.b605	10 f5		bpl $b5fc	        bpl -
+.b607					bk_service_bad:
+.b607	a9 01		lda #$01	        lda #N_BADARG
+.b609	38		sec		        sec
+.b60a	b0 10		bcs $b61c	        bcs bk_service_return
+.b60c					bk_service_call:
+.b60c	ad fa b7	lda $b7fa	        lda bk_service
+.b60f	0a		asl a		        asl
+.b610	18		clc		        clc
+.b611	6d fa b7	adc $b7fa	        adc bk_service
+.b614	69 20		adc #$20	        adc #<N_ALLOC
+.b616	8d 1a b6	sta $b61a	        sta bk_dispatch+1
+.b619					bk_dispatch:
+.b619	20 20 1c	jsr $1c20	        jsr N_ALLOC
+.b61c					bk_service_return:
+.b61c	08		php		        php
+.b61d	48		pha		        pha
+.b61e	ad fd b7	lda $b7fd	        lda bk_saved_rcr
+.b621	09 03		ora #$03	        ora #3
+.b623	8d 06 d5	sta $d506	        sta $d506
+.b626	68		pla		        pla
+.b627	aa		tax		        tax
+.b628	28		plp		        plp
+.b629	8a		txa		        txa
+.b62a	a2 4e		ldx #$4e	        ldx #$4e
+.b62c	60		rts		        rts                   ; common STX $ff00 / RTS returns to bank 1
+.b62d					bk_enter:
+.b62d	ad f7 b7	lda $b7f7	        lda bk_busy
+.b630	0d 11 3d	ora $3d11	        ora N_BUSY
+.b633	0d 91 3d	ora $3d91	        ora N_FBUSY
+.b636	0d 3b 3d	ora $3d3b	        ora N_UIBUSY
+.b639	f0 03		beq $b63e	        bne bk_nested
+.b63b	4c d9 b6	jmp $b6d9
+.b63e	ee f7 b7	inc $b7f7	        inc bk_busy
+.b641	d8		cld		        cld
+.b642	ba		tsx		        tsx
+.b643	bd 04 01	lda $0104,x	        lda $0104,x
+.b646	29 04		and #$04	        and #4
+.b648	f0 03		beq $b64d	        bne bk_platform
+.b64a	4c dd b6	jmp $b6dd
+.b64d	ad 00 ff	lda $ff00	        lda $ff00
+.b650	c9 0e		cmp #$0e	        cmp #$0e
+.b652	d0 f6		bne $b64a	        bne bk_platform
+.b654	ad 05 d5	lda $d505	        lda $d505
+.b657	29 40		and #$40	        and #$40
+.b659	d0 ef		bne $b64a	        bne bk_platform
+.b65b	ad 06 d5	lda $d506	        lda $d506
+.b65e	29 0f		and #$0f	        and #15
+.b660	c9 04		cmp #$04	        cmp #4
+.b662	d0 79		bne $b6dd	        bne bk_platform
+.b664	ad 08 d5	lda $d508	        lda $d508
+.b667	0d 0a d5	ora $d50a	        ora $d50a
+.b66a	29 0f		and #$0f	        and #15
+.b66c	0d 07 d5	ora $d507	        ora $d507
+.b66f	d0 6c		bne $b6dd	        bne bk_platform
+.b671	ad 09 d5	lda $d509	        lda $d509
+.b674	c9 01		cmp #$01	        cmp #1
+.b676	d0 65		bne $b6dd	        bne bk_platform
+.b678	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b67b	c9 20		cmp #$20	        cmp #N_APPOWNER
+.b67d	d0 5e		bne $b6dd	        bne bk_platform
+.b67f	ad 23 3d	lda $3d23	        lda N_APPSTATE
+.b682	c9 02		cmp #$02	        cmp #2
+.b684	d0 57		bne $b6dd	        bne bk_platform
+.b686	ad 60 38	lda $3860	        lda NPAGES0+$60
+.b689	f0 56		beq $b6e1	        beq bk_invalid
+.b68b	c9 21		cmp #$21	        cmp #NSLOTS+1
+.b68d	b0 52		bcs $b6e1	        bcs bk_invalid
+.b68f	8d ee b7	sta $b7ee	        sta bk_current
+.b692	38		sec		        sec
+.b693	e9 01		sbc #$01	        sbc #1
+.b695	0a		asl a		        asl
+.b696	0a		asl a		        asl
+.b697	0a		asl a		        asl
+.b698	aa		tax		        tax
+.b699	bd 00 3c	lda $3c00,x	        lda NHANDLES,x
+.b69c	c9 20		cmp #$20	        cmp #N_APPOWNER
+.b69e	d0 41		bne $b6e1	        bne bk_invalid
+.b6a0	bd 01 3c	lda $3c01,x	        lda NHANDLES+1,x
+.b6a3	d0 3c		bne $b6e1	        bne bk_invalid
+.b6a5	bd 02 3c	lda $3c02,x	        lda NHANDLES+2,x
+.b6a8	c9 60		cmp #$60	        cmp #$60
+.b6aa	d0 35		bne $b6e1	        bne bk_invalid
+.b6ac	a0 01		ldy #$01	        ldy #1
+.b6ae	bd 04 3c	lda $3c04,x	-       lda NHANDLES+4,x
+.b6b1	99 ee b7	sta $b7ee,y	        sta bk_current,y
+.b6b4	e8		inx		        inx
+.b6b5	c8		iny		        iny
+.b6b6	c0 04		cpy #$04	        cpy #4
+.b6b8	d0 f4		bne $b6ae	        bne -
+.b6ba	ad ea b7	lda $b7ea	        lda bk_cookie
+.b6bd	d0 0b		bne $b6ca	        bne bk_compare_cookie
+.b6bf	a2 03		ldx #$03	        ldx #3
+.b6c1	bd ee b7	lda $b7ee,x	-       lda bk_current,x
+.b6c4	9d ea b7	sta $b7ea,x	        sta bk_cookie,x
+.b6c7	ca		dex		        dex
+.b6c8	10 f7		bpl $b6c1	        bpl -
+.b6ca					bk_compare_cookie:
+.b6ca	a2 03		ldx #$03	        ldx #3
+.b6cc	bd ee b7	lda $b7ee,x	-       lda bk_current,x
+.b6cf	dd ea b7	cmp $b7ea,x	        cmp bk_cookie,x
+.b6d2	d0 0d		bne $b6e1	        bne bk_invalid
+.b6d4	ca		dex		        dex
+.b6d5	10 f5		bpl $b6cc	        bpl -
+.b6d7	18		clc		        clc
+.b6d8	60		rts		        rts
+.b6d9					bk_nested:
+.b6d9	a9 07		lda #$07	        lda #N_REENTRANT
+.b6db	38		sec		        sec
+.b6dc	60		rts		        rts
+.b6dd					bk_platform:
+.b6dd	a9 08		lda #$08	        lda #N_PLATFORM
+.b6df	38		sec		        sec
+.b6e0	60		rts		        rts
+.b6e1					bk_invalid:
+.b6e1	a9 04		lda #$04	        lda #N_BADHANDLE
+.b6e3	38		sec		        sec
+.b6e4	60		rts		        rts
+.b6e5					bk_enter_failed:
+.b6e5	aa		tax		        tax
+.b6e6	68		pla		        pla
+.b6e7	8a		txa		        txa
+.b6e8	c9 07		cmp #$07	        cmp #N_REENTRANT
+.b6ea	d0 05		bne $b6f1	        bne bk_finish
+.b6ec	28		plp		        plp
+.b6ed	38		sec		        sec
+.b6ee	60		rts		        rts
+.b6ef					bk_bad_handle:
+.b6ef	a9 04		lda #$04	        lda #N_BADHANDLE
+.b6f1					bk_finish:
+.b6f1	8d f8 b7	sta $b7f8	        sta bk_error
+.b6f4	a2 00		ldx #$00	        ldx #0
+.b6f6	8e f7 b7	stx $b7f7	        stx bk_busy
+.b6f9	28		plp		        plp
+.b6fa	c9 01		cmp #$01	        cmp #1
+.b6fc	60		rts		        rts
+.b6fd					bk_check_tails:
+.b6fd	a2 03		ldx #$03	        ldx #3
+.b6ff	bd ab 02	lda $02ab,x	-       lda $02ab,x
+.b702	dd b7 b7	cmp $b7b7,x	        cmp bk_fetch_tail,x
+.b705	d0 d6		bne $b6dd	        bne bk_platform
+.b707	ca		dex		        dex
+.b708	10 f5		bpl $b6ff	        bpl -
+.b70a	a2 09		ldx #$09	        ldx #9
+.b70c	bd f2 02	lda $02f2,x	-       lda $02f2,x
+.b70f	dd bb b7	cmp $b7bb,x	        cmp bk_jump_tail,x
+.b712	d0 c9		bne $b6dd	        bne bk_platform
+.b714	ca		dex		        dex
+.b715	10 f5		bpl $b70c	        bpl -
+.b717	18		clc		        clc
+.b718	60		rts		        rts
+.b719					bk_check_code:
+.b719	ad f2 b7	lda $b7f2	        lda bk_pages
+.b71c	f0 c3		beq $b6e1	        beq bk_invalid
+.b71e	c9 11		cmp #$11	        cmp #(BK_LIMIT-BK_BASE)/256+1
+.b720	b0 bf		bcs $b6e1	        bcs bk_invalid
+.b722	ad f4 b7	lda $b7f4	        lda bk_length+1
+.b725	d0 07		bne $b72e	        bne +
+.b727	ad f3 b7	lda $b7f3	        lda bk_length
+.b72a	c9 21		cmp #$21	        cmp #33
+.b72c	90 b3		bcc $b6e1	        bcc bk_invalid
+.b72e	ad f3 b7	lda $b7f3	+       lda bk_length
+.b731	c9 01		cmp #$01	        cmp #1
+.b733	ad f4 b7	lda $b7f4	        lda bk_length+1
+.b736	69 00		adc #$00	        adc #0
+.b738	cd f2 b7	cmp $b7f2	        cmp bk_pages
+.b73b	d0 a4		bne $b6e1	        bne bk_invalid
+.b73d	ad f6 b7	lda $b7f6	        lda bk_entry+1
+.b740	c9 40		cmp #$40	        cmp #>BK_BASE
+.b742	90 9d		bcc $b6e1	        bcc bk_invalid
+.b744	d0 07		bne $b74d	        bne +
+.b746	ad f5 b7	lda $b7f5	        lda bk_entry
+.b749	c9 20		cmp #$20	        cmp #32
+.b74b	90 94		bcc $b6e1	        bcc bk_invalid
+.b74d	38		sec		+       sec
+.b74e	ad f6 b7	lda $b7f6	        lda bk_entry+1
+.b751	e9 40		sbc #$40	        sbc #>BK_BASE
+.b753	8d 01 b8	sta $b801	        sta bk_relative
+.b756	ad f5 b7	lda $b7f5	        lda bk_entry
+.b759	cd f3 b7	cmp $b7f3	        cmp bk_length
+.b75c	ad 01 b8	lda $b801	        lda bk_relative
+.b75f	ed f4 b7	sbc $b7f4	        sbc bk_length+1
+.b762	90 03		bcc $b767	        bcs bk_invalid
+.b764	4c e1 b6	jmp $b6e1
+.b767	ad e2 b7	lda $b7e2	        lda bk_handle
+.b76a	f0 f8		beq $b764	        beq bk_invalid
+.b76c	c9 21		cmp #$21	        cmp #NSLOTS+1
+.b76e	b0 f4		bcs $b764	        bcs bk_invalid
+.b770	38		sec		        sec
+.b771	e9 01		sbc #$01	        sbc #1
+.b773	0a		asl a		        asl
+.b774	0a		asl a		        asl
+.b775	0a		asl a		        asl
+.b776	aa		tax		        tax
+.b777	bd 00 3c	lda $3c00,x	        lda NHANDLES,x
+.b77a	c9 1d		cmp #$1d	        cmp #BK_OWNER
+.b77c	d0 e6		bne $b764	        bne bk_invalid
+.b77e	bd 01 3c	lda $3c01,x	        lda NHANDLES+1,x
+.b781	c9 01		cmp #$01	        cmp #1
+.b783	d0 df		bne $b764	        bne bk_invalid
+.b785	bd 02 3c	lda $3c02,x	        lda NHANDLES+2,x
+.b788	c9 40		cmp #$40	        cmp #>BK_BASE
+.b78a	d0 d8		bne $b764	        bne bk_invalid
+.b78c	bd 03 3c	lda $3c03,x	        lda NHANDLES+3,x
+.b78f	cd f2 b7	cmp $b7f2	        cmp bk_pages
+.b792	d0 d0		bne $b764	        bne bk_invalid
+.b794	a0 01		ldy #$01	        ldy #1
+.b796	bd 04 3c	lda $3c04,x	-       lda NHANDLES+4,x
+.b799	d9 e2 b7	cmp $b7e2,y	        cmp bk_handle,y
+.b79c	d0 c6		bne $b764	        bne bk_invalid
+.b79e	e8		inx		        inx
+.b79f	c8		iny		        iny
+.b7a0	c0 04		cpy #$04	        cpy #4
+.b7a2	d0 f2		bne $b796	        bne -
+.b7a4	a2 40		ldx #$40	        ldx #>BK_BASE
+.b7a6	ac f2 b7	ldy $b7f2	        ldy bk_pages
+.b7a9	bd 00 39	lda $3900,x	-       lda NPAGES1,x
+.b7ac	cd e2 b7	cmp $b7e2	        cmp bk_handle
+.b7af	d0 b3		bne $b764	        bne bk_invalid
+.b7b1	e8		inx		        inx
+.b7b2	88		dey		        dey
+.b7b3	d0 f4		bne $b7a9	        bne -
+.b7b5	18		clc		        clc
+.b7b6	60		rts		        rts
+>b7b7	8e 00 ff 60			bk_fetch_tail: .byte $8e,0,$ff,$60
+>b7bb	8d 00 ff a5 06 a6 07 a4		bk_jump_tail: .byte $8d,0,$ff,$a5,6,$a6,7,$a4,8,$40
+>b7c3	08 40
+>b7c5	01 01 01 01 01 01 00 01		bk_services: .byte 1,1,1,1,1,1,0,1, 0,0,0,1,1,1,1,1, 1,0,0,1,1,0,0,0, 1,1,1,1
+>b7cd	00 00 00 01 01 01 01 01 01 00 00 01 01 00 00 00
+>b7dd	01 01 01 01
+>b7e1	00				bk_state: .byte 0              ; 0 empty, 1 load/cleanup retained, 2 ready
+>b7e2	00 00 00 00			bk_handle: .fill 4,0
+>b7e6	00 00 00 00			bk_file: .fill 4,0
+>b7ea	00 00 00 00			bk_cookie: .fill 4,0
+>b7ee	00 00 00 00			bk_current: .fill 4,0
+>b7f2	00				bk_pages: .byte 0
+>b7f3	00 00				bk_length: .word 0
+>b7f5	00 00				bk_entry: .word 0
+>b7f7	00				bk_busy: .byte 0
+>b7f8	00				bk_error: .byte 0
+>b7f9	00				bk_operation: .byte 0
+>b7fa	00				bk_service: .byte 0
+>b7fb	00				bk_result: .byte 0
+>b7fc	00				bk_carry: .byte 0
+>b7fd	00				bk_saved_rcr: .byte 0
+>b7fe	00 00 00			bk_saved_regs: .fill 3,0
+>b801	00				bk_relative: .byte 0
+
+;******  Return to file: src/native/gemdesk-ses.asm
+
+
+;******  Processing file: src/native/banked-load.inc
+
+.b802					bk_load:
+.b802	08		php		        php
+.b803	48		pha		        pha
+.b804	20 2d b6	jsr $b62d	        jsr bk_enter
+.b807	90 03		bcc $b80c	        bcs bk_enter_failed
+.b809	4c e5 b6	jmp $b6e5
+.b80c	68		pla		        pla
+.b80d	ad e1 b7	lda $b7e1	        lda bk_state
+.b810	f0 03		beq $b815	        bne bk_load_badarg
+.b812	4c 29 ba	jmp $ba29
+.b815	ad 80 3d	lda $3d80	        lda N_FOWNER
+.b818	c9 20		cmp #$20	        cmp #N_APPOWNER
+.b81a	d0 f6		bne $b812	        bne bk_load_badarg
+.b81c	ad 81 3d	lda $3d81	        lda N_FHANDLE
+.b81f	f0 f1		beq $b812	        beq bk_load_badarg
+.b821	c9 03		cmp #$03	        cmp #3
+.b823	b0 ed		bcs $b812	        bcs bk_load_badarg
+.b825	38		sec		        sec
+.b826	e9 01		sbc #$01	        sbc #1
+.b828	0a		asl a		        asl
+.b829	0a		asl a		        asl
+.b82a	0a		asl a		        asl
+.b82b	0a		asl a		        asl
+.b82c	aa		tax		        tax
+.b82d	bd c0 3d	lda $3dc0,x	        lda NFILES,x
+.b830	c9 20		cmp #$20	        cmp #N_APPOWNER
+.b832	d0 de		bne $b812	        bne bk_load_badarg
+.b834	bd c2 3d	lda $3dc2,x	        lda NFILES+2,x
+.b837	d0 d9		bne $b812	        bne bk_load_badarg
+.b839	a0 01		ldy #$01	        ldy #1
+.b83b	bd c4 3d	lda $3dc4,x	-       lda NFILES+4,x
+.b83e	d9 81 3d	cmp $3d81,y	        cmp N_FHANDLE,y
+.b841	d0 cf		bne $b812	        bne bk_load_badarg
+.b843	e8		inx		        inx
+.b844	c8		iny		        iny
+.b845	c0 04		cpy #$04	        cpy #4
+.b847	d0 f2		bne $b83b	        bne -
+.b849	20 fd b6	jsr $b6fd	        jsr bk_check_tails
+.b84c	90 03		bcc $b851	        bcs bk_finish
+.b84e	4c f1 b6	jmp $b6f1
+.b851	a2 03		ldx #$03	        ldx #3
+.b853	bd 81 3d	lda $3d81,x	-       lda N_FHANDLE,x
+.b856	9d e6 b7	sta $b7e6,x	        sta bk_file,x
+.b859	ca		dex		        dex
+.b85a	10 f7		bpl $b853	        bpl -
+.b85c	a9 01		lda #$01	        lda #1
+.b85e	8d e1 b7	sta $b7e1	        sta bk_state
+.b861	a9 22		lda #$22	        lda #34
+.b863	8d a3 bc	sta $bca3	        sta bk_count
+.b866	a9 00		lda #$00	        lda #0
+.b868	8d a4 bc	sta $bca4	        sta bk_count+1
+.b86b	20 8a ba	jsr $ba8a	        jsr bk_read_chunk
+.b86e	b0 de		bcs $b84e	        bcs bk_finish
+.b870	a2 07		ldx #$07	        ldx #7
+.b872	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b875	dd 91 bc	cmp $bc91,x	        cmp bk_prefix,x
+.b878	f0 03		beq $b87d	        bne bk_bad_image
+.b87a	4c 15 ba	jmp $ba15
+.b87d	ca		dex		        dex
+.b87e	10 f2		bpl $b872	        bpl -
+.b880	ad 08 3a	lda $3a08	        lda N_BUFFER+8       ; required native ABI minor
+.b883	c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.b885	b0 f3		bcs $b87a	        bcs bk_bad_image
+.b887	ad 09 3a	lda $3a09	        lda N_BUFFER+9       ; flags
+.b88a	d0 ee		bne $b87a	        bne bk_bad_image
+.b88c	ad 0d 3a	lda $3a0d	        lda N_BUFFER+13
+.b88f	c9 01		cmp #$01	        cmp #1               ; bank 1
+.b891	d0 e7		bne $b87a	        bne bk_bad_image
+.b893	a2 09		ldx #$09	        ldx #9               ; exit stub, reserved byte and zero callback import
+.b895	bd 12 3a	lda $3a12,x	-       lda N_BUFFER+18,x
+.b898	dd 99 bc	cmp $bc99,x	        cmp bk_stub,x
+.b89b	d0 dd		bne $b87a	        bne bk_bad_image
+.b89d	ca		dex		        dex
+.b89e	10 f5		bpl $b895	        bpl -
+.b8a0	a2 05		ldx #$05	        ldx #5
+.b8a2	bd 1c 3a	lda $3a1c,x	-       lda N_BUFFER+28,x
+.b8a5	d0 d3		bne $b87a	        bne bk_bad_image
+.b8a7	ca		dex		        dex
+.b8a8	10 f8		bpl $b8a2	        bpl -
+.b8aa	ad 0a 3a	lda $3a0a	        lda N_BUFFER+10
+.b8ad	8d f3 b7	sta $b7f3	        sta bk_length
+.b8b0	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
+.b8b3	8d f4 b7	sta $b7f4	        sta bk_length+1
+.b8b6	d0 07		bne $b8bf	        bne +
+.b8b8	ad f3 b7	lda $b7f3	        lda bk_length
+.b8bb	c9 21		cmp #$21	        cmp #33
+.b8bd	90 bb		bcc $b87a	        bcc bk_bad_image
+.b8bf	ad f3 b7	lda $b7f3	+       lda bk_length
+.b8c2	c9 01		cmp #$01	        cmp #1               ; ceil(length / 256), with checked upper bound
+.b8c4	ad f4 b7	lda $b7f4	        lda bk_length+1
+.b8c7	69 00		adc #$00	        adc #0
+.b8c9	f0 af		beq $b87a	        beq bk_bad_image
+.b8cb	c9 11		cmp #$11	        cmp #(BK_LIMIT-BK_BASE)/256+1
+.b8cd	b0 ab		bcs $b87a	        bcs bk_bad_image
+.b8cf	cd 0c 3a	cmp $3a0c	        cmp N_BUFFER+12
+.b8d2	d0 a6		bne $b87a	        bne bk_bad_image
+.b8d4	8d f2 b7	sta $b7f2	        sta bk_pages
+.b8d7	ad 0f 3a	lda $3a0f	        lda N_BUFFER+15
+.b8da	d0 07		bne $b8e3	        bne +
+.b8dc	ad 0e 3a	lda $3a0e	        lda N_BUFFER+14
+.b8df	c9 20		cmp #$20	        cmp #32
+.b8e1	90 97		bcc $b87a	        bcc bk_bad_image
+.b8e3	ad 0e 3a	lda $3a0e	+       lda N_BUFFER+14
+.b8e6	cd f3 b7	cmp $b7f3	        cmp bk_length
+.b8e9	ad 0f 3a	lda $3a0f	        lda N_BUFFER+15
+.b8ec	ed f4 b7	sbc $b7f4	        sbc bk_length+1
+.b8ef	b0 89		bcs $b87a	        bcs bk_bad_image
+.b8f1	ad 0e 3a	lda $3a0e	        lda N_BUFFER+14
+.b8f4	8d f5 b7	sta $b7f5	        sta bk_entry
+.b8f7	ad 0f 3a	lda $3a0f	        lda N_BUFFER+15
+.b8fa	18		clc		        clc
+.b8fb	69 40		adc #$40	        adc #>BK_BASE
+.b8fd	8d f6 b7	sta $b7f6	        sta bk_entry+1
+.b900	ad 10 3a	lda $3a10	        lda N_BUFFER+16
+.b903	8d a7 bc	sta $bca7	        sta bk_expected
+.b906	ad 11 3a	lda $3a11	        lda N_BUFFER+17
+.b909	8d a8 bc	sta $bca8	        sta bk_expected+1
+.b90c	a9 1d		lda #$1d	        lda #BK_OWNER
+.b90e	8d 00 3d	sta $3d00	        sta N_OWNER
+.b911	a9 01		lda #$01	        lda #1
+.b913	8d 02 3d	sta $3d02	        sta N_BANK
+.b916	a9 40		lda #$40	        lda #>BK_BASE
+.b918	8d 03 3d	sta $3d03	        sta N_PAGE
+.b91b	ad f2 b7	lda $b7f2	        lda bk_pages
+.b91e	8d 01 3d	sta $3d01	        sta N_PAGES
+.b921	20 35 1c	jsr $1c35	        jsr N_RESERVE
+.b924	90 03		bcc $b929	        bcs bk_finish
+.b926	4c f1 b6	jmp $b6f1
+.b929	a2 03		ldx #$03	        ldx #3
+.b92b	bd 04 3d	lda $3d04,x	-       lda N_HANDLE,x
+.b92e	9d e2 b7	sta $b7e2,x	        sta bk_handle,x
+.b931	ca		dex		        dex
+.b932	10 f7		bpl $b92b	        bpl -
+.b934	a2 00		ldx #$00	        ldx #0
+.b936	bd 02 3a	lda $3a02,x	-       lda N_BUFFER+2,x
+.b939	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.b93c	e8		inx		        inx
+.b93d	e0 20		cpx #$20	        cpx #32
+.b93f	d0 f5		bne $b936	        bne -
+.b941	a9 00		lda #$00	        lda #0
+.b943	8d a5 bc	sta $bca5	        sta bk_offset
+.b946	8d a6 bc	sta $bca6	        sta bk_offset+1
+.b949	8d 0e 3a	sta $3a0e	        sta N_BUFFER+14
+.b94c	8d 0f 3a	sta $3a0f	        sta N_BUFFER+15
+.b94f	a9 ff		lda #$ff	        lda #$ff
+.b951	8d a9 bc	sta $bca9	        sta bk_crc
+.b954	8d aa bc	sta $bcaa	        sta bk_crc+1
+.b957	a9 20		lda #$20	        lda #32
+.b959	8d a3 bc	sta $bca3	        sta bk_count
+.b95c	20 39 bc	jsr $bc39	        jsr bk_crc_buffer
+.b95f	ad a7 bc	lda $bca7	        lda bk_expected
+.b962	8d 0e 3a	sta $3a0e	        sta N_BUFFER+14
+.b965	ad a8 bc	lda $bca8	        lda bk_expected+1
+.b968	8d 0f 3a	sta $3a0f	        sta N_BUFFER+15
+.b96b	20 c7 ba	jsr $bac7	        jsr bk_write_chunk
+.b96e	b0 b6		bcs $b926	        bcs bk_finish
+.b970					bk_load_more:
+.b970	38		sec		        sec
+.b971	ad f3 b7	lda $b7f3	        lda bk_length
+.b974	ed a5 bc	sbc $bca5	        sbc bk_offset
+.b977	8d a3 bc	sta $bca3	        sta bk_count
+.b97a	ad f4 b7	lda $b7f4	        lda bk_length+1
+.b97d	ed a6 bc	sbc $bca6	        sbc bk_offset+1
+.b980	8d a4 bc	sta $bca4	        sta bk_count+1
+.b983	0d a3 bc	ora $bca3	        ora bk_count
+.b986	f0 21		beq $b9a9	        beq bk_load_eof
+.b988	ad a4 bc	lda $bca4	        lda bk_count+1
+.b98b	c9 02		cmp #$02	        cmp #2
+.b98d	90 0a		bcc $b999	        bcc +
+.b98f	a9 02		lda #$02	        lda #2
+.b991	8d a4 bc	sta $bca4	        sta bk_count+1
+.b994	a9 00		lda #$00	        lda #0
+.b996	8d a3 bc	sta $bca3	        sta bk_count
+.b999	20 8a ba	jsr $ba8a	+       jsr bk_read_chunk
+.b99c	b0 88		bcs $b926	        bcs bk_finish
+.b99e	20 39 bc	jsr $bc39	        jsr bk_crc_buffer
+.b9a1	20 c7 ba	jsr $bac7	        jsr bk_write_chunk
+.b9a4	b0 80		bcs $b926	        bcs bk_finish
+.b9a6	4c 70 b9	jmp $b970	        jmp bk_load_more
+.b9a9					bk_load_eof:
+.b9a9	20 79 ba	jsr $ba79	        jsr bk_select_file
+.b9ac	a9 01		lda #$01	        lda #1
+.b9ae	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b9b1	a9 00		lda #$00	        lda #0
+.b9b3	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b9b6	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b9b9	90 03		bcc $b9be	        bcs bk_finish
+.b9bb	4c f1 b6	jmp $b6f1
+.b9be	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.b9c1	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
+.b9c4	d0 54		bne $ba1a	        bne bk_long_image
+.b9c6	ad 8d 3d	lda $3d8d	        lda N_FEOF
+.b9c9	f0 54		beq $ba1f	        beq bk_short_image
+.b9cb	ad a9 bc	lda $bca9	        lda bk_crc
+.b9ce	cd a7 bc	cmp $bca7	        cmp bk_expected
+.b9d1	d0 51		bne $ba24	        bne bk_checksum
+.b9d3	ad aa bc	lda $bcaa	        lda bk_crc+1
+.b9d6	cd a8 bc	cmp $bca8	        cmp bk_expected+1
+.b9d9	d0 49		bne $ba24	        bne bk_checksum
+.b9db	20 65 ba	jsr $ba65	        jsr bk_close_source
+.b9de	b0 db		bcs $b9bb	        bcs bk_finish
+.b9e0	a9 b6		lda #$b6	        lda #<bk_callback
+.b9e2	8d 00 3a	sta $3a00	        sta N_BUFFER
+.b9e5	a9 b5		lda #$b5	        lda #>bk_callback
+.b9e7	8d 01 3a	sta $3a01	        sta N_BUFFER+1
+.b9ea	a9 16		lda #$16	        lda #22
+.b9ec	8d a5 bc	sta $bca5	        sta bk_offset
+.b9ef	a9 00		lda #$00	        lda #0
+.b9f1	8d a6 bc	sta $bca6	        sta bk_offset+1
+.b9f4	a9 02		lda #$02	        lda #2
+.b9f6	8d a3 bc	sta $bca3	        sta bk_count
+.b9f9	a9 00		lda #$00	        lda #0
+.b9fb	8d a4 bc	sta $bca4	        sta bk_count+1
+.b9fe	20 c7 ba	jsr $bac7	        jsr bk_write_chunk
+.ba01	90 08		bcc $ba0b	        bcc bk_load_success
+.ba03	a2 01		ldx #$01	        ldx #1
+.ba05	8e e1 b7	stx $b7e1	        stx bk_state
+.ba08	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba0b					bk_load_success:
+.ba0b	a9 02		lda #$02	        lda #2
+.ba0d	8d e1 b7	sta $b7e1	        sta bk_state
+.ba10	a9 00		lda #$00	        lda #0
+.ba12	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba15					bk_bad_image:
+.ba15	a9 10		lda #$10	        lda #N_BADIMAGE
+.ba17	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba1a					bk_long_image:
+.ba1a	a9 13		lda #$13	        lda #N_LONGIMAGE
+.ba1c	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba1f					bk_short_image:
+.ba1f	a9 12		lda #$12	        lda #N_SHORTIMAGE
+.ba21	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba24					bk_checksum:
+.ba24	a9 14		lda #$14	        lda #N_CHECKSUM
+.ba26	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba29					bk_load_badarg:
+.ba29	a9 01		lda #$01	        lda #N_BADARG
+.ba2b	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba2e					bk_close:
+.ba2e	08		php		        php
+.ba2f	48		pha		        pha
+.ba30	20 2d b6	jsr $b62d	        jsr bk_enter
+.ba33	90 03		bcc $ba38	        bcs bk_enter_failed
+.ba35	4c e5 b6	jmp $b6e5
+.ba38	68		pla		        pla
+.ba39	ad e1 b7	lda $b7e1	        lda bk_state
+.ba3c	f0 05		beq $ba43	        beq +
+.ba3e	a9 01		lda #$01	        lda #1
+.ba40	8d e1 b7	sta $b7e1	        sta bk_state
+.ba43					+
+.ba43	20 65 ba	jsr $ba65	        jsr bk_close_source
+.ba46	90 03		bcc $ba4b	        bcs bk_finish
+.ba48	4c f1 b6	jmp $b6f1
+.ba4b	ad e2 b7	lda $b7e2	        lda bk_handle
+.ba4e	f0 0d		beq $ba5d	        beq bk_close_done
+.ba50	20 b6 ba	jsr $bab6	        jsr bk_select_code
+.ba53	20 23 1c	jsr $1c23	        jsr N_FREE
+.ba56	b0 f0		bcs $ba48	        bcs bk_finish
+.ba58	a9 00		lda #$00	        lda #0
+.ba5a	8d e2 b7	sta $b7e2	        sta bk_handle
+.ba5d					bk_close_done:
+.ba5d	a9 00		lda #$00	        lda #0
+.ba5f	8d e1 b7	sta $b7e1	        sta bk_state
+.ba62	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.ba65					bk_close_source:
+.ba65	ad e6 b7	lda $b7e6	        lda bk_file
+.ba68	f0 0d		beq $ba77	        beq +
+.ba6a	20 79 ba	jsr $ba79	        jsr bk_select_file
+.ba6d	20 4a 1c	jsr $1c4a	        jsr N_FCLOSE
+.ba70	b0 3f		bcs $bab1	        bcs bk_io_return
+.ba72	a9 00		lda #$00	        lda #0
+.ba74	8d e6 b7	sta $b7e6	        sta bk_file
+.ba77	18		clc		+       clc
+.ba78	60		rts		        rts
+.ba79					bk_select_file:
+.ba79	a9 20		lda #$20	        lda #N_APPOWNER
+.ba7b	8d 80 3d	sta $3d80	        sta N_FOWNER
+.ba7e	a2 03		ldx #$03	        ldx #3
+.ba80	bd e6 b7	lda $b7e6,x	-       lda bk_file,x
+.ba83	9d 81 3d	sta $3d81,x	        sta N_FHANDLE,x
+.ba86	ca		dex		        dex
+.ba87	10 f7		bpl $ba80	        bpl -
+.ba89	60		rts		        rts
+.ba8a					bk_read_chunk:
+.ba8a	20 79 ba	jsr $ba79	        jsr bk_select_file
+.ba8d	ad a3 bc	lda $bca3	        lda bk_count
+.ba90	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.ba93	ad a4 bc	lda $bca4	        lda bk_count+1
+.ba96	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.ba99	20 44 1c	jsr $1c44	        jsr N_FREAD
+.ba9c	b0 13		bcs $bab1	        bcs bk_io_return
+.ba9e	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.baa1	cd a3 bc	cmp $bca3	        cmp bk_count
+.baa4	d0 0c		bne $bab2	        bne +
+.baa6	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.baa9	cd a4 bc	cmp $bca4	        cmp bk_count+1
+.baac	d0 04		bne $bab2	        bne +
+.baae	a9 00		lda #$00	        lda #0
+.bab0	18		clc		        clc
+.bab1					bk_io_return:
+.bab1	60		rts		        rts
+.bab2	a9 12		lda #$12	+       lda #N_SHORTIMAGE
+.bab4	38		sec		        sec
+.bab5	60		rts		        rts
+.bab6					bk_select_code:
+.bab6	a9 1d		lda #$1d	        lda #BK_OWNER
+.bab8	8d 00 3d	sta $3d00	        sta N_OWNER
+.babb	a2 03		ldx #$03	        ldx #3
+.babd	bd e2 b7	lda $b7e2,x	-       lda bk_handle,x
+.bac0	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.bac3	ca		dex		        dex
+.bac4	10 f7		bpl $babd	        bpl -
+.bac6	60		rts		        rts
+.bac7					bk_write_chunk:
+.bac7	20 b6 ba	jsr $bab6	        jsr bk_select_code
+.baca	ad a5 bc	lda $bca5	        lda bk_offset
+.bacd	8d 08 3d	sta $3d08	        sta N_OFFSET
+.bad0	ad a6 bc	lda $bca6	        lda bk_offset+1
+.bad3	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.bad6	ad a3 bc	lda $bca3	        lda bk_count
+.bad9	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.badc	ad a4 bc	lda $bca4	        lda bk_count+1
+.badf	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.bae2	20 29 1c	jsr $1c29	        jsr N_WRITE
+.bae5	b0 ca		bcs $bab1	        bcs bk_io_return
+.bae7	18		clc		        clc
+.bae8	ad a5 bc	lda $bca5	        lda bk_offset
+.baeb	6d a3 bc	adc $bca3	        adc bk_count
+.baee	8d a5 bc	sta $bca5	        sta bk_offset
+.baf1	ad a6 bc	lda $bca6	        lda bk_offset+1
+.baf4	6d a4 bc	adc $bca4	        adc bk_count+1
+.baf7	8d a6 bc	sta $bca6	        sta bk_offset+1
+.bafa	18		clc		        clc
+.bafb	60		rts		        rts
+.bafc					bk_attach:
+.bafc	08		php		        php
+.bafd	48		pha		        pha
+.bafe	20 2d b6	jsr $b62d	        jsr bk_enter
+.bb01	b0 2c		bcs $bb2f	        bcs bk_attach_gate
+.bb03	68		pla		        pla
+.bb04	ad e1 b7	lda $b7e1	        lda bk_state
+.bb07	f0 03		beq $bb0c	        bne bk_load_badarg
+.bb09	4c 29 ba	jmp $ba29
+.bb0c	a2 00		ldx #$00	        ldx #0
+.bb0e					bk_attach_scan:
+.bb0e	bd 00 3c	lda $3c00,x	        lda NHANDLES,x
+.bb11	c9 1d		cmp #$1d	        cmp #BK_OWNER
+.bb13	d0 0e		bne $bb23	        bne bk_attach_next
+.bb15	bd 01 3c	lda $3c01,x	        lda NHANDLES+1,x
+.bb18	c9 01		cmp #$01	        cmp #1
+.bb1a	d0 07		bne $bb23	        bne bk_attach_next
+.bb1c	bd 02 3c	lda $3c02,x	        lda NHANDLES+2,x
+.bb1f	c9 40		cmp #$40	        cmp #>BK_BASE
+.bb21	f0 0f		beq $bb32	        beq bk_attach_found
+.bb23					bk_attach_next:
+.bb23	8a		txa		        txa
+.bb24	18		clc		        clc
+.bb25	69 08		adc #$08	        adc #8
+.bb27	aa		tax		        tax
+.bb28	d0 e4		bne $bb0e	        bne bk_attach_scan
+.bb2a	a9 04		lda #$04	        lda #N_BADHANDLE
+.bb2c	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.bb2f					bk_attach_gate:
+.bb2f	4c e5 b6	jmp $b6e5	        jmp bk_enter_failed
+.bb32					bk_attach_found:
+.bb32	bd 03 3c	lda $3c03,x	        lda NHANDLES+3,x
+.bb35	8d f2 b7	sta $b7f2	        sta bk_pages
+.bb38	bd 04 3c	lda $3c04,x	        lda NHANDLES+4,x
+.bb3b	8d e3 b7	sta $b7e3	        sta bk_handle+1
+.bb3e	bd 05 3c	lda $3c05,x	        lda NHANDLES+5,x
+.bb41	8d e4 b7	sta $b7e4	        sta bk_handle+2
+.bb44	bd 06 3c	lda $3c06,x	        lda NHANDLES+6,x
+.bb47	8d e5 b7	sta $b7e5	        sta bk_handle+3
+.bb4a	8a		txa		        txa
+.bb4b	4a		lsr a		        lsr
+.bb4c	4a		lsr a		        lsr
+.bb4d	4a		lsr a		        lsr
+.bb4e	18		clc		        clc
+.bb4f	69 01		adc #$01	        adc #1
+.bb51	8d e2 b7	sta $b7e2	        sta bk_handle
+.bb54	20 b6 ba	jsr $bab6	        jsr bk_select_code
+.bb57	a9 00		lda #$00	        lda #0
+.bb59	8d 08 3d	sta $3d08	        sta N_OFFSET
+.bb5c	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.bb5f	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.bb62	a9 28		lda #$28	        lda #40
+.bb64	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.bb67	20 26 1c	jsr $1c26	        jsr N_READ
+.bb6a	90 03		bcc $bb6f	        bcs bk_attach_fail
+.bb6c	4c 0e bc	jmp $bc0e
+.bb6f	a2 05		ldx #$05	        ldx #5
+.bb71	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x          ; NBK1, format and ABI major
+.bb74	dd 93 bc	cmp $bc93,x	        cmp bk_prefix+2,x
+.bb77	f0 03		beq $bb7c	        bne bk_attach_bad
+.bb79	4c 0c bc	jmp $bc0c
+.bb7c	bd 10 3a	lda $3a10,x	        lda N_BUFFER+16,x       ; exit stub and reserved byte
+.bb7f	dd 99 bc	cmp $bc99,x	        cmp bk_stub,x
+.bb82	d0 f5		bne $bb79	        bne bk_attach_bad
+.bb84	ca		dex		        dex
+.bb85	10 ea		bpl $bb71	        bpl -
+.bb87	ad 16 3a	lda $3a16	        lda N_BUFFER+22         ; bk_load patches the callback import only
+.bb8a	0d 17 3a	ora $3a17	        ora N_BUFFER+23         ; after CRC and source close: zero = partial
+.bb8d	f0 7d		beq $bc0c	        beq bk_attach_bad
+.bb8f	a2 07		ldx #$07	        ldx #7
+.bb91	bd 18 3a	lda $3a18,x	-       lda N_BUFFER+24,x       ; reserved header tail
+.bb94	d0 76		bne $bc0c	        bne bk_attach_bad
+.bb96	ca		dex		        dex
+.bb97	10 f8		bpl $bb91	        bpl -
+.bb99	a2 04		ldx #$04	        ldx #4
+.bb9b	bd 20 3a	lda $3a20,x	-       lda N_BUFFER+32,x       ; component identity and major version
+.bb9e	dd ad bc	cmp $bcad,x	        cmp bk_identity,x
+.bba1	d0 69		bne $bc0c	        bne bk_attach_bad
+.bba3	ca		dex		        dex
+.bba4	10 f5		bpl $bb9b	        bpl -
+.bba6	ad 06 3a	lda $3a06	        lda N_BUFFER+6          ; required native ABI minor
+.bba9	c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.bbab	b0 5f		bcs $bc0c	        bcs bk_attach_bad
+.bbad	ad 07 3a	lda $3a07	        lda N_BUFFER+7          ; flags
+.bbb0	d0 5a		bne $bc0c	        bne bk_attach_bad
+.bbb2	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
+.bbb5	c9 01		cmp #$01	        cmp #1
+.bbb7	d0 53		bne $bc0c	        bne bk_attach_bad
+.bbb9	ad 0a 3a	lda $3a0a	        lda N_BUFFER+10
+.bbbc	cd f2 b7	cmp $b7f2	        cmp bk_pages
+.bbbf	d0 4b		bne $bc0c	        bne bk_attach_bad
+.bbc1	ad 08 3a	lda $3a08	        lda N_BUFFER+8
+.bbc4	8d f3 b7	sta $b7f3	        sta bk_length
+.bbc7	ad 09 3a	lda $3a09	        lda N_BUFFER+9
+.bbca	8d f4 b7	sta $b7f4	        sta bk_length+1
+.bbcd	ad 0c 3a	lda $3a0c	        lda N_BUFFER+12
+.bbd0	8d f5 b7	sta $b7f5	        sta bk_entry
+.bbd3	ad 0d 3a	lda $3a0d	        lda N_BUFFER+13
+.bbd6	18		clc		        clc
+.bbd7	69 40		adc #$40	        adc #>BK_BASE
+.bbd9	8d f6 b7	sta $b7f6	        sta bk_entry+1
+.bbdc	20 19 b7	jsr $b719	        jsr bk_check_code       ; extent, entry range, owner and page tags
+.bbdf	b0 2d		bcs $bc0e	        bcs bk_attach_fail
+.bbe1	a9 b6		lda #$b6	        lda #<bk_callback
+.bbe3	8d 00 3a	sta $3a00	        sta N_BUFFER
+.bbe6	a9 b5		lda #$b5	        lda #>bk_callback
+.bbe8	8d 01 3a	sta $3a01	        sta N_BUFFER+1
+.bbeb	a9 16		lda #$16	        lda #22
+.bbed	8d a5 bc	sta $bca5	        sta bk_offset
+.bbf0	a9 00		lda #$00	        lda #0
+.bbf2	8d a6 bc	sta $bca6	        sta bk_offset+1
+.bbf5	8d a4 bc	sta $bca4	        sta bk_count+1
+.bbf8	a9 02		lda #$02	        lda #2
+.bbfa	8d a3 bc	sta $bca3	        sta bk_count
+.bbfd	20 c7 ba	jsr $bac7	        jsr bk_write_chunk
+.bc00	b0 0c		bcs $bc0e	        bcs bk_attach_fail
+.bc02	a9 02		lda #$02	        lda #2
+.bc04	8d e1 b7	sta $b7e1	        sta bk_state
+.bc07	a9 00		lda #$00	        lda #0
+.bc09	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.bc0c					bk_attach_bad:
+.bc0c	a9 10		lda #$10	        lda #N_BADIMAGE
+.bc0e					bk_attach_fail:
+.bc0e	a2 00		ldx #$00	        ldx #0
+.bc10	8e e2 b7	stx $b7e2	        stx bk_handle
+.bc13	8e f2 b7	stx $b7f2	        stx bk_pages
+.bc16	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.bc19					bk_detach:
+.bc19	08		php		        php
+.bc1a	48		pha		        pha
+.bc1b	20 2d b6	jsr $b62d	        jsr bk_enter
+.bc1e	90 03		bcc $bc23	        bcs bk_attach_gate
+.bc20	4c 2f bb	jmp $bb2f
+.bc23	68		pla		        pla
+.bc24	ad e1 b7	lda $b7e1	        lda bk_state
+.bc27	c9 02		cmp #$02	        cmp #2
+.bc29	f0 03		beq $bc2e	        bne bk_load_badarg
+.bc2b	4c 29 ba	jmp $ba29
+.bc2e	a9 00		lda #$00	        lda #0
+.bc30	8d e1 b7	sta $b7e1	        sta bk_state
+.bc33	8d e2 b7	sta $b7e2	        sta bk_handle
+.bc36	4c f1 b6	jmp $b6f1	        jmp bk_finish
+.bc39					bk_crc_buffer:
+.bc39	a9 00		lda #$00	        lda #<N_BUFFER
+.bc3b	8d 50 bc	sta $bc50	        sta bk_crc_get+1
+.bc3e	a9 3a		lda #$3a	        lda #>N_BUFFER
+.bc40	8d 51 bc	sta $bc51	        sta bk_crc_get+2
+.bc43	ad a3 bc	lda $bca3	        lda bk_count
+.bc46	8d ab bc	sta $bcab	        sta bk_crc_left
+.bc49	ad a4 bc	lda $bca4	        lda bk_count+1
+.bc4c	8d ac bc	sta $bcac	        sta bk_crc_left+1
+.bc4f					bk_crc_get:
+.bc4f	ad 00 3a	lda $3a00	        lda N_BUFFER
+.bc52	4d aa bc	eor $bcaa	        eor bk_crc+1
+.bc55	8d aa bc	sta $bcaa	        sta bk_crc+1
+.bc58	a2 08		ldx #$08	        ldx #8
+.bc5a	0e a9 bc	asl $bca9	-       asl bk_crc
+.bc5d	2e aa bc	rol $bcaa	        rol bk_crc+1
+.bc60	90 10		bcc $bc72	        bcc +
+.bc62	ad a9 bc	lda $bca9	        lda bk_crc
+.bc65	49 21		eor #$21	        eor #$21
+.bc67	8d a9 bc	sta $bca9	        sta bk_crc
+.bc6a	ad aa bc	lda $bcaa	        lda bk_crc+1
+.bc6d	49 10		eor #$10	        eor #$10
+.bc6f	8d aa bc	sta $bcaa	        sta bk_crc+1
+.bc72	ca		dex		+       dex
+.bc73	d0 e5		bne $bc5a	        bne -
+.bc75	ee 50 bc	inc $bc50	        inc bk_crc_get+1
+.bc78	d0 03		bne $bc7d	        bne +
+.bc7a	ee 51 bc	inc $bc51	        inc bk_crc_get+2
+.bc7d	ad ab bc	lda $bcab	+       lda bk_crc_left
+.bc80	d0 03		bne $bc85	        bne +
+.bc82	ce ac bc	dec $bcac	        dec bk_crc_left+1
+.bc85	ce ab bc	dec $bcab	+       dec bk_crc_left
+.bc88	ad ab bc	lda $bcab	        lda bk_crc_left
+.bc8b	0d ac bc	ora $bcac	        ora bk_crc_left+1
+.bc8e	d0 bf		bne $bc4f	        bne bk_crc_get
+.bc90	60		rts		        rts
+>bc91	00 40 4e 42 4b 31 01 01		bk_prefix: .byte <BK_BASE,>BK_BASE,$4e,$42,$4b,$31,1,1 ; PRG address, NBK1, format, ABI major
+>bc99	a2 0e 4c ab 02 00 00 00		bk_stub: .byte $a2,$0e,$4c,$ab,$02,0,0,0,0,0
+>bca1	00 00
+>bca3	00 00				bk_count: .word 0
+>bca5	00 00				bk_offset: .word 0
+>bca7	00 00				bk_expected: .word 0
+>bca9	00 00				bk_crc: .word 0
+>bcab	00 00				bk_crc_left: .word 0
+
+;******  Return to file: src/native/gemdesk-ses.asm
+
+>bcad	4e 41 43 43			bk_identity: .text "nacc"
+>bcb1	01				        .byte 1
+.bcb2					gm_ses_end:
+
+;******  End of listing

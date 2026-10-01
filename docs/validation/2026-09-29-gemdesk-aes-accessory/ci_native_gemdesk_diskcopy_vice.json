@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-gemdesk-diskcopy-a0azus33",
+  "checks": [
+    {
+      "name": "the 1351 in control port 1 moves GEMDESK's pointer onto the Boot icon",
+      "pointer": [
+        284,
+        28
+      ]
+    },
+    {
+      "name": "Boot dragged onto Drive 9 with the mouse asks to copy the disk (Cancel is the default)"
+    },
+    {
+      "name": "Copy reads, writes and compares every sector and says so",
+      "seconds": 1038.0
+    },
+    {
+      "name": "after the emulator exits, the drive 9 D81 is byte-identical to the drive 8 D81 (3,200 sectors)"
+    }
+  ],
+  "command": [
+    "x128",
+    "-default",
+    "-8",
+    "/var/tmp/arc-scratch/uos-gemdesk-diskcopy-a0azus33/gem.d81",
+    "-drive8true",
+    "-drive8type",
+    "1581",
+    "-9",
+    "/var/tmp/arc-scratch/uos-gemdesk-diskcopy-a0azus33/blank.d81",
+    "-drive9true",
+    "-drive9type",
+    "1581",
+    "-controlport1device",
+    "3",
+    "-mouse",
+    "-sounddev",
+    "dummy",
+    "-jamaction",
+    "0",
+    "-warp",
+    "-binarymonitor",
+    "-binarymonitoraddress",
+    "ip4://127.0.0.1:52753"
+  ],
+  "copy_seconds_host": 1038.0
+}

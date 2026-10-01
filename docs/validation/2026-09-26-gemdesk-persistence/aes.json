@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "work": "/var/tmp/arc-scratch/uos-aes-9eat6v81",
+  "images": {
+    "abi": "1.14",
+    "images": {
+      "AESDEMO.PRG": {
+        "bytes": 5270,
+        "pages": 21,
+        "entry": 24608,
+        "crc16": 6895,
+        "window": null,
+        "title": "AES DEMO",
+        "sha256": "f78567ac67f08961d2f23041c5a759a6725bdcdf6e97f11f92f5689ab86286e6"
+      },
+      "AESVC.PRG": {
+        "bytes": 14027,
+        "pages": 55,
+        "bank": 1,
+        "entry": 34856,
+        "crc16": 47544,
+        "sha256": "c2ab49fa3fa9580e543089bf686ad070345979941743af924a46efe5bc8d508a"
+      }
+    }
+  },
+  "cases": [
+    {
+      "name": "first app loads AESVC at bank-1 $8800 as owner 30; it survives exit",
+      "events": 2,
+      "instructions": 3631518,
+      "pages": 55
+    },
+    {
+      "name": "second app attaches without loading, sees persisted counters, unloads fully",
+      "events": 4,
+      "instructions": 874998
+    },
+    {
+      "name": "wrong identity or zero callback import (partial load) refused with BADIMAGE; restored image re-attaches",
+      "events": 8,
+      "instructions": 868576
+    },
+    {
+      "name": "occupied $8800 by another owner: clean allocation refusal, nothing adopted",
+      "events": 0,
+      "instructions": 938202,
+      "error": 2
+    },
+    {
+      "name": "corrupt AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 3610027,
+      "error": 20
+    },
+    {
+      "name": "missing AESVC.PRG refused; no resident image",
+      "events": 1,
+      "instructions": 873485,
+      "error": 17
+    },
+    {
+      "name": "keyboard alert: exact frame, Tab/cursor focus with row masks, Return, exact restore",
+      "events": 8,
+      "instructions": 10716855,
+      "alert": {
+        "x": 6,
+        "y": 9,
+        "w": 27,
+        "h": 7
+      }
+    },
+    {
+      "name": "digits choose directly, Escape chooses Cancel, Return takes the default",
+      "events": 16,
+      "instructions": 24562009
+    },
+    {
+      "name": "1351-style press/release on the same button chooses it; release elsewhere does not",
+      "events": 21,
+      "instructions": 28640437
+    },
+    {
+      "name": "arbitrary pixels and colours under the alert are restored exactly",
+      "events": 23,
+      "instructions": 32101721
+    },
+    {
+      "name": "malformed strings and alerts over 250 cells are refused before any surface change",
+      "events": 31,
+      "instructions": 32167762
+    },
+    {
+      "name": "keyboard event returns the key",
+      "events": 2,
+      "instructions": 3631271
+    },
+    {
+      "name": "timer fires at exactly 60 jiffies, not 59, across a carry",
+      "events": 3,
+      "instructions": 3640009
+    },
+    {
+      "name": "button press fires one click; an already-matching state fires at once",
+      "events": 5,
+      "instructions": 3654469
+    },
+    {
+      "name": "double-click inside the 20-jiffy window; the window closing reports one click, also across the midnight clock reset",
+      "events": 8,
+      "instructions": 3683770
+    },
+    {
+      "name": "rectangle enter/leave with half-open cell bounds",
+      "events": 10,
+      "instructions": 3699342
+    },
+    {
+      "name": "messages queue in order, deliver once, and refuse a 17th",
+      "events": 30,
+      "instructions": 3829885
+    },
+    {
+      "name": "a new app attaching finds an empty queue",
+      "events": 33,
+      "instructions": 876304
+    },
+    {
+      "name": "F1, cursor keys skip disabled rows, Return chooses File:Quit and restores the bar",
+      "events": 7,
+      "instructions": 6025613
+    },
+    {
+      "name": "an enabled shortcut chooses without drawing; a disabled one reaches the app as a key",
+      "events": 9,
+      "instructions": 6030227
+    },
+    {
+      "name": "pointer: open on press, hover, release chooses; set draws the check; press outside closes",
+      "events": 12,
+      "instructions": 8378886
+    },
+    {
+      "name": "Escape closes an open drop-down first, then reaches the app",
+      "events": 15,
+      "instructions": 9021028
+    },
+    {
+      "name": "three windows open with every gadget kind; frames and fills match the painter",
+      "events": 1,
+      "instructions": 5025050,
+      "redraws": 3
+    },
+    {
+      "name": "topping windows repaints exactly what changed; visible rectangles match",
+      "events": 7,
+      "instructions": 6208700,
+      "rects": 1
+    },
+    {
+      "name": "move and size uncover desktop and lower windows exactly",
+      "events": 13,
+      "instructions": 7828072
+    },
+    {
+      "name": "closing the top window uncovers the rest and highlights the new top",
+      "events": 16,
+      "instructions": 8532959
+    },
+    {
+      "name": "Escape closes and deletes all windows; slots are reusable",
+      "events": 19,
+      "instructions": 9945579
+    },
+    {
+      "name": "topping, dragging the title with an XOR outline, and the full box",
+      "events": 1,
+      "instructions": 6439532
+    },
+    {
+      "name": "size box drag, arrows, paging and the vertical thumb drag",
+      "events": 1,
+      "instructions": 8166349,
+      "gadgets": 10
+    },
+    {
+      "name": "horizontal arrows and thumb; work-area and desktop presses reach the app",
+      "events": 1,
+      "instructions": 8757553
+    },
+    {
+      "name": "the close box closes the window through the app",
+      "events": 3,
+      "instructions": 9610522
+    }
+  ]
+}

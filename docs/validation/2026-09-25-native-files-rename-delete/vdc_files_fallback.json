@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    {
+      "name": "hardware refusal preserves VIC controls, verified copying and both text fallback/cleanup paths",
+      "passed": true,
+      "instructions": 26797105,
+      "keys": 9
+    },
+    {
+      "name": "component refusal preserves VIC controls, verified copying and both text fallback/cleanup paths",
+      "passed": true,
+      "instructions": 24587175,
+      "keys": 9
+    },
+    {
+      "name": "corrupt refusal preserves VIC controls, verified copying and both text fallback/cleanup paths",
+      "passed": true,
+      "instructions": 26530476,
+      "keys": 9
+    },
+    {
+      "name": "corrupt picker restores VDC before text; missing graphics preserves copying; Refresh reacquires both displays",
+      "passed": true,
+      "instructions": 55244208,
+      "keys": 15
+    },
+    {
+      "name": "failed picker surface restores VDC before text and retains the complete copy destination",
+      "passed": true,
+      "instructions": 51555446,
+      "keys": 12
+    }
+  ]
+}

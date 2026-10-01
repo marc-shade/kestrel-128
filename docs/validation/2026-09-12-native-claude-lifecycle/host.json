@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "physical_hardware_io": false,
+  "cases": [
+    "partial and blocked PTY writes preserve all input in order",
+    "reaped child is never signaled",
+    "split native BYE is a normal close",
+    "RESYNC leaves receive credits unchanged",
+    "modem chatter cannot start a PTY; the first RESYNC starts the selected command exactly once",
+    "F8 acknowledgement follows the entire full backlog despite short writes and zero initial credits",
+    "BYE before RESYNC receives acknowledgement without starting a host process",
+    "offline modem banner and disconnect close the transport without launching the selected command",
+    "host exit finishes after sending BYE without waiting for an unnecessary peer read"
+  ]
+}

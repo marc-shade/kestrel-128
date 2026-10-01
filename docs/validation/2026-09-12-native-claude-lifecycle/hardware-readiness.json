@@ -1,0 +1,211 @@
+{
+  "physical_network_io": true,
+  "mutation_requests": false,
+  "host": "192.0.2.237",
+  "reads": [
+    {
+      "label": "version",
+      "method": "GET",
+      "path": "/v1/version",
+      "status": 200,
+      "body": {
+        "version": "0.1",
+        "errors": []
+      }
+    },
+    {
+      "label": "drives",
+      "method": "GET",
+      "path": "/v1/drives",
+      "status": 200,
+      "body": {
+        "drives": [
+          {
+            "a": {
+              "enabled": true,
+              "bus_id": 8,
+              "type": "1541",
+              "rom": "1541.rom",
+              "image_file": "/Temp/temp0098",
+              "image_path": ""
+            }
+          },
+          {
+            "b": {
+              "enabled": true,
+              "bus_id": 9,
+              "type": "1541",
+              "rom": "1541.rom",
+              "image_file": "",
+              "image_path": ""
+            }
+          },
+          {
+            "IEC Drive": {
+              "bus_id": 10,
+              "enabled": true,
+              "type": "DOS emulation",
+              "last_error": "73,U64IEC ULTIMATE DOS V1.1,00,00",
+              "partitions": [
+                {
+                  "id": 0,
+                  "path": "/Usb0/"
+                }
+              ]
+            }
+          },
+          {
+            "Printer Emulation": {
+              "bus_id": 4,
+              "enabled": false
+            }
+          }
+        ],
+        "errors": []
+      }
+    },
+    {
+      "label": "ACIA (6551) Mapping",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/ACIA%20%286551%29%20Mapping",
+      "status": 200,
+      "body": {
+        "Modem Settings": {},
+        "errors": []
+      }
+    },
+    {
+      "label": "ACIA (6551) Mode",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/ACIA%20%286551%29%20Mode",
+      "status": 200,
+      "body": {
+        "Modem Settings": {
+          "ACIA (6551) Mode": {
+            "current": "DE00/NMI",
+            "values": [
+              "Off",
+              "DE00/IRQ",
+              "DE00/NMI",
+              "DF00/IRQ",
+              "DF00/NMI",
+              "DF80/IRQ",
+              "DF80/NMI"
+            ],
+            "default": "Off"
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "label": "Hardware Mode",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/Hardware%20Mode",
+      "status": 200,
+      "body": {
+        "Modem Settings": {},
+        "errors": []
+      }
+    },
+    {
+      "label": "Listening Port",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/Listening%20Port",
+      "status": 200,
+      "body": {
+        "Modem Settings": {
+          "Listening Port": {
+            "current": "3000",
+            "default": "3000"
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "label": "Drop connection on DTR low",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/Drop%20connection%20on%20DTR%20low",
+      "status": 200,
+      "body": {
+        "Modem Settings": {
+          "Drop connection on DTR low": {
+            "current": "Enabled",
+            "values": [
+              "Disabled",
+              "Enabled"
+            ],
+            "default": "Enabled"
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "label": "Do RING sequence (incoming)",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/Do%20RING%20sequence%20%28incoming%29",
+      "status": 200,
+      "body": {
+        "Modem Settings": {
+          "Do RING sequence (incoming)": {
+            "current": "Enabled",
+            "values": [
+              "Disabled",
+              "Enabled"
+            ],
+            "default": "Enabled"
+          }
+        },
+        "errors": []
+      }
+    },
+    {
+      "label": "Loop Delay",
+      "method": "GET",
+      "path": "/v1/configs/Modem%20Settings/Loop%20Delay",
+      "status": 200,
+      "body": {
+        "Modem Settings": {},
+        "errors": []
+      }
+    },
+    {
+      "label": "legacy-tick-before",
+      "method": "GET",
+      "path": "/v1/machine:readmem?address=033C&length=2",
+      "status": 200,
+      "hex": "5e1f"
+    },
+    {
+      "label": "legacy-app",
+      "method": "GET",
+      "path": "/v1/machine:readmem?address=4122&length=2",
+      "status": 200,
+      "hex": "0000"
+    },
+    {
+      "label": "legacy-settings",
+      "method": "GET",
+      "path": "/v1/machine:readmem?address=7350&length=9",
+      "status": 200,
+      "hex": "507302f0a502030000"
+    },
+    {
+      "label": "irq-vector",
+      "method": "GET",
+      "path": "/v1/machine:readmem?address=0314&length=2",
+      "status": 200,
+      "hex": "579e"
+    },
+    {
+      "label": "legacy-tick-after",
+      "method": "GET",
+      "path": "/v1/machine:readmem?address=033C&length=2",
+      "status": 200,
+      "hex": "5e1f"
+    }
+  ],
+  "completed": true
+}
