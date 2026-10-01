@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gdcpy.bin -l target/native-desktop/gdcpy.sym -L target/native-desktop/gdcpy.lst src/native/gemdesk-cpy.asm
-; Wed Sep 30 12:50:10 2026
+; Thu Oct  1 15:21:33 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -1218,7 +1218,7 @@
 .b23c					gm_cpy:
 >b23c	4e 4d 4f 44			        .text "nmod"
 >b240	01 01 0e 00			        .byte 1,1,14,0
->b244	fa 0c				        .word gm_cpy_end-gm_cpy
+>b244	c2 0d				        .word gm_cpy_end-gm_cpy
 >b246	00 00				        .word 0
 >b248	10 00				        .word copyop.entry-gm_cpy
 >b24a	00 00				        .word 0
@@ -1242,9 +1242,9 @@
 .b26d	b0 f3		bcs $b262	        bcs done
 .b26f	ec de 86	cpx $86de	        cpx gm_slot
 .b272	f0 ee		beq $b262	        beq done                ; within its own window: nothing
-.b274	8e 22 bf	stx $bf22	        stx dslot
+.b274	8e e7 bf	stx $bfe7	        stx dslot
 .b277	bd 8c 87	lda $878c,x	        lda gm_win_dev,x
-.b27a	8d 24 bf	sta $bf24	        sta ddev
+.b27a	8d e9 bf	sta $bfe9	        sta ddev
 .b27d	bd 90 87	lda $8790,x	        lda gm_win_fmt,x
 .b280	8d da b6	sta $b6da	        sta dfmt
 .b283	4c a5 b2	jmp $b2a5	        jmp target_known
@@ -1256,10 +1256,10 @@
 .b28e	f0 d2		beq $b262	        beq done
 .b290	ca		dex		        dex
 .b291	a9 ff		lda #$ff	        lda #$ff
-.b293	8d 22 bf	sta $bf22	        sta dslot
+.b293	8d e7 bf	sta $bfe7	        sta dslot
 .b296	20 3f 68	jsr $683f	        jsr gm_icon_drive
 .b299	ad df 86	lda $86df	        lda gm_dev
-.b29c	8d 24 bf	sta $bf24	        sta ddev
+.b29c	8d e9 bf	sta $bfe9	        sta ddev
 .b29f	ad e0 86	lda $86e0	        lda gm_fmt
 .b2a2	8d da b6	sta $b6da	        sta dfmt
 .b2a5					target_known:
@@ -1269,10 +1269,10 @@
 .b2ae	bd 90 87	lda $8790,x	        lda gm_win_fmt,x
 .b2b1	8d df b6	sta $b6df	        sta sfmt
 .b2b4	a9 00		lda #$00	        lda #0
-.b2b6	8d 26 bf	sta $bf26	        sta stop
+.b2b6	8d eb bf	sta $bfeb	        sta stop
 .b2b9	8d 02 87	sta $8702	        sta gm_alen
-.b2bc	a9 9d		lda #$9d	        lda #<s_copy
-.b2be	a2 bd		ldx #$bd	        ldx #>s_copy
+.b2bc	a9 5d		lda #$5d	        lda #<s_copy
+.b2be	a2 be		ldx #$be	        ldx #>s_copy
 .b2c0	20 b7 6d	jsr $6db7	        jsr gm_astr
 .b2c3	ae de 86	ldx $86de	        ldx gm_slot
 .b2c6	bd a0 87	lda $87a0,x	        lda gm_nsel,x
@@ -1299,12 +1299,12 @@
 .b2f7	f0 04		beq $b2fd	        beq +
 .b2f9	a9 01		lda #$01	        lda #1                  ; Copy
 .b2fb	d0 28		bne $b325	        bne chosen
-.b2fd	a9 a7		lda #$a7	+       lda #<s_to
-.b2ff	a2 bd		ldx #$bd	        ldx #>s_to
+.b2fd	a9 67		lda #$67	+       lda #<s_to
+.b2ff	a2 be		ldx #$be	        ldx #>s_to
 .b301	20 b7 6d	jsr $6db7	        jsr gm_astr
 .b304	20 af b4	jsr $b4af	        jsr adest
-.b307	a9 ac		lda #$ac	        lda #<s_choice
-.b309	a2 bd		ldx #$bd	        ldx #>s_choice
+.b307	a9 6c		lda #$6c	        lda #<s_choice
+.b309	a2 be		ldx #$be	        ldx #>s_choice
 .b30b	20 b7 6d	jsr $6db7	        jsr gm_astr
 .b30e	a9 00		lda #$00	        lda #0
 .b310	20 cb 6d	jsr $6dcb	        jsr gm_aput
@@ -1317,34 +1317,34 @@
 .b321	c9 03		cmp #$03	        cmp #3
 .b323	b0 53		bcs $b378	        bcs done                ; Cancel
 .b325					chosen:
-.b325	8d 25 bf	sta $bf25	        sta choice
+.b325	8d ea bf	sta $bfea	        sta choice
 .b328	ad e4 84	lda $84e4	        lda gm_confirm          ; Move deletes without a second question
 .b32b	48		pha		        pha
 .b32c	29 fe		and #$fe	        and #$fe
 .b32e	8d e4 84	sta $84e4	        sta gm_confirm
 .b331	a9 00		lda #$00	        lda #0
-.b333	8d 27 bf	sta $bf27	        sta created
-.b336	8d 20 bf	sta $bf20	        sta item_no
+.b333	8d ec bf	sta $bfec	        sta created
+.b336	8d e5 bf	sta $bfe5	        sta item_no
 .b339	ae de 86	ldx $86de	        ldx gm_slot             ; the rows to count: at least the one dragged
 .b33c	bd a0 87	lda $87a0,x	        lda gm_nsel,x
 .b33f	d0 02		bne $b343	        bne +
 .b341	a9 01		lda #$01	        lda #1
-.b343	8d 21 bf	sta $bf21	+       sta total
+.b343	8d e6 bf	sta $bfe6	+       sta total
 .b346	ee 1a 88	inc $881a	        inc gm_batch            ; and without listing between rows
 .b349	a9 79		lda #$79	        lda #<item
 .b34b	a2 b3		ldx #$b3	        ldx #>item
 .b34d	20 2a 7e	jsr $7e2a	        jsr gm_each
-.b350	20 e0 bc	jsr $bce0	        jsr progress_close      ; before the listings are painted again
+.b350	20 a0 bd	jsr $bda0	        jsr progress_close      ; before the listings are painted again
 .b353	ce 1a 88	dec $881a	        dec gm_batch
 .b356	68		pla		        pla
 .b357	8d e4 84	sta $84e4	        sta gm_confirm
-.b35a	ad 25 bf	lda $bf25	        lda choice              ; list again: the source's drive after Move,
+.b35a	ad ea bf	lda $bfea	        lda choice              ; list again: the source's drive after Move,
 .b35d	c9 02		cmp #$02	        cmp #2
 .b35f	d0 03		bne $b364	        bne +
 .b361	20 51 6f	jsr $6f51	        jsr gm_relist_slot
-.b364	ad 27 bf	lda $bf27	+       lda created             ; then the target's, if anything was created
+.b364	ad ec bf	lda $bfec	+       lda created             ; then the target's, if anything was created
 .b367	f0 0f		beq $b378	        beq done
-.b369	ad 24 bf	lda $bf24	        lda ddev
+.b369	ad e9 bf	lda $bfe9	        lda ddev
 .b36c	8d df 86	sta $86df	        sta gm_dev
 .b36f	ad da b6	lda $b6da	        lda dfmt
 .b372	8d e0 86	sta $86e0	        sta gm_fmt
@@ -1352,10 +1352,10 @@
 .b378					done:
 .b378	60		rts		        rts
 .b379					item:
-.b379	ee 20 bf	inc $bf20	        inc item_no
+.b379	ee e5 bf	inc $bfe5	        inc item_no
 .b37c	a9 00		lda #$00	        lda #0
-.b37e	8d 28 bf	sta $bf28	        sta skipped
-.b381	ad 26 bf	lda $bf26	        lda stop
+.b37e	8d ed bf	sta $bfed	        sta skipped
+.b381	ad eb bf	lda $bfeb	        lda stop
 .b384	d0 40		bne $b3c6	        bne item_done
 .b386	20 ec 6d	jsr $6dec	        jsr gm_read_record
 .b389	b0 3b		bcs $b3c6	        bcs item_done
@@ -1363,30 +1363,30 @@
 .b38e	b0 36		bcs $b3c6	        bcs item_done
 .b390	20 cd b3	jsr $b3cd	        jsr names
 .b393	b0 31		bcs $b3c6	        bcs item_done
-.b395	ad 21 bd	lda $bd21	        lda pw                  ; the progress window: opened for the first
+.b395	ad e1 bd	lda $bde1	        lda pw                  ; the progress window: opened for the first
 .b398	d0 06		bne $b3a0	        bne +                   ; row that is copied, retitled for each next
-.b39a	20 52 bc	jsr $bc52	        jsr progress_open
+.b39a	20 12 bd	jsr $bd12	        jsr progress_open
 .b39d	4c a3 b3	jmp $b3a3	        jmp ++
-.b3a0	20 ba bc	jsr $bcba	+       jsr progress_title
+.b3a0	20 7a bd	jsr $bd7a	+       jsr progress_title
 .b3a3	ad d9 b6	lda $b6d9	+       lda isdir
 .b3a6	d0 1f		bne $b3c7	        bne item_tree
-.b3a8	20 ef b6	jsr $b6ef	        jsr copy
+.b3a8	20 ef b6	jsr $b6ef	        jsr copy_new
 .b3ab					item_copied:
 .b3ab	b0 19		bcs $b3c6	        bcs item_done
-.b3ad	ad 28 bf	lda $bf28	        lda skipped             ; something was skipped: Move keeps the source
+.b3ad	ad ed bf	lda $bfed	        lda skipped             ; something was skipped: Move keeps the source
 .b3b0	d0 14		bne $b3c6	        bne item_done
-.b3b2	ad 25 bf	lda $bf25	        lda choice
+.b3b2	ad ea bf	lda $bfea	        lda choice
 .b3b5	c9 02		cmp #$02	        cmp #2
 .b3b7	d0 0d		bne $b3c6	        bne item_done
 .b3b9	ad d9 b6	lda $b6d9	        lda isdir               ; a folder: its contents first
 .b3bc	f0 05		beq $b3c3	        beq +
-.b3be	20 b2 ba	jsr $bab2	        jsr empty
+.b3be	20 72 bb	jsr $bb72	        jsr empty
 .b3c1	b0 03		bcs $b3c6	        bcs item_done
 .b3c3	4c 2f 6e	jmp $6e2f	+       jmp gm_delete_one
 .b3c6					item_done:
 .b3c6	60		rts		        rts
 .b3c7					item_tree:
-.b3c7	20 19 ba	jsr $ba19	        jsr tree
+.b3c7	20 d9 ba	jsr $bad9	        jsr tree
 .b3ca	4c ab b3	jmp $b3ab	        jmp item_copied
 .b3cd					names:
 .b3cd	20 1c b5	jsr $b51c	        jsr source_name
@@ -1418,19 +1418,19 @@
 .b402	d0 03		bne $b407	        bne +
 .b404	20 8e b4	jsr $b48e	        jsr prg_suffix          ; from USB: ".PRG" becomes PRG, the rest SEQ
 .b407	8d dc b6	sta $b6dc	+       sta dtype
-.b40a	ad 24 bf	lda $bf24	        lda ddev
+.b40a	ad e9 bf	lda $bfe9	        lda ddev
 .b40d	8d db b6	sta $b6db	        sta dopen
 .b410	18		clc		        clc
 .b411	60		rts		        rts
 .b412					badname:
-.b412	a9 fb		lda #$fb	        lda #<s_badname
-.b414	a2 bd		ldx #$bd	        ldx #>s_badname
+.b412	a9 bb		lda #$bb	        lda #<s_badname
+.b414	a2 be		ldx #$be	        ldx #>s_badname
 .b416	4c 15 b5	jmp $b515	        jmp refuse
 .b419					usb_destination:
 .b419	a9 2f		lda #$2f	        lda #$2f                ; an icon: the root
 .b41b	8d 00 53	sta $5300	        sta dpath
 .b41e	a2 01		ldx #$01	        ldx #1
-.b420	ac 22 bf	ldy $bf22	        ldy dslot
+.b420	ac e7 bf	ldy $bfe7	        ldy dslot
 .b423	30 37		bmi $b45c	        bmi usb_leaf
 .b425	ad de 86	lda $86de	        lda gm_slot             ; a window: its path
 .b428	48		pha		        pha
@@ -1438,7 +1438,7 @@
 .b42c	20 26 73	jsr $7326	        jsr gm_path_page
 .b42f	68		pla		        pla
 .b430	8d de 86	sta $86de	        sta gm_slot
-.b433	ae 22 bf	ldx $bf22	        ldx dslot
+.b433	ae e7 bf	ldx $bfe7	        ldx dslot
 .b436	bd 47 89	lda $8947,x	        lda gm_win_plen,x
 .b439	8d dd b6	sta $b6dd	        sta dlen
 .b43c	a0 00		ldy #$00	        ldy #0
@@ -1467,7 +1467,7 @@
 .b46d	8e dd b6	stx $b6dd	        stx dlen
 .b470	a9 00		lda #$00	        lda #0
 .b472	8d dc b6	sta $b6dc	        sta dtype
-.b475	ad 24 bf	lda $bf24	        lda ddev
+.b475	ad e9 bf	lda $bfe9	        lda ddev
 .b478	ae df b6	ldx $b6df	        ldx sfmt
 .b47b	e0 03		cpx #$03	        cpx #3
 .b47d	d0 05		bne $b484	        bne +
@@ -1490,7 +1490,7 @@
 .b49d	90 02		bcc $b4a1	        bcc suffix_char
 .b49f	29 df		and #$df	        and #$df
 .b4a1					suffix_char:
-.b4a1	d9 99 bd	cmp $bd99,y	        cmp suffix,y
+.b4a1	d9 59 be	cmp $be59,y	        cmp suffix,y
 .b4a4	d0 06		bne $b4ac	        bne +
 .b4a6	88		dey		        dey
 .b4a7	10 ee		bpl $b497	        bpl -
@@ -1508,7 +1508,7 @@
 .b4bd	a9 7e		lda #$7e	+       lda #<gm_drive_title
 .b4bf	a2 81		ldx #$81	        ldx #>gm_drive_title
 .b4c1	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b4c4	ad 24 bf	lda $bf24	        lda ddev
+.b4c4	ad e9 bf	lda $bfe9	        lda ddev
 .b4c7	8d 71 87	sta $8771	        sta gm_num
 .b4ca	a9 00		lda #$00	        lda #0
 .b4cc	8d 72 87	sta $8772	        sta gm_num+1
@@ -1749,637 +1749,727 @@
 
 ;******  Return to file: src/native/gemdesk-copy.inc
 
-.b6ef					copy:
+.b6ef					copy_new:
 .b6ef	a9 00		lda #$00	        lda #0
-.b6f1	8d 2b bf	sta $bf2b	        sta phase
-.b6f4	a2 07		ldx #$07	        ldx #7
-.b6f6	9d e7 b6	sta $b6e7,x	-       sta handles,x
-.b6f9	9d 2e bf	sta $bf2e,x	        sta counts,x
-.b6fc	ca		dex		        dex
-.b6fd	10 f7		bpl $b6f6	        bpl -
-.b6ff	ee 2b bf	inc $bf2b	        inc phase               ; 1: copying
-.b702	a2 00		ldx #$00	        ldx #0
-.b704	a9 00		lda #$00	        lda #0
-.b706	20 6f b5	jsr $b56f	        jsr open
-.b709	90 03		bcc $b70e	        bcs io_error
-.b70b	4c d6 b8	jmp $b8d6
-.b70e	20 11 b6	jsr $b611	        jsr read_source
-.b711	b0 f8		bcs $b70b	        bcs io_error
-.b713	ad e4 b6	lda $b6e4	        lda size
-.b716	0d e5 b6	ora $b6e5	        ora size+1
-.b719	d0 1e		bne $b739	        bne create
-.b71b	ad e6 b6	lda $b6e6	        lda eof
-.b71e	d0 03		bne $b723	        beq short
-.b720	4c c2 b7	jmp $b7c2
-.b723	ad da b6	lda $b6da	        lda dfmt
-.b726	c9 03		cmp #$03	        cmp #3
-.b728	f0 0f		beq $b739	        beq create
-.b72a	20 48 b6	jsr $b648	        jsr close_streams
-.b72d	90 03		bcc $b732	        bcs close_error
-.b72f	4c 29 b9	jmp $b929
-.b732	a9 4c		lda #$4c	        lda #<s_empty
-.b734	a2 be		ldx #$be	        ldx #>s_empty
-.b736	4c 15 b5	jmp $b515	        jmp refuse
-.b739					create:
-.b739	20 69 bd	jsr $bd69	        jsr stash               ; OPEN may reuse the service buffer
-.b73c	ad da b6	lda $b6da	        lda dfmt                ; USB: FILE_STAT first (a drive answers 63)
-.b73f	c9 03		cmp #$03	        cmp #3
-.b741	d0 0f		bne $b752	        bne +
-.b743	a9 08		lda #$08	        lda #$08
-.b745	20 ba bb	jsr $bbba	        jsr ucmd_d
-.b748	b0 08		bcs $b752	        bcs +                   ; nothing there
-.b74a	20 48 b6	jsr $b648	        jsr close_streams
-.b74d	b0 e0		bcs $b72f	        bcs close_error
-.b74f	4c 39 b9	jmp $b939	        jmp conflict
-.b752	a2 04		ldx #$04	+       ldx #4
-.b754	a9 01		lda #$01	        lda #1                  ; exclusive create
-.b756	20 6f b5	jsr $b56f	        jsr open
-.b759	b0 b0		bcs $b70b	        bcs io_error
-.b75b	ee 27 bf	inc $bf27	        inc created
-.b75e	4c 79 b7	jmp $b779	        jmp write
-.b761					next_chunk:
-.b761	20 3d b6	jsr $b63d	        jsr cancel
-.b764	90 03		bcc $b769	        bcs cancelled
-.b766	4c ab b8	jmp $b8ab
-.b769	20 11 b6	jsr $b611	        jsr read_source
-.b76c	b0 9d		bcs $b70b	        bcs io_error
-.b76e	ad e4 b6	lda $b6e4	        lda size
-.b771	0d e5 b6	ora $b6e5	        ora size+1
-.b774	f0 3f		beq $b7b5	        beq written
-.b776	20 69 bd	jsr $bd69	        jsr stash
-.b779					write:
-.b779	ad e4 b6	lda $b6e4	        lda size
-.b77c	0d e5 b6	ora $b6e5	        ora size+1
-.b77f	f0 34		beq $b7b5	        beq written
-.b781	a2 04		ldx #$04	        ldx #4
-.b783	20 f9 b5	jsr $b5f9	        jsr select
-.b786	a2 00		ldx #$00	        ldx #0
-.b788	bd 00 50	lda $5000,x	-       lda data,x
-.b78b	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
-.b78e	bd 00 51	lda $5100,x	        lda data+256,x
-.b791	9d 00 3b	sta $3b00,x	        sta N_BUFFER+256,x
-.b794	e8		inx		        inx
-.b795	d0 f1		bne $b788	        bne -
-.b797	ad e4 b6	lda $b6e4	        lda size
-.b79a	8d 89 3d	sta $3d89	        sta N_FCOUNT
-.b79d	ad e5 b6	lda $b6e5	        lda size+1
-.b7a0	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
-.b7a3	20 47 1c	jsr $1c47	        jsr N_FWRITE
-.b7a6	90 03		bcc $b7ab	        bcs io_error
-.b7a8	4c d6 b8	jmp $b8d6
-.b7ab	20 5a bd	jsr $bd5a	        jsr acknowledged
-.b7ae	d0 12		bne $b7c2	        bne short
-.b7b0	a2 00		ldx #$00	        ldx #0
-.b7b2	20 7b bd	jsr $bd7b	        jsr advance
-.b7b5					written:
-.b7b5	ad e6 b6	lda $b6e6	        lda eof
-.b7b8	d0 0d		bne $b7c7	        bne reopen
-.b7ba	ad e4 b6	lda $b6e4	        lda size
-.b7bd	0d e5 b6	ora $b6e5	        ora size+1
-.b7c0	d0 9f		bne $b761	        bne next_chunk
-.b7c2					short:
-.b7c2	a9 11		lda #$11	        lda #N_IOERROR
-.b7c4	4c d6 b8	jmp $b8d6	        jmp io_error
-.b7c7					reopen:
-.b7c7	20 48 b6	jsr $b648	        jsr close_streams
-.b7ca	90 03		bcc $b7cf	        bcs close_error
-.b7cc	4c 29 b9	jmp $b929
-.b7cf	ee 2b bf	inc $bf2b	        inc phase               ; 2: comparing
-.b7d2	a2 00		ldx #$00	        ldx #0
-.b7d4	a9 00		lda #$00	        lda #0
-.b7d6	20 6f b5	jsr $b56f	        jsr open
-.b7d9	b0 cd		bcs $b7a8	        bcs io_error
-.b7db	a2 04		ldx #$04	        ldx #4
-.b7dd	a9 00		lda #$00	        lda #0
-.b7df	20 6f b5	jsr $b56f	        jsr open
-.b7e2	b0 c4		bcs $b7a8	        bcs io_error
-.b7e4					next_compare:
-.b7e4	20 3d b6	jsr $b63d	        jsr cancel
-.b7e7	90 03		bcc $b7ec	        bcs cancelled
-.b7e9	4c ab b8	jmp $b8ab
-.b7ec	20 11 b6	jsr $b611	        jsr read_source
-.b7ef	b0 b7		bcs $b7a8	        bcs io_error
-.b7f1	ad e4 b6	lda $b6e4	        lda size
-.b7f4	0d e5 b6	ora $b6e5	        ora size+1
-.b7f7	f0 5b		beq $b854	        beq compared
-.b7f9	20 69 bd	jsr $bd69	        jsr stash
-.b7fc	a2 04		ldx #$04	        ldx #4
-.b7fe	20 f9 b5	jsr $b5f9	        jsr select
-.b801	ad e4 b6	lda $b6e4	        lda size
-.b804	8d 89 3d	sta $3d89	        sta N_FCOUNT
-.b807	ad e5 b6	lda $b6e5	        lda size+1
-.b80a	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
-.b80d	20 44 1c	jsr $1c44	        jsr N_FREAD
-.b810	b0 96		bcs $b7a8	        bcs io_error
-.b812	20 5a bd	jsr $bd5a	        jsr acknowledged
-.b815	f0 03		beq $b81a	        bne mismatch
-.b817	4c 9f b8	jmp $b89f
-.b81a	a2 00		ldx #$00	        ldx #0
-.b81c	ad e5 b6	lda $b6e5	-       lda size+1              ; the first page: all of it, or size bytes
-.b81f	d0 05		bne $b826	        bne +
-.b821	ec e4 b6	cpx $b6e4	        cpx size
-.b824	b0 29		bcs $b84f	        bcs same
-.b826	bd 00 3a	lda $3a00,x	+       lda N_BUFFER,x
-.b829	dd 00 50	cmp $5000,x	        cmp data,x
-.b82c	d0 71		bne $b89f	        bne mismatch
-.b82e	e8		inx		        inx
-.b82f	d0 eb		bne $b81c	        bne -
-.b831	ad e5 b6	lda $b6e5	        lda size+1
-.b834	f0 19		beq $b84f	        beq same
-.b836	c9 02		cmp #$02	-       cmp #2                  ; the second page
-.b838	f0 05		beq $b83f	        beq +
-.b83a	ec e4 b6	cpx $b6e4	        cpx size
-.b83d	b0 10		bcs $b84f	        bcs same
-.b83f	bd 00 3b	lda $3b00,x	+       lda N_BUFFER+256,x
-.b842	dd 00 51	cmp $5100,x	        cmp data+256,x
-.b845	d0 58		bne $b89f	        bne mismatch
-.b847	e8		inx		        inx
-.b848	ad e5 b6	lda $b6e5	        lda size+1
-.b84b	e0 00		cpx #$00	        cpx #0
-.b84d	d0 e7		bne $b836	        bne -
-.b84f					same:
-.b84f	a2 04		ldx #$04	        ldx #4
-.b851	20 7b bd	jsr $bd7b	        jsr advance
-.b854					compared:
-.b854	ad e6 b6	lda $b6e6	        lda eof
-.b857	d0 0d		bne $b866	        bne tail
-.b859	ad e4 b6	lda $b6e4	        lda size
-.b85c	0d e5 b6	ora $b6e5	        ora size+1
-.b85f	d0 83		bne $b7e4	        bne next_compare
-.b861	d0 03		bne $b866	        beq short
-.b863	4c c2 b7	jmp $b7c2
-.b866					tail:
-.b866	a2 04		ldx #$04	        ldx #4
-.b868	20 f9 b5	jsr $b5f9	        jsr select
-.b86b	a9 01		lda #$01	        lda #1
-.b86d	8d 89 3d	sta $3d89	        sta N_FCOUNT
-.b870	a9 00		lda #$00	        lda #0
-.b872	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
-.b875	20 44 1c	jsr $1c44	        jsr N_FREAD
-.b878	b0 5c		bcs $b8d6	        bcs io_error
-.b87a	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.b87d	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
-.b880	d0 1d		bne $b89f	        bne mismatch
-.b882	ad 8d 3d	lda $3d8d	        lda N_FEOF
-.b885	f0 18		beq $b89f	        beq mismatch
-.b887	a2 03		ldx #$03	        ldx #3
-.b889	bd 2e bf	lda $bf2e,x	-       lda counts,x
-.b88c	dd 32 bf	cmp $bf32,x	        cmp counts+4,x
-.b88f	d0 0e		bne $b89f	        bne mismatch
-.b891	ca		dex		        dex
-.b892	10 f5		bpl $b889	        bpl -
-.b894	20 48 b6	jsr $b648	        jsr close_streams
-.b897	90 03		bcc $b89c	        bcs close_error
-.b899	4c 29 b9	jmp $b929
-.b89c	4c 37 b9	jmp $b937	        jmp finished
-.b89f					mismatch:
-.b89f	20 48 b6	jsr $b648	        jsr close_streams
-.b8a2	b0 f5		bcs $b899	        bcs close_error
-.b8a4	a9 78		lda #$78	        lda #<s_mismatch
-.b8a6	a2 be		ldx #$be	        ldx #>s_mismatch
-.b8a8	4c 15 b5	jmp $b515	        jmp refuse
-.b8ab					cancelled:
-.b8ab	ee 26 bf	inc $bf26	        inc stop
-.b8ae	20 48 b6	jsr $b648	        jsr close_streams
-.b8b1	b0 76		bcs $b929	        bcs close_error
-.b8b3	a9 00		lda #$00	        lda #0
-.b8b5	8d 02 87	sta $8702	        sta gm_alen
-.b8b8	a9 d5		lda #$d5	        lda #<s_stopped
-.b8ba	a2 bd		ldx #$bd	        ldx #>s_stopped
-.b8bc	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b8bf	20 af b4	jsr $b4af	        jsr adest
-.b8c2	a9 e8		lda #$e8	        lda #<s_part
-.b8c4	a2 bd		ldx #$bd	        ldx #>s_part
-.b8c6	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b8c9	20 71 6c	jsr $6c71	        jsr gm_aname
-.b8cc	a9 2e		lda #$2e	        lda #$2e
-.b8ce	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.b8d1					failed_alert:
-.b8d1	20 c8 6c	jsr $6cc8	        jsr gm_info_end
-.b8d4	38		sec		        sec
-.b8d5	60		rts		        rts
-.b8d6					io_error:
-.b8d6	8d 2c bf	sta $bf2c	        sta error
-.b8d9	ad 8f 3d	lda $3d8f	        lda N_FDOS
-.b8dc	8d 2d bf	sta $bf2d	        sta dos
-.b8df	ad e2 b6	lda $b6e2	        lda slot                ; (the close selects other slots)
-.b8e2	8d 23 bf	sta $bf23	        sta failed_slot
-.b8e5	20 48 b6	jsr $b648	        jsr close_streams
-.b8e8	b0 3f		bcs $b929	        bcs close_error
-.b8ea	ad 2b bf	lda $bf2b	        lda phase               ; creating: 63 is an existing name
-.b8ed	c9 01		cmp #$01	        cmp #1
-.b8ef	d0 11		bne $b902	        bne +
-.b8f1	ad 23 bf	lda $bf23	        lda failed_slot
-.b8f4	c9 04		cmp #$04	        cmp #4
-.b8f6	d0 0a		bne $b902	        bne +
-.b8f8	ad 2d bf	lda $bf2d	        lda dos
-.b8fb	c9 3f		cmp #$3f	        cmp #63
-.b8fd	d0 03		bne $b902	        bne +
-.b8ff	4c 39 b9	jmp $b939	        jmp conflict
-.b902	ad 2c bf	lda $bf2c	+       lda error
-.b905	4c 5f b5	jmp $b55f	        jmp fail
-.b908					exists:
-.b908	a9 00		lda #$00	        lda #0
-.b90a	8d 02 87	sta $8702	        sta gm_alen
-.b90d	a9 5d		lda #$5d	        lda #<gm_s_head
-.b90f	a2 83		ldx #$83	        ldx #>gm_s_head
-.b911	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b914	20 71 6c	jsr $6c71	        jsr gm_aname
-.b917	a9 c1		lda #$c1	        lda #<s_exists
-.b919	a2 bd		ldx #$bd	        ldx #>s_exists
-.b91b	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b91e	20 af b4	jsr $b4af	        jsr adest
-.b921	a9 2e		lda #$2e	        lda #$2e
-.b923	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.b926	4c d1 b8	jmp $b8d1	        jmp failed_alert
-.b929					close_error:
-.b929	48		pha		        pha
-.b92a	ad 20 3d	lda $3d20	        lda N_CURRENT
-.b92d	8d 80 3d	sta $3d80	        sta N_FOWNER
-.b930	20 4d 1c	jsr $1c4d	        jsr N_FRELEASE
-.b933	68		pla		        pla
-.b934	4c 5f b5	jmp $b55f	        jmp fail
-.b937					finished:
-.b937	18		clc		        clc
-.b938	60		rts		        rts
-.b939					conflict:
-.b939	ad e4 84	lda $84e4	        lda gm_confirm
-.b93c	29 08		and #$08	        and #GM_NOOVERASK
-.b93e	d0 75		bne $b9b5	        bne replace
-.b940	a9 00		lda #$00	        lda #0
-.b942	8d 02 87	sta $8702	        sta gm_alen
-.b945	a9 b0		lda #$b0	        lda #<s_ask_head
-.b947	a2 be		ldx #$be	        ldx #>s_ask_head
-.b949	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b94c	20 85 b9	jsr $b985	        jsr aleaf
-.b94f	a9 c1		lda #$c1	        lda #<s_exists
-.b951	a2 bd		ldx #$bd	        ldx #>s_exists
-.b953	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b956	20 af b4	jsr $b4af	        jsr adest
-.b959	a9 b5		lda #$b5	        lda #<s_conflict
-.b95b	a2 be		ldx #$be	        ldx #>s_conflict
-.b95d	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b960	a9 00		lda #$00	        lda #0
-.b962	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.b965	a9 03		lda #$03	        lda #<gm_abuf
-.b967	a2 87		ldx #$87	        ldx #>gm_abuf
-.b969	a0 02		ldy #$02	        ldy #2
-.b96b	20 f4 62	jsr $62f4	        jsr gm_alert
-.b96e	b0 10		bcs $b980	        bcs conflict_skip
-.b970	ad 00 3a	lda $3a00	        lda N_BUFFER
-.b973	c9 01		cmp #$01	        cmp #1
-.b975	f0 3e		beq $b9b5	        beq replace
-.b977	c9 03		cmp #$03	        cmp #3
-.b979	d0 05		bne $b980	        bne conflict_skip
-.b97b	ee 26 bf	inc $bf26	        inc stop
-.b97e	38		sec		        sec
-.b97f	60		rts		        rts
-.b980					conflict_skip:
-.b980	ee 28 bf	inc $bf28	        inc skipped
-.b983	18		clc		        clc
-.b984	60		rts		        rts
-.b985					aleaf:
-.b985	ae dd b6	ldx $b6dd	        ldx dlen
-.b988	ca		dex		-       dex
-.b989	30 07		bmi $b992	        bmi +
-.b98b	bd 00 53	lda $5300,x	        lda dpath,x
-.b98e	c9 2f		cmp #$2f	        cmp #$2f
-.b990	d0 f6		bne $b988	        bne -
-.b992	e8		inx		+       inx
-.b993	8e 29 bf	stx $bf29	        stx leaf_at
-.b996	a9 10		lda #$10	        lda #16
-.b998	8d 2a bf	sta $bf2a	        sta leaf_left
-.b99b	ae 29 bf	ldx $bf29	-       ldx leaf_at
-.b99e	ec dd b6	cpx $b6dd	        cpx dlen
-.b9a1	f0 11		beq $b9b4	        beq +
-.b9a3	bd 00 53	lda $5300,x	        lda dpath,x
-.b9a6	20 ae 6f	jsr $6fae	        jsr gm_printable
-.b9a9	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.b9ac	ee 29 bf	inc $bf29	        inc leaf_at
-.b9af	ce 2a bf	dec $bf2a	        dec leaf_left
-.b9b2	d0 e7		bne $b99b	        bne -
-.b9b4	60		rts		+       rts
-.b9b5					replace:
-.b9b5	ad da b6	lda $b6da	        lda dfmt
-.b9b8	c9 03		cmp #$03	        cmp #3
-.b9ba	f0 46		beq $ba02	        beq replace_usb
-.b9bc	a9 53		lda #$53	        lda #$53                ; S0: and the exact name
-.b9be	8d 66 98	sta $9866	        sta dc_text
-.b9c1	a9 30		lda #$30	        lda #$30
-.b9c3	8d 67 98	sta $9867	        sta dc_text+1
-.b9c6	a9 3a		lda #$3a	        lda #$3a
-.b9c8	8d 68 98	sta $9868	        sta dc_text+2
-.b9cb	a2 00		ldx #$00	        ldx #0
-.b9cd	bd 00 53	lda $5300,x	-       lda dpath,x
-.b9d0	9d 69 98	sta $9869,x	        sta dc_text+3,x
-.b9d3	e8		inx		        inx
-.b9d4	ec dd b6	cpx $b6dd	        cpx dlen
-.b9d7	d0 f4		bne $b9cd	        bne -
-.b9d9	8a		txa		        txa
-.b9da	18		clc		        clc
-.b9db	69 03		adc #$03	        adc #3
-.b9dd	8d 65 98	sta $9865	        sta dc_length
-.b9e0	ad 24 bf	lda $bf24	        lda ddev
-.b9e3	8d 64 98	sta $9864	        sta dc_device
-.b9e6	8d df 86	sta $86df	        sta gm_dev
-.b9e9	ad da b6	lda $b6da	        lda dfmt
-.b9ec	8d e0 86	sta $86e0	        sta gm_fmt
-.b9ef	20 3e 96	jsr $963e	        jsr dc_command
-.b9f2	b0 22		bcs $ba16	        bcs replace_fail
-.b9f4	c9 01		cmp #$01	        cmp #1                  ; 01, FILES SCRATCHED, exactly one
-.b9f6	d0 1c		bne $ba14	        bne replace_unproven
-.b9f8	ad 90 98	lda $9890	        lda dc_track
-.b9fb	c9 01		cmp #$01	        cmp #1
-.b9fd	d0 15		bne $ba14	        bne replace_unproven
-.b9ff	4c ef b6	jmp $b6ef	        jmp copy
-.ba02					replace_usb:
-.ba02	a9 09		lda #$09	        lda #$09                ; DELETE_FILE: an empty reply
-.ba04	20 ba bb	jsr $bbba	        jsr ucmd_d
-.ba07	b0 0d		bcs $ba16	        bcs replace_fail
-.ba09	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.ba0c	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
-.ba0f	d0 03		bne $ba14	        bne replace_unproven
-.ba11	4c ef b6	jmp $b6ef	        jmp copy
-.ba14					replace_unproven:
-.ba14	a9 11		lda #$11	        lda #N_IOERROR
-.ba16					replace_fail:
-.ba16	4c 5f b5	jmp $b55f	        jmp fail
-.ba19					tree:
-.ba19	ae e1 b6	ldx $b6e1	        ldx slen                ; not into itself: dpath is neither spath nor below it
-.ba1c	ec dd b6	cpx $b6dd	        cpx dlen
-.ba1f	f0 09		beq $ba2a	        beq t_same
-.ba21	b0 1a		bcs $ba3d	        bcs t_ok
-.ba23	bd 00 53	lda $5300,x	        lda dpath,x
-.ba26	c9 2f		cmp #$2f	        cmp #$2f
-.ba28	d0 13		bne $ba3d	        bne t_ok
-.ba2a					t_same:
-.ba2a	ca		dex		        dex
-.ba2b	bd 00 52	lda $5200,x	-       lda spath,x
-.ba2e	dd 00 53	cmp $5300,x	        cmp dpath,x
-.ba31	d0 0a		bne $ba3d	        bne t_ok
-.ba33	ca		dex		        dex
-.ba34	10 f5		bpl $ba2b	        bpl -
-.ba36	a9 cb		lda #$cb	        lda #<s_itself
-.ba38	a2 be		ldx #$be	        ldx #>s_itself
-.ba3a	4c 15 b5	jmp $b515	        jmp refuse
-.ba3d					t_ok:
-.ba3d	a9 00		lda #$00	        lda #0
-.ba3f	8d 0c bf	sta $bf0c	        sta depth
-.ba42					t_make:
-.ba42	20 79 bb	jsr $bb79	        jsr mkdir
-.ba45	b0 64		bcs $baab	        bcs t_out
-.ba47	a9 00		lda #$00	        lda #0
-.ba49	8d 0d bf	sta $bf0d	        sta index
-.ba4c					t_next:
-.ba4c	20 3d b6	jsr $b63d	        jsr cancel
-.ba4f	b0 5b		bcs $baac	        bcs t_cancel
-.ba51	20 fa ba	jsr $bafa	        jsr dirent
-.ba54	b0 55		bcs $baab	        bcs t_out
-.ba56	f0 35		beq $ba8d	        beq t_up                ; no more here
-.ba58	20 ef bb	jsr $bbef	        jsr push_s
-.ba5b	b0 4e		bcs $baab	        bcs t_out
-.ba5d	20 10 bc	jsr $bc10	        jsr push_d
-.ba60	b0 49		bcs $baab	        bcs t_out
-.ba62	ad 0f bf	lda $bf0f	        lda eattr
-.ba65	29 10		and #$10	        and #$10
-.ba67	d0 11		bne $ba7a	        bne t_down
-.ba69	20 ef b6	jsr $b6ef	        jsr copy
-.ba6c	b0 3d		bcs $baab	        bcs t_out
-.ba6e	20 43 bc	jsr $bc43	        jsr pop_d
-.ba71	20 34 bc	jsr $bc34	        jsr pop_s
-.ba74	ee 0d bf	inc $bf0d	        inc index
-.ba77	4c 4c ba	jmp $ba4c	        jmp t_next
-.ba7a					t_down:
-.ba7a	ae 0c bf	ldx $bf0c	        ldx depth
-.ba7d	e0 10		cpx #$10	        cpx #TDEPTH
-.ba7f	b0 2e		bcs $baaf	        bcs t_deep
-.ba81	ad 0d bf	lda $bf0d	        lda index
-.ba84	9d 10 bf	sta $bf10,x	        sta tstack,x
-.ba87	ee 0c bf	inc $bf0c	        inc depth
-.ba8a	4c 42 ba	jmp $ba42	        jmp t_make
-.ba8d					t_up:
-.ba8d	ad 0c bf	lda $bf0c	        lda depth
-.ba90	f0 18		beq $baaa	        beq t_done
-.ba92	ce 0c bf	dec $bf0c	        dec depth
-.ba95	20 43 bc	jsr $bc43	        jsr pop_d
-.ba98	20 34 bc	jsr $bc34	        jsr pop_s
-.ba9b	ae 0c bf	ldx $bf0c	        ldx depth
-.ba9e	bd 10 bf	lda $bf10,x	        lda tstack,x
-.baa1	8d 0d bf	sta $bf0d	        sta index
-.baa4	ee 0d bf	inc $bf0d	        inc index
-.baa7	4c 4c ba	jmp $ba4c	        jmp t_next
-.baaa					t_done:
-.baaa	18		clc		        clc
-.baab					t_out:
-.baab	60		rts		        rts
-.baac					t_cancel:
-.baac	4c ab b8	jmp $b8ab	        jmp cancelled
-.baaf					t_deep:
-.baaf	4c 89 b4	jmp $b489	        jmp toolong
+.b6f1	8d ee bf	sta $bfee	        sta keep
+.b6f4					copy:
+.b6f4	a9 00		lda #$00	        lda #0
+.b6f6	8d f3 bf	sta $bff3	        sta phase
+.b6f9	a2 07		ldx #$07	        ldx #7
+.b6fb	9d e7 b6	sta $b6e7,x	-       sta handles,x
+.b6fe	9d f6 bf	sta $bff6,x	        sta counts,x
+.b701	ca		dex		        dex
+.b702	10 f7		bpl $b6fb	        bpl -
+.b704	ee f3 bf	inc $bff3	        inc phase               ; 1: copying
+.b707	a2 00		ldx #$00	        ldx #0
+.b709	a9 00		lda #$00	        lda #0
+.b70b	20 6f b5	jsr $b56f	        jsr open
+.b70e	90 03		bcc $b713	        bcs io_error
+.b710	4c db b8	jmp $b8db
+.b713	20 11 b6	jsr $b611	        jsr read_source
+.b716	b0 f8		bcs $b710	        bcs io_error
+.b718	ad e4 b6	lda $b6e4	        lda size
+.b71b	0d e5 b6	ora $b6e5	        ora size+1
+.b71e	d0 1e		bne $b73e	        bne create
+.b720	ad e6 b6	lda $b6e6	        lda eof
+.b723	d0 03		bne $b728	        beq short
+.b725	4c c7 b7	jmp $b7c7
+.b728	ad da b6	lda $b6da	        lda dfmt
+.b72b	c9 03		cmp #$03	        cmp #3
+.b72d	f0 0f		beq $b73e	        beq create
+.b72f	20 48 b6	jsr $b648	        jsr close_streams
+.b732	90 03		bcc $b737	        bcs close_error
+.b734	4c 2e b9	jmp $b92e
+.b737	a9 0c		lda #$0c	        lda #<s_empty
+.b739	a2 bf		ldx #$bf	        ldx #>s_empty
+.b73b	4c 15 b5	jmp $b515	        jmp refuse
+.b73e					create:
+.b73e	20 29 be	jsr $be29	        jsr stash               ; OPEN may reuse the service buffer
+.b741	ad da b6	lda $b6da	        lda dfmt                ; USB: FILE_STAT first (a drive answers 63)
+.b744	c9 03		cmp #$03	        cmp #3
+.b746	d0 0f		bne $b757	        bne +
+.b748	a9 08		lda #$08	        lda #$08
+.b74a	20 7a bc	jsr $bc7a	        jsr ucmd_d
+.b74d	b0 08		bcs $b757	        bcs +                   ; nothing there
+.b74f	20 48 b6	jsr $b648	        jsr close_streams
+.b752	b0 e0		bcs $b734	        bcs close_error
+.b754	4c 3e b9	jmp $b93e	        jmp conflict
+.b757	a2 04		ldx #$04	+       ldx #4
+.b759	a9 01		lda #$01	        lda #1                  ; exclusive create
+.b75b	20 6f b5	jsr $b56f	        jsr open
+.b75e	b0 b0		bcs $b710	        bcs io_error
+.b760	ee ec bf	inc $bfec	        inc created
+.b763	4c 7e b7	jmp $b77e	        jmp write
+.b766					next_chunk:
+.b766	20 3d b6	jsr $b63d	        jsr cancel
+.b769	90 03		bcc $b76e	        bcs cancelled
+.b76b	4c b0 b8	jmp $b8b0
+.b76e	20 11 b6	jsr $b611	        jsr read_source
+.b771	b0 9d		bcs $b710	        bcs io_error
+.b773	ad e4 b6	lda $b6e4	        lda size
+.b776	0d e5 b6	ora $b6e5	        ora size+1
+.b779	f0 3f		beq $b7ba	        beq written
+.b77b	20 29 be	jsr $be29	        jsr stash
+.b77e					write:
+.b77e	ad e4 b6	lda $b6e4	        lda size
+.b781	0d e5 b6	ora $b6e5	        ora size+1
+.b784	f0 34		beq $b7ba	        beq written
+.b786	a2 04		ldx #$04	        ldx #4
+.b788	20 f9 b5	jsr $b5f9	        jsr select
+.b78b	a2 00		ldx #$00	        ldx #0
+.b78d	bd 00 50	lda $5000,x	-       lda data,x
+.b790	9d 00 3a	sta $3a00,x	        sta N_BUFFER,x
+.b793	bd 00 51	lda $5100,x	        lda data+256,x
+.b796	9d 00 3b	sta $3b00,x	        sta N_BUFFER+256,x
+.b799	e8		inx		        inx
+.b79a	d0 f1		bne $b78d	        bne -
+.b79c	ad e4 b6	lda $b6e4	        lda size
+.b79f	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b7a2	ad e5 b6	lda $b6e5	        lda size+1
+.b7a5	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b7a8	20 47 1c	jsr $1c47	        jsr N_FWRITE
+.b7ab	90 03		bcc $b7b0	        bcs io_error
+.b7ad	4c db b8	jmp $b8db
+.b7b0	20 1a be	jsr $be1a	        jsr acknowledged
+.b7b3	d0 12		bne $b7c7	        bne short
+.b7b5	a2 00		ldx #$00	        ldx #0
+.b7b7	20 3b be	jsr $be3b	        jsr advance
+.b7ba					written:
+.b7ba	ad e6 b6	lda $b6e6	        lda eof
+.b7bd	d0 0d		bne $b7cc	        bne reopen
+.b7bf	ad e4 b6	lda $b6e4	        lda size
+.b7c2	0d e5 b6	ora $b6e5	        ora size+1
+.b7c5	d0 9f		bne $b766	        bne next_chunk
+.b7c7					short:
+.b7c7	a9 11		lda #$11	        lda #N_IOERROR
+.b7c9	4c db b8	jmp $b8db	        jmp io_error
+.b7cc					reopen:
+.b7cc	20 48 b6	jsr $b648	        jsr close_streams
+.b7cf	90 03		bcc $b7d4	        bcs close_error
+.b7d1	4c 2e b9	jmp $b92e
+.b7d4	ee f3 bf	inc $bff3	        inc phase               ; 2: comparing
+.b7d7	a2 00		ldx #$00	        ldx #0
+.b7d9	a9 00		lda #$00	        lda #0
+.b7db	20 6f b5	jsr $b56f	        jsr open
+.b7de	b0 cd		bcs $b7ad	        bcs io_error
+.b7e0	a2 04		ldx #$04	        ldx #4
+.b7e2	a9 00		lda #$00	        lda #0
+.b7e4	20 6f b5	jsr $b56f	        jsr open
+.b7e7	b0 c4		bcs $b7ad	        bcs io_error
+.b7e9					next_compare:
+.b7e9	20 3d b6	jsr $b63d	        jsr cancel
+.b7ec	90 03		bcc $b7f1	        bcs cancelled
+.b7ee	4c b0 b8	jmp $b8b0
+.b7f1	20 11 b6	jsr $b611	        jsr read_source
+.b7f4	b0 b7		bcs $b7ad	        bcs io_error
+.b7f6	ad e4 b6	lda $b6e4	        lda size
+.b7f9	0d e5 b6	ora $b6e5	        ora size+1
+.b7fc	f0 5b		beq $b859	        beq compared
+.b7fe	20 29 be	jsr $be29	        jsr stash
+.b801	a2 04		ldx #$04	        ldx #4
+.b803	20 f9 b5	jsr $b5f9	        jsr select
+.b806	ad e4 b6	lda $b6e4	        lda size
+.b809	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b80c	ad e5 b6	lda $b6e5	        lda size+1
+.b80f	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b812	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b815	b0 96		bcs $b7ad	        bcs io_error
+.b817	20 1a be	jsr $be1a	        jsr acknowledged
+.b81a	f0 03		beq $b81f	        bne mismatch
+.b81c	4c a4 b8	jmp $b8a4
+.b81f	a2 00		ldx #$00	        ldx #0
+.b821	ad e5 b6	lda $b6e5	-       lda size+1              ; the first page: all of it, or size bytes
+.b824	d0 05		bne $b82b	        bne +
+.b826	ec e4 b6	cpx $b6e4	        cpx size
+.b829	b0 29		bcs $b854	        bcs same
+.b82b	bd 00 3a	lda $3a00,x	+       lda N_BUFFER,x
+.b82e	dd 00 50	cmp $5000,x	        cmp data,x
+.b831	d0 71		bne $b8a4	        bne mismatch
+.b833	e8		inx		        inx
+.b834	d0 eb		bne $b821	        bne -
+.b836	ad e5 b6	lda $b6e5	        lda size+1
+.b839	f0 19		beq $b854	        beq same
+.b83b	c9 02		cmp #$02	-       cmp #2                  ; the second page
+.b83d	f0 05		beq $b844	        beq +
+.b83f	ec e4 b6	cpx $b6e4	        cpx size
+.b842	b0 10		bcs $b854	        bcs same
+.b844	bd 00 3b	lda $3b00,x	+       lda N_BUFFER+256,x
+.b847	dd 00 51	cmp $5100,x	        cmp data+256,x
+.b84a	d0 58		bne $b8a4	        bne mismatch
+.b84c	e8		inx		        inx
+.b84d	ad e5 b6	lda $b6e5	        lda size+1
+.b850	e0 00		cpx #$00	        cpx #0
+.b852	d0 e7		bne $b83b	        bne -
+.b854					same:
+.b854	a2 04		ldx #$04	        ldx #4
+.b856	20 3b be	jsr $be3b	        jsr advance
+.b859					compared:
+.b859	ad e6 b6	lda $b6e6	        lda eof
+.b85c	d0 0d		bne $b86b	        bne tail
+.b85e	ad e4 b6	lda $b6e4	        lda size
+.b861	0d e5 b6	ora $b6e5	        ora size+1
+.b864	d0 83		bne $b7e9	        bne next_compare
+.b866	d0 03		bne $b86b	        beq short
+.b868	4c c7 b7	jmp $b7c7
+.b86b					tail:
+.b86b	a2 04		ldx #$04	        ldx #4
+.b86d	20 f9 b5	jsr $b5f9	        jsr select
+.b870	a9 01		lda #$01	        lda #1
+.b872	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b875	a9 00		lda #$00	        lda #0
+.b877	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b87a	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b87d	b0 5c		bcs $b8db	        bcs io_error
+.b87f	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.b882	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
+.b885	d0 1d		bne $b8a4	        bne mismatch
+.b887	ad 8d 3d	lda $3d8d	        lda N_FEOF
+.b88a	f0 18		beq $b8a4	        beq mismatch
+.b88c	a2 03		ldx #$03	        ldx #3
+.b88e	bd f6 bf	lda $bff6,x	-       lda counts,x
+.b891	dd fa bf	cmp $bffa,x	        cmp counts+4,x
+.b894	d0 0e		bne $b8a4	        bne mismatch
+.b896	ca		dex		        dex
+.b897	10 f5		bpl $b88e	        bpl -
+.b899	20 48 b6	jsr $b648	        jsr close_streams
+.b89c	90 03		bcc $b8a1	        bcs close_error
+.b89e	4c 2e b9	jmp $b92e
+.b8a1	4c 3c b9	jmp $b93c	        jmp finished
+.b8a4					mismatch:
+.b8a4	20 48 b6	jsr $b648	        jsr close_streams
+.b8a7	b0 f5		bcs $b89e	        bcs close_error
+.b8a9	a9 38		lda #$38	        lda #<s_mismatch
+.b8ab	a2 bf		ldx #$bf	        ldx #>s_mismatch
+.b8ad	4c 15 b5	jmp $b515	        jmp refuse
+.b8b0					cancelled:
+.b8b0	ee eb bf	inc $bfeb	        inc stop
+.b8b3	20 48 b6	jsr $b648	        jsr close_streams
+.b8b6	b0 76		bcs $b92e	        bcs close_error
+.b8b8	a9 00		lda #$00	        lda #0
+.b8ba	8d 02 87	sta $8702	        sta gm_alen
+.b8bd	a9 95		lda #$95	        lda #<s_stopped
+.b8bf	a2 be		ldx #$be	        ldx #>s_stopped
+.b8c1	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b8c4	20 af b4	jsr $b4af	        jsr adest
+.b8c7	a9 a8		lda #$a8	        lda #<s_part
+.b8c9	a2 be		ldx #$be	        ldx #>s_part
+.b8cb	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b8ce	20 71 6c	jsr $6c71	        jsr gm_aname
+.b8d1	a9 2e		lda #$2e	        lda #$2e
+.b8d3	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b8d6					failed_alert:
+.b8d6	20 c8 6c	jsr $6cc8	        jsr gm_info_end
+.b8d9	38		sec		        sec
+.b8da	60		rts		        rts
+.b8db					io_error:
+.b8db	8d f4 bf	sta $bff4	        sta error
+.b8de	ad 8f 3d	lda $3d8f	        lda N_FDOS
+.b8e1	8d f5 bf	sta $bff5	        sta dos
+.b8e4	ad e2 b6	lda $b6e2	        lda slot                ; (the close selects other slots)
+.b8e7	8d e8 bf	sta $bfe8	        sta failed_slot
+.b8ea	20 48 b6	jsr $b648	        jsr close_streams
+.b8ed	b0 3f		bcs $b92e	        bcs close_error
+.b8ef	ad f3 bf	lda $bff3	        lda phase               ; creating: 63 is an existing name
+.b8f2	c9 01		cmp #$01	        cmp #1
+.b8f4	d0 11		bne $b907	        bne +
+.b8f6	ad e8 bf	lda $bfe8	        lda failed_slot
+.b8f9	c9 04		cmp #$04	        cmp #4
+.b8fb	d0 0a		bne $b907	        bne +
+.b8fd	ad f5 bf	lda $bff5	        lda dos
+.b900	c9 3f		cmp #$3f	        cmp #63
+.b902	d0 03		bne $b907	        bne +
+.b904	4c 3e b9	jmp $b93e	        jmp conflict
+.b907	ad f4 bf	lda $bff4	+       lda error
+.b90a	4c 5f b5	jmp $b55f	        jmp fail
+.b90d					exists:
+.b90d	a9 00		lda #$00	        lda #0
+.b90f	8d 02 87	sta $8702	        sta gm_alen
+.b912	a9 5d		lda #$5d	        lda #<gm_s_head
+.b914	a2 83		ldx #$83	        ldx #>gm_s_head
+.b916	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b919	20 71 6c	jsr $6c71	        jsr gm_aname
+.b91c	a9 81		lda #$81	        lda #<s_exists
+.b91e	a2 be		ldx #$be	        ldx #>s_exists
+.b920	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b923	20 af b4	jsr $b4af	        jsr adest
+.b926	a9 2e		lda #$2e	        lda #$2e
+.b928	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b92b	4c d6 b8	jmp $b8d6	        jmp failed_alert
+.b92e					close_error:
+.b92e	48		pha		        pha
+.b92f	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b932	8d 80 3d	sta $3d80	        sta N_FOWNER
+.b935	20 4d 1c	jsr $1c4d	        jsr N_FRELEASE
+.b938	68		pla		        pla
+.b939	4c 5f b5	jmp $b55f	        jmp fail
+.b93c					finished:
+.b93c	18		clc		        clc
+.b93d	60		rts		        rts
+.b93e					conflict:
+.b93e	ad ee bf	lda $bfee	        lda keep
+.b941	f0 0e		beq $b951	        beq ask_conflict
+.b943	c9 09		cmp #$09	        cmp #9
+.b945	b0 05		bcs $b94c	        bcs +
+.b947	ee ee bf	inc $bfee	        inc keep                ; NAME-N is taken too: the next number
+.b94a	d0 59		bne $b9a5	        bne keep_name
+.b94c	a9 00		lda #$00	+       lda #0
+.b94e	8d ee bf	sta $bfee	        sta keep
+.b951					ask_conflict:
+.b951	ad e4 84	lda $84e4	        lda gm_confirm
+.b954	29 08		and #$08	        and #GM_NOOVERASK
+.b956	f0 03		beq $b95b	        bne replace
+.b958	4c 75 ba	jmp $ba75
+.b95b	a9 00		lda #$00	        lda #0
+.b95d	8d 02 87	sta $8702	        sta gm_alen
+.b960	a9 70		lda #$70	        lda #<s_ask_head
+.b962	a2 bf		ldx #$bf	        ldx #>s_ask_head
+.b964	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b967	20 43 ba	jsr $ba43	        jsr aleaf
+.b96a	a9 81		lda #$81	        lda #<s_exists
+.b96c	a2 be		ldx #$be	        ldx #>s_exists
+.b96e	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b971	20 af b4	jsr $b4af	        jsr adest
+.b974	a9 75		lda #$75	        lda #<s_conflict
+.b976	a2 bf		ldx #$bf	        ldx #>s_conflict
+.b978	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b97b	a9 00		lda #$00	        lda #0
+.b97d	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b980	a9 03		lda #$03	        lda #<gm_abuf
+.b982	a2 87		ldx #$87	        ldx #>gm_abuf
+.b984	a0 03		ldy #$03	        ldy #3
+.b986	20 f4 62	jsr $62f4	        jsr gm_alert
+.b989	b0 10		bcs $b99b	        bcs conflict_stop       ; Esc
+.b98b	ad 00 3a	lda $3a00	        lda N_BUFFER
+.b98e	c9 01		cmp #$01	        cmp #1
+.b990	f0 c6		beq $b958	        beq replace
+.b992	c9 02		cmp #$02	        cmp #2
+.b994	f0 0a		beq $b9a0	        beq keep_both
+.b996					conflict_skip:
+.b996	ee ed bf	inc $bfed	        inc skipped
+.b999	18		clc		        clc
+.b99a	60		rts		        rts
+.b99b					conflict_stop:
+.b99b	ee eb bf	inc $bfeb	        inc stop
+.b99e	38		sec		        sec
+.b99f	60		rts		        rts
+.b9a0					keep_both:
+.b9a0	a9 02		lda #$02	        lda #2
+.b9a2	8d ee bf	sta $bfee	        sta keep
+.b9a5					keep_name:
+.b9a5	ae dd b6	ldx $b6dd	        ldx dlen
+.b9a8	ca		dex		-       dex
+.b9a9	e0 ff		cpx #$ff	        cpx #$ff                ; (paths reach 255 bytes: not bmi)
+.b9ab	f0 07		beq $b9b4	        beq +
+.b9ad	bd 00 53	lda $5300,x	        lda dpath,x
+.b9b0	c9 2f		cmp #$2f	        cmp #$2f
+.b9b2	d0 f4		bne $b9a8	        bne -
+.b9b4	e8		inx		+       inx
+.b9b5	8e f1 bf	stx $bff1	        stx leaf_at
+.b9b8	ac 3f 85	ldy $853f	        ldy gm_nlen
+.b9bb	8c ef bf	sty $bfef	        sty ext_at
+.b9be	88		dey		-       dey
+.b9bf	f0 0a		beq $b9cb	        beq +
+.b9c1	b9 4b 89	lda $894b,y	        lda gm_name,y
+.b9c4	c9 2e		cmp #$2e	        cmp #$2e
+.b9c6	d0 f6		bne $b9be	        bne -
+.b9c8	8c ef bf	sty $bfef	        sty ext_at
+.b9cb	ad ef bf	lda $bfef	+       lda ext_at
+.b9ce	8d f0 bf	sta $bff0	        sta base_end
+.b9d1	ad da b6	lda $b6da	        lda dfmt
+.b9d4	c9 03		cmp #$03	        cmp #3
+.b9d6	f0 26		beq $b9fe	        beq k_usb
+.b9d8	ad 3f 85	lda $853f	        lda gm_nlen             ; a drive: cut what the suffix adds beyond 16
+.b9db	38		sec		        sec
+.b9dc	e9 0e		sbc #$0e	        sbc #14
+.b9de	90 28		bcc $ba08	        bcc k_build
+.b9e0	f0 26		beq $ba08	        beq k_build
+.b9e2	8d d3 bf	sta $bfd3	        sta k
+.b9e5	ad ef bf	lda $bfef	        lda ext_at
+.b9e8	38		sec		        sec
+.b9e9	ed d3 bf	sbc $bfd3	        sbc k
+.b9ec	90 02		bcc $b9f0	        bcc +
+.b9ee	d0 08		bne $b9f8	        bne k_cut
+.b9f0	ad 3f 85	lda $853f	+       lda gm_nlen             ; the extension leaves too little: suffix last
+.b9f3	8d ef bf	sta $bfef	        sta ext_at
+.b9f6	a9 0e		lda #$0e	        lda #14
+.b9f8					k_cut:
+.b9f8	8d f0 bf	sta $bff0	        sta base_end
+.b9fb	4c 08 ba	jmp $ba08	        jmp k_build
+.b9fe					k_usb:
+.b9fe	ad dd b6	lda $b6dd	        lda dlen
+.ba01	c9 fe		cmp #$fe	        cmp #254
+.ba03	90 03		bcc $ba08	        bcc k_build
+.ba05	4c 89 b4	jmp $b489	        jmp toolong
+.ba08					k_build:
+.ba08	ae f1 bf	ldx $bff1	        ldx leaf_at
+.ba0b	a0 00		ldy #$00	        ldy #0
+.ba0d	cc f0 bf	cpy $bff0	-       cpy base_end
+.ba10	f0 0a		beq $ba1c	        beq +
+.ba12	b9 4b 89	lda $894b,y	        lda gm_name,y
+.ba15	9d 00 53	sta $5300,x	        sta dpath,x
+.ba18	e8		inx		        inx
+.ba19	c8		iny		        iny
+.ba1a	d0 f1		bne $ba0d	        bne -
+.ba1c	a9 2d		lda #$2d	+       lda #$2d                ; -
+.ba1e	9d 00 53	sta $5300,x	        sta dpath,x
+.ba21	e8		inx		        inx
+.ba22	ad ee bf	lda $bfee	        lda keep
+.ba25	09 30		ora #$30	        ora #$30
+.ba27	9d 00 53	sta $5300,x	        sta dpath,x
+.ba2a	e8		inx		        inx
+.ba2b	ac ef bf	ldy $bfef	        ldy ext_at
+.ba2e	cc 3f 85	cpy $853f	-       cpy gm_nlen
+.ba31	f0 0a		beq $ba3d	        beq +
+.ba33	b9 4b 89	lda $894b,y	        lda gm_name,y
+.ba36	9d 00 53	sta $5300,x	        sta dpath,x
+.ba39	e8		inx		        inx
+.ba3a	c8		iny		        iny
+.ba3b	d0 f1		bne $ba2e	        bne -
+.ba3d	8e dd b6	stx $b6dd	+       stx dlen
+.ba40	4c f4 b6	jmp $b6f4	        jmp copy
+.ba43					aleaf:
+.ba43	ae dd b6	ldx $b6dd	        ldx dlen
+.ba46	ca		dex		-       dex
+.ba47	e0 ff		cpx #$ff	        cpx #$ff                ; (paths reach 255 bytes: not bmi)
+.ba49	f0 07		beq $ba52	        beq +
+.ba4b	bd 00 53	lda $5300,x	        lda dpath,x
+.ba4e	c9 2f		cmp #$2f	        cmp #$2f
+.ba50	d0 f4		bne $ba46	        bne -
+.ba52	e8		inx		+       inx
+.ba53	8e f1 bf	stx $bff1	        stx leaf_at
+.ba56	a9 10		lda #$10	        lda #16
+.ba58	8d f2 bf	sta $bff2	        sta leaf_left
+.ba5b	ae f1 bf	ldx $bff1	-       ldx leaf_at
+.ba5e	ec dd b6	cpx $b6dd	        cpx dlen
+.ba61	f0 11		beq $ba74	        beq +
+.ba63	bd 00 53	lda $5300,x	        lda dpath,x
+.ba66	20 ae 6f	jsr $6fae	        jsr gm_printable
+.ba69	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.ba6c	ee f1 bf	inc $bff1	        inc leaf_at
+.ba6f	ce f2 bf	dec $bff2	        dec leaf_left
+.ba72	d0 e7		bne $ba5b	        bne -
+.ba74	60		rts		+       rts
+.ba75					replace:
+.ba75	ad da b6	lda $b6da	        lda dfmt
+.ba78	c9 03		cmp #$03	        cmp #3
+.ba7a	f0 46		beq $bac2	        beq replace_usb
+.ba7c	a9 53		lda #$53	        lda #$53                ; S0: and the exact name
+.ba7e	8d 66 98	sta $9866	        sta dc_text
+.ba81	a9 30		lda #$30	        lda #$30
+.ba83	8d 67 98	sta $9867	        sta dc_text+1
+.ba86	a9 3a		lda #$3a	        lda #$3a
+.ba88	8d 68 98	sta $9868	        sta dc_text+2
+.ba8b	a2 00		ldx #$00	        ldx #0
+.ba8d	bd 00 53	lda $5300,x	-       lda dpath,x
+.ba90	9d 69 98	sta $9869,x	        sta dc_text+3,x
+.ba93	e8		inx		        inx
+.ba94	ec dd b6	cpx $b6dd	        cpx dlen
+.ba97	d0 f4		bne $ba8d	        bne -
+.ba99	8a		txa		        txa
+.ba9a	18		clc		        clc
+.ba9b	69 03		adc #$03	        adc #3
+.ba9d	8d 65 98	sta $9865	        sta dc_length
+.baa0	ad e9 bf	lda $bfe9	        lda ddev
+.baa3	8d 64 98	sta $9864	        sta dc_device
+.baa6	8d df 86	sta $86df	        sta gm_dev
+.baa9	ad da b6	lda $b6da	        lda dfmt
+.baac	8d e0 86	sta $86e0	        sta gm_fmt
+.baaf	20 3e 96	jsr $963e	        jsr dc_command
+.bab2	b0 22		bcs $bad6	        bcs replace_fail
+.bab4	c9 01		cmp #$01	        cmp #1                  ; 01, FILES SCRATCHED, exactly one
+.bab6	d0 1c		bne $bad4	        bne replace_unproven
+.bab8	ad 90 98	lda $9890	        lda dc_track
+.babb	c9 01		cmp #$01	        cmp #1
+.babd	d0 15		bne $bad4	        bne replace_unproven
+.babf	4c f4 b6	jmp $b6f4	        jmp copy
+.bac2					replace_usb:
+.bac2	a9 09		lda #$09	        lda #$09                ; DELETE_FILE: an empty reply
+.bac4	20 7a bc	jsr $bc7a	        jsr ucmd_d
+.bac7	b0 0d		bcs $bad6	        bcs replace_fail
+.bac9	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.bacc	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
+.bacf	d0 03		bne $bad4	        bne replace_unproven
+.bad1	4c f4 b6	jmp $b6f4	        jmp copy
+.bad4					replace_unproven:
+.bad4	a9 11		lda #$11	        lda #N_IOERROR
+.bad6					replace_fail:
+.bad6	4c 5f b5	jmp $b55f	        jmp fail
+.bad9					tree:
+.bad9	ae e1 b6	ldx $b6e1	        ldx slen                ; not into itself: dpath is neither spath nor below it
+.badc	ec dd b6	cpx $b6dd	        cpx dlen
+.badf	f0 09		beq $baea	        beq t_same
+.bae1	b0 1a		bcs $bafd	        bcs t_ok
+.bae3	bd 00 53	lda $5300,x	        lda dpath,x
+.bae6	c9 2f		cmp #$2f	        cmp #$2f
+.bae8	d0 13		bne $bafd	        bne t_ok
+.baea					t_same:
+.baea	ca		dex		        dex
+.baeb	bd 00 52	lda $5200,x	-       lda spath,x
+.baee	dd 00 53	cmp $5300,x	        cmp dpath,x
+.baf1	d0 0a		bne $bafd	        bne t_ok
+.baf3	ca		dex		        dex
+.baf4	10 f5		bpl $baeb	        bpl -
+.baf6	a9 90		lda #$90	        lda #<s_itself
+.baf8	a2 bf		ldx #$bf	        ldx #>s_itself
+.bafa	4c 15 b5	jmp $b515	        jmp refuse
+.bafd					t_ok:
+.bafd	a9 00		lda #$00	        lda #0
+.baff	8d d1 bf	sta $bfd1	        sta depth
+.bb02					t_make:
+.bb02	20 39 bc	jsr $bc39	        jsr mkdir
+.bb05	b0 64		bcs $bb6b	        bcs t_out
+.bb07	a9 00		lda #$00	        lda #0
+.bb09	8d d2 bf	sta $bfd2	        sta index
+.bb0c					t_next:
+.bb0c	20 3d b6	jsr $b63d	        jsr cancel
+.bb0f	b0 5b		bcs $bb6c	        bcs t_cancel
+.bb11	20 ba bb	jsr $bbba	        jsr dirent
+.bb14	b0 55		bcs $bb6b	        bcs t_out
+.bb16	f0 35		beq $bb4d	        beq t_up                ; no more here
+.bb18	20 af bc	jsr $bcaf	        jsr push_s
+.bb1b	b0 4e		bcs $bb6b	        bcs t_out
+.bb1d	20 d0 bc	jsr $bcd0	        jsr push_d
+.bb20	b0 49		bcs $bb6b	        bcs t_out
+.bb22	ad d4 bf	lda $bfd4	        lda eattr
+.bb25	29 10		and #$10	        and #$10
+.bb27	d0 11		bne $bb3a	        bne t_down
+.bb29	20 ef b6	jsr $b6ef	        jsr copy_new
+.bb2c	b0 3d		bcs $bb6b	        bcs t_out
+.bb2e	20 03 bd	jsr $bd03	        jsr pop_d
+.bb31	20 f4 bc	jsr $bcf4	        jsr pop_s
+.bb34	ee d2 bf	inc $bfd2	        inc index
+.bb37	4c 0c bb	jmp $bb0c	        jmp t_next
+.bb3a					t_down:
+.bb3a	ae d1 bf	ldx $bfd1	        ldx depth
+.bb3d	e0 10		cpx #$10	        cpx #TDEPTH
+.bb3f	b0 2e		bcs $bb6f	        bcs t_deep
+.bb41	ad d2 bf	lda $bfd2	        lda index
+.bb44	9d d5 bf	sta $bfd5,x	        sta tstack,x
+.bb47	ee d1 bf	inc $bfd1	        inc depth
+.bb4a	4c 02 bb	jmp $bb02	        jmp t_make
+.bb4d					t_up:
+.bb4d	ad d1 bf	lda $bfd1	        lda depth
+.bb50	f0 18		beq $bb6a	        beq t_done
+.bb52	ce d1 bf	dec $bfd1	        dec depth
+.bb55	20 03 bd	jsr $bd03	        jsr pop_d
+.bb58	20 f4 bc	jsr $bcf4	        jsr pop_s
+.bb5b	ae d1 bf	ldx $bfd1	        ldx depth
+.bb5e	bd d5 bf	lda $bfd5,x	        lda tstack,x
+.bb61	8d d2 bf	sta $bfd2	        sta index
+.bb64	ee d2 bf	inc $bfd2	        inc index
+.bb67	4c 0c bb	jmp $bb0c	        jmp t_next
+.bb6a					t_done:
+.bb6a	18		clc		        clc
+.bb6b					t_out:
+.bb6b	60		rts		        rts
+.bb6c					t_cancel:
+.bb6c	4c b0 b8	jmp $b8b0	        jmp cancelled
+.bb6f					t_deep:
+.bb6f	4c 89 b4	jmp $b489	        jmp toolong
 =16					TDEPTH = 16
-.bab2					empty:
-.bab2	a9 00		lda #$00	        lda #0
-.bab4	8d 0c bf	sta $bf0c	        sta depth
-.bab7					em_next:
-.bab7	a9 00		lda #$00	        lda #0
-.bab9	8d 0d bf	sta $bf0d	        sta index
-.babc	20 fa ba	jsr $bafa	        jsr dirent
-.babf	b0 ea		bcs $baab	        bcs t_out
-.bac1	f0 11		beq $bad4	        beq em_up
-.bac3	20 ef bb	jsr $bbef	        jsr push_s
-.bac6	b0 e3		bcs $baab	        bcs t_out
-.bac8	ad 0f bf	lda $bf0f	        lda eattr
-.bacb	29 10		and #$10	        and #$10
-.bacd	f0 0d		beq $badc	        beq em_file
-.bacf	ee 0c bf	inc $bf0c	        inc depth
-.bad2	d0 e3		bne $bab7	        bne em_next
-.bad4					em_up:
-.bad4	ad 0c bf	lda $bf0c	        lda depth
-.bad7	f0 d1		beq $baaa	        beq t_done              ; (the top folder stays)
-.bad9	ce 0c bf	dec $bf0c	        dec depth
-.badc					em_file:
-.badc	a9 09		lda #$09	        lda #$09                ; DELETE_FILE: a file, or a folder now empty
-.bade	ac de b6	ldy $b6de	        ldy sdev
-.bae1	20 d3 bb	jsr $bbd3	        jsr ucmd_s
-.bae4	b0 11		bcs $baf7	        bcs em_fail
-.bae6	ad 8b 3d	lda $3d8b	        lda N_FACTUAL           ; a message instead of the empty reply: refused
-.bae9	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
-.baec	f0 03		beq $baf1	        bne unproven
-.baee	4c b5 bb	jmp $bbb5
-.baf1	20 34 bc	jsr $bc34	        jsr pop_s
-.baf4	4c b7 ba	jmp $bab7	        jmp em_next
-.baf7					em_fail:
-.baf7	4c 5f b5	jmp $b55f	        jmp fail
-.bafa					dirent:
-.bafa	a9 00		lda #$00	        lda #0
-.bafc	8d 2b bf	sta $bf2b	        sta phase
-.baff	8d 0e bf	sta $bf0e	        sta k
-.bb02	a2 00		ldx #$00	        ldx #0
-.bb04	a9 02		lda #$02	        lda #2                  ; a directory cursor
-.bb06	20 6f b5	jsr $b56f	        jsr open
-.bb09	b0 68		bcs $bb73	        bcs e_error
-.bb0b					e_read:
-.bb0b	20 11 b6	jsr $b611	        jsr read_source         ; one packet: the attribute, then the name
-.bb0e	b0 63		bcs $bb73	        bcs e_error
-.bb10	ad e4 b6	lda $b6e4	        lda size
-.bb13	0d e5 b6	ora $b6e5	        ora size+1
-.bb16	f0 53		beq $bb6b	        beq e_none
-.bb18	ad 0e bf	lda $bf0e	        lda k
-.bb1b	cd 0d bf	cmp $bf0d	        cmp index
-.bb1e	90 1c		bcc $bb3c	        bcc e_skip
-.bb20	ad 01 3a	lda $3a01	        lda N_BUFFER+1          ; "." and ".."
-.bb23	c9 2e		cmp #$2e	        cmp #$2e
-.bb25	d0 1b		bne $bb42	        bne e_found
-.bb27	ae e4 b6	ldx $b6e4	        ldx size
-.bb2a	e0 02		cpx #$02	        cpx #2
-.bb2c	f0 0b		beq $bb39	        beq e_dot
-.bb2e	e0 03		cpx #$03	        cpx #3
-.bb30	d0 10		bne $bb42	        bne e_found
-.bb32	ad 02 3a	lda $3a02	        lda N_BUFFER+2
-.bb35	c9 2e		cmp #$2e	        cmp #$2e
-.bb37	d0 09		bne $bb42	        bne e_found
-.bb39					e_dot:
-.bb39	ee 0d bf	inc $bf0d	        inc index
-.bb3c					e_skip:
-.bb3c	ee 0e bf	inc $bf0e	        inc k
-.bb3f	4c 0b bb	jmp $bb0b	        jmp e_read
-.bb42					e_found:
-.bb42	ad 0e bf	lda $bf0e	        lda k
-.bb45	8d 0d bf	sta $bf0d	        sta index
-.bb48	ad 00 3a	lda $3a00	        lda N_BUFFER
-.bb4b	8d 0f bf	sta $bf0f	        sta eattr
-.bb4e	ae e4 b6	ldx $b6e4	        ldx size
-.bb51	ca		dex		        dex
-.bb52	8e 3f 85	stx $853f	        stx gm_nlen
-.bb55	a2 00		ldx #$00	        ldx #0
-.bb57	bd 01 3a	lda $3a01,x	-       lda N_BUFFER+1,x
-.bb5a	9d 4b 89	sta $894b,x	        sta gm_name,x
-.bb5d	e8		inx		        inx
-.bb5e	ec 3f 85	cpx $853f	        cpx gm_nlen
-.bb61	d0 f4		bne $bb57	        bne -
-.bb63	20 48 b6	jsr $b648	        jsr close_streams
-.bb66	b0 0e		bcs $bb76	        bcs e_close
-.bb68	a9 01		lda #$01	        lda #1
-.bb6a	60		rts		        rts
-.bb6b					e_none:
-.bb6b	20 48 b6	jsr $b648	        jsr close_streams
-.bb6e	b0 06		bcs $bb76	        bcs e_close
-.bb70	a9 00		lda #$00	        lda #0
-.bb72	60		rts		        rts
-.bb73					e_error:
-.bb73	4c d6 b8	jmp $b8d6	        jmp io_error
-.bb76					e_close:
-.bb76	4c 29 b9	jmp $b929	        jmp close_error
-.bb79					mkdir:
-.bb79	a9 08		lda #$08	        lda #$08
-.bb7b	20 ba bb	jsr $bbba	        jsr ucmd_d
-.bb7e	b0 0e		bcs $bb8e	        bcs +
-.bb80	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
-.bb83	29 18		and #$18	        and #$18
-.bb85	c9 10		cmp #$10	        cmp #$10
-.bb87	f0 03		beq $bb8c	        beq m_merge
-.bb89	4c 08 b9	jmp $b908	        jmp exists
-.bb8c					m_merge:
-.bb8c	18		clc		        clc
-.bb8d	60		rts		        rts
-.bb8e	a9 16		lda #$16	+       lda #$16                ; CREATE_DIR
-.bb90	20 ba bb	jsr $bbba	        jsr ucmd_d
-.bb93	90 03		bcc $bb98	        bcs em_fail
-.bb95	4c f7 ba	jmp $baf7
-.bb98	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.bb9b	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
-.bb9e	d0 15		bne $bbb5	        bne unproven
-.bba0	a9 08		lda #$08	        lda #$08
-.bba2	20 ba bb	jsr $bbba	        jsr ucmd_d
-.bba5	b0 0e		bcs $bbb5	        bcs unproven
-.bba7	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
-.bbaa	29 18		and #$18	        and #$18
-.bbac	c9 10		cmp #$10	        cmp #$10
-.bbae	d0 05		bne $bbb5	        bne unproven
-.bbb0	ee 27 bf	inc $bf27	        inc created
-.bbb3	18		clc		        clc
-.bbb4	60		rts		        rts
-.bbb5					unproven:
-.bbb5	a9 11		lda #$11	        lda #N_IOERROR
+.bb72					empty:
+.bb72	a9 00		lda #$00	        lda #0
+.bb74	8d d1 bf	sta $bfd1	        sta depth
+.bb77					em_next:
+.bb77	a9 00		lda #$00	        lda #0
+.bb79	8d d2 bf	sta $bfd2	        sta index
+.bb7c	20 ba bb	jsr $bbba	        jsr dirent
+.bb7f	b0 ea		bcs $bb6b	        bcs t_out
+.bb81	f0 11		beq $bb94	        beq em_up
+.bb83	20 af bc	jsr $bcaf	        jsr push_s
+.bb86	b0 e3		bcs $bb6b	        bcs t_out
+.bb88	ad d4 bf	lda $bfd4	        lda eattr
+.bb8b	29 10		and #$10	        and #$10
+.bb8d	f0 0d		beq $bb9c	        beq em_file
+.bb8f	ee d1 bf	inc $bfd1	        inc depth
+.bb92	d0 e3		bne $bb77	        bne em_next
+.bb94					em_up:
+.bb94	ad d1 bf	lda $bfd1	        lda depth
+.bb97	f0 d1		beq $bb6a	        beq t_done              ; (the top folder stays)
+.bb99	ce d1 bf	dec $bfd1	        dec depth
+.bb9c					em_file:
+.bb9c	a9 09		lda #$09	        lda #$09                ; DELETE_FILE: a file, or a folder now empty
+.bb9e	ac de b6	ldy $b6de	        ldy sdev
+.bba1	20 93 bc	jsr $bc93	        jsr ucmd_s
+.bba4	b0 11		bcs $bbb7	        bcs em_fail
+.bba6	ad 8b 3d	lda $3d8b	        lda N_FACTUAL           ; a message instead of the empty reply: refused
+.bba9	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
+.bbac	f0 03		beq $bbb1	        bne unproven
+.bbae	4c 75 bc	jmp $bc75
+.bbb1	20 f4 bc	jsr $bcf4	        jsr pop_s
+.bbb4	4c 77 bb	jmp $bb77	        jmp em_next
+.bbb7					em_fail:
 .bbb7	4c 5f b5	jmp $b55f	        jmp fail
-.bbba					ucmd_d:
-.bbba	48		pha		        pha
-.bbbb	a0 00		ldy #$00	        ldy #0
-.bbbd	b9 00 53	lda $5300,y	-       lda dpath,y
-.bbc0	99 00 4e	sta $4e00,y	        sta N_UPATH,y
-.bbc3	c8		iny		        iny
-.bbc4	cc dd b6	cpy $b6dd	        cpy dlen
-.bbc7	d0 f4		bne $bbbd	        bne -
-.bbc9	ad db b6	lda $b6db	        lda dopen
-.bbcc	8d 00 3a	sta $3a00	        sta N_BUFFER
-.bbcf	68		pla		        pla
-.bbd0	4c e6 bb	jmp $bbe6	        jmp ucmd
-.bbd3					ucmd_s:
-.bbd3	8c 00 3a	sty $3a00	        sty N_BUFFER
-.bbd6	a0 00		ldy #$00	        ldy #0
-.bbd8	48		pha		-       pha
-.bbd9	b9 00 52	lda $5200,y	        lda spath,y
-.bbdc	99 00 4e	sta $4e00,y	        sta N_UPATH,y
-.bbdf	68		pla		        pla
-.bbe0	c8		iny		        iny
-.bbe1	cc e1 b6	cpy $b6e1	        cpy slen
-.bbe4	d0 f2		bne $bbd8	        bne -
-.bbe6					ucmd:
-.bbe6	8c 86 3d	sty $3d86	        sty N_FNAMELEN
-.bbe9	8d 01 3a	sta $3a01	        sta N_BUFFER+1
-.bbec	4c e1 76	jmp $76e1	        jmp gm_ucmd_at
-.bbef					push_s:
-.bbef	ae e1 b6	ldx $b6e1	        ldx slen
-.bbf2	a9 2f		lda #$2f	        lda #$2f
-.bbf4	9d 00 52	sta $5200,x	        sta spath,x
-.bbf7	a0 00		ldy #$00	        ldy #0
-.bbf9	e8		inx		-       inx
-.bbfa	f0 35		beq $bc31	        beq p_long
-.bbfc	b9 4b 89	lda $894b,y	        lda gm_name,y
-.bbff	9d 00 52	sta $5200,x	        sta spath,x
-.bc02	c8		iny		        iny
-.bc03	cc 3f 85	cpy $853f	        cpy gm_nlen
-.bc06	d0 f1		bne $bbf9	        bne -
-.bc08	e8		inx		        inx
-.bc09	f0 26		beq $bc31	        beq p_long
-.bc0b	8e e1 b6	stx $b6e1	        stx slen
-.bc0e	18		clc		        clc
-.bc0f	60		rts		        rts
-.bc10					push_d:
-.bc10	ae dd b6	ldx $b6dd	        ldx dlen
-.bc13	a9 2f		lda #$2f	        lda #$2f
-.bc15	9d 00 53	sta $5300,x	        sta dpath,x
-.bc18	a0 00		ldy #$00	        ldy #0
-.bc1a	e8		inx		-       inx
-.bc1b	f0 14		beq $bc31	        beq p_long
-.bc1d	b9 4b 89	lda $894b,y	        lda gm_name,y
-.bc20	9d 00 53	sta $5300,x	        sta dpath,x
-.bc23	c8		iny		        iny
-.bc24	cc 3f 85	cpy $853f	        cpy gm_nlen
-.bc27	d0 f1		bne $bc1a	        bne -
-.bc29	e8		inx		        inx
-.bc2a	f0 05		beq $bc31	        beq p_long
-.bc2c	8e dd b6	stx $b6dd	        stx dlen
-.bc2f	18		clc		        clc
-.bc30	60		rts		        rts
-.bc31					p_long:
-.bc31	4c 89 b4	jmp $b489	        jmp toolong
-.bc34					pop_s:
-.bc34	ae e1 b6	ldx $b6e1	        ldx slen
-.bc37	ca		dex		-       dex
-.bc38	bd 00 52	lda $5200,x	        lda spath,x
-.bc3b	c9 2f		cmp #$2f	        cmp #$2f
-.bc3d	d0 f8		bne $bc37	        bne -
-.bc3f	8e e1 b6	stx $b6e1	        stx slen
-.bc42	60		rts		        rts
-.bc43					pop_d:
-.bc43	ae dd b6	ldx $b6dd	        ldx dlen
-.bc46	ca		dex		-       dex
-.bc47	bd 00 53	lda $5300,x	        lda dpath,x
-.bc4a	c9 2f		cmp #$2f	        cmp #$2f
-.bc4c	d0 f8		bne $bc46	        bne -
-.bc4e	8e dd b6	stx $b6dd	        stx dlen
-.bc51	60		rts		        rts
+.bbba					dirent:
+.bbba	a9 00		lda #$00	        lda #0
+.bbbc	8d f3 bf	sta $bff3	        sta phase
+.bbbf	8d d3 bf	sta $bfd3	        sta k
+.bbc2	a2 00		ldx #$00	        ldx #0
+.bbc4	a9 02		lda #$02	        lda #2                  ; a directory cursor
+.bbc6	20 6f b5	jsr $b56f	        jsr open
+.bbc9	b0 68		bcs $bc33	        bcs e_error
+.bbcb					e_read:
+.bbcb	20 11 b6	jsr $b611	        jsr read_source         ; one packet: the attribute, then the name
+.bbce	b0 63		bcs $bc33	        bcs e_error
+.bbd0	ad e4 b6	lda $b6e4	        lda size
+.bbd3	0d e5 b6	ora $b6e5	        ora size+1
+.bbd6	f0 53		beq $bc2b	        beq e_none
+.bbd8	ad d3 bf	lda $bfd3	        lda k
+.bbdb	cd d2 bf	cmp $bfd2	        cmp index
+.bbde	90 1c		bcc $bbfc	        bcc e_skip
+.bbe0	ad 01 3a	lda $3a01	        lda N_BUFFER+1          ; "." and ".."
+.bbe3	c9 2e		cmp #$2e	        cmp #$2e
+.bbe5	d0 1b		bne $bc02	        bne e_found
+.bbe7	ae e4 b6	ldx $b6e4	        ldx size
+.bbea	e0 02		cpx #$02	        cpx #2
+.bbec	f0 0b		beq $bbf9	        beq e_dot
+.bbee	e0 03		cpx #$03	        cpx #3
+.bbf0	d0 10		bne $bc02	        bne e_found
+.bbf2	ad 02 3a	lda $3a02	        lda N_BUFFER+2
+.bbf5	c9 2e		cmp #$2e	        cmp #$2e
+.bbf7	d0 09		bne $bc02	        bne e_found
+.bbf9					e_dot:
+.bbf9	ee d2 bf	inc $bfd2	        inc index
+.bbfc					e_skip:
+.bbfc	ee d3 bf	inc $bfd3	        inc k
+.bbff	4c cb bb	jmp $bbcb	        jmp e_read
+.bc02					e_found:
+.bc02	ad d3 bf	lda $bfd3	        lda k
+.bc05	8d d2 bf	sta $bfd2	        sta index
+.bc08	ad 00 3a	lda $3a00	        lda N_BUFFER
+.bc0b	8d d4 bf	sta $bfd4	        sta eattr
+.bc0e	ae e4 b6	ldx $b6e4	        ldx size
+.bc11	ca		dex		        dex
+.bc12	8e 3f 85	stx $853f	        stx gm_nlen
+.bc15	a2 00		ldx #$00	        ldx #0
+.bc17	bd 01 3a	lda $3a01,x	-       lda N_BUFFER+1,x
+.bc1a	9d 4b 89	sta $894b,x	        sta gm_name,x
+.bc1d	e8		inx		        inx
+.bc1e	ec 3f 85	cpx $853f	        cpx gm_nlen
+.bc21	d0 f4		bne $bc17	        bne -
+.bc23	20 48 b6	jsr $b648	        jsr close_streams
+.bc26	b0 0e		bcs $bc36	        bcs e_close
+.bc28	a9 01		lda #$01	        lda #1
+.bc2a	60		rts		        rts
+.bc2b					e_none:
+.bc2b	20 48 b6	jsr $b648	        jsr close_streams
+.bc2e	b0 06		bcs $bc36	        bcs e_close
+.bc30	a9 00		lda #$00	        lda #0
+.bc32	60		rts		        rts
+.bc33					e_error:
+.bc33	4c db b8	jmp $b8db	        jmp io_error
+.bc36					e_close:
+.bc36	4c 2e b9	jmp $b92e	        jmp close_error
+.bc39					mkdir:
+.bc39	a9 08		lda #$08	        lda #$08
+.bc3b	20 7a bc	jsr $bc7a	        jsr ucmd_d
+.bc3e	b0 0e		bcs $bc4e	        bcs +
+.bc40	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
+.bc43	29 18		and #$18	        and #$18
+.bc45	c9 10		cmp #$10	        cmp #$10
+.bc47	f0 03		beq $bc4c	        beq m_merge
+.bc49	4c 0d b9	jmp $b90d	        jmp exists
+.bc4c					m_merge:
+.bc4c	18		clc		        clc
+.bc4d	60		rts		        rts
+.bc4e	a9 16		lda #$16	+       lda #$16                ; CREATE_DIR
+.bc50	20 7a bc	jsr $bc7a	        jsr ucmd_d
+.bc53	90 03		bcc $bc58	        bcs em_fail
+.bc55	4c b7 bb	jmp $bbb7
+.bc58	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.bc5b	0d 8c 3d	ora $3d8c	        ora N_FACTUAL+1
+.bc5e	d0 15		bne $bc75	        bne unproven
+.bc60	a9 08		lda #$08	        lda #$08
+.bc62	20 7a bc	jsr $bc7a	        jsr ucmd_d
+.bc65	b0 0e		bcs $bc75	        bcs unproven
+.bc67	ad 0b 3a	lda $3a0b	        lda N_BUFFER+11
+.bc6a	29 18		and #$18	        and #$18
+.bc6c	c9 10		cmp #$10	        cmp #$10
+.bc6e	d0 05		bne $bc75	        bne unproven
+.bc70	ee ec bf	inc $bfec	        inc created
+.bc73	18		clc		        clc
+.bc74	60		rts		        rts
+.bc75					unproven:
+.bc75	a9 11		lda #$11	        lda #N_IOERROR
+.bc77	4c 5f b5	jmp $b55f	        jmp fail
+.bc7a					ucmd_d:
+.bc7a	48		pha		        pha
+.bc7b	a0 00		ldy #$00	        ldy #0
+.bc7d	b9 00 53	lda $5300,y	-       lda dpath,y
+.bc80	99 00 4e	sta $4e00,y	        sta N_UPATH,y
+.bc83	c8		iny		        iny
+.bc84	cc dd b6	cpy $b6dd	        cpy dlen
+.bc87	d0 f4		bne $bc7d	        bne -
+.bc89	ad db b6	lda $b6db	        lda dopen
+.bc8c	8d 00 3a	sta $3a00	        sta N_BUFFER
+.bc8f	68		pla		        pla
+.bc90	4c a6 bc	jmp $bca6	        jmp ucmd
+.bc93					ucmd_s:
+.bc93	8c 00 3a	sty $3a00	        sty N_BUFFER
+.bc96	a0 00		ldy #$00	        ldy #0
+.bc98	48		pha		-       pha
+.bc99	b9 00 52	lda $5200,y	        lda spath,y
+.bc9c	99 00 4e	sta $4e00,y	        sta N_UPATH,y
+.bc9f	68		pla		        pla
+.bca0	c8		iny		        iny
+.bca1	cc e1 b6	cpy $b6e1	        cpy slen
+.bca4	d0 f2		bne $bc98	        bne -
+.bca6					ucmd:
+.bca6	8c 86 3d	sty $3d86	        sty N_FNAMELEN
+.bca9	8d 01 3a	sta $3a01	        sta N_BUFFER+1
+.bcac	4c e1 76	jmp $76e1	        jmp gm_ucmd_at
+.bcaf					push_s:
+.bcaf	ae e1 b6	ldx $b6e1	        ldx slen
+.bcb2	a9 2f		lda #$2f	        lda #$2f
+.bcb4	9d 00 52	sta $5200,x	        sta spath,x
+.bcb7	a0 00		ldy #$00	        ldy #0
+.bcb9	e8		inx		-       inx
+.bcba	f0 35		beq $bcf1	        beq p_long
+.bcbc	b9 4b 89	lda $894b,y	        lda gm_name,y
+.bcbf	9d 00 52	sta $5200,x	        sta spath,x
+.bcc2	c8		iny		        iny
+.bcc3	cc 3f 85	cpy $853f	        cpy gm_nlen
+.bcc6	d0 f1		bne $bcb9	        bne -
+.bcc8	e8		inx		        inx
+.bcc9	f0 26		beq $bcf1	        beq p_long
+.bccb	8e e1 b6	stx $b6e1	        stx slen
+.bcce	18		clc		        clc
+.bccf	60		rts		        rts
+.bcd0					push_d:
+.bcd0	ae dd b6	ldx $b6dd	        ldx dlen
+.bcd3	a9 2f		lda #$2f	        lda #$2f
+.bcd5	9d 00 53	sta $5300,x	        sta dpath,x
+.bcd8	a0 00		ldy #$00	        ldy #0
+.bcda	e8		inx		-       inx
+.bcdb	f0 14		beq $bcf1	        beq p_long
+.bcdd	b9 4b 89	lda $894b,y	        lda gm_name,y
+.bce0	9d 00 53	sta $5300,x	        sta dpath,x
+.bce3	c8		iny		        iny
+.bce4	cc 3f 85	cpy $853f	        cpy gm_nlen
+.bce7	d0 f1		bne $bcda	        bne -
+.bce9	e8		inx		        inx
+.bcea	f0 05		beq $bcf1	        beq p_long
+.bcec	8e dd b6	stx $b6dd	        stx dlen
+.bcef	18		clc		        clc
+.bcf0	60		rts		        rts
+.bcf1					p_long:
+.bcf1	4c 89 b4	jmp $b489	        jmp toolong
+.bcf4					pop_s:
+.bcf4	ae e1 b6	ldx $b6e1	        ldx slen
+.bcf7	ca		dex		-       dex
+.bcf8	bd 00 52	lda $5200,x	        lda spath,x
+.bcfb	c9 2f		cmp #$2f	        cmp #$2f
+.bcfd	d0 f8		bne $bcf7	        bne -
+.bcff	8e e1 b6	stx $b6e1	        stx slen
+.bd02	60		rts		        rts
+.bd03					pop_d:
+.bd03	ae dd b6	ldx $b6dd	        ldx dlen
+.bd06	ca		dex		-       dex
+.bd07	bd 00 53	lda $5300,x	        lda dpath,x
+.bd0a	c9 2f		cmp #$2f	        cmp #$2f
+.bd0c	d0 f8		bne $bd06	        bne -
+.bd0e	8e dd b6	stx $b6dd	        stx dlen
+.bd11	60		rts		        rts
 
 ;******  Processing file: src/native/gemdesk-progress.inc
 
@@ -2387,217 +2477,221 @@
 =10					PW_Y = 10
 =26					PW_W = 26
 =3					PW_H = 3
-.bc52					progress_open:
-.bc52	a9 00		lda #$00	        lda #WS_CREATE
-.bc54	8d 00 3a	sta $3a00	        sta N_BUFFER
-.bc57	a9 01		lda #$01	        lda #<WK_NAME
-.bc59	8d 02 3a	sta $3a02	        sta N_BUFFER+2
-.bc5c	a9 00		lda #$00	        lda #>WK_NAME
-.bc5e	8d 03 3a	sta $3a03	        sta N_BUFFER+3
-.bc61	20 a3 bc	jsr $bca3	        jsr pw_rect             ; (the full size: the rectangle it opens at)
-.bc64	20 4a 62	jsr $624a	        jsr gm_wcall
-.bc67	b0 2c		bcs $bc95	        bcs pw_none             ; no window free: the copy goes on without one
-.bc69	ad 00 3a	lda $3a00	        lda N_BUFFER
-.bc6c	8d 21 bd	sta $bd21	        sta pw
-.bc6f	20 ba bc	jsr $bcba	        jsr progress_title
-.bc72	a9 01		lda #$01	        lda #WS_OPEN
-.bc74	20 96 bc	jsr $bc96	        jsr pw_call
-.bc77	20 a0 bc	jsr $bca0	        jsr pw_rect_at_2
-.bc7a	20 4a 62	jsr $624a	        jsr gm_wcall
-.bc7d	a9 07		lda #$07	        lda #WS_FILL            ; its work row: paper
-.bc7f	20 96 bc	jsr $bc96	        jsr pw_call
-.bc82	a9 00		lda #$00	        lda #0
-.bc84	8d 02 3a	sta $3a02	        sta N_BUFFER+2
-.bc87	a9 61		lda #$61	        lda #GM_PAPER
-.bc89	8d 03 3a	sta $3a03	        sta N_BUFFER+3
-.bc8c	20 a3 bc	jsr $bca3	        jsr pw_rect
-.bc8f	20 4a 62	jsr $624a	        jsr gm_wcall
-.bc92	4c b9 62	jmp $62b9	        jmp ae_present
-.bc95					pw_none:
-.bc95	60		rts		        rts
-.bc96					pw_call:
-.bc96	8d 00 3a	sta $3a00	        sta N_BUFFER
-.bc99	ad 21 bd	lda $bd21	        lda pw
-.bc9c	8d 01 3a	sta $3a01	        sta N_BUFFER+1
-.bc9f	60		rts		        rts
-.bca0					pw_rect_at_2:
-.bca0	a2 00		ldx #$00	        ldx #0
->bca2	2c				        .byte $2c               ; (bit abs: skips the next ldx)
-.bca3					pw_rect:
-.bca3	a2 02		ldx #$02	        ldx #2
-.bca5	a9 07		lda #$07	        lda #PW_X
-.bca7	9d 02 3a	sta $3a02,x	        sta N_BUFFER+2,x
-.bcaa	a9 0a		lda #$0a	        lda #PW_Y
-.bcac	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
-.bcaf	a9 1a		lda #$1a	        lda #PW_W
-.bcb1	9d 04 3a	sta $3a04,x	        sta N_BUFFER+4,x
-.bcb4	a9 03		lda #$03	        lda #PW_H
-.bcb6	9d 05 3a	sta $3a05,x	        sta N_BUFFER+5,x
-.bcb9	60		rts		        rts
-.bcba					progress_title:
-.bcba	ad 21 bd	lda $bd21	        lda pw
-.bcbd	f0 d6		beq $bc95	        beq pw_none
-.bcbf	20 22 bd	jsr $bd22	        jsr progress_text
-.bcc2	a9 04		lda #$04	        lda #WS_SET
-.bcc4	20 96 bc	jsr $bc96	        jsr pw_call
-.bcc7	a9 02		lda #$02	        lda #WF_NAME
-.bcc9	8d 02 3a	sta $3a02	        sta N_BUFFER+2
-.bccc	a2 00		ldx #$00	        ldx #0
-.bcce	bd 03 87	lda $8703,x	-       lda gm_abuf,x
-.bcd1	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
-.bcd4	e8		inx		        inx
-.bcd5	ec 02 87	cpx $8702	        cpx gm_alen
-.bcd8	d0 f4		bne $bcce	        bne -
-.bcda	20 4a 62	jsr $624a	        jsr gm_wcall
-.bcdd	4c b9 62	jmp $62b9	        jmp ae_present
-.bce0					progress_close:
-.bce0	ad 21 bd	lda $bd21	        lda pw
-.bce3	f0 b0		beq $bc95	        beq pw_none
-.bce5	a9 02		lda #$02	        lda #WS_CLOSE
-.bce7	20 96 bc	jsr $bc96	        jsr pw_call
-.bcea	20 4a 62	jsr $624a	        jsr gm_wcall
-.bced	a9 03		lda #$03	        lda #WS_DELETE
-.bcef	20 96 bc	jsr $bc96	        jsr pw_call
-.bcf2	20 4a 62	jsr $624a	        jsr gm_wcall
-.bcf5	a9 00		lda #$00	        lda #0
-.bcf7	8d 21 bd	sta $bd21	        sta pw
-.bcfa					pw_drain:
-.bcfa	a9 30		lda #$30	        lda #MU_MESAG|MU_TIMER
-.bcfc	8d cb 94	sta $94cb	        sta ae_ev_params
-.bcff	a9 00		lda #$00	        lda #0
-.bd01	8d d9 94	sta $94d9	        sta ae_ev_params+14
-.bd04	8d da 94	sta $94da	        sta ae_ev_params+15
-.bd07	20 5f 92	jsr $925f	        jsr ae_event
-.bd0a	b0 0d		bcs $bd19	        bcs +
-.bd0c	ad db 94	lda $94db	        lda ae_ev_result
-.bd0f	29 10		and #$10	        and #MU_MESAG
-.bd11	f0 06		beq $bd19	        beq +
-.bd13	20 41 63	jsr $6341	        jsr gm_message
-.bd16	4c fa bc	jmp $bcfa	        jmp pw_drain
-.bd19	a9 00		lda #$00	+       lda #0                  ; no timer left for the next wait: an alert's
-.bd1b	8d cb 94	sta $94cb	        sta ae_ev_params        ; wait would otherwise wake on every jiffy
-.bd1e	4c b9 62	jmp $62b9	        jmp ae_present
->bd21	00				pw: .byte 0                     ; the progress window's handle, 0 when none
+.bd12					progress_open:
+.bd12	a9 00		lda #$00	        lda #WS_CREATE
+.bd14	8d 00 3a	sta $3a00	        sta N_BUFFER
+.bd17	a9 01		lda #$01	        lda #<WK_NAME
+.bd19	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.bd1c	a9 00		lda #$00	        lda #>WK_NAME
+.bd1e	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.bd21	20 63 bd	jsr $bd63	        jsr pw_rect             ; (the full size: the rectangle it opens at)
+.bd24	20 4a 62	jsr $624a	        jsr gm_wcall
+.bd27	b0 2c		bcs $bd55	        bcs pw_none             ; no window free: the copy goes on without one
+.bd29	ad 00 3a	lda $3a00	        lda N_BUFFER
+.bd2c	8d e1 bd	sta $bde1	        sta pw
+.bd2f	20 7a bd	jsr $bd7a	        jsr progress_title
+.bd32	a9 01		lda #$01	        lda #WS_OPEN
+.bd34	20 56 bd	jsr $bd56	        jsr pw_call
+.bd37	20 60 bd	jsr $bd60	        jsr pw_rect_at_2
+.bd3a	20 4a 62	jsr $624a	        jsr gm_wcall
+.bd3d	a9 07		lda #$07	        lda #WS_FILL            ; its work row: paper
+.bd3f	20 56 bd	jsr $bd56	        jsr pw_call
+.bd42	a9 00		lda #$00	        lda #0
+.bd44	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.bd47	a9 61		lda #$61	        lda #GM_PAPER
+.bd49	8d 03 3a	sta $3a03	        sta N_BUFFER+3
+.bd4c	20 63 bd	jsr $bd63	        jsr pw_rect
+.bd4f	20 4a 62	jsr $624a	        jsr gm_wcall
+.bd52	4c b9 62	jmp $62b9	        jmp ae_present
+.bd55					pw_none:
+.bd55	60		rts		        rts
+.bd56					pw_call:
+.bd56	8d 00 3a	sta $3a00	        sta N_BUFFER
+.bd59	ad e1 bd	lda $bde1	        lda pw
+.bd5c	8d 01 3a	sta $3a01	        sta N_BUFFER+1
+.bd5f	60		rts		        rts
+.bd60					pw_rect_at_2:
+.bd60	a2 00		ldx #$00	        ldx #0
+>bd62	2c				        .byte $2c               ; (bit abs: skips the next ldx)
+.bd63					pw_rect:
+.bd63	a2 02		ldx #$02	        ldx #2
+.bd65	a9 07		lda #$07	        lda #PW_X
+.bd67	9d 02 3a	sta $3a02,x	        sta N_BUFFER+2,x
+.bd6a	a9 0a		lda #$0a	        lda #PW_Y
+.bd6c	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
+.bd6f	a9 1a		lda #$1a	        lda #PW_W
+.bd71	9d 04 3a	sta $3a04,x	        sta N_BUFFER+4,x
+.bd74	a9 03		lda #$03	        lda #PW_H
+.bd76	9d 05 3a	sta $3a05,x	        sta N_BUFFER+5,x
+.bd79	60		rts		        rts
+.bd7a					progress_title:
+.bd7a	ad e1 bd	lda $bde1	        lda pw
+.bd7d	f0 d6		beq $bd55	        beq pw_none
+.bd7f	20 e2 bd	jsr $bde2	        jsr progress_text
+.bd82	a9 04		lda #$04	        lda #WS_SET
+.bd84	20 56 bd	jsr $bd56	        jsr pw_call
+.bd87	a9 02		lda #$02	        lda #WF_NAME
+.bd89	8d 02 3a	sta $3a02	        sta N_BUFFER+2
+.bd8c	a2 00		ldx #$00	        ldx #0
+.bd8e	bd 03 87	lda $8703,x	-       lda gm_abuf,x
+.bd91	9d 03 3a	sta $3a03,x	        sta N_BUFFER+3,x
+.bd94	e8		inx		        inx
+.bd95	ec 02 87	cpx $8702	        cpx gm_alen
+.bd98	d0 f4		bne $bd8e	        bne -
+.bd9a	20 4a 62	jsr $624a	        jsr gm_wcall
+.bd9d	4c b9 62	jmp $62b9	        jmp ae_present
+.bda0					progress_close:
+.bda0	ad e1 bd	lda $bde1	        lda pw
+.bda3	f0 b0		beq $bd55	        beq pw_none
+.bda5	a9 02		lda #$02	        lda #WS_CLOSE
+.bda7	20 56 bd	jsr $bd56	        jsr pw_call
+.bdaa	20 4a 62	jsr $624a	        jsr gm_wcall
+.bdad	a9 03		lda #$03	        lda #WS_DELETE
+.bdaf	20 56 bd	jsr $bd56	        jsr pw_call
+.bdb2	20 4a 62	jsr $624a	        jsr gm_wcall
+.bdb5	a9 00		lda #$00	        lda #0
+.bdb7	8d e1 bd	sta $bde1	        sta pw
+.bdba					pw_drain:
+.bdba	a9 30		lda #$30	        lda #MU_MESAG|MU_TIMER
+.bdbc	8d cb 94	sta $94cb	        sta ae_ev_params
+.bdbf	a9 00		lda #$00	        lda #0
+.bdc1	8d d9 94	sta $94d9	        sta ae_ev_params+14
+.bdc4	8d da 94	sta $94da	        sta ae_ev_params+15
+.bdc7	20 5f 92	jsr $925f	        jsr ae_event
+.bdca	b0 0d		bcs $bdd9	        bcs +
+.bdcc	ad db 94	lda $94db	        lda ae_ev_result
+.bdcf	29 10		and #$10	        and #MU_MESAG
+.bdd1	f0 06		beq $bdd9	        beq +
+.bdd3	20 41 63	jsr $6341	        jsr gm_message
+.bdd6	4c ba bd	jmp $bdba	        jmp pw_drain
+.bdd9	a9 00		lda #$00	+       lda #0                  ; no timer left for the next wait: an alert's
+.bddb	8d cb 94	sta $94cb	        sta ae_ev_params        ; wait would otherwise wake on every jiffy
+.bdde	4c b9 62	jmp $62b9	        jmp ae_present
+>bde1	00				pw: .byte 0                     ; the progress window's handle, 0 when none
 
 ;******  Return to file: src/native/gemdesk-copy.inc
 
-.bd22					progress_text:
-.bd22	a9 00		lda #$00	        lda #0
-.bd24	8d 02 87	sta $8702	        sta gm_alen
-.bd27	a9 fb		lda #$fb	        lda #<s_copying
-.bd29	a2 be		ldx #$be	        ldx #>s_copying
-.bd2b	ac 25 bf	ldy $bf25	        ldy choice
-.bd2e	c0 02		cpy #$02	        cpy #2
-.bd30	d0 04		bne $bd36	        bne +
-.bd32	a9 04		lda #$04	        lda #<s_moving
-.bd34	a2 bf		ldx #$bf	        ldx #>s_moving
-.bd36	20 b7 6d	jsr $6db7	+       jsr gm_astr
-.bd39	ad 20 bf	lda $bf20	        lda item_no
-.bd3c	20 4f bd	jsr $bd4f	        jsr pt_number
-.bd3f	a9 2f		lda #$2f	        lda #$2f                ; /
-.bd41	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.bd44	ad 21 bf	lda $bf21	        lda total
-.bd47	20 4f bd	jsr $bd4f	        jsr pt_number
-.bd4a	a9 00		lda #$00	        lda #0
-.bd4c	4c cb 6d	jmp $6dcb	        jmp gm_aput
-.bd4f					pt_number:
-.bd4f	8d 71 87	sta $8771	        sta gm_num
-.bd52	a9 00		lda #$00	        lda #0
-.bd54	8d 72 87	sta $8772	        sta gm_num+1
-.bd57	4c d5 6d	jmp $6dd5	        jmp gm_anum
-.bd5a					acknowledged:
-.bd5a	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.bd5d	cd e4 b6	cmp $b6e4	        cmp size
-.bd60	d0 06		bne $bd68	        bne +
-.bd62	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
-.bd65	cd e5 b6	cmp $b6e5	        cmp size+1
-.bd68	60		rts		+       rts
-.bd69					stash:
-.bd69	a2 00		ldx #$00	        ldx #0
-.bd6b	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
-.bd6e	9d 00 50	sta $5000,x	        sta data,x
-.bd71	bd 00 3b	lda $3b00,x	        lda N_BUFFER+256,x
-.bd74	9d 00 51	sta $5100,x	        sta data+256,x
-.bd77	e8		inx		        inx
-.bd78	d0 f1		bne $bd6b	        bne -
-.bd7a	60		rts		        rts
-.bd7b					advance:
-.bd7b	18		clc		        clc
-.bd7c	bd 2e bf	lda $bf2e,x	        lda counts,x
-.bd7f	6d e4 b6	adc $b6e4	        adc size
-.bd82	9d 2e bf	sta $bf2e,x	        sta counts,x
-.bd85	bd 2f bf	lda $bf2f,x	        lda counts+1,x
-.bd88	6d e5 b6	adc $b6e5	        adc size+1
-.bd8b	9d 2f bf	sta $bf2f,x	        sta counts+1,x
-.bd8e	90 08		bcc $bd98	        bcc +
-.bd90	fe 30 bf	inc $bf30,x	        inc counts+2,x
-.bd93	d0 03		bne $bd98	        bne +
-.bd95	fe 31 bf	inc $bf31,x	        inc counts+3,x
-.bd98	60		rts		+       rts
->bd99	2e 50 52 47			suffix: .byte 46,80,82,71   ; .PRG
->bd9d	5b 32 5d 5b 43 6f 70 79		s_copy: .byte 91,50,93,91,67,111,112,121,32,0   ; [2][Copy
->bda5	20 00
->bda7	7c 74 6f 20 00			s_to: .byte 124,116,111,32,0   ; |to
->bdac	3f 5d 5b 43 6f 70 79 7c		s_choice: .byte 63,93,91,67,111,112,121,124,77,111,118,101,124,67,97,110,99,101,108,93,0   ; ?][Copy|Move|Cancel]
->bdb4	4d 6f 76 65 7c 43 61 6e 63 65 6c 5d 00
->bdc1	20 61 6c 72 65 61 64 79		s_exists: .byte 32,97,108,114,101,97,100,121,124,101,120,105,115,116,115,32,111,110,32,0   ;  already|exists on
->bdc9	7c 65 78 69 73 74 73 20 6f 6e 20 00
->bdd5	5b 31 5d 5b 43 6f 70 79		s_stopped: .byte 91,49,93,91,67,111,112,121,32,115,116,111,112,112,101,100,46,124,0   ; [1][Copy stopped.|
->bddd	20 73 74 6f 70 70 65 64 2e 7c 00
->bde8	20 6d 61 79 20 68 6f 6c		s_part: .byte 32,109,97,121,32,104,111,108,100,124,112,97,114,116,32,111,102,32,0   ;  may hold|part of
->bdf0	64 7c 70 61 72 74 20 6f 66 20 00
->bdfb	5b 31 5d 5b 54 68 69 73		s_badname: .byte 91,49,93,91,84,104,105,115,32,110,97,109,101,32,100,111,101,115,32,110,111,116,32,102
->be03	20 6e 61 6d 65 20 64 6f 65 73 20 6e 6f 74 20 66
->be13	69 74 7c 61 20 64 72 69		        .byte 105,116,124,97,32,100,114,105,118,101,58,32,49,54,32,99,104,97,114,97,99,116,101,114
->be1b	76 65 3a 20 31 36 20 63 68 61 72 61 63 74 65 72
->be2b	73 2c 7c 6e 6f 20 2a 20		        .byte 115,44,124,110,111,32,42,32,63,32,44,32,61,32,58,32,64,32,111,114,32,113,117,111
->be33	3f 20 2c 20 3d 20 3a 20 40 20 6f 72 20 71 75 6f
->be43	74 65 2e 5d 5b 4f 4b 5d		        .byte 116,101,46,93,91,79,75,93,0   ; [1][This name does not fit|a drive: 16 characters,|no * ? , = : @ or quote.][OK]
->be4b	00
->be4c	5b 31 5d 5b 41 20 64 72		s_empty: .byte 91,49,93,91,65,32,100,114,105,118,101,32,99,97,110,110,111,116,32,104,111,108,100,124
->be54	69 76 65 20 63 61 6e 6e 6f 74 20 68 6f 6c 64 7c
->be64	61 6e 20 65 6d 70 74 79		        .byte 97,110,32,101,109,112,116,121,32,102,105,108,101,46,93,91,79,75,93,0   ; [1][A drive cannot hold|an empty file.][OK]
->be6c	20 66 69 6c 65 2e 5d 5b 4f 4b 5d 00
->be78	5b 33 5d 5b 54 68 65 20		s_mismatch: .byte 91,51,93,91,84,104,101,32,99,111,112,121,32,100,111,101,115,32,110,111,116,32,109,97
->be80	63 6f 70 79 20 64 6f 65 73 20 6e 6f 74 20 6d 61
->be90	74 63 68 2e 7c 54 68 65		        .byte 116,99,104,46,124,84,104,101,32,111,114,105,103,105,110,97,108,32,105,115,32,107,101,112
->be98	20 6f 72 69 67 69 6e 61 6c 20 69 73 20 6b 65 70
->bea8	74 2e 5d 5b 4f 4b 5d 00		        .byte 116,46,93,91,79,75,93,0   ; [3][The copy does not match.|The original is kept.][OK]
->beb0	5b 32 5d 5b 00			s_ask_head: .byte 91,50,93,91,0   ; [2][
->beb5	2e 5d 5b 52 65 70 6c 61		s_conflict: .byte 46,93,91,82,101,112,108,97,99,101,124,83,107,105,112,124,83,116,111,112,93,0   ; .][Replace|Skip|Stop]
->bebd	63 65 7c 53 6b 69 70 7c 53 74 6f 70 5d 00
->becb	5b 31 5d 5b 41 20 66 6f		s_itself: .byte 91,49,93,91,65,32,102,111,108,100,101,114,32,99,97,110,110,111,116,32,98,101,124,99,111,112,105,101,100,32,105,110,116,111,32,105,116,115,101,108,102,46,93,91,79,75,93,0   ; [1][A folder cannot be|copied into itself.][OK]
->bed3	6c 64 65 72 20 63 61 6e 6e 6f 74 20 62 65 7c 63
->bee3	6f 70 69 65 64 20 69 6e 74 6f 20 69 74 73 65 6c
->bef3	66 2e 5d 5b 4f 4b 5d 00
->befb	43 6f 70 79 69 6e 67 20		s_copying: .byte 67,111,112,121,105,110,103,32,0   ; Copying
->bf03	00
->bf04	4d 6f 76 69 6e 67 20 00		s_moving: .byte 77,111,118,105,110,103,32,0   ; Moving
->bf0c	00				depth: .byte 0
->bf0d	00				index: .byte 0                  ; an entry's position in the folder at depth
->bf0e	00				k: .byte 0
->bf0f	00				eattr: .byte 0
->bf10	00 00 00 00 00 00 00 00		tstack: .fill TDEPTH,0
->bf18	00 00 00 00 00 00 00 00
->bf20	00				item_no: .byte 0
->bf21	00				total: .byte 0
->bf22	00				dslot: .byte 0
->bf23	00				failed_slot: .byte 0
->bf24	00				ddev: .byte 0
->bf25	00				choice: .byte 0
->bf26	00				stop: .byte 0
->bf27	00				created: .byte 0
->bf28	00				skipped: .byte 0                ; a name conflict was skipped in this row
->bf29	00				leaf_at: .byte 0
->bf2a	00				leaf_left: .byte 0
->bf2b	00				phase: .byte 0
->bf2c	00				error: .byte 0
->bf2d	00				dos: .byte 0
->bf2e	00 00 00 00 00 00 00 00		counts: .fill 8,0               ; copied, then compared (LE32 each)
+.bde2					progress_text:
+.bde2	a9 00		lda #$00	        lda #0
+.bde4	8d 02 87	sta $8702	        sta gm_alen
+.bde7	a9 c0		lda #$c0	        lda #<s_copying
+.bde9	a2 bf		ldx #$bf	        ldx #>s_copying
+.bdeb	ac ea bf	ldy $bfea	        ldy choice
+.bdee	c0 02		cpy #$02	        cpy #2
+.bdf0	d0 04		bne $bdf6	        bne +
+.bdf2	a9 c9		lda #$c9	        lda #<s_moving
+.bdf4	a2 bf		ldx #$bf	        ldx #>s_moving
+.bdf6	20 b7 6d	jsr $6db7	+       jsr gm_astr
+.bdf9	ad e5 bf	lda $bfe5	        lda item_no
+.bdfc	20 0f be	jsr $be0f	        jsr pt_number
+.bdff	a9 2f		lda #$2f	        lda #$2f                ; /
+.be01	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.be04	ad e6 bf	lda $bfe6	        lda total
+.be07	20 0f be	jsr $be0f	        jsr pt_number
+.be0a	a9 00		lda #$00	        lda #0
+.be0c	4c cb 6d	jmp $6dcb	        jmp gm_aput
+.be0f					pt_number:
+.be0f	8d 71 87	sta $8771	        sta gm_num
+.be12	a9 00		lda #$00	        lda #0
+.be14	8d 72 87	sta $8772	        sta gm_num+1
+.be17	4c d5 6d	jmp $6dd5	        jmp gm_anum
+.be1a					acknowledged:
+.be1a	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.be1d	cd e4 b6	cmp $b6e4	        cmp size
+.be20	d0 06		bne $be28	        bne +
+.be22	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.be25	cd e5 b6	cmp $b6e5	        cmp size+1
+.be28	60		rts		+       rts
+.be29					stash:
+.be29	a2 00		ldx #$00	        ldx #0
+.be2b	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.be2e	9d 00 50	sta $5000,x	        sta data,x
+.be31	bd 00 3b	lda $3b00,x	        lda N_BUFFER+256,x
+.be34	9d 00 51	sta $5100,x	        sta data+256,x
+.be37	e8		inx		        inx
+.be38	d0 f1		bne $be2b	        bne -
+.be3a	60		rts		        rts
+.be3b					advance:
+.be3b	18		clc		        clc
+.be3c	bd f6 bf	lda $bff6,x	        lda counts,x
+.be3f	6d e4 b6	adc $b6e4	        adc size
+.be42	9d f6 bf	sta $bff6,x	        sta counts,x
+.be45	bd f7 bf	lda $bff7,x	        lda counts+1,x
+.be48	6d e5 b6	adc $b6e5	        adc size+1
+.be4b	9d f7 bf	sta $bff7,x	        sta counts+1,x
+.be4e	90 08		bcc $be58	        bcc +
+.be50	fe f8 bf	inc $bff8,x	        inc counts+2,x
+.be53	d0 03		bne $be58	        bne +
+.be55	fe f9 bf	inc $bff9,x	        inc counts+3,x
+.be58	60		rts		+       rts
+>be59	2e 50 52 47			suffix: .byte 46,80,82,71   ; .PRG
+>be5d	5b 32 5d 5b 43 6f 70 79		s_copy: .byte 91,50,93,91,67,111,112,121,32,0   ; [2][Copy
+>be65	20 00
+>be67	7c 74 6f 20 00			s_to: .byte 124,116,111,32,0   ; |to
+>be6c	3f 5d 5b 43 6f 70 79 7c		s_choice: .byte 63,93,91,67,111,112,121,124,77,111,118,101,124,67,97,110,99,101,108,93,0   ; ?][Copy|Move|Cancel]
+>be74	4d 6f 76 65 7c 43 61 6e 63 65 6c 5d 00
+>be81	20 61 6c 72 65 61 64 79		s_exists: .byte 32,97,108,114,101,97,100,121,124,101,120,105,115,116,115,32,111,110,32,0   ;  already|exists on
+>be89	7c 65 78 69 73 74 73 20 6f 6e 20 00
+>be95	5b 31 5d 5b 43 6f 70 79		s_stopped: .byte 91,49,93,91,67,111,112,121,32,115,116,111,112,112,101,100,46,124,0   ; [1][Copy stopped.|
+>be9d	20 73 74 6f 70 70 65 64 2e 7c 00
+>bea8	20 6d 61 79 20 68 6f 6c		s_part: .byte 32,109,97,121,32,104,111,108,100,124,112,97,114,116,32,111,102,32,0   ;  may hold|part of
+>beb0	64 7c 70 61 72 74 20 6f 66 20 00
+>bebb	5b 31 5d 5b 54 68 69 73		s_badname: .byte 91,49,93,91,84,104,105,115,32,110,97,109,101,32,100,111,101,115,32,110,111,116,32,102
+>bec3	20 6e 61 6d 65 20 64 6f 65 73 20 6e 6f 74 20 66
+>bed3	69 74 7c 61 20 64 72 69		        .byte 105,116,124,97,32,100,114,105,118,101,58,32,49,54,32,99,104,97,114,97,99,116,101,114
+>bedb	76 65 3a 20 31 36 20 63 68 61 72 61 63 74 65 72
+>beeb	73 2c 7c 6e 6f 20 2a 20		        .byte 115,44,124,110,111,32,42,32,63,32,44,32,61,32,58,32,64,32,111,114,32,113,117,111
+>bef3	3f 20 2c 20 3d 20 3a 20 40 20 6f 72 20 71 75 6f
+>bf03	74 65 2e 5d 5b 4f 4b 5d		        .byte 116,101,46,93,91,79,75,93,0   ; [1][This name does not fit|a drive: 16 characters,|no * ? , = : @ or quote.][OK]
+>bf0b	00
+>bf0c	5b 31 5d 5b 41 20 64 72		s_empty: .byte 91,49,93,91,65,32,100,114,105,118,101,32,99,97,110,110,111,116,32,104,111,108,100,124
+>bf14	69 76 65 20 63 61 6e 6e 6f 74 20 68 6f 6c 64 7c
+>bf24	61 6e 20 65 6d 70 74 79		        .byte 97,110,32,101,109,112,116,121,32,102,105,108,101,46,93,91,79,75,93,0   ; [1][A drive cannot hold|an empty file.][OK]
+>bf2c	20 66 69 6c 65 2e 5d 5b 4f 4b 5d 00
+>bf38	5b 33 5d 5b 54 68 65 20		s_mismatch: .byte 91,51,93,91,84,104,101,32,99,111,112,121,32,100,111,101,115,32,110,111,116,32,109,97
+>bf40	63 6f 70 79 20 64 6f 65 73 20 6e 6f 74 20 6d 61
+>bf50	74 63 68 2e 7c 54 68 65		        .byte 116,99,104,46,124,84,104,101,32,111,114,105,103,105,110,97,108,32,105,115,32,107,101,112
+>bf58	20 6f 72 69 67 69 6e 61 6c 20 69 73 20 6b 65 70
+>bf68	74 2e 5d 5b 4f 4b 5d 00		        .byte 116,46,93,91,79,75,93,0   ; [3][The copy does not match.|The original is kept.][OK]
+>bf70	5b 32 5d 5b 00			s_ask_head: .byte 91,50,93,91,0   ; [2][
+>bf75	2e 5d 5b 52 65 70 6c 61		s_conflict: .byte 46,93,91,82,101,112,108,97,99,101,124,75,101,101,112,32,98,111,116,104,124,83,107,105,112,93,0   ; .][Replace|Keep both|Skip]
+>bf7d	63 65 7c 4b 65 65 70 20 62 6f 74 68 7c 53 6b 69
+>bf8d	70 5d 00
+>bf90	5b 31 5d 5b 41 20 66 6f		s_itself: .byte 91,49,93,91,65,32,102,111,108,100,101,114,32,99,97,110,110,111,116,32,98,101,124,99,111,112,105,101,100,32,105,110,116,111,32,105,116,115,101,108,102,46,93,91,79,75,93,0   ; [1][A folder cannot be|copied into itself.][OK]
+>bf98	6c 64 65 72 20 63 61 6e 6e 6f 74 20 62 65 7c 63
+>bfa8	6f 70 69 65 64 20 69 6e 74 6f 20 69 74 73 65 6c
+>bfb8	66 2e 5d 5b 4f 4b 5d 00
+>bfc0	43 6f 70 79 69 6e 67 20		s_copying: .byte 67,111,112,121,105,110,103,32,0   ; Copying
+>bfc8	00
+>bfc9	4d 6f 76 69 6e 67 20 00		s_moving: .byte 77,111,118,105,110,103,32,0   ; Moving
+>bfd1	00				depth: .byte 0
+>bfd2	00				index: .byte 0                  ; an entry's position in the folder at depth
+>bfd3	00				k: .byte 0
+>bfd4	00				eattr: .byte 0
+>bfd5	00 00 00 00 00 00 00 00		tstack: .fill TDEPTH,0
+>bfdd	00 00 00 00 00 00 00 00
+>bfe5	00				item_no: .byte 0
+>bfe6	00				total: .byte 0
+>bfe7	00				dslot: .byte 0
+>bfe8	00				failed_slot: .byte 0
+>bfe9	00				ddev: .byte 0
+>bfea	00				choice: .byte 0
+>bfeb	00				stop: .byte 0
+>bfec	00				created: .byte 0
+>bfed	00				skipped: .byte 0                ; a name conflict was skipped in this row
+>bfee	00				keep: .byte 0                   ; Keep both: the suffix number in use, or 0
+>bfef	00				ext_at: .byte 0
+>bff0	00				base_end: .byte 0
+>bff1	00				leaf_at: .byte 0
+>bff2	00				leaf_left: .byte 0
+>bff3	00				phase: .byte 0
+>bff4	00				error: .byte 0
+>bff5	00				dos: .byte 0
+>bff6	00 00 00 00 00 00 00 00		counts: .fill 8,0               ; copied, then compared (LE32 each)
 =$5000					data = gm_sortbuf               ; the chunk: no listing is sorted while copying
 
 ;******  Return to file: src/native/gemdesk-cpy.asm
 
-.bf36					gm_cpy_end:
+.bffe					gm_cpy_end:
 
 ;******  End of listing
