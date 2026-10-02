@@ -20,6 +20,7 @@ when copying the app to another disk or Ultimate folder. Keep the three
 | Home | Return to A1 |
 | Ctrl-Z / Ctrl-R | Undo / redo the last cell edit or Clear |
 | Ctrl-C / Ctrl-X / Ctrl-V | Copy / cut / paste one complete cell source through the session clipboard |
+| Ctrl-F | The selected column's next display format: every decimal, then 0 to 6 decimals, then every decimal again |
 | Enter / F7 / Edit | Edit the selected cell's existing source |
 | Printable key | Start a replacement cell entry |
 | Enter while editing | Commit and recalculate the workbook |
@@ -87,7 +88,7 @@ USHT version 1 is exactly 8,208 bytes, without a PRG load address:
 | 4 | 4 | Version 1, columns 8, rows 32, record bytes 32 |
 | 8 | 2 | Payload length 8192, little endian |
 | 10 | 2 | CRC16-CCITT of the payload, initial 65535, little endian |
-| 12 | 4 | Reserved zero bytes |
+| 12 | 4 | Column display formats, two columns a byte, low nibble first (0 every decimal, 1-7 for 0-6 decimals); zero in workbooks from before formats |
 | 16 | 8192 | Row-major cell records, A1 through H32 |
 
 Each record contains printable ASCII, one NUL, then zero padding to 32 bytes.
@@ -170,7 +171,21 @@ The grid shows 8 characters per cell. A number longer than that keeps the
 decimals that fit, rounded once on the first dropped digit, then loses
 trailing zeros (`-1/3` shows as `-0.33333`, `12345.6789` as `12345.68`);
 only a whole part too long for the cell shows `########`. The Value line
-shows every decimal. There are no per-cell number formats yet.
+shows every decimal.
+
+Each column has a display format, set with Ctrl-F, which says "Column B
+decimals: 2" (or "all"). A column with N decimals shows every number in it
+with exactly N: more are rounded once on the first dropped digit (half away
+from zero), fewer get zeros, within the cell's 8 characters (`123456.789`
+shows `123456.8` at 2 decimals). A negative number that rounds to zero
+shows no sign (`-0.004` at 2 decimals is `0.00`). The format changes only
+what the grid shows, never a value or a formula's result. The formats are
+saved with the workbook in header bytes 12 to 15, two columns a byte (low
+nibble first: 0 every decimal, 1 to 7 for 0 to 6 decimals); a workbook from
+before formats has zeros there and opens unchanged, and a nibble above 7 is
+an invalid workbook. New clears them. Ctrl-F is not in the undo history.
+Formats are per column only: there is no per-cell format, and no currency,
+percent or thousands separator.
 
 Parentheses may nest eight levels. Each unary-sign sequence may contain
 eight signs; its combined sign applies to the following literal or primary
@@ -242,7 +257,7 @@ records the modular app and session clipboard exchange. Physical C128/Ultimate t
 is still required.
 
 Remaining work includes the shared file picker, range clipboard, multi-step/range undo, formatting,
-CSV and geoCalc exchange, per-cell number formats, more functions, larger/multiple
+CSV and geoCalc exchange, per-cell (not per-column) number formats, more functions, larger/multiple
 sheets, printing and session recovery. Recalculation is synchronous; background
 recalculation and cancellation of long dependency chains remain open. The
 initial working app does not complete spreadsheet or GEOS/Wheels parity.

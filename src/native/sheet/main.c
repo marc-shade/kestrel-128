@@ -35,9 +35,11 @@ static void put(uint8_t row, uint8_t column, const char *text, uint8_t width)
     sg_dirty[row] = 1;
 }
 
-/* bridge.s: the number in sh_number, longer than its 8-character cell loses
+/* bridge.s: the number in sh_number in the column's display format
+ * (wb_formats), and within its 8-character cell: longer text loses
  * decimals, rounded once; only a too-long integer part stays long. */
-void fit_cell(void);
+void __fastcall__ fit_column(uint8_t column);
+const char *__fastcall__ format_next(uint8_t column);
 
 static void cell_name(void)
 {
@@ -127,7 +129,7 @@ static void render(void)
                 text = "";
                 if (type == SH_NUMBER) {
                     sh_format_number(sh_values[cell], sh_types[cell] >> 4, sh_number);
-                    fit_cell();
+                    fit_column(left_column + x);
                     text = sh_number;
                 }
                 else if (type == SH_TEXT) {
@@ -355,6 +357,9 @@ int main(void)
         else if (key == 0x87) action(2);
         else if (key == 0x88 || key == 13) action(3);
         else if (key == 0x14) action(4);
+        else if (key == 6) {            /* Ctrl-F: the column's next display format */
+            message = format_next(selected & 7); wb_dirty = 1; render();
+        }
         else if (key == 12) { sg_retry(); render(); }
         else if (key == 0x11 || key == 0x91 || key == 0x1d || key == 0x9d || key == 9 || key == 0x13) move(key);
         else if ((key >= 32 && key < 127) || (key >= 0xc1 && key <= 0xda)) {

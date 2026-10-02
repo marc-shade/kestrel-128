@@ -7,7 +7,7 @@ ROOT=Path(__file__).resolve().parent
 @lru_cache(None)
 def picker_symbol(image,name):
     text=(ROOT/f'target/native-desktop/{image}.lst').read_text(errors='replace')
-    start=re.search(r'^;\*+\s+Processing file: .*/src/native/file-dialog\.inc$',text,re.M)
+    start=re.search(r'^;\*+\s+Processing file: (?:.*/)?src/native/file-dialog\.inc$',text,re.M)   # relative since build_listing_paths
     assert start,('missing picker include',image)
     text=text[start.start():]
     for pattern in (r'^[.>][0-9a-f]{4}[ \t]+([0-9a-f]{4})[ \t]+(?:(?:[0-9a-f]{2} ?)+\s+)?%s:',

@@ -18,13 +18,13 @@ from launcher_scene import pointer_shape
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def workbook(cells):
+def workbook(cells, formats=bytes(4)):
     records = bytearray(8192)
     for index, text in cells.items():
         text = text.encode() if isinstance(text, str) else bytes(text)
         assert len(text) <= 31
         records[index*32:index*32+len(text)] = text
-    header = b'USHT\1\10\40\40\0\40' + binascii.crc_hqx(records, 65535).to_bytes(2, 'little') + bytes(4)
+    header = b'USHT\1\10\40\40\0\40' + binascii.crc_hqx(records, 65535).to_bytes(2, 'little') + bytes(formats)
     return header + records
 
 
@@ -124,7 +124,7 @@ class Sheet(Pointer):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--case', choices=('core', 'files', 'document', 'faults', 'mouse', 'ultimate', 'recovery', 'undo', 'undo-faults', 'aggregates', 'clipboard', 'clipboard-handoff', 'modules'), default='core')
+    parser.add_argument('--case', choices=('core', 'files', 'document', 'faults', 'mouse', 'ultimate', 'recovery', 'undo', 'undo-faults', 'aggregates', 'clipboard', 'clipboard-handoff', 'modules', 'formats'), default='core')
     parser.add_argument('--size', type=int, choices=(16,64), default=64)
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args()
@@ -284,6 +284,52 @@ def main():
             assert injected and p.value('wb_poisoned') and p.sources()==before
             p.io.stub=stub;p.key(26);assert p.value('wb_error') and p.sources()==before
             p.check();p.exit();done('failed undo read retains retry history; failed undo write poisons storage and blocks further mutation',p)
+        elif args.case == 'formats':
+            # Column display formats (Ctrl-F): every decimal, then 0-6 decimals.
+            p = Sheet()
+            for text in ('1.5', '2', '-0.004', '9.995', '123456.789'):
+                p.edit(text); p.key(0x11)
+            p.key(0x13)
+            def column_a():
+                return [p.text(6+y)[3:11].strip() for y in range(5)]
+            shown = {None: ['1.5', '2', '-0.004', '9.995', '123456.8'],
+                     0: ['2', '2', '0', '10', '123457'],
+                     1: ['1.5', '2.0', '0.0', '10.0', '123456.8'],
+                     2: ['1.50', '2.00', '0.00', '10.00', '123456.8'],
+                     3: ['1.500', '2.000', '-0.004', '9.995', '123456.8'],
+                     6: ['1.500000', '2.000000', '-0.00400', '9.995000', '123456.8']}
+            assert column_a() == shown[None], column_a()
+            for decimals in range(7):
+                p.key(6)
+                assert p.text(23).startswith('Column A decimals: %d' % decimals), p.text(23)
+                if decimals in shown:
+                    assert column_a() == shown[decimals], (decimals, column_a())
+            assert p.value('wb_dirty') and p.bytes('wb_formats', 4) == bytes([7, 0, 0, 0])
+            assert p.values()[0:40:8] == [15, 2, -4, 9995, 123456789], 'a format changes only what is shown'
+            p.key(0x1d); p.key(6); p.key(6); p.key(6)          # column B: 2 decimals
+            assert p.text(23).startswith('Column B decimals: 2') and p.bytes('wb_formats', 4) == bytes([0x37, 0, 0, 0])
+            p.key(0x9d); p.key(6); assert p.text(23).startswith('Column A decimals: all')
+            assert p.bytes('wb_formats', 4) == bytes([0x30, 0, 0, 0]) and column_a() == shown[None]
+            p.key(6); p.key(6)                                 # column A: 1 decimal
+            p.save('FORMATS')
+            saved = bytes(p.io.files[8, b'FORMATS', b'S'])
+            assert saved[12:16] == bytes([0x32, 0, 0, 0]), saved[12:16].hex()
+            assert saved == workbook({0:'1.5', 8:'2', 16:'-0.004', 24:'9.995', 32:'123456.789'}, bytes([0x32, 0, 0, 0]))
+            p.key(0x85)                                        # New (saved: no question): every decimal again
+            assert p.bytes('wb_formats', 4) == bytes(4)
+            p.open('FORMATS'); assert not p.value('wb_error') and p.bytes('wb_formats', 4) == bytes([0x32, 0, 0, 0])
+            assert column_a() == shown[1], column_a()
+            done('Ctrl-F cycles a column\'s display format (every decimal, then 0-6 decimals, rounded once, padded '
+                 'within the cell, "-0.00" shown as 0.00); values are unchanged; formats are saved in header bytes '
+                 '12-15, reopened and cleared by New', p)
+            # A workbook from before formats (zeros) opens unchanged; a format nibble above 7 is refused.
+            p.io.files[8, b'OLD', b'S'] = bytearray(workbook({0:'2.25'}))
+            p.open('OLD'); assert not p.value('wb_error') and p.bytes('wb_formats', 4) == bytes(4)
+            assert p.text(6)[3:11].strip() == '2.25'
+            p.io.files[8, b'ODD', b'S'] = bytearray(workbook({0:'7'}, bytes([0, 0, 0x80, 0])))
+            before = p.sources(); p.open('ODD')
+            assert p.value('wb_error') and p.sources() == before and p.bytes('wb_formats', 4) == bytes(4)
+            p.exit(); done('a workbook without formats opens as before; a format above 6 decimals is an invalid workbook', p)
         elif args.case == 'files':
             p = Sheet(); p.edit('123'); p.key(0x1d); p.edit('=A1*2'); p.save('BUDGET')
             data = workbook({0:'123',1:'=a1*2'})
@@ -368,7 +414,7 @@ def main():
         else:
             good=workbook({0:'42',1:'=A1*2'})
             malformed=[good[:10], good[:-1], good+b'x', good[:10]+b'\0\0'+good[12:],
-                       good[:12]+b'\1'+good[13:]]
+                       good[:12]+b'\x08'+good[13:]]          # a column format beyond 6 decimals
             p=Sheet(files={(8,b'BAD'+str(i).encode(),b'S'):data for i,data in enumerate(malformed)})
             p.edit('777');source=p.sources()
             for i in range(len(malformed)):

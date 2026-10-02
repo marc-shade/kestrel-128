@@ -34,8 +34,13 @@ def build(out=None):
     for name in ('main.c', 'engine.c', 'decimal.s', 'workbook.c', 'bridge.s', 'startup.s', 'calc-header.s'):
         # Identity character map: workbook records and graphical labels are
         # ASCII. PETSCII keyboard conversion happens at the app boundary.
+        # The core's C must fit below the module window at $ae00: main.c and
+        # workbook.c are compiled for size, with static locals (-Cl: neither
+        # file has a recursive or reentered function; the engine module
+        # recurses and keeps its locals on the C stack).
         options = {'engine.c': ['--code-name', 'ENGINE', '-D', 'SH_MODULE'],
-                   'decimal.s': ['--asm-define', 'SH_MODULE']}.get(name, [])
+                   'decimal.s': ['--asm-define', 'SH_MODULE'],
+                   'main.c': ['-Os', '-Cl'], 'workbook.c': ['-Os', '-Cl']}.get(name, [])
         subprocess.run(['cl65', '-t', 'none', '-O', '-g', *options, '-c', '-o',
                         str(obj/(Path(name).stem+'.o')), str(src/name)], check=True)
     subprocess.run(['ld65', '-C', str(src/'kestrel.cfg'), '-m', str(out/'sheet.map'),

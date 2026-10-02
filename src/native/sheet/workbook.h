@@ -7,6 +7,9 @@ extern uint8_t wb_dirty, wb_error, wb_poisoned;
 extern uint8_t wb_history, wb_history_cell;
 extern uint16_t wb_progress;
 extern uint8_t wb_device, wb_format;
+/* Column display formats, two columns per byte (low nibble first): 0 shows
+ * every decimal, 1-7 show 0-6 decimals. Saved in header bytes 12-15. */
+extern uint8_t wb_formats[4];
 extern char wb_path[256];
 /* Called at complete record boundaries; zero continues, nonzero cancels. */
 uint8_t wb_poll(void);

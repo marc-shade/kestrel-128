@@ -227,7 +227,7 @@ Some of what is missing:
 - Movable, overlapping app windows and switching between running apps.
 - Typing a new name on a name conflict in GEMDESK copies (Replace, Keep
   both with a numbered name, Skip and Stop exist, and folders merge).
-- Sheet number formats (decimals shown per cell).
+- Sheet number formats per cell (columns have them), currency and percent.
 - REU use beyond screen snapshots and Editor documents.
 
 ## Credits and license

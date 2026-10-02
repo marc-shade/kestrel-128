@@ -10,6 +10,7 @@ static char history_source[32], history_swap[32];
 static uint8_t history_revision;
 uint16_t wb_progress;
 uint8_t wb_device, wb_format;
+uint8_t wb_formats[4];
 char wb_path[256];
 static uint8_t record[32], header[16], expected[32];
 static uint16_t crc;
@@ -99,6 +100,7 @@ uint8_t wb_new(void)
     }
     if (!error) error = publish();
     if (error) wb_cleanup();
+    else memset(wb_formats, 0, 4);
     return wb_error = error;
 }
 
@@ -221,7 +223,7 @@ uint8_t wb_open(void)
     if (!error) {
         memcpy(header, BUFFER, 16);
         if (memcmp(header, "USHT\1\10\40\40\0\40", 10) ||
-            header[12] || header[13] || header[14] || header[15]) error = WB_BADFILE;
+            (header[12] | header[13] | header[14] | header[15]) & 0x88) error = WB_BADFILE;
     }
     crc = 0xffff;
     for (cell = 0; !error && cell < 256; ++cell) {
@@ -239,6 +241,7 @@ uint8_t wb_open(void)
     if (!error) error = check_eof();
     if (!error) error = close_file();
     if (!error) error = publish();
+    if (!error) memcpy(wb_formats, header + 12, 4);
     return finish(error);
 }
 
@@ -261,6 +264,7 @@ uint8_t wb_save(void)
     memset(header, 0, 16);
     memcpy(header, "USHT\1\10\40\40\0\40", 10);
     header[10] = (uint8_t)crc; header[11] = (uint8_t)(crc >> 8);
+    memcpy(header + 12, wb_formats, 4);
     error = open_file(1);
     if (!error) { memcpy(BUFFER, header, 16); error = transfer(FWRITE, 16); }
     for (cell = 0; !error && cell < 256; ++cell) {
