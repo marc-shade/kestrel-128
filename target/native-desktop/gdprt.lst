@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gdprt.bin -l target/native-desktop/gdprt.sym -L target/native-desktop/gdprt.lst src/native/gemdesk-prt.asm
-; Fri Oct  2 06:03:07 2026
+; Sun Oct  4 15:20:38 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -78,6 +78,7 @@
 =$ace5					bk_dispatch	= $ace5
 =$acb7					bk_protect_code	= $acb7
 =$3d85					N_FDEVICE	= $3d85
+=127					DC_LFN		= 127
 =$879c					gm_win_sel	= $879c
 =$6e1a					gm_delete	= $6e1a
 =$12					N_SHORTIMAGE	= $12
@@ -89,6 +90,7 @@
 =$7654					gm_title_q	= $7654
 =$702b					gm_refresh_next	= $702b
 =$73a3					gm_upath_to_path= $73a3
+=$1000					N_SYSLIMIT	= $1000
 =$876d					gm_math4	= $876d
 =$876c					gm_math3	= $876c
 =$876b					gm_math2	= $876b
@@ -346,6 +348,7 @@
 =$7bbb					gm_scroll_done	= $7bbb
 =$76c9					gm_ult_del_done	= $76c9
 =$9f6f					gfx_left_masks	= $9f6f
+=$a67d					pm_sample	= $a67d
 =$7228					gm_module_run	= $7228
 =$b075					bk_load_eof	= $b075
 =$10ba					pk_end		= $10ba
@@ -362,11 +365,12 @@
 =$61af					gm_aes_failed	= $61af
 =$a676					pm_hit		= $a676
 =8					WS_SURFACE	= 8
-=$6596					gm_pointer_cell	= $6596
+=$8000					N_STAGELIMIT	= $8000
 =$4a00					N_BROWSERPATH	= $4a00
 =$63a4					gm_message_done	= $63a4
 =$62b9					ae_present	= $62b9
 =$6f51					gm_relist_slot	= $6f51
+=$99d9					gfx_begin	= $99d9
 =$7eb8					gm_band_loop	= $7eb8
 =$3d24					N_EXITCODE	= $3d24
 =$9a8e					gfx_clip_start	= $9a8e
@@ -647,6 +651,7 @@
 =$3d97					N_DPAGE		= $3d97
 =$61fa					gm_open_iec	= $61fa
 =$86e1					gm_mbit		= $86e1
+=$3d91					N_FBUSY		= $3d91
 =$766e					gm_usb_error	= $766e
 =$7873					gm_peek_done	= $7873
 =$0800					WK_HSLIDE	= $0800
@@ -684,7 +689,7 @@
 =$7386					gm_path_to_upath= $7386
 =0					BP_MODE		= 0
 =$a66f					pm_old		= $a66f
-=$99d9					gfx_begin	= $99d9
+=$0c00					N_SYSBASE	= $0c00
 =6					N_RANGE		= 6
 =$6746					gm_open_selection= $6746
 =$86f6					gm_vslot	= $86f6
@@ -761,7 +766,6 @@
 =64					GM_RECORD_SIZE	= 64
 =25					WM_HSLID	= 25
 =$9a3f					gfx_clip_limit	= $9a3f
-=16					AC_PAGES	= 16
 =$84ad					gm_drive_alert_hex= $84ad
 =$10					N_BADIMAGE	= $10
 =$6bc1					gm_fa		= $6bc1
@@ -789,7 +793,7 @@
 =$a66c					BP_POINTER_X	= $a66c
 =$3f00					N_SOURCEPATH	= $3f00
 =$9892					dc_byte		= $9892
-=$a67d					pm_sample	= $a67d
+=$1c56					N_WORKSPACE	= $1c56
 =$1c2c					gfx_heap_fill	= $1c2c
 =$6e2f					gm_delete_one	= $6e2f
 =$819f					gm_icon_art	= $819f
@@ -901,7 +905,6 @@
 =$7e06					gm_first_sel	= $7e06
 =$3d04					N_HANDLE	= $3d04
 =$6ce0					gm_info_icon	= $6ce0
-=127					DC_LFN		= 127
 =$9b18					gfx_clip_shift	= $9b18
 =$93d5					ae_km_move	= $93d5
 =$3d35					N_UIPTR		= $3d35
@@ -992,7 +995,6 @@
 =$3d17					N_MTOKEN	= $3d17
 =$9cdb					gfx_copy	= $9cdb
 =$aace					bp_load		= $aace
-=$1c56					N_WORKSPACE	= $1c56
 =$b23c					gm_module	= $b23c
 =$1c4d					N_FRELEASE	= $1c4d
 =$9cc7					gfx_clear	= $9cc7
@@ -1074,6 +1076,7 @@
 =$9974					gfx_set_clip	= $9974
 =$3d88					N_FTYPE		= $3d88
 =$4f00					N_USTATUS	= $4f00
+=$6596					gm_pointer_cell	= $6596
 =$3d87					N_FMODE		= $3d87
 =4					AE_OP_EVENT	= 4
 =$3d26					N_IOSTATUS	= $3d26
@@ -1186,7 +1189,7 @@
 =$b0e6					bk_long_image	= $b0e6
 =$a544					pm_move		= $a544
 =16					GM_PAGES	= 16
-=$3d91					N_FBUSY		= $3d91
+=16					AC_PAGES	= 16
 =$86f3					gm_page		= $86f3
 =$990c					gfx_bind	= $990c
 =$9fe1					gfx_text_next	= $9fe1
