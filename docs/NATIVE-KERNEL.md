@@ -110,7 +110,9 @@ returning to the suspended BASIC program is not supported.
 
 | Region | Purpose |
 |---|---|
-| Bank 0 `$0000..$12ff` | Native system workspace, vectors, screen and boot area |
+| Bank 0 `$0000..$0bff` | Native system workspace, vectors, screen and boot area |
+| Bank 0 `$0c00..$0fff` | System section: resident kernel code (the memory workspace) in the KERNAL's RS-232 buffers and BASIC's sprite area |
+| Bank 0 `$1000..$12ff` | Function-key definitions and BASIC variables |
 | Bank 0 `$1300..$1bff` | Resident low kernel and growth space; never application scratch |
 | Bank 0 `$1c01..$37ff` | Native kernel, workspace and reserved growth space |
 | Bank 0 `$3800..$39ff` | Two page-ownership tables |
@@ -128,11 +130,29 @@ The two pools provide **426 pages / 109,056 bytes (106.5 KiB)** from stock
 tries bank 1 first, preserving bank-0 executable space. Fixed graphics or DMA
 regions must be reserved before general allocations can use them. There is no
 REU allocation, size probe, RAM disk or expansion-memory support in this ABI yet.
-The current workspace kernel ends at `$37fa` exclusive, leaving six bytes before
-page tables; the direct-desktop variant ends at `$37fc`, leaving four bytes.
-The low region ends at `$1bf8`, leaving eight bytes, and the service region ends
-at `$4ff9`, leaving seven bytes. Further resident growth needs a new interval
-budget. The graphical library remains app/module code.
+Until 2026-10-02 the resident regions had 15 free bytes in total. Since
+2026-10-03 the text-mode memory workspace runs from the **system section** at
+`$0c00..$0fff` and the code that runs only at cold boot runs from the boot
+staging pages, so the heap keeps all 426 pages and the resident kernel has
+room again: the workspace kernel's main section ends at `$3413` (1,005 bytes
+free before the page tables; the direct-desktop variant 1,001), the low
+section has 50 free bytes before the NMI bridge, the service region has 49
+free bytes below `$4bfc` plus seven before `$5000`, and the system section
+uses 860 of its 1,024 bytes.
+
+The system section is C128 RAM that only two things use: the KERNAL's RS-232
+input and output buffers at `$0c00..$0dff`, which exist while an RS-232
+device (device 2) is open, and BASIC's sprite definition area at
+`$0e00..$0fff`. The native system opens no RS-232 device (serial apps drive
+the SwiftLink ACIA directly) and its pointer sprites live in each app's
+surface. Startup copies the section from staging; the running-layout audit
+compares it with the image like the other resident regions. Apps must not
+open device 2 or place sprite data there. BASIC's run-time stack at
+`$0800..$09ff` is unused by the native system too and is the next region for
+resident growth. `$0b00..$0bff` (boot sector and cassette buffer) is left to
+the boot and to test harnesses, and `$1100..$12ff` stays BASIC's: the
+KERNAL's IRQ calls BASIC's sprite and sound handler, which reads tables
+there. The graphical library remains app/module code.
 Public entries and the app load address remain stable. ABI 1.6 adds
 [shared focused field editing and drawing](NATIVE-FIELDS.md); the calculator
 and browser require minor 6. The editor now requires the
@@ -145,11 +165,16 @@ passes twenty CPU suites, ten emulator workflows and complete physical USB/IEC
 qualification, including independent saved-file verification.
 Further module services and scheduling remain necessary for the complete native OS.
 
-The 15,617-byte kernel PRG includes a nine-page low-section copy at
-`$5000..$58ff`. Startup copies those 2,304 bytes to `$1300..$1bff` before heap
-initialization, including 63 padding bytes. All nine staging pages then become
-ordinary managed memory.
-No live code executes there. `$3e00..$3eff` retains the browser's complete
+The 16,747-byte kernel PRG ends with three boot staging parts from `$5000`:
+a nine-page low-section copy at `$5000..$58ff`, the boot-only code at `$5900`
+(startup, relocation, keyboard ownership, page-table setup and the system
+section copy) and the system section image, ending at `$5d6a` (staging may
+reach `N_STAGELIMIT`, `$8000`). SYS enters `native_start` below `$4000`,
+which selects the native map before jumping to the boot code; under BASIC's
+map the staging addresses are BASIC ROM. Startup copies the 2,304 low-section
+bytes to `$1300..$1bff`, including padding, initializes the page tables and
+copies the system section to `$0c00`. The staging pages then become ordinary
+managed memory, and no live code executes there. `$3e00..$3eff` retains the browser's complete
 selected filename; `$3f00..$3fff` retains the original app source folder.
 The observer borrows `$3e00..$3fff` while input is idle,
 saves and restores all 512 bytes, and rejects this range as a capture source.

@@ -96,6 +96,8 @@ class Machine:
         self.ram = self.bus.ram[0]
         self.invoke(symbol('native_relocate'), check=False)
         self.invoke(symbol('heap_init'), check=False)
+        self.invoke(symbol('sys_install'), check=False)
+        self.bus.far_writes.clear()    # boot code in staging rewrites its own operands
         assert self.stats() == (175, 251, 32)
 
     def invoke(self, entry, *, flags=0, expected=0, check=True, interrupt=None):

@@ -230,6 +230,9 @@ Some of what is missing:
 - Sheet number formats per cell (columns have them), currency and percent.
 - REU use beyond screen snapshots and Editor documents.
 
+The resident kernel has about 1 KiB free again (since 2026-10-03), which is
+where new kernel services such as an REU module cache are meant to go.
+
 ## Credits and license
 
 Kestrel 128 is free software under the GNU General Public License, version 3

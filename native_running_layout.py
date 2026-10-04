@@ -21,7 +21,8 @@ class RunningLayout:
         for name, start, end, source in (
             ('low', self.layout['low_start'], self.layout['low_padded_end'], self.layout['staging_start']),
             ('main', origin, self.layout['main_end'], origin),
-            ('service', self.layout['service_start'], self.layout['service_end'], self.layout['service_start'])):
+            ('service', self.layout['service_start'], self.layout['service_end'], self.layout['service_start']),
+            ('sys', self.layout['sys_start'], self.layout['sys_end'], self.layout['sys_image_start'])):
             expected = self.image[2+source-origin:2+source-origin+end-start]
             assert len(expected) == end-start
             self.regions[name] = (start, expected)
@@ -54,7 +55,8 @@ class RunningLayout:
             ('l_handle', 'l_left', 2), ('l_entry', 'l_entry', 2),
             ('f_mtrack', 'f_dskip', 1),
             ('f_filename', 'f_left', 2), ('nd_slot', 'nd_path', 256),
-            ('ui_handles', 'ui_test_operation', 1), ('nu_high', 'nu_part_state', 1),
+            ('ui_handles', 'ui_test_operation', 1), ('ui_system_device', 'ui_browser_stage', 1),
+            ('nu_high', 'nu_part_state', 1),
             ('v_tag', 'v_port', 1)):
             declare(first, self.syms[first], self.syms[last]+length, 'declared mutable state')
         for offset in (8, 11):

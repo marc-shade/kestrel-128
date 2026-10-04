@@ -3,35 +3,7 @@
 ; short transfer restores the borrowed pointer and self-modified operand.
 ; Interrupts remain serviceable between bytes, including a 512-byte call.
 
-heap_init:
-        lda #0
-        sta N_BUSY
-        sta N_ERROR
-        ldx #0
-heap_clear_handles:
-        sta NHANDLES,x
-        inx
-        bne heap_clear_handles
-        lda #$ff
-heap_reserve_pages:
-        sta NPAGES0,x
-        sta NPAGES1,x
-        inx
-        bne heap_reserve_pages
-        lda #0
-        ldx #N_FIRST0
-heap_free_zero:
-        sta NPAGES0,x
-        inx
-        cpx #$ff
-        bne heap_free_zero
-        ldx #N_FIRST1
-heap_free_one:
-        sta NPAGES1,x
-        inx
-        cpx #$ff
-        bne heap_free_one
-        rts
+; heap_init is boot-only code in kernel-boot.inc.
 
 ; Callers PHP before entering. The saved status is consumed by heap_finish.
 heap_enter:

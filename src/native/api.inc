@@ -233,6 +233,7 @@ N_APPOWNER      = 32             ; one foreground app in this initial lifecycle
 N_LOWBASE       = $1300          ; resident kernel section, initialized before heap use
 N_LOWLIMIT      = $1c00          ; exclusive; below the BASIC entry stub
 N_RELOCBASE     = $5000          ; boot-only staging, reusable after relocation
+N_STAGELIMIT    = $8000          ; staging (low image, boot code, system section) ends below
 N_SERVICEBASE   = $4000          ; resident Ultimate services and mailboxes
 N_SERVICELIMIT  = $5000
 NPAGES0         = $3800          ; page -> slot+1, 0 free, $ff reserved
@@ -242,5 +243,7 @@ NHANDLES        = $3c00          ; 32 records of eight bytes
 NSLOTS          = 32
 N_FIRST0        = $50            ; bank 0 $5000..$feff: 175 pages
 N_FIRST1        = $04            ; bank 1 $0400..$feff: 251 pages
+N_SYSBASE       = $0c00          ; system section: KERNAL RS-232 buffers and BASIC
+N_SYSLIMIT      = $1000          ; sprite area, unused natively; resident kernel code
 ; $ff00..$ffff holds MMU registers and native interrupt stubs/vectors.
 ; Bank-1 $0000..$03ff aliases the common area and cannot be allocated.

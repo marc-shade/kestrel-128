@@ -1,6 +1,7 @@
 """Bounded LZSA2 and CRC16 container for the disk's native BASIC boot file."""
 import binascii
 import os
+import re
 import subprocess
 from pathlib import Path
 
@@ -29,5 +30,9 @@ def build(root, out):
                         '-L', str(out/'kestrel-boot.lst')], check=True)
     finally:
         payload.unlink()
+    symbols = (out/'kestrel-boot.sym').read_text()
+    value = re.search(r'^BOOT_INPUT\s*=\s*(\$[0-9a-fA-F]+|\d+)\s*$', symbols, re.M)[1]
+    scratch = int(value[1:], 16) if value[0] == '$' else int(value)    # 64tass writes this constant in decimal
+    assert 0x1c01+len(data) <= scratch and scratch+len(packed) <= 0xc000
     return dict(codec='lzsa2-crc16', unpacked_bytes=len(data), packed_bytes=len(packed),
-                boot_file='kestrel-boot.prg', decoder_start=0x1300, scratch_start=0x6000)
+                boot_file='kestrel-boot.prg', decoder_start=0x1300, scratch_start=scratch)

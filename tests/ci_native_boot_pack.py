@@ -15,7 +15,10 @@ from native_boot_pack import pack, unpack
 
 
 def symbols(path):
-    return {m[1]:int(m[2],16) for m in re.finditer(r'^(\w+)\s*=\s*\$([0-9a-f]+)$',path.read_text(),re.M)}
+    text=path.read_text()
+    found={m[1]:int(m[2],16) for m in re.finditer(r'^(\w+)\s*=\s*\$([0-9a-f]+)$',text,re.M)}
+    found['BOOT_INPUT']=int(re.search(r'^BOOT_INPUT\s*=\s*(\d+)$',text,re.M)[1])   # constant, written in decimal
+    return found
 
 
 class Memory:
@@ -26,7 +29,7 @@ class Memory:
         length = labels['boot_file_end']-labels['boot_payload']
         self.allowed = ((0x100,0x200), (0x1300,(labels['decoder_end']+255)&~255),
                         (0x1c01,max(end,labels['decoder_image'])),
-                        (0x6000,(0x6000+length+255)&~255), (0xff00,0xff01))
+                        (labels['BOOT_INPUT'],(labels['BOOT_INPUT']+length+255)&~255), (0xff00,0xff01))
         self.writes = set()
 
     def __getitem__(self, at): return self.data[at]
@@ -68,7 +71,7 @@ def execute(prg, labels, raw, *, passed, status=0x20, c64=False):
             assert 0x1c01 <= at < min(end, 0x1c01+len(raw)), ('unowned match read',hex(at))
         if decoded and cpu.pc == labels['boot_read']:
             at = memory.data[cpu.pc+1] | memory.data[cpu.pc+2] << 8
-            assert 0x6000 <= at < 0x6000+labels['boot_file_end']-labels['boot_payload']
+            assert labels['BOOT_INPUT'] <= at < labels['BOOT_INPUT']+labels['boot_file_end']-labels['boot_payload']
         if decoded and cpu.pc == labels['boot_write']:
             at = memory.data[cpu.pc+1] | memory.data[cpu.pc+2] << 8
             assert 0x1c01 <= at < 0x1c01+len(raw), ('decoded write beyond output',hex(at))
@@ -108,8 +111,13 @@ def main():
         for length in (payload+1,payload+(len(prg)-payload)//2,len(prg)-1):
             cases.append((f'truncated file at {length}',prg[:length]))
         for name,broken in cases:
-            steps=execute(broken,labels,raw,passed=False)
-            report['cases'].append(dict(name=name,instructions=steps))
+            # A flipped match-offset bit inside a run of equal bytes can decode to
+            # the identical kernel; the reference unpacker decides which outcome the
+            # 6502 decoder must reach (refusal, or the exact CRC-checked kernel).
+            try:identical=unpack(broken[payload:],len(raw))==raw
+            except ValueError:identical=False
+            steps=execute(broken,labels,raw,passed=identical)
+            report['cases'].append(dict(name=name,instructions=steps,decodes_identically=identical))
         steps=execute(prg,labels,raw,passed=False,c64=True)
         report['cases'].append(dict(name='C64 mode refusal before map or scratch writes',instructions=steps))
         from native_boot_fixtures import assemble, valid_blocks

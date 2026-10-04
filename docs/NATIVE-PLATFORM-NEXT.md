@@ -5,8 +5,12 @@ The [resident-growth checkpoint](validation/2026-09-09-native-relocation/README.
 moved the allocator to `$1300`. The native Ultimate backend now reserves an
 additional 4 KiB at `$4000..$4fff`; the remaining heap has 426 pages. Public
 entry addresses and the `$6000` app slot remain stable. The ABI 1.12 workspace
-main region has six free bytes (four in the direct-desktop variant), the low
-region has eight, and resident services end seven bytes before `$5000`.
+main region had six free bytes (four in the direct-desktop variant), the low
+region eight, and resident services ended seven bytes before `$5000`. Since
+2026-10-03 the memory workspace runs from the system section at `$0c00` and
+boot-only code from staging: the main region has 1,005 free bytes (1,001),
+the low region 50 and the service region 56, with the heap unchanged
+([kernel contract](NATIVE-KERNEL.md)).
 Presentation setup and the relocated keyboard-input wrapper leave three bytes
 before the retained browser path at `$4a00`.
 The [native desktop and drawing library](NATIVE-GRAPHICS.md) keep graphics code

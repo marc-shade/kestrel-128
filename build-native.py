@@ -83,21 +83,26 @@ def build_kernel(out, *, desktop_boot=False, boot_format=0):
                 display_close_start=address('display_close'),display_close_end=address('native_display_close_end'),
                 source_path_start=0x3f00,source_path_end=0x4000,
                 query_start=address('ultimate_query'),query_end=address('native_query_end'),
-                keyboard_start=address('native_keyboard_init'),keyboard_end=address('native_keyboard_end'),
+                boot_start=address('native_boot_image'),boot_end=address('native_boot_end'),
+                sys_image_start=address('native_sys_image'),sys_start=address('native_sys_start'),
+                sys_end=address('native_sys_end'),sys_limit=0x1000,
                 keyin_start=address('native_keyin'),keyin_end=address('native_keyin_end'),
                 command_start=address('ultimate_command'),command_end=address('native_command_end'),
                 keycheck_start=address('native_keycheck'),keycheck_end=address('native_keycheck_end'),
                 nmi_gate_start=address('native_nmi_gate'),nmi_gate_end=address('native_nmi_gate_end'),
-                service_limit=0x5000,app_base=0x6000,managed_pages=426)
+                service_limit=0x5000,staging_limit=0x8000,app_base=0x6000,managed_pages=426,free_pages=[175,251])
     assert layout['main_end']<=layout['metadata_start'] and layout['low_padded_end']<=layout['low_limit']
     assert layout['metadata_end']<=layout['service_start']<layout['service_end']<=layout['service_limit']
-    assert layout['service_limit']<=layout['staging_start'] and layout['load_end']<=layout['app_base']
-    assert layout['load_end']-layout['staging_start']==layout['low_padded_end']-layout['low_start']
+    assert layout['service_limit']<=layout['staging_start'] and layout['load_end']<=layout['staging_limit']
+    assert layout['boot_start']-layout['staging_start']==layout['low_padded_end']-layout['low_start']
+    assert layout['boot_end']==layout['sys_image_start']<layout['load_end']
+    assert layout['sys_start']==0x0c00<layout['sys_end']<=layout['sys_limit']==0x1000
+    assert layout['load_end']-layout['sys_image_start']==layout['sys_end']-layout['sys_start']
     assert layout['module_code_start']==address('nu_code_end')<layout['module_code_end']<=0x4a00
     assert 0x4f20==layout['module_context_start']<layout['module_context_end']<=0x5000
     assert layout['query_start']==0x4b00<layout['query_end']<=0x4bfc
     assert layout['query_end']==layout['command_start']<layout['command_end']<=0x4bfc
-    assert layout['command_end']==layout['keyboard_start']<layout['keyboard_end']<=0x4bfc
+    assert layout['command_start']<layout['command_end']<=0x4bfc
     assert layout['display_show_end']==layout['keyin_start']<layout['keyin_end']<=0x4a00
     assert layout['main_start']<layout['keycheck_start']<layout['keycheck_end']<=0x3800
     assert layout['nmi_gate_start']==0x1bf0 and layout['nmi_gate_end']==0x1bf8

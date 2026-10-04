@@ -76,8 +76,9 @@ def run_input_capture(mon, work, report, key):
     layout = RunningLayout(ROOT, image_dir=ROOT/'target/native-desktop')
     # Heap transfers retain their last byte and pointers in explicitly mutable
     # state; the last colour written is the unselected card's $1b.
-    assert layout.syms['hbyte'] == 0x17d0 and layout.mutable[0x17d0] == 'hbank'
-    assert resident[0x17d0-0x1300] == 0x1b
+    hbyte = layout.syms['hbyte']    # low-section heap scratch; moves with the low section's layout
+    assert layout.layout['low_start'] <= hbyte < 0x1c00 and layout.mutable[hbyte] == 'hbank'
+    assert resident[hbyte-0x1300] == 0x1b
     assert all(change['address'] in layout.mutable for change in resident_changes), resident_changes
     report['input_control'] = dict(passed=True, injected_keys=injected,
         expected_input_metadata_changes=changes, physical_failure_cause_proven=False,

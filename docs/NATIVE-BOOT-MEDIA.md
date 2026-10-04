@@ -80,9 +80,11 @@ their existing allocations. App-bound modules are resealed to their packed
 parents; resident kernels and packed boot files retain their bytes.
 
 During cold startup only, the decoder occupies the future low kernel area at
-`$1300` and copies its compressed input into future app RAM at `$6000`. These
-ranges do not overlap the decoded kernel at `$1c01..$58ff`. The normal kernel
-startup then replaces the decoder and initializes the same 426-page heap.
+`$1300` and copies its compressed input to the top of future app RAM, ending
+at or below `$c000` (`BOOT_INPUT`, `$9d00` today; it was `$6000` before
+2026-10-03). The assembler checks that the decoded kernel, which ends at
+`$5d6a` with its boot staging, ends below it. The normal kernel startup then
+replaces the decoder and initializes the same 426-page heap.
 No new resident allocation, API entry or application memory limit is added.
 The wrapper uses no zero-page scratch, restores the incoming MMU and D/I flags,
 and rejects C64 mode before changing the map. Interrupts are masked during the

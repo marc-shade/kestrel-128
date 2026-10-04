@@ -1,6 +1,9 @@
 ; Cold native boot wrapper. The decoder lives in the future low kernel area;
-; compressed input lives in the future app heap. Neither remains resident.
+; compressed input lives at the top of the future app heap, ending at or below
+; $c000, so the decoded kernel and its boot staging may extend past $6000.
+; Neither remains resident.
 ; No decoded instruction runs until bounds, length and CRC16 all agree.
+BOOT_INPUT = ($c000-BOOT_LENGTH) & $ff00
 * = $1c01
         .word basic_end
         .word 10
@@ -34,9 +37,9 @@ boot_entry:
         sta boot_copy_read+1
         lda #>boot_payload
         sta boot_copy_read+2
-        lda #$60
+        lda #>BOOT_INPUT
         sta boot_copy_write+2
-        lda #>($6000+BOOT_LENGTH+255)
+        lda #>(BOOT_INPUT+BOOT_LENGTH+255)
         sta boot_copy_end+1
         jsr boot_copy
         jmp decoder
@@ -67,14 +70,14 @@ decoder:
 boot_get:
         php
         lda boot_read+2
-        cmp #>($6000+BOOT_LENGTH)
+        cmp #>(BOOT_INPUT+BOOT_LENGTH)
         bcc boot_read
         bne boot_bad
         lda boot_read+1
-        cmp #<($6000+BOOT_LENGTH)
+        cmp #<(BOOT_INPUT+BOOT_LENGTH)
         bcs boot_bad
 boot_read:
-        lda $6000
+        lda BOOT_INPUT
         inc boot_read+1
         bne +
         inc boot_read+2
@@ -146,10 +149,10 @@ boot_match:
         rts
 boot_finished:
         lda boot_read+1
-        cmp #<($6000+BOOT_LENGTH)
+        cmp #<(BOOT_INPUT+BOOT_LENGTH)
         bne boot_bad
         lda boot_read+2
-        cmp #>($6000+BOOT_LENGTH)
+        cmp #>(BOOT_INPUT+BOOT_LENGTH)
         bne boot_bad
         lda boot_write+1
         cmp #<BOOT_END
@@ -199,6 +202,6 @@ decoder_end:
 boot_payload:
         .binary BOOT_PACKED_FILE
 boot_file_end:
-        .cerror boot_file_end > $6000, "packed file overlaps input scratch"
-        .cerror $6000+BOOT_LENGTH > $c000, "packed input exceeds visible app RAM"
-        .cerror BOOT_END > $6000 || BOOT_END < $1c10, "invalid decoded kernel bounds"
+        .cerror boot_file_end > BOOT_INPUT, "packed file overlaps input scratch"
+        .cerror BOOT_INPUT+BOOT_LENGTH > $c000, "packed input exceeds visible app RAM"
+        .cerror BOOT_END > BOOT_INPUT || BOOT_END < $1c10, "decoded kernel overlaps the packed input"

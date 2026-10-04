@@ -116,7 +116,8 @@ def run():
         guard = heap.symbol('native_keycheck')
         saved = heap.symbol('native_keycheck_saved')
         init = heap.symbol('native_keyboard_init')
-        assert guard < 0x3800 and 0x4b00 <= init < 0x4bfc
+        # The guard stays resident below $4000; installing it is boot-only staging code.
+        assert guard < 0x3800 and heap.symbol('native_boot_image') <= init < heap.symbol('native_boot_end')
         for mmu in (0, 14):
             unguarded = machine(guard=False)
             guarded = machine()
