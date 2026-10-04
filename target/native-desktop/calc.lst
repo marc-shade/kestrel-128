@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -D NATIVE_CALC_GRAPHICS=1 -B -o target/native-desktop/calc.prg -L target/native-desktop/calc.lst src/native/calc.asm
-; Fri Oct  2 06:02:57 2026
+; Sun Oct  4 15:20:28 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -171,6 +171,7 @@
 =$1300						N_LOWBASE       = $1300          ; resident kernel section, initialized before heap use
 =$1c00						N_LOWLIMIT      = $1c00          ; exclusive; below the BASIC entry stub
 =$5000						N_RELOCBASE     = $5000          ; boot-only staging, reusable after relocation
+=$8000						N_STAGELIMIT    = $8000          ; staging (low image, boot code, system section) ends below
 =$4000						N_SERVICEBASE   = $4000          ; resident Ultimate services and mailboxes
 =$5000						N_SERVICELIMIT  = $5000
 =$3800						NPAGES0         = $3800          ; page -> slot+1, 0 free, $ff reserved
@@ -179,6 +180,8 @@
 =32						NSLOTS          = 32
 =$50						N_FIRST0        = $50            ; bank 0 $5000..$feff: 175 pages
 =$04						N_FIRST1        = $04            ; bank 1 $0400..$feff: 251 pages
+=$0c00						N_SYSBASE       = $0c00          ; system section: KERNAL RS-232 buffers and BASIC
+=$1000						N_SYSLIMIT      = $1000          ; sprite area, unused natively; resident kernel code
 
 ;******  Return to file: src/native/calc.asm
 
