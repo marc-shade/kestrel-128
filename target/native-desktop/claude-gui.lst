@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -o target/native-desktop/claude-build/gui.bin -l target/native-desktop/claude-gui.sym -L target/native-desktop/claude-gui.lst src/native/claude/gui.asm
-; Sun Oct  4 15:20:38 2026
+; Sun Oct  4 18:37:33 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -11,7 +11,7 @@
 ;******  Processing file: src/native/claude/../api.inc
 
 =1						N_ABI_MAJOR = 1
-=14						N_ABI_MINOR = 14
+=15						N_ABI_MINOR = 15
 =$1c20						N_ALLOC         = $1c20
 =$1c23						N_FREE          = $1c23
 =$1c26						N_READ          = $1c26
@@ -77,6 +77,7 @@
 =$3d2c						N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
 =$3d2d						N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4						N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3d9f						N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
 =$3de5						N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31						N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e						N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
@@ -3043,7 +3044,7 @@
 .8a39		ca		dex		        dex
 .8a3a		10 f2		bpl $8a2e	        bpl -
 .8a3c		ad 08 3a	lda $3a08	        lda N_BUFFER+8       ; required native ABI minor
-.8a3f		c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.8a3f		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .8a41		b0 f3		bcs $8a36	        bcs bk_bad_image
 .8a43		ad 09 3a	lda $3a09	        lda N_BUFFER+9       ; flags
 .8a46		d0 ee		bne $8a36	        bne bk_bad_image

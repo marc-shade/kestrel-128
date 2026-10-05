@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
-; 64tass -a -B -D PK_ABI=13 -D PK_WINDOW=0 -D PK_PAGES=96 -D PK_RUNTIME_END=48925 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=44929 -D PK_RAW_ENTRY=24608 -D PK_PACKED_LENGTH=11157 -D PK_BODY_CRC=36066 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/claude-pack.lst -l target/native-desktop/claude-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
-; Sun Oct  4 15:20:57 2026
+; 64tass -a -B -D PK_ABI=13 -D PK_WINDOW=0 -D PK_PAGES=96 -D PK_RUNTIME_END=48925 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=44929 -D PK_RAW_ENTRY=24608 -D PK_PACKED_LENGTH=11157 -D PK_BODY_CRC=36624 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/claude-pack.lst -l target/native-desktop/claude-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
+; Sun Oct  4 18:37:52 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -15,7 +15,7 @@
 =44929						PK_RAW_END=44929
 =24608						PK_RAW_ENTRY=24608
 =11157						PK_PACKED_LENGTH=11157
-=36066						PK_BODY_CRC=36066
+=36624						PK_BODY_CRC=36624
 =						PK_HEADER_FILE="kestrel-app-pack/header.bin"
 =						PK_PACKED_FILE="kestrel-app-pack/body.lzsa"
 
@@ -25,7 +25,7 @@
 ;******  Processing file: src/native/api.inc
 
 =1						N_ABI_MAJOR = 1
-=14						N_ABI_MINOR = 14
+=15						N_ABI_MINOR = 15
 =$1c20						N_ALLOC         = $1c20
 =$1c23						N_FREE          = $1c23
 =$1c26						N_READ          = $1c26
@@ -91,6 +91,7 @@
 =$3d2c						N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
 =$3d2d						N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4						N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3d9f						N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
 =$3de5						N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31						N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e						N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
@@ -206,7 +207,7 @@
 .6020						pk_metadata:
 >6020		4e 50 5a 32			        .text "npz2"
 >6024		4e 41 50 50 01 01 0d 00		        .binary PK_HEADER_FILE
->602c		81 4f 60 00 20 00 65 3b 43 4c 41 55 44 45 00 00
+>602c		81 4f 60 00 20 00 97 38 43 4c 41 55 44 45 00 00
 >603c		00 00 00 00 00 00 00 00
 >6044		1d bf d0 bf 04 65 95 2b		        .word PK_RUNTIME_END,PK_CLEANUP_BASE,pk_payload,PK_PACKED_LENGTH
 >604c		04 61 b3 03			        .word pk_decoder_image,pk_decoder_end-pk_decoder
@@ -698,10 +699,10 @@
 .642e	532a	c9 af		cmp #$af	        cmp #>PK_RAW_END
 .6430	532c	d0 16		bne $5344	        bne boot_bad
 .6432	532e	ad 8a 53	lda $538a	        lda pk_crc
-.6435	5331	c9 e2		cmp #$e2	        cmp #<PK_BODY_CRC
+.6435	5331	c9 10		cmp #$10	        cmp #<PK_BODY_CRC
 .6437	5333	d0 0b		bne $5340	        bne pk_checksum
 .6439	5335	ad 8b 53	lda $538b	        lda pk_crc+1
-.643c	5338	c9 8c		cmp #$8c	        cmp #>PK_BODY_CRC
+.643c	5338	c9 8f		cmp #$8f	        cmp #>PK_BODY_CRC
 .643e	533a	d0 04		bne $5340	        bne pk_checksum
 .6440	533c	a9 00		lda #$00	        lda #0
 .6442	533e	f0 06		beq $5346	        beq pk_finish
@@ -1083,7 +1084,7 @@
 >784c		d0 cf b4 20 b9 fb a4 ff 5e b2 a2 89 37 f9 66 01
 >785c		8d 9d 89 a9 22 8d 22 8d 99 23 8d 20 46 8c b0 de
 >786c		a2 07 ed 66 88 dd 55 41 98 b1 d1 8b cc a9 79 ad
->787c		08 3a c9 0f b0 f3 ad 09 3a d0 ee ad 0d 3a f2 69
+>787c		08 3a c9 10 b0 f3 ad 09 3a d0 ee ad 0d 3a f2 69
 >788c		e7 77 48 12 dd 80 c0 e8 72 d0 dd 6a 18 05 bd 1c
 >789c		2f aa d3 b1 88 0a ed 62 61 ac 28 0b 67 6f 11 ef
 >78ac		bb 71 f0 af 53 78 5c ab cd 0c 3a d0 a6 8d ae 85
