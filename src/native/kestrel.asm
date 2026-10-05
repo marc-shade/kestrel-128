@@ -152,6 +152,7 @@ native_browser_result:
 
 .include "apps.inc"
 .include "files.inc"
+.include "module-cache.inc"
 .include "ultimate-directory.inc"
         ; The scan callback must remain below BASIC ROM ($4000), since ROM
         ; SCNKEY invokes it with mapping $00 as well as the native $0e map.

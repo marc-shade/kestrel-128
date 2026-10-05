@@ -228,10 +228,13 @@ Some of what is missing:
 - Typing a new name on a name conflict in GEMDESK copies (Replace, Keep
   both with a numbered name, Skip and Stop exist, and folders merge).
 - Sheet number formats per cell (columns have them), currency and percent.
-- REU use beyond screen snapshots and Editor documents.
+- REU use beyond screen snapshots, Editor documents and the module cache
+  (no REU clipboard or suspended apps yet).
 
-The resident kernel has about 1 KiB free again (since 2026-10-03), which is
-where new kernel services such as an REU module cache are meant to go.
+With an REU of 512 KiB or more, the kernel keeps app modules (GEMDESK's
+dialogs, the Editor's picker, Sheet's calculator and font) in the REU, so
+switching between them reads the disk only the first time
+([NATIVE-MODULES](docs/NATIVE-MODULES.md#reu-module-cache)).
 
 ## Credits and license
 

@@ -39,6 +39,7 @@ native_browser_position:
         sta N_BROWSERDEV
         jsr heap_init
         jsr sys_install
+        jsr rc_probe
         jmp native_resume
 
 ; Copy the resident low section before initializing or allocating memory.
@@ -145,3 +146,142 @@ sys_install_store:
         sta sys_install_store+2
         plp
         rts
+
+; REU module cache (module-cache.inc): find an idle REU and its size with
+; two-byte DMA probes at offset 0 of each power-of-two bank, restoring every
+; probed byte. With 512 KiB or more, reserve its top 64 KiB bank: publish
+; N_RCACHE and write an empty directory. Otherwise N_RCACHE stays zero.
+RC_PROBEBUF = N_BUFFER             ; +0/1 data, +2/3 bank 0, +4/5 bank N
+rc_probe:
+        lda #0
+        sta N_RCACHE
+        sta rc_bank
+        lda $df01
+        bmi rc_probe_done       ; busy or absent: no cache
+        lda $df09
+        and #$e0
+        bne rc_probe_done
+        lda $df09
+        and #31
+        cmp #31
+        bne rc_probe_done
+        lda $df0a
+        and #63
+        cmp #63
+        bne rc_probe_done
+        jsr rc_probe_read
+        bcs rc_probe_done
+        lda RC_PROBEBUF
+        sta RC_PROBEBUF+2
+        lda RC_PROBEBUF+1
+        sta RC_PROBEBUF+3
+        lda #$55
+        ldx #$aa
+        jsr rc_probe_write
+        bcs rc_probe_restore
+        jsr rc_probe_read
+        bcs rc_probe_restore
+        lda RC_PROBEBUF
+        cmp #$55
+        bne rc_probe_restore
+        lda RC_PROBEBUF+1
+        cmp #$aa
+        bne rc_probe_restore
+        lda #1
+        sta rc_probe_bank
+rc_probe_next:
+        lda rc_probe_bank
+        sta rc_bank
+        jsr rc_probe_read
+        bcs rc_probe_restore
+        lda RC_PROBEBUF
+        sta RC_PROBEBUF+4
+        lda RC_PROBEBUF+1
+        sta RC_PROBEBUF+5
+        lda #$a5
+        ldx #$5a
+        jsr rc_probe_write
+        bcs rc_probe_restore
+        jsr rc_probe_read
+        bcs rc_probe_restore
+        lda RC_PROBEBUF            ; a missing bank does not keep both bytes
+        cmp #$a5
+        bne rc_probe_limit
+        lda RC_PROBEBUF+1
+        cmp #$5a
+        bne rc_probe_limit
+        lda #0                  ; a wrapped bank changed bank 0's marker
+        sta rc_bank
+        jsr rc_probe_read
+        bcs rc_probe_restore
+        lda RC_PROBEBUF
+        cmp #$55
+        bne rc_probe_limit
+        lda RC_PROBEBUF+1
+        cmp #$aa
+        bne rc_probe_limit
+        jsr rc_probe_restore_n
+        bcs rc_probe_restore
+        asl rc_probe_bank
+        bne rc_probe_next
+        lda #0                  ; 256 banks, 16 MiB
+        beq rc_probe_size
+rc_probe_limit:
+        jsr rc_probe_restore_n
+        bcs rc_probe_restore
+        lda rc_probe_bank
+rc_probe_size:
+        sta rc_probe_banks      ; 0 means 256
+        jsr rc_probe_restore
+        bcs rc_probe_done
+        lda rc_probe_banks
+        beq +
+        cmp #8
+        bcc rc_probe_done       ; below 512 KiB: no cache
++       sec
+        sbc #1
+        sta rc_bank             ; top bank
+        lda #0
+        ldx #1
+        jsr rc_probe_write      ; empty directory: count 0, next unit 1
+        bcs rc_probe_done
+        lda #16
+        sta N_RCACHE
+rc_probe_done:
+        rts
+rc_probe_restore_n:
+        lda rc_probe_bank
+        sta rc_bank
+        lda RC_PROBEBUF+4
+        ldx RC_PROBEBUF+5
+        jmp rc_probe_write
+rc_probe_restore:
+        lda #0
+        sta rc_bank
+        lda RC_PROBEBUF+2
+        ldx RC_PROBEBUF+3
+        jsr rc_probe_write
+        lda #0
+        sta rc_bank
+        rts
+rc_probe_read:
+        lda #$91
+        bne rc_probe_dma
+rc_probe_write:
+        sta RC_PROBEBUF
+        stx RC_PROBEBUF+1
+        lda #$90
+rc_probe_dma:
+        ldx #<RC_PROBEBUF
+        stx rc_host
+        ldx #>RC_PROBEBUF
+        stx rc_host+1
+        ldx #0
+        stx rc_reu
+        stx rc_reu+1
+        stx rc_length+1
+        ldx #2
+        stx rc_length
+        jmp rc_dma
+rc_probe_bank: .byte 0
+rc_probe_banks: .byte 0

@@ -31,6 +31,7 @@ def main():
     parser.add_argument('--80col', dest='eighty', action='store_true')
     parser.add_argument('--vdc64', action='store_true')
     parser.add_argument('--clipboard', action='store_true')
+    parser.add_argument('--reu-kib', type=int, choices=(512,), help='attach an REU: the module cache runs')
     args = parser.parse_args()
     work = Path(tempfile.mkdtemp(prefix='kestrel-sheet-vice-'))
     print('Sheet VICE evidence:', work, flush=True)
@@ -54,12 +55,18 @@ def main():
         sock.bind(('127.0.0.1', 0)); port = sock.getsockname()[1]
     mon = process = xv = None
     log = (work/'vice.log').open('w')
+    if args.reu_kib:
+        from native_reu_check import initial_memory
+        reu_initial = initial_memory(args.reu_kib)
+        (work/'initial.reu').write_bytes(reu_initial)
     try:
         xv = ci.cbm.Xvfb()
         command = ['x128', '-default', '-80col' if args.eighty else '-40col',
                    '-8', str(disk), '-drive8true', '-drive8type', '1581',
                    '-9', str(data_disk), '-drive9true', '-drive9type', '1581',
                    '-VDC64KB' if args.vdc64 else '-VDC16KB', '-sounddev', 'dummy',
+                   *(['-reu', '-reusize', str(args.reu_kib), '-reuimage', str(work/'initial.reu'), '+reuimagerw']
+                     if args.reu_kib else []),
                    '-jamaction', '0', '-warp', '-binarymonitor', '-binarymonitoraddress', f'ip4://127.0.0.1:{port}']
         report['command'] = command; save()
         process = subprocess.Popen(command, env=dict(os.environ, DISPLAY=xv.display,
@@ -152,6 +159,25 @@ def main():
         key(13);assert sources()==records and not value('wb_error');capture('reopened-workbook')
         key(27);capture('desktop-return',6)
         assert read(0x3d2d)==b'\10' and read(0x3de4)==b'\2'
+        if args.reu_kib:
+            # The module cache owns the REU's top bank. Repeated loads that hit
+            # add no entries, so each name appears once, sealed to Sheet's core,
+            # with a byte-exact image.
+            assert read(0x3d9f)==b'\x10'
+            from native_reu_check import module_cache,snapshot
+            loads=int.from_bytes(read(0x3db0,3),'little')  # module generation: one per load
+            mon.read_mem(0x3d12,0x3d12)  # binary monitor commands leave the emulator stopped
+            memory,info=snapshot(mon,work/'final.vsf');mon.resume()
+            top=len(memory)-65536
+            # The first 72 pages hold the VDC service's screen backups.
+            assert memory[72*256:top]==reu_initial[72*256:top],'REU bytes changed between the VDC backups and the cache bank'
+            names=module_cache(memory,reu_initial,ROOT/'target/native-desktop')
+            assert names,names
+            # Every miss appends an entry (no reset happened with three names), so
+            # the remaining loads were served from the REU.
+            hits=loads-len(names);assert hits>0,(loads,names)
+            report['module_cache']=dict(entries=names,loads=loads,hits=hits,snapshot=info)
+            print('PASS: REU module cache holds',names,'and served',hits,'of',loads,'loads',flush=True)
         mon.quit_emulator();mon.close();mon=None
         process.wait(timeout=15)
         out=work/'budget.usht'

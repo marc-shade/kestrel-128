@@ -103,7 +103,7 @@ def build_kernel(out, *, desktop_boot=False, boot_format=0):
     assert layout['query_start']==0x4b00<layout['query_end']<=0x4bfc
     assert layout['query_end']==layout['command_start']<layout['command_end']<=0x4bfc
     assert layout['command_start']<layout['command_end']<=0x4bfc
-    assert layout['display_show_end']==layout['keyin_start']<layout['keyin_end']<=0x4a00
+    assert layout['command_end']==layout['keyin_start']<layout['keyin_end']<=0x4bfc
     assert layout['main_start']<layout['keycheck_start']<layout['keycheck_end']<=0x3800
     assert layout['nmi_gate_start']==0x1bf0 and layout['nmi_gate_end']==0x1bf8
     assert layout['low_start']<layout['module_gate_start']<layout['module_gate_end']<=layout['low_limit']

@@ -107,6 +107,7 @@ def build():
     aes_image = native_banked.seal((OUT/'aesvc.prg').read_bytes(), base=AE_BASE)
     (OUT/'aesvc.prg').write_bytes(aes_image)
     aes_component = native_banked.validate(aes_image, base=AE_BASE)
+    assert 0x60+vdc_component['pages'] <= AE_BASE>>8, f"VDSVC ({vdc_component['pages']} pages from $6000) overlaps the AES"
     # The Calculator desk accessory (docs/GEM-LAYER-DESIGN.md), for bank-1 AC_BASE.
     AC_BASE = int(re.search(r'^AC_BASE = \$([0-9a-f]{4})', (ROOT/'src/native/aes-api.inc').read_text(), re.M).group(1), 16)
     subprocess.run(['64tass', '-a', '-B', str(ROOT/'src/native/acc-calc.asm'),

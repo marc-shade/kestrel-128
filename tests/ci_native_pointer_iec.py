@@ -161,7 +161,7 @@ def main():
             '-VDC64KB' if args.vdc64 else '-VDC16KB','-sounddev','dummy','-soundwarpmode','1','-jamaction','0','-warp','-controlport1device','3',
             '-controlport2device','0','+mouse','-binarymonitor','-binarymonitoraddress',f'ip4://127.0.0.1:{port}']
         if args.reu_kib:
-            from native_reu_check import initial_memory,snapshot as reu_dump
+            from native_reu_check import initial_memory,module_cache,snapshot as reu_dump
             reu_initial=initial_memory(args.reu_kib)
             from native_reu_document_check import ReuDocumentOracle
             reu_documents=ReuDocumentOracle(reu_initial,history=True)
@@ -367,7 +367,10 @@ def main():
         def reu_snapshot(label):
             with paused.paused(label+'-reu'):
                 memory,info=reu_dump(mon,work/(label+'-reu.vsf'))
-            assert memory[72*256:]==reu_documents.expected[72*256:], 'complete REU bytes outside VDC backups, including document data and unused capacity'
+            top=len(memory)-65536 if args.reu_kib>=512 else len(memory)  # the kernel module cache bank
+            assert memory[72*256:top]==reu_documents.expected[72*256:top], 'complete REU bytes outside VDC backups, including document data and unused capacity'
+            if top<len(memory):
+                info['module_cache']=module_cache(memory,reu_initial,ROOT/'target/native-desktop')
             return memory,info
         def editor_reu_document(label,logical,*,loaded=False):
             if not args.reu_kib:return

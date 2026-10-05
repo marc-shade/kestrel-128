@@ -171,7 +171,7 @@ times are 9.308 seconds over USB and 42.363 seconds over IEC, including module l
 initial directory scan; they are not isolated loader throughput measurements.
 
 This window is groundwork for additional native services. Background tasks,
-app suspension, GUI windows/events/focus, REU caching and allocation, general
+app suspension, GUI windows/events/focus, general
 overlay replacement cleanup, and the rest of the
 [completion roadmap](IMPLEMENTATION-ROADMAP.md) remain open.
 
@@ -179,3 +179,33 @@ The graphical Editor now uses a third checked module, `EDCLIP.PRG`, for
 [shared clipboard transfers](NATIVE-CLIPBOARD.md). It shares the existing
 module window and keeps document/selection state in the core. The diagnostic
 Editor retains its picker/search pair.
+
+## REU module cache
+
+ABI 1.15. When cold boot finds an idle REU of 512 KiB or more, the kernel
+reserves the REU's top 64 KiB bank and publishes `N_RCACHE` = 16 (4 KiB
+pages) at `$3d9f`; smaller REUs and machines without one get no cache and
+load exactly as before. The shared REU arena (`reu.inc`, used by the VDC
+service) subtracts `N_RCACHE` from the size it probes, so apps never
+allocate the reserved bank. Boot probes with two-byte DMAs and restores
+every byte it touched except the cache's own two-byte directory header.
+
+`N_MLOAD` checks the cache first, keyed by the requested name and the running
+app's core CRC (the value every module of that app is sealed to). On a hit
+it copies the module from the REU into the window and runs the same checks
+as a disk load: window bounds before any copy, then manifest, parent CRC,
+extent and module CRC. A hit opens no file and publishes a new token like
+any load. Anything that fails, including a busy REU, falls back to the disk.
+After a successful disk load the verified window is stored. The directory
+holds eleven entries in one 256-byte page and the modules fill the rest of
+the bank in 256-byte units; when either is full the cache starts again
+empty. Every cold boot empties it. Transfers are at most 256 bytes each.
+
+A cached module is reused for any later load of the same name by an app
+with the same core CRC. Rebuilding a module without rebuilding its core is
+the one case where the cache could serve the older copy until the next cold
+boot; shipped builds always seal both together.
+
+The cache code is resident (753 bytes in the main section, plus the
+boot-only probe in staging). Its checks are recorded in
+[docs/validation/2026-10-04-reu-module-cache](validation/2026-10-04-reu-module-cache/README.md).

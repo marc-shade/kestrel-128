@@ -50,6 +50,10 @@ def main():
                             '-write',str(work/'parent.prg'),'calc',
                             '-write',str(work/'provider.prg'),'bkreu.prg'],check=True,capture_output=True)
             expected=bytearray(initial_memory(kib));reu=folder/'initial.reu';reu.write_bytes(expected)
+            # 512 KiB or more: the kernel module cache owns the top 64 KiB bank
+            # and boot writes its empty directory there.
+            usable=kib//4-(16 if kib>=512 else 0)
+            if kib>=512:expected[usable*4096:usable*4096+2]=b'\0\1'
             with socket.socket() as sock:
                 sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
             xv=ci.cbm.Xvfb();log=(folder/'vice.log').open('w');mon=None
@@ -117,16 +121,16 @@ def main():
                 speed=bytes(mon.read_mem(0xd030,0xd030));mon.resume()
                 write(0xd506,bytes([mmu[0]|64]));write(0xd030,bytes([speed[0]|1]))
                 config();call(0,flags=8)
-                assert int.from_bytes(status()[21:23],'little')==kib//4
+                assert int.from_bytes(status()[21:23],'little')==usable
                 snap('probe-restored')
-                config(pages=kib//4);call(2);token=int.from_bytes(status()[5:13],'little')
-                for offset in (0xff80,kib*1024-512,0x7ff80 if kib>=1024 else 0):
+                config(pages=usable);call(2);token=int.from_bytes(status()[5:13],'little')
+                for offset in (0xff80,usable*4096-512,0x7ff80 if kib>=1024 else 0):
                     data=bytes((i*93+(offset>>16)*11)&255 for i in range(512))
                     config(token=token,offset=offset,count=512)
                     write(0x3a00,data);call(6,flags=8);expected[offset:offset+512]=data
                     write(0x3a00,bytes(512));call(5)
                     assert read(0x3a00,512)==data and int.from_bytes(status()[18:20],'little')==512
-                config(token=token,offset=kib*1024-1,count=2);call(6,6)
+                config(token=token,offset=usable*4096-1,count=2);call(6,6)
                 call(4);call(4,4);call(1)
                 after_reu=read(0x400,0x5c00,'ram01')
                 assert after_reu==low

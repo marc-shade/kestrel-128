@@ -799,17 +799,16 @@ ru_probe_bank_next:
         bcs ru_probe_return
         asl ru_probe_bank
         bne ru_probe_bank_next
-        lda #0
-        sta ru_total
-        lda #16
-        sta ru_total+1        ; all 256 banks: 16 MiB = 4096 pages
-        bne ru_probe_done
+        bcs ru_probe_total    ; all 256 banks: the carry is bank count bit 8
 ru_probe_limit:
+        clc
+ru_probe_total:
+        lda #0
+        rol
+        sta ru_total+1
         lda ru_probe_bank
         sta ru_total
-        lda #0
-        sta ru_total+1
-        ldx #4
+        ldx #4                ; 16 4-KiB pages per bank (16 MiB = 4096 pages)
 -       asl ru_total
         rol ru_total+1
         dex
@@ -817,7 +816,13 @@ ru_probe_limit:
 ru_probe_done:
         jsr ru_probe_restore
         bcs ru_probe_return
-        lda ru_total+1
+        lda ru_total          ; the kernel module cache owns the top N_RCACHE pages
+        sec
+        sbc N_RCACHE
+        sta ru_total
+        bcs +
+        dec ru_total+1
++       lda ru_total+1
         bne +
         lda ru_total
         cmp #32

@@ -44,6 +44,10 @@ def main():
         subprocess.run(['c1541','-attach',str(disk),'-delete','calc','-write',str(work/'check.prg'),'calc'],
                        check=True,capture_output=True)
         original = initial_memory(kib); expected = bytearray(original)
+        # 512 KiB or more: the kernel module cache owns the top 64 KiB bank and
+        # boot writes its empty directory (count 0, next unit 1) there.
+        usable = kib//4-(16 if kib >= 512 else 0)
+        if kib >= 512: expected[usable*4096:usable*4096+2] = b'\0\1'
         reu = folder/'initial.reu'; reu.write_bytes(original)
         with socket.socket() as sock:
             sock.bind(('127.0.0.1',0)); port = sock.getsockname()[1]
@@ -110,10 +114,10 @@ def main():
             write(0xd506,bytes([mmu_before[0]|64])); write(0xd030,bytes([speed_before[0]|1]))
             bank1 = bytes(mon.read_mem(0x400,0xfeff,bank=banks['ram01'])); mon.resume()
             call('open',flags=8)
-            assert get_arg('total',2) == kib//4
+            assert get_arg('total',2) == usable
             check_snapshot('probe-restored')
-            set_arg('pages',kib//4,2); call('alloc'); token = get_arg('handle',8)
-            for offset,count in ((0,512),(0xff80,512),(kib*1024-512,512)):
+            set_arg('pages',usable,2); call('alloc'); token = get_arg('handle',8)
+            for offset,count in ((0,512),(0xff80,512),(usable*4096-512,512)):
                 data = bytes((i*51+(i>>3)*7+(offset>>16))&255 for i in range(count))
                 set_arg('offset',offset,3); set_arg('count',count,2)
                 write(0x3a00,data); call('write',flags=12)
@@ -126,10 +130,10 @@ def main():
                 set_arg('offset',offset,3); set_arg('count',count,2)
                 write(0x3a00,data); call('write'); expected[offset:offset+count] = data
                 write(0x3a00,bytes(count)); call('read'); assert read(0x3a00,count) == data
-            set_arg('offset',kib*1024-1,3); set_arg('count',2,2); call('write',6)
+            set_arg('offset',usable*4096-1,3); set_arg('count',2,2); call('write',6)
             assert get_arg('actual',2) == 0
             call('free'); call('free',4); call('stats')
-            assert get_arg('available',2) == kib//4 and get_arg('slots') == 32
+            assert get_arg('available',2) == usable and get_arg('slots') == 32
             call('close'); call('open'); set_arg('pages',1,2); call('alloc')
             newer = get_arg('handle',8); assert token != newer
             set_arg('handle',token,8); call('free',4)

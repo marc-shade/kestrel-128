@@ -148,7 +148,7 @@ def main():
                 m.check_load(full);m.call(CALL,0 if size==17 else 42,0,irq=True)
                 assert m.ram[BASE+size:END]==b'\xcc'*(END-BASE-size)
                 done(f'{fmt}-extent-{size}',m)
-            for label,offset,value in [('origin',0,0),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,15),
+            for label,offset,value in [('origin',0,0),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,16),
                     ('minor-too-old',8,6),('flags',9,1),('parent',12,0),('entry-header',14,15),('entry-past-end',14,20),('extent-high',11,3)]:
                 m=Modules(fmt);bad=bytearray(m.module);bad[offset]=value
                 if label=='parent':bad[offset]^=m.module[offset]^0xff

@@ -31,6 +31,35 @@ def decode_snapshot(data):
     return found
 
 
+def module_cache(memory, initial, image_dir):
+    """Check the kernel module cache (docs/NATIVE-MODULES.md) in a whole-REU
+    image: the top 64 KiB bank must equal its initial bytes except for the
+    directory header and entries and each entry's byte-exact module image in
+    units allocated from 1 without a reset. Returns the cached names."""
+    top = len(memory)-65536
+    assert len(memory) == len(initial) and len(memory) >= 512*1024
+    bank, expected = bytes(memory[top:]), bytearray(initial[top:])
+    count, unit, names = bank[0], 1, []
+    assert count <= 11, count
+    for i in range(count):
+        entry = bank[2+i*22:24+i*22]
+        size = entry[0]
+        assert 1 <= size <= 16 and entry[1+size:17] == bytes(16-size), entry.hex()
+        name = entry[1:1+size]
+        image = (Path(image_dir)/name.decode().lower()).read_bytes()[2:]
+        extent = int.from_bytes(entry[20:22], 'little')
+        # Unit, extent and the parent core CRC the image itself is sealed to.
+        assert (entry[19], extent, entry[17:19]) == (unit, len(image), image[10:12]), name
+        expected[2+i*22:24+i*22] = entry
+        expected[unit*256:unit*256+extent] = image
+        unit += -(-extent//256)
+        names.append(name.decode())
+    assert len(set(names)) == len(names), names
+    expected[0:2] = bytes([count, unit&255])
+    assert bank == bytes(expected), 'module cache bank differs from its directory and images'
+    return names
+
+
 def snapshot(mon, path):
     """Caller holds the emulator paused; saving has no REC register side effects."""
     path = Path(path).resolve()

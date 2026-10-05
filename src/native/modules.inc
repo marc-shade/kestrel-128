@@ -31,6 +31,7 @@ module_name:
         iny
         cpy N_FNAMELEN
         bne module_name
+        jsr rc_lookup           ; REU cache key (and hit) before the path rewrite
         lda m_source_format
         sta N_FFORMAT
         lda m_source_device
@@ -80,6 +81,11 @@ module_source_ready:
         sta N_IOSTATUS
         lda #N_APPOWNER
         sta N_FOWNER
+        lda rc_unit
+        beq module_disk
+        jsr rc_fetch            ; checked copy from the REU cache
+        bcc module_ready
+module_disk:
         jsr fs_open
         jsr app_record_io
         php
@@ -175,6 +181,8 @@ module_eof:
         jsr app_close
         lda l_result
         bne module_finish
+        jsr rc_store
+module_ready:
         lda #2
         sta N_MSTATE
         ldx #2

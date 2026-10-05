@@ -222,7 +222,8 @@ this is part of the design, not an afterthought:
 - AESVC has about 230 bytes left. The two-screen window code needs more, so
   the AES first moves rarely used code (for example window creation and
   deletion) into a banked AES overlay.
-- VDSVC has 5 bytes left in its 39-page reservation, and since AES minor 7
+- VDSVC has 11 bytes left in its 39-page reservation (measured 2026-10-04;
+  the desktop build now fails if it reaches the AES), and since AES minor 7
   (at `$8700`) no spare page before the AES. The 1:1 presenter must replace
   doubled-mode code when the mode is Extend, or AES code must move to an
   overlay so the AES can return to `$8800`.

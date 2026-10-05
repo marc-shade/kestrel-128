@@ -69,7 +69,7 @@ VICE_MATRIX = {
                               ('--editor-only', '--editor-selection', '--editor-large', '--80col', '--vdc64',
                                '--d81', '--reu-kib', '512'),
                               ('--claude-only',)],
-    'ci_native_sheet_iec': [(), ('--80col',), ('--clipboard',)],
+    'ci_native_sheet_iec': [(), ('--80col',), ('--clipboard',), ('--reu-kib', '512')],
 }
 
 PRIMARY = ('case', 'group', 'app')

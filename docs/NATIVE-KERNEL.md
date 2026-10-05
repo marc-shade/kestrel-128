@@ -55,6 +55,11 @@ ABI 1.13 initializes the [shared clipboard](NATIVE-CLIPBOARD.md) session at
 `$3de5..$3dff`. Its library manages owner-31 allocations across foreground app
 exits. No resident entry was added, and all 426 heap pages remain managed.
 
+ABI 1.15 adds `N_RCACHE` at `$3d9f`: the number of 4 KiB REU pages the
+[module cache](NATIVE-MODULES.md#reu-module-cache) reserves at the top of an
+REU of 512 KiB or more (16), or zero. App REU arenas stop below them. No
+resident entry was added; the heap is unchanged.
+
 Use the native CPU observer when a hardware test needs bytes from a specific
 RAM bank. Direct cartridge DMA can return BASIC ROM at an application RAM
 address; the [editor checkpoint](validation/2026-09-09-native-editor/README.md)
@@ -134,8 +139,10 @@ Until 2026-10-02 the resident regions had 15 free bytes in total. Since
 2026-10-03 the text-mode memory workspace runs from the **system section** at
 `$0c00..$0fff` and the code that runs only at cold boot runs from the boot
 staging pages, so the heap keeps all 426 pages and the resident kernel has
-room again: the workspace kernel's main section ends at `$3413` (1,005 bytes
-free before the page tables; the direct-desktop variant 1,001), the low
+room again: the workspace kernel's main section ended at `$3413` (1,005 bytes
+free before the page tables; the direct-desktop variant 1,001). The REU
+module cache (ABI 1.15) then took 753 of them, so main now ends at `$3704`
+(252 free; direct-desktop 248). The low
 section has 50 free bytes before the NMI bridge, the service region has 49
 free bytes below `$4bfc` plus seven before `$5000`, and the system section
 uses 860 of its 1,024 bytes.

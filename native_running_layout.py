@@ -44,7 +44,7 @@ class RunningLayout:
                      'ui_text_byte',
                      'app_image_store', 'app_buffer_read', 'fs_buffer_read',
                      'fs_buffer_write', 'nd_path_byte', 'nu_command_byte',
-                     'nu_data_store', 'module_store'):
+                     'nu_data_store', 'module_store', 'rc_window'):
             declare(name, self.syms[name]+1, self.syms[name]+3, 'modified 16-bit address operand')
         declare('app_zero', self.syms['app_zero']+2, self.syms['app_zero']+3,
                 'modified high address byte; low operand and opcode remain checked')
@@ -56,7 +56,7 @@ class RunningLayout:
             ('f_mtrack', 'f_dskip', 1),
             ('f_filename', 'f_left', 2), ('nd_slot', 'nd_path', 256),
             ('ui_handles', 'ui_test_operation', 1), ('ui_system_device', 'ui_browser_stage', 1),
-            ('nu_high', 'nu_part_state', 1),
+            ('nu_high', 'nu_part_state', 1), ('rc_key', 'rc_chunklen', 1),
             ('v_tag', 'v_port', 1)):
             declare(first, self.syms[first], self.syms[last]+length, 'declared mutable state')
         for offset in (8, 11):

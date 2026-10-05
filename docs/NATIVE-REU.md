@@ -16,8 +16,11 @@ release, statistics and bounded byte transfers. This is an app-core library
 for the current single-foreground-app lifecycle. Include it exactly once in
 the retained core; modules call that copy. It does not add a second native
 heap bank or grow the resident kernel. Editor also uses this arena for documents,
-and [undo records](NATIVE-HISTORY.md) through the [shared memory service](NATIVE-SHARED-MEMORY.md). REU clipboard storage, caches,
-suspended apps and a shared scheduled driver remain separate roadmap work.
+and [undo records](NATIVE-HISTORY.md) through the [shared memory service](NATIVE-SHARED-MEMORY.md). The kernel's
+[module cache](NATIVE-MODULES.md#reu-module-cache) owns the top 64 KiB of an
+REU of 512 KiB or more; `ru_open` reports the capacity below it
+(`N_RCACHE` at `$3d9f`). REU clipboard storage, suspended apps and a shared
+scheduled driver remain separate roadmap work.
 
 The [banked SDK example](../examples/native-banked/README.md) also runs this
 arena in a retained bank-1 component. Set `RU_BANKED = 1` only under the

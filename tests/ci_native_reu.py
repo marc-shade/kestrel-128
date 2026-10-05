@@ -81,6 +81,19 @@ def main():
         report['cases'].append(dict(name=name,calls=a.calls,dmas=len(a.bus.reu_transactions),**extra))
         print('PASS:',name,flush=True)
     try:
+        # With the kernel module cache (N_RCACHE=16 at $3d9f, set at boot for
+        # 512 KiB or more) the arena stops below the REU's top 64 KiB bank.
+        for kib in (512,1024,16384):
+            a = Arena(image,symbols,kib); a.ram[0x3d9f] = 16
+            top = len(a.bus.reu_ram)-65536; reserved = bytes(a.bus.reu_ram[top:])
+            a.call('open',flags=8)
+            assert a.get('total',2) == kib//4-16
+            token,at = a.alloc(kib//4-16); a.alloc(1,expected=2)
+            a.alloc(1,page=kib//4-16,expected=2)
+            assert at == 0; a.set('handle',token,8); a.set('offset',(kib//4-16)*4096-512,3); a.set('count',512,2)
+            a.ram[0x3a00:0x3c00] = bytes(range(256))*2; a.call('write')
+            assert bytes(a.bus.reu_ram[top:]) == reserved
+            done(f'{kib} KiB with the module cache: arena {kib//4-16} pages, top bank untouched',a)
         for kib in (128,256,512,1024,2048,4096,8192,16384):
             a = Arena(image,symbols,kib)
             original = bytes(a.bus.reu_ram)
