@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gdses.bin -l target/native-desktop/gdses.sym -L target/native-desktop/gdses.lst src/native/gemdesk-ses.asm
-; Sun Oct  4 15:20:38 2026
+; Sun Oct  4 18:37:33 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -190,6 +190,7 @@
 =$77a7					gm_document_launch= $77a7
 =$8814					gm_bm		= $8814
 =$6b3a					gm_next_gap	= $6b3a
+=$3d9f					N_RCACHE	= $3d9f
 =6					N_U_MAC		= 6
 =$62bb					gm_am_row	= $62bb
 =$9f4c					gfx_band_left	= $9f4c
@@ -604,7 +605,7 @@
 =$a577					pm_right	= $a577
 =$8817					gm_bend		= $8817
 =$a79c					nk_codes	= $a79c
-=14					N_ABI_MINOR	= 14
+=15					N_ABI_MINOR	= 15
 =$7182					gm_session_window= $7182
 =$8099					gm_mulrec	= $8099
 =$ab20					bp_iec_name	= $ab20
@@ -1978,7 +1979,7 @@
 .b87d	ca		dex		        dex
 .b87e	10 f2		bpl $b872	        bpl -
 .b880	ad 08 3a	lda $3a08	        lda N_BUFFER+8       ; required native ABI minor
-.b883	c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.b883	c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .b885	b0 f3		bcs $b87a	        bcs bk_bad_image
 .b887	ad 09 3a	lda $3a09	        lda N_BUFFER+9       ; flags
 .b88a	d0 ee		bne $b87a	        bne bk_bad_image
@@ -2332,7 +2333,7 @@
 .bba3	ca		dex		        dex
 .bba4	10 f5		bpl $bb9b	        bpl -
 .bba6	ad 06 3a	lda $3a06	        lda N_BUFFER+6          ; required native ABI minor
-.bba9	c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.bba9	c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .bbab	b0 5f		bcs $bc0c	        bcs bk_attach_bad
 .bbad	ad 07 3a	lda $3a07	        lda N_BUFFER+7          ; flags
 .bbb0	d0 5a		bne $bc0c	        bne bk_attach_bad

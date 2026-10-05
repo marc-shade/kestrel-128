@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native-desktop/gemdesk.prg -l target/native-desktop/gemdesk.sym -L target/native-desktop/gemdesk.lst src/native/gemdesk.asm
-; Sun Oct  4 15:20:27 2026
+; Sun Oct  4 18:37:22 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -11,7 +11,7 @@
 ;******  Processing file: src/native/api.inc
 
 =1						N_ABI_MAJOR = 1
-=14						N_ABI_MINOR = 14
+=15						N_ABI_MINOR = 15
 =$1c20						N_ALLOC         = $1c20
 =$1c23						N_FREE          = $1c23
 =$1c26						N_READ          = $1c26
@@ -77,6 +77,7 @@
 =$3d2c						N_APPFORMAT     = $3d2c          ; launch/source backend: 0 D64 / 1 D71 / 2 D81 / 3 ULT
 =$3d2d						N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4						N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
+=$3d9f						N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
 =$3de5						N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31						N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e						N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
@@ -4899,7 +4900,7 @@
 .8da0		ca		dex		        dex
 .8da1		10 f2		bpl $8d95	        bpl -
 .8da3		ad 08 3a	lda $3a08	        lda N_BUFFER+8       ; required native ABI minor
-.8da6		c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.8da6		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .8da8		b0 f3		bcs $8d9d	        bcs bk_bad_image
 .8daa		ad 09 3a	lda $3a09	        lda N_BUFFER+9       ; flags
 .8dad		d0 ee		bne $8d9d	        bne bk_bad_image
@@ -5253,7 +5254,7 @@
 .90c6		ca		dex		        dex
 .90c7		10 f5		bpl $90be	        bpl -
 .90c9		ad 06 3a	lda $3a06	        lda N_BUFFER+6          ; required native ABI minor
-.90cc		c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.90cc		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .90ce		b0 5f		bcs $912f	        bcs bk_attach_bad
 .90d0		ad 07 3a	lda $3a07	        lda N_BUFFER+7          ; flags
 .90d3		d0 5a		bne $912f	        bne bk_attach_bad
@@ -8362,7 +8363,7 @@
 .af49		ca		dex		        dex
 .af4a		10 f2		bpl $af3e	        bpl -
 .af4c		ad 08 3a	lda $3a08	        lda N_BUFFER+8       ; required native ABI minor
-.af4f		c9 0f		cmp #$0f	        cmp #N_ABI_MINOR+1
+.af4f		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
 .af51		b0 f3		bcs $af46	        bcs bk_bad_image
 .af53		ad 09 3a	lda $3a09	        lda N_BUFFER+9       ; flags
 .af56		d0 ee		bne $af46	        bne bk_bad_image
