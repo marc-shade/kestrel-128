@@ -88,10 +88,41 @@ driver, from a snapshot of this tree):
   and SHCLIP and served 11 of 14 loads. Every `.prg`, `.d64` and `.d81` in
   the commit is byte-identical to the swept snapshot.
 
+## Hardware (2026-10-05)
+
+The reference C128 through its Ultimate II+, with the Ultimate's REU enabled
+at 16 MB, so the kernel reserved the top bank and the cache code ran on every
+boot and module load. Images of commit `9c14a07`.
+
+- Passed: `hw_ultimate_check.py --native-files`, `--native-browser`,
+  `--native-editor`, `--native-ultimate`, `--native-redraw`,
+  `--native-usb-apps`, `--native` and `hw_native_gem_check.py`.
+- `--native` and the GEM check each passed on their second run. The first
+  `--native` run accepted a wrong direct DMA read of the Calculator display
+  (two consecutive REST reads returned the same wrong bytes; the C128's own
+  read in the same capture held `DIV/0`). The first GEM run did not see the
+  Editor start after Return on NOTE; the same GEMDESK workflow passed in VICE
+  with a 16 MB REU, and the hardware rerun passed it.
+- `--native-desktop` did not pass in six runs. One (`r5`) verified all eleven
+  workflow screens and the resident layout at return, then failed the final
+  Ultimate DOS context 2 probe (the context was idle afterwards). The others
+  stopped at different steps: a capture that met a bank-1 service call, a
+  wrong direct read of VDC state, an 80-column mirror sampled before its
+  update, a desktop surface mismatch at boot, and a resident-layout chunk
+  that returned the capture tool's own output buffer. The same check also
+  failed on the two previous builds (`66e0b0c`, before the cache, and
+  `01784c4`, before the kernel-space change), each at another step, so these
+  failures are not from this change; at publication the check passed on its
+  third run.
+- The first sequential run was stopped by the session's two-hour limit inside
+  `--native-ultimate`; `--native-reclaim` removed its seven private files and
+  the drives matched their recorded state.
+
 ## Not verified
 
-- Nothing has run on the physical C128 or a physical REU (VICE and the CPU
-  model only).
+- No hardware check reads `N_RCACHE` or the REU, so cache hits on the
+  physical machine were not observed directly; the hardware runs show only
+  that the system works with the cache enabled.
 - Load times with and without the cache were not measured; VICE ran in warp
   mode. A hit still computes the module CRC (about 150 cycles a byte).
 - A module rebuilt without rebuilding its app core would be served from the
