@@ -6,6 +6,20 @@
 ; +3 mode (0 RAM / 1 VDC), +4 bank (0/1), +5 source word, +7 count word.
 ; Output at $3a00, at most 512 bytes. +9 resynchronization count word.
 ; +11/+12 MMU mode/common registers; +13 interrupted foreground MMU config.
+; +14 host release (nonzero), +15 1 when the hold gave up before a release.
+; $3fee: IRQs that found the foreground busy and left the hook armed.
+;
+; An idle app still runs its own work between input polls (an 80-column
+; app's pointer update calls the bank-1 VDC service through N_BUFFER), so
+; the copy runs only from an IRQ that finds the foreground at its input wait
+; (N_READY = 1) in the native map; any other IRQ passes straight through
+; and the next one tries again. After the copy the probe stays in the IRQ
+; until the host has read $3a00 and put it back, so the foreground never
+; sees the borrow.
+.weak
+HOLD_PAGES = 0                  ; 256 x 65536 polls: about 3 minutes at 1 MHz
+.endweak
+skips = $3fee
 * = $3e00
         php
         pha
@@ -31,6 +45,22 @@
         pha
         lda $02aa
         pha
+        lda $3ffc               ; common RAM: the native 1 KiB bottom area
+        and #15
+        cmp #4
+        bne busy
+        bit $3ffb
+        bvs busy
+        lda $3ffd               ; interrupted map: $00 (nested IRQ) or $0e
+        and #$f1
+        bne busy
+        lda $3d12               ; N_READY: the foreground waits for input
+        cmp #1
+        beq idle
+busy:
+        inc skips
+        jmp restore_registers   ; the hook stays armed for the next IRQ
+idle:
         lda $3ff5
         sta $fb
         lda $3ff6
@@ -173,10 +203,24 @@ restore_failed:
         lda #2
 finish:
         sta $3ff2
+        lda #HOLD_PAGES         ; X and Y count the inner polls
+        sta $fb
+hold:
+        lda $3ffe
+        bne released
+        dex
+        bne hold
+        dey
+        bne hold
+        dec $fb
+        bne hold
+        inc $3fff               ; no release came; the host must not trust $3a00
+released:
         lda $3ff0
         sta $0314
         lda $3ff1
         sta $0315
+restore_registers:
         pla
         sta $02aa
         pla
@@ -226,4 +270,4 @@ ready_ok:
 left: .word 0
 attempts: .byte 0
 oldaddr: .word 0
-        .cerror * > $3ff0, "native capture exceeds private scratch region"
+        .cerror * > skips, "native capture exceeds private scratch region"

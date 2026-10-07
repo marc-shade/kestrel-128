@@ -28,8 +28,12 @@ class LogicalVideo:
 
 
 class TerminalBus(VDC):
-    def __init__(self, parent, present=True, busy=False, tx=True):
+    def __init__(self, parent, present=True, busy=False, tx=True, floating=False):
         self.parent = parent
+        # No ACIA on a real bus: I/O1 reads return whatever the VIC last
+        # fetched. This sequence starts with the pair VICE returned when the
+        # Claude app wrongly reported a busy port (control $e0, command $ff).
+        self.floating = [0xe0, 0xff, 0x01, 0x16, 0x20, 0x7e] if floating else None
         self.video = bytearray((i*31+i//256+19)&255 for i in range(65536))
         self.reg = bytearray(64)
         self.reg[1], self.reg[6], self.reg[9], self.reg[28] = 80, 25, 7, 32
@@ -62,7 +66,11 @@ class TerminalBus(VDC):
         if 0xd800 <= address < 0xdc00:return self.colors[address-0xd800]&15
         if address in self.port: return self.port[address]
         if 0xde00 <= address <= 0xde03:
-            if not self.serial_present: return 255
+            if not self.serial_present:
+                if self.floating:
+                    self.floating.append(self.floating.pop(0))
+                    return self.floating[-1]
+                return 255
             if address == 0xde00:
                 result, self.input = self.input, None
                 return 0 if result is None else result
@@ -221,11 +229,11 @@ def run():
         assert c.ram[0x400:0x7e8] == landing_screen(40) and c.chip.video[:2000] == landing_screen(80)
         c.key(key, exited=True)
     cases.append('landing and cancel avoid serial writes and restore all borrowed state')
-    for opts in ({'present':False}, {'busy':True}):
+    for opts in ({'present':False}, {'busy':True}, {'present':False,'floating':True}):
         c = Client(**opts); c.key(13)
         assert not c.chip.serial_writes
         c.key(0x8c, exited=True)
-    cases.append('absent and already active serial ports remain untouched')
+    cases.append('absent, floating and already active serial ports remain untouched')
     c = Client(); c.key(13)
     assert c.chip.sent == b'\0\1' and c.ram[0x318:0x31a] == b'\xf0\x1b'
     for mapping in (0, 0x0e, 0x3f, 0x7f): c.nmi(5, mapping)

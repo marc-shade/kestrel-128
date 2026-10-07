@@ -119,17 +119,20 @@ class NativeCapture:
                 before_file=filename,before_sha256=hashlib.sha256(before).hexdigest(),
                 source='host observation; not CPU-authoritative metadata')
         result=bytearray()
+        armed=False
         try:
             with self.batch(label+'-install'):
                 self.write(0x3e00,self.prg[2:])
             for offset in range(0,count,512):
                 size=min(512,count-offset)
-                command=oldirq+b'\0'+bytes([mode,bank])+(address+offset).to_bytes(2,'little')+size.to_bytes(2,'little')+bytes(7)
+                # $3fee skip count, then the command; release and hold flag clear.
+                command=b'\0\0'+oldirq+b'\0'+bytes([mode,bank])+(address+offset).to_bytes(2,'little')+size.to_bytes(2,'little')+bytes(7)
                 with self.batch(label+f'-command-{offset:04x}'):
-                    self.write(0x3ff0,command)
-                    self.write(0x314,b'\0\x3e');self.mon.resume()
+                    self.write(0x3fee,command)
+                    self.write(0x314,b'\0\x3e');armed=True;self.mon.resume()
                 time.sleep(self.quiet)
-                wait(lambda:self.read(0x3ff2)!=b'\0','native capture chunk complete',20)
+                # IRQs that find the foreground busy pass through and leave the hook armed.
+                wait(lambda:self.read(0x3ff2)!=b'\0','native capture chunk complete',60)
                 with self.batch(label+f'-result-{offset:04x}'):
                     status=self.read(0x3ff2,12)
                     status_file=f'{label}-chunk-{offset:04x}-status.bin'
@@ -150,6 +153,13 @@ class NativeCapture:
                     (self.work/payload_file).write_bytes(payload)
                     chunk.update(payload_file=payload_file,payload_bytes=len(payload),
                                  payload_sha256=hashlib.sha256(payload).hexdigest())
+                    # The probe still holds the IRQ: put N_BUFFER back before the
+                    # foreground can run, then release it.
+                    self.write(0x3a00,output[:size])
+                    chunk['output_restored']=self.read(0x3a00,size)==output[:size]
+                    chunk['busy_irqs']=self.read(0x3fee)[0]
+                    self.write(0x3ffe,b'\1')
+                    assert chunk['output_restored'],('native output buffer not restored while held',record)
                     assert status[0]==1,record
                     # The native ROM IRQ entry saves the mapping then selects
                     # $00. Its CLI permits a nested IRQ to save $00 legitimately.
@@ -159,17 +169,25 @@ class NativeCapture:
                     assert len(payload)==size,'native capture payload length differs'
                     result.extend(payload)
                 wait(lambda:self.read(0x314,2)==oldirq,'native IRQ vector restored after chunk',20)
+                armed=False
+                assert self.read(0x3fff)==b'\0',('native capture hold gave up before the release',record)
             (self.work/(label+'.bin')).write_bytes(result)
             return bytes(result)
         except BaseException as error:
             record['capture_error']=dict(type=type(error).__name__,message=str(error))
             raise
         finally:
+            if armed:
+                # A failed host step: disarm a probe that never ran and release
+                # one that holds; $3a00 is put back below once it has returned.
+                with self.batch(label+'-disarm'):
+                    self.write(0x314,oldirq);self.write(0x3ffe,b'\1');self.mon.resume()
             wait(lambda:self.read(0x314,2)==oldirq,'native IRQ vector restored',20)
             time.sleep(.1)
             failures=[]
             with self.batch(label+'-restore'):
-                self.write(0x3a00,output);self.write(0x3e00,scratch);self.mon.resume()
+                if armed:self.write(0x3a00,output)
+                self.write(0x3e00,scratch);self.mon.resume()
                 for name,(start,before) in observed_before.items():
                     after=self.read(start,len(before))
                     filename=f'{label}-borrower-{name}-after.bin'

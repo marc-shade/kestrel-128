@@ -653,14 +653,30 @@ _scr_init:
 ; _acia_init: configure the ACIA and hook NMI
 ; ---------------------------------------------------------------------------
 _acia_open:
-        ; Leave an active serial owner untouched. Floating $ff/$ff is absent.
+        ; Leave an active serial owner untouched. Floating $ff/$ff is absent,
+        ; and so is any read that changes: with no ACIA the I/O1 bus returns
+        ; whatever the VIC last fetched, which can look like an active port.
         lda ACIA_CTRL
         sta savedControl
         lda ACIA_CMD
         sta savedCommand
         and savedControl
         cmp #$ff
-        beq @absent
+        beq @floating
+        ldx #15
+@stable:
+        lda ACIA_CTRL
+        cmp savedControl
+        bne @floating
+        lda ACIA_CMD
+        cmp savedCommand
+        bne @floating
+        dex
+        bpl @stable
+        bmi @steady             ; always: X wrapped to $ff
+@floating:
+        jmp @absent
+@steady:
         lda savedCommand
         and #1
         bne @busy

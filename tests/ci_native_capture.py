@@ -33,7 +33,9 @@ class NativeCaptureBus(Bus):
 def check(prg,mode,bank,start,count,fault=None,present=True,interrupted_mmu=0x0e):
     bus=NativeCaptureBus(fault,present); ram=bus.ram[0]
     ram[0x3e00:0x3e00+len(prg)-2]=prg[2:]
-    ram[0x3ff0:0x3ffb]=b'\0\x0b\0'+bytes([mode,bank])+start.to_bytes(2,'little')+count.to_bytes(2,'little')+b'\0\0'
+    ram[0x3fee:0x3ffb]=b'\0\0\0\x0b\0'+bytes([mode,bank])+start.to_bytes(2,'little')+count.to_bytes(2,'little')+b'\0\0'
+    ram[0x3ffe:0x4000]=b'\0\0'
+    ram[0x3d12]=1
     ram[0x314:0x316]=b'\0\x3e'
     ram[0xfb:0xff]=b'\x63\x98\x15\xa7'
     bus.vdc.video[:2000]=bytes((i*73+i//251)&255 for i in range(2000))
@@ -44,10 +46,17 @@ def check(prg,mode,bank,start,count,fault=None,present=True,interrupted_mmu=0x0e
     cpu=MPU(memory=bus,pc=0x2500); cpu.sp=0xc0
     cpu.a,cpu.x,cpu.y,cpu.p=0x5a,0x6d,0x90,0x28
     cpu.irq()
+    held=None
     for steps in range(2000000):
         if cpu.pc==0x2500:break
+        if ram[0x3ff2] and held is None:
+            held=steps                       # status written: the probe now holds
+            for _ in range(5000):cpu.step()
+            assert 0x3e00<=cpu.pc<0x3fee and ram[0x314:0x316]==b'\0\x3e','held until released'
+            ram[0x3ffe]=1
         cpu.step()
     else:raise AssertionError('Native IRQ capture failed to return')
+    assert held is not None and ram[0x3fff]==0 and ram[0x3fee]==0
     assert (cpu.a,cpu.x,cpu.y,cpu.sp,cpu.p&0xcf)==(0x5a,0x6d,0x90,0xc0,8)
     assert bus.config==interrupted_mmu and ram[0x314:0x316]==b'\0\x0b'
     assert ram[0x3ffb:0x3ffe]==bytes([0xb7,4,interrupted_mmu])
@@ -67,24 +76,80 @@ def check(prg,mode,bank,start,count,fault=None,present=True,interrupted_mmu=0x0e
     return dict(code=result,address_resyncs=resyncs,instructions=steps)
 
 
+def busy(prg,why):
+    """An IRQ that finds the foreground away from its input wait, in another
+    map or with another common RAM setting passes through untouched."""
+    bus=NativeCaptureBus(); ram=bus.ram[0]
+    ram[0x3e00:0x3e00+len(prg)-2]=prg[2:]
+    ram[0x3fee:0x3ffb]=b'\0\0\0\x0b\0\0\0\0\x40\0\2\0\0'
+    ram[0x3ffe:0x4000]=b'\0\0'
+    ram[0x3d12]=0 if why=='not-ready' else 1
+    if why=='common':bus.mmu[6]=7
+    if why=='mode':bus.mmu[5]|=0x40
+    interrupted={'bank-1-map':0x7f,'all-ram-map':0x3f}.get(why,0x0e)
+    ram[0x314:0x316]=b'\0\x3e'
+    ram[0xfb:0xff]=b'\x63\x98\x15\xa7'
+    before=bytes(ram[0x1300:0x3fee])
+    bus.config=interrupted
+    cpu=MPU(memory=bus,pc=0x2500); cpu.sp=0xc0
+    cpu.a,cpu.x,cpu.y,cpu.p=0x5a,0x6d,0x90,0x28
+    cpu.irq()
+    for steps in range(200000):
+        if cpu.pc==0x2500:break
+        cpu.step()
+    else:raise AssertionError('busy IRQ did not return')
+    assert (cpu.a,cpu.x,cpu.y,cpu.sp,cpu.p&0xcf)==(0x5a,0x6d,0x90,0xc0,8)
+    assert bus.config==interrupted and ram[0xb10]==1 and ram[0xfb:0xff]==b'\x63\x98\x15\xa7'
+    assert ram[0x314:0x316]==b'\0\x3e','the hook stays armed'
+    assert ram[0x3fee]==1 and ram[0x3ff2]==0 and ram[0x3fff]==0
+    assert bytes(ram[0x1300:0x3fee])==before and not bus.far_writes
+    return dict(skipped=True,instructions=steps)
+
+
+def unreleased(prg):
+    """A host that never releases: the hold gives up, flags it and returns."""
+    bus=NativeCaptureBus(); ram=bus.ram[0]
+    ram[0x3e00:0x3e00+len(prg)-2]=prg[2:]
+    ram[0x3fee:0x3ffb]=b'\0\0\0\x0b\0\0\0\0\x40\x10\0\0\0'
+    ram[0x3ffe:0x4000]=b'\0\0'
+    ram[0x3d12]=1
+    ram[0x314:0x316]=b'\0\x3e'
+    cpu=MPU(memory=bus,pc=0x2500); cpu.sp=0xc0; cpu.p=0x20
+    cpu.irq()
+    for steps in range(2000000):
+        if cpu.pc==0x2500:break
+        cpu.step()
+    else:raise AssertionError('an unreleased hold did not give up')
+    assert ram[0x3ff2]==1 and ram[0x3fff]==1 and ram[0x314:0x316]==b'\0\x0b'
+    assert bytes(ram[0x3a00:0x3a10])==bytes(bus.ram[0][0x4000:0x4010])
+    return dict(gave_up=True,instructions=steps)
+
+
 class CaptureMonitor:
     """Run the actual IRQ probe when the host installs its vector."""
     def __init__(self,fail_chunk=None):
         self.bus=NativeCaptureBus();self.ram=self.bus.ram[0]
         self.ram[0x3d11:0x3d13]=b'\0\1';self.ram[0xd0]=0
         self.bus.vdc.video[:2000]=bytes((i*73+i//251)&255 for i in range(2000))
-        self.chunks=0;self.fail_chunk=fail_chunk
+        self.chunks=0;self.fail_chunk=fail_chunk;self.cpu=None
 
     def read_mem(self,start,end):return bytes(self.ram[start:end+1])
     def write_mem(self,start,data):self.ram[start:start+len(data)]=data
     def resume(self):
-        if self.ram[0x314:0x316]!=b'\0\x3e':return
-        self.chunks+=1
-        if self.chunks==self.fail_chunk:self.bus.vdc.fault='always'
-        cpu=MPU(memory=self.bus,pc=0x2500);cpu.sp=0xc0;cpu.p=0x20
-        cpu.irq()
+        # One IRQ per resume; a probe that holds keeps the CPU here until the
+        # host has written its release and resumes again.
+        if self.cpu is None:
+            if self.ram[0x314:0x316]!=b'\0\x3e':return
+            self.chunks+=1
+            if self.chunks==self.fail_chunk:self.bus.vdc.fault='always'
+            self.cpu=MPU(memory=self.bus,pc=0x2500);self.cpu.sp=0xc0;self.cpu.p=0x20
+            self.cpu.irq()
+        cpu=self.cpu
         for _ in range(200000):
-            if cpu.pc==0x2500:return
+            if cpu.pc==0x2500:
+                self.cpu=None;return
+            if self.ram[0x3ff2] and not self.ram[0x3ffe] and 0x3e00<=cpu.pc<0x3fee:
+                return
             cpu.step()
         raise AssertionError('host capture IRQ did not return')
 
@@ -133,7 +198,15 @@ def main():
         subprocess.run(['64tass','-a',str(ROOT/'probes/native-read.asm'),'-o',str(output)],check=True,capture_output=True)
         prg=output.read_bytes()
     assert prg[:2]==b'\0\x3e' and len(prg)-2<=0x1f0
+    with tempfile.TemporaryDirectory(prefix='kestrel-native-capture-hold-') as folder:
+        short=Path(folder)/'probe-short-hold.prg'
+        subprocess.run(['64tass','-a','-D','HOLD_PAGES=1',str(ROOT/'probes/native-read.asm'),'-o',str(short)],
+                       check=True,capture_output=True)
+        short=short.read_bytes()
     cases={}
+    for why in ('not-ready','bank-1-map','all-ram-map','common','mode'):
+        cases['busy-'+why]=busy(prg,why)
+    cases['hold-gives-up']=unreleased(short)
     for bank in (0,1):
         for start,count in ((0x1300,512),(0x4000,512),(0xcf80,512),(0xe000,512),(0xfef0,16)):
             cases[f'ram-{bank}-{start:04x}']=check(prg,0,bank,start,count)

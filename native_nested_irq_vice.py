@@ -57,12 +57,13 @@ class NestedMonitor(PausedViceMonitor):
         return self.await_pc(address)
 
     def enter_rom_irq(self):
-        # This one-shot entry occupies the probe's unused tail. It restores
-        # the real vector before entering the unmodified ROM IRQ handler.
+        # This one-shot entry runs from the end of the borrowed output buffer
+        # (the probe fills $3e00..$3fed), which the capture puts back. It
+        # restores the real vector before entering the unmodified ROM IRQ handler.
         assert bytes(self.monitor.read_mem(0x314,0x315))==b'\x65\xfa'
-        self.monitor.write_mem(0x3fd0,bytes.fromhex('a9658d1403a9fa8d15034c65fa'))
-        self.monitor.write_mem(0x314,b'\xd0\x3f')
-        self.reach(0x3fd0)
+        self.monitor.write_mem(0x3bf0,bytes.fromhex('a9658d1403a9fa8d15034c65fa'))
+        self.monitor.write_mem(0x314,b'\xf0\x3b')
+        self.reach(0x3bf0)
         trace=[]
         for _ in range(80):
             registers=self.registers();pc=registers['PC']

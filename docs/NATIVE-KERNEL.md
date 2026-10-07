@@ -300,6 +300,14 @@ of the native disk, uses a native IRQ observer for RAM1/VDC readback, then puts
 drive A's image and mode back, deletes its upload and resets the C128
 (`hw_session.py`). It does not change drive B.
 Probe RAM and IRQ state are restored and checked after each observation.
+The observer (`probes/native-read.asm`) borrows `N_BUFFER`, which an idle
+80-column app still uses between input polls (its pointer update calls the
+bank-1 VDC service through it). So it copies only from an IRQ that finds the
+foreground at its input wait (`N_READY` = 1) in the native map with the native
+common RAM setting; other IRQs pass through and leave it armed. After the copy
+it stays in the IRQ until the host has read the result and put `N_BUFFER`
+back, then returns; a hold the host never releases gives up after about three
+minutes and says so.
 
 The [checkpoint record](validation/2026-09-09-native-kernel/README.md) records
 exact images, test limits and physical results. Per-model C128D/DCR/ROM coverage,

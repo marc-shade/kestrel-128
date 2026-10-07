@@ -107,12 +107,12 @@ def run(selected="all"):
         c.click(2,exited=True);c.restored();assert not c.chip.serial_writes
         done('mouse launch page, both complete panel pages, Desktop and ownership restoration',c)
 
-        for options in ({'present':False},{'busy':True}):
+        for options in ({'present':False},{'busy':True},{'present':False,'floating':True}):
             c = GraphicalClient(**options);c.frame();c.click(0);c.check()
             assert c.value('cg_top') == 9 and not c.chip.serial_writes
             assert c.chip.video[:2000] == landing_screen(80,2 if 'present' in options else 1)
             c.key(27,exited=True);c.restored()
-        done('busy and absent ports preserve ownership and show their entire error',c)
+        done('busy, absent and floating ports preserve ownership and show their entire error',c)
 
         c = GraphicalClient();c.frame();c.click(0);c.check()
         assert c.value('cg_live') == 1 and c.chip.sent == b'\0\1'
