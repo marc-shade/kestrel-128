@@ -29,11 +29,12 @@ def hashes():
     return {str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 
 
-def quiet_boot(label):
-    print(f'{label}: waiting 60 seconds for IEC before any RAM DMA',flush=True)
-    time.sleep(30)
+def quiet_boot(label,seconds=60):
+    # A RAM DMA read stalls the CPU and can corrupt a bit-timed IEC load.
+    print(f'{label}: waiting {seconds} seconds for IEC before any RAM DMA',flush=True)
+    time.sleep(seconds/2)
     print(f'{label}: continuing quiet boot interval',flush=True)
-    time.sleep(30)
+    time.sleep(seconds-seconds/2)
 
 
 def run(ult,*,dos_contexts=False):

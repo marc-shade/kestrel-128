@@ -240,7 +240,9 @@ def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
             path=session.upload(disk.read_bytes(),'a','d64','readonly',retrieve=True)
             assert re.fullmatch(r'/Temp/temp[0-9a-fA-F]{4}',path),path
             report['native_disk_upload_path']=path;save()
-            ult.reset();quiet_boot('Native desktop boot')
+            # The desktop loads its VDC service last: at real speed from a
+            # true 1541 (VICE, 2026-10-07) its VDC opened 171 s after power-on.
+            ult.reset();quiet_boot('Native desktop boot',240)
             workflow(mon,capture,work,disk,report,save)
         except BaseException as error:
             report['native_error']=str(error);save()

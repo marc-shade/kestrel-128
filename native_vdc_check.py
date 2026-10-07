@@ -100,16 +100,30 @@ def capture_frame(capture, read_app, canvas, folder, label, selected, *, color=N
     if color is not None: assert actual_color == color
     base, pages = (0x4000,72) if actual_color else (0,64)
     assert state[5:] == bytes((base>>8,pages))
-    point = bytes(read_app(symbol('vd_pointer_visible'), 4))
-    visible, x, y = bool(point[0]), int.from_bytes(point[1:3],'little')*2, point[3]
-    def region(name, address, count):
-        data = b''.join(capture.capture(label+'-'+name+f'-{offset:04x}',mode=1,
+    def region(name, address, count, tag=label):
+        data = b''.join(capture.capture(tag+'-'+name+f'-{offset:04x}',mode=1,
             address=address+offset,count=min(2000,count-offset)) for offset in range(0,count,2000))
-        (folder/(label+'-'+name+'.bin')).write_bytes(data)
+        (folder/(tag+'-'+name+'.bin')).write_bytes(data)
         return data
-    expected = (pointer_bitmap(bitmap(selected,error),x,y,visible) if surface_data is None else
-                mirror_bitmap(surface_data,actual_color,x=x//2,y=y,pointer=visible))
-    actual = region('vdc-bitmap',base,16000)
+    # The bitmap takes many captures, and a physical 1351 can drift a row
+    # while it is read. The app's drawn-pointer state is read through the IRQ
+    # observer before and after; an attempt whose pointer moved is retaken,
+    # and an attempt with a steady pointer must match exactly.
+    pointer_moves = []
+    for attempt in range(3):
+        tag = label if not attempt else f'{label}-retry{attempt}'
+        point = capture.capture(tag+'-pointer-before', address=symbol('vd_pointer_visible'), count=4)
+        visible, x, y = bool(point[0]), int.from_bytes(point[1:3],'little')*2, point[3]
+        expected = (pointer_bitmap(bitmap(selected,error),x,y,visible) if surface_data is None else
+                    mirror_bitmap(surface_data,actual_color,x=x//2,y=y,pointer=visible))
+        actual = region('vdc-bitmap',base,16000,tag)
+        after = capture.capture(tag+'-pointer-after', address=symbol('vd_pointer_visible'), count=4)
+        if after == point:
+            break
+        pointer_moves.append(dict(attempt=attempt, before=point.hex(), after=after.hex(),
+                                  bitmap_matched=actual == expected))
+    else:
+        raise AssertionError(('VDC pointer moved during every bitmap capture', label, pointer_moves))
     assert actual == expected, ('VDC bitmap',label,[(i,a,b) for i,(a,b) in enumerate(zip(actual,expected)) if a!=b][:16])
     if actual_color:
         assert region('vdc-attributes',0x8000,2000) == (attributes(selected) if surface_data is None else mirror_attributes(surface_data))
@@ -126,5 +140,5 @@ def capture_frame(capture, read_app, canvas, folder, label, selected, *, color=N
             rows = mirror_pixels(surface_data,actual_color,x=x//2,y=y,pointer=visible)
         rectangle = check_canvas(raw,rows)
     return dict(label=label,selected=selected,error=error,color=actual_color,position=[x,y],
-                pointer_visible=visible,rectangle=rectangle,bitmap_sha256=hashlib.sha256(expected).hexdigest(),
+                pointer_visible=visible,pointer_moves=pointer_moves,rectangle=rectangle,bitmap_sha256=hashlib.sha256(expected).hexdigest(),
                 pixels=128000 if canvas is not None else 0,snapshot_pages=pages)

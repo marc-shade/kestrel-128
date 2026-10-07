@@ -56,7 +56,7 @@ def main():
             with patch.object(lifecycle.tempfile,'mkdtemp',return_value=str(work)), \
                  patch.object(lifecycle,'NativeCapture',Capture), \
                  patch.object(lifecycle,'HardwareSession',session), \
-                 patch.object(lifecycle,'quiet_boot',lambda _:None):
+                 patch.object(lifecycle,'quiet_boot',lambda *_:None):
                 try:lifecycle.run(m,workflow=workflow,cleanup_after_failure=fault!='keep-on-failure',
                                   expected_images=images,preflight=preflight)
                 except (RuntimeError,AssertionError) as error:
