@@ -8,9 +8,10 @@ eg_select_surface:
         dex
         bpl -
         rts
+; N_READY stays published unless the sync has VDC work: vd_open, vd_close,
+; vm_present and vd_poll clear it themselves before they use N_BUFFER, the
+; bank-1 service or the VDC, so an idle pass leaves the Editor observable.
 eg_vdc_sync:
-        lda #0
-        sta N_READY
         lda eg_bitmap
         bne eg_graphical_pointer
         lda ed_module_kind
@@ -29,13 +30,15 @@ eg_vdc_sync:
 eg_graphical_pointer:
         lda pm_seen
         sta eg_pointer_visible
-        lda pm_x
-        sta eg_pointer_x
-        lda pm_x+1
-        sta eg_pointer_x+1
-        lda pm_y
+        ldx #2                ; pm_x, pm_y and eg_pointer_x, eg_pointer_y are adjacent
+-       lda pm_x,x
+        sta eg_pointer_x,x
+        dex
+        bpl -
+        bmi eg_pointer_copied
 eg_pointer_y_ready:
         sta eg_pointer_y
+eg_pointer_copied:
         lda eg_vdc_attempted
         bne eg_vdc_present
         inc eg_vdc_attempted
@@ -131,6 +134,7 @@ eg_repair_text:
         beq eg_vdc_return
         lda #0
         sta eg_text_pending
+        sta N_READY
         jmp ed_show
 eg_text_pending: .byte 0
 eg_vdc_attempted: .byte 0

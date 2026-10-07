@@ -23,8 +23,8 @@ from native_mode_capture import NativeModeCapture
 from native_browser_check import disk_records,browser_screen
 from native_editor_scene import surface as editor_surface,console as editor_console
 from launcher_scene import surface,console
-from native_calc_scene import surface as calc_surface
-from native_files_scene import browser_surface as files_surface,browser_console as files_console
+from native_calc_scene import surface as calc_surface,BUTTONS as calc_buttons
+from native_files_scene import browser_surface as files_surface,browser_console as files_console,RECTS as files_rects
 from hwlib import lst_symbol
 from native_vdc_check import capture_frame as vdc_frame
 
@@ -36,6 +36,11 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     def read(address,count=1):
         data=bytes(mon.read_mem(address,address+count-1));mon.resume();return data
     def ready():return read(0x3d12)==b'\1' and read(0xd0,2)==bytes(2)
+    app_reads=iter(range(1<<30))
+    def app_byte(app,name):
+        # App RAM at $4000 and above lies under BASIC ROM in the IRQ/KERNAL
+        # map; a direct host read there can return ROM, so read it on the C128.
+        return capture.capture(f'{app}-{name}-{next(app_reads)}',address=lst_symbol('native-desktop/'+app,name),count=1)
     def key(value):
         wait(ready,'native desktop/app idle',180)
         start=time.monotonic();notice=start;previous=None
@@ -67,16 +72,30 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     def vdc(label,selected,wanted=None,app='desktop'):
         return vdc_frame(capture,read,None,work,label,selected,surface_data=wanted,image_prefix='native-desktop/'+app)
     def calculator(label,result,history):
-        assert read(lst_symbol('native-desktop/calc','cg_bitmap'))==b'\1'
-        actual=b''.join(capture.capture(label+f'-surface-{offset:04x}',address=0xc000+offset,
-                       count=min(2000,9216-offset)) for offset in range(0,9216,2000))
+        assert app_byte('calc','cg_bitmap')==b'\1'
+        # Focus follows the 1351 pointer, and its start (160,160) is the bottom
+        # edge of the + button, so a one-row drift moves the focus. Like the
+        # VICE and Py65 checks, compare with the app's own selection, read on
+        # the C128 before and after the bitmap (retaken if it changed).
+        focus_moves=[]
+        for attempt in range(3):
+            tag=label if not attempt else f'{label}-retry{attempt}'
+            selected=app_byte('calc','ui_selected')[0]
+            actual=b''.join(capture.capture(tag+f'-surface-{offset:04x}',address=0xc000+offset,
+                           count=min(2000,9216-offset)) for offset in range(0,9216,2000))
+            after=app_byte('calc','ui_selected')[0]
+            if after==selected:break
+            focus_moves.append(dict(attempt=attempt,before=selected,after=after))
+        else:raise AssertionError((label,'calculator focus moved during every capture',focus_moves))
+        assert selected<len(calc_buttons),(label,'calculator selection',selected)
         (work/(label+'-surface.bin')).write_bytes(actual)
-        assert actual==calc_surface(result,history),(label,'calculator bitmap')
+        assert actual==calc_surface(result,history,selected=selected),(label,'calculator bitmap',selected)
         mirror=vdc(label,0,actual,'calc')
         registers=modes.snapshot(label+'-mode')
         assert registers['vic_d011']&0x7f==0x3b
-        assert registers['vic_sprites']==(3 if read(lst_symbol('native-desktop/calc','pm_seen'))==b'\1' else 0)
-        report.setdefault('calculator_frames',[]).append(dict(label=label,result=result,history=history,registers=registers,vdc=mirror))
+        assert registers['vic_sprites']==(3 if app_byte('calc','pm_seen')==b'\1' else 0)
+        report.setdefault('calculator_frames',[]).append(dict(label=label,result=result,history=history,selected=selected,
+            focus_moves=focus_moves,registers=registers,vdc=mirror))
         save();print('Verified graphical calculator RAM and VDC:',label,flush=True)
     def editor(label,data,cursor,**expected):
         assert capture.capture(label+'-bitmap-active',address=lst_symbol('native-desktop/editor','eg_bitmap'),count=1)==b'\1'
@@ -92,17 +111,28 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
             surface_sha256=hashlib.sha256(actual).hexdigest(),vdc=mirror))
         save();print('Verified graphical editor RAM and VDC:',label,flush=True)
     def files(label):
-        assert read(lst_symbol('native-desktop/files','fg_bitmap'))==b'\1'
+        assert app_byte('files','fg_bitmap')==b'\1'
         entries=disk_records(disk.read_bytes())
-        actual=b''.join(capture.capture(label+f'-surface-{offset:04x}',address=0xc000+offset,
-            count=min(2000,9216-offset)) for offset in range(0,9216,2000))
+        # Focus follows the pointer here too: the start (160,160) is the bottom
+        # edge of a Files control, so read the app's focus around the bitmap.
+        focus_moves=[]
+        for attempt in range(3):
+            tag=label if not attempt else f'{label}-retry{attempt}'
+            focus=app_byte('files','ui_selected')[0]
+            actual=b''.join(capture.capture(tag+f'-surface-{offset:04x}',address=0xc000+offset,
+                count=min(2000,9216-offset)) for offset in range(0,9216,2000))
+            after=app_byte('files','ui_selected')[0]
+            if after==focus:break
+            focus_moves.append(dict(attempt=attempt,before=focus,after=after))
+        else:raise AssertionError((label,'Files focus moved during every capture',focus_moves))
+        assert focus<len(files_rects),(label,'Files focus',focus)
         (work/(label+'-surface.bin')).write_bytes(actual)
-        assert actual==files_surface(entries),(label,'Files bitmap')
+        assert actual==files_surface(entries,focus=focus),(label,'Files bitmap',focus)
         mirror=vdc(label,0,actual,'files')
         registers=modes.snapshot(label+'-mode')
         assert registers['vic_d011']&0x7f==0x3b
-        assert registers['vic_sprites']==(3 if read(lst_symbol('native-desktop/files','pm_seen'))==b'\1' else 0)
-        report.setdefault('files_frames',[]).append(dict(label=label,selected=0,focus=11,registers=registers,
+        assert registers['vic_sprites']==(3 if app_byte('files','pm_seen')==b'\1' else 0)
+        report.setdefault('files_frames',[]).append(dict(label=label,selected=0,focus=focus,focus_moves=focus_moves,registers=registers,
             surface_sha256=hashlib.sha256(actual).hexdigest(),vdc=mirror))
         save();print('Verified graphical Files RAM and VDC:',label,flush=True)
     def desktop(label,selected=0):
@@ -116,7 +146,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
         scene=vdc(label,selected)
         registers=modes.snapshot(label+'-mode')
         assert registers['vic_d011']&0x7f==0x3b and registers['vic_d016']&0x1f==8 and registers['vic_d018']&0xfe==0x80
-        assert registers['vic_irq_mask']&15==1 and registers['vic_sprites']==(3 if read(lst_symbol('native-desktop/desktop','pm_seen'))==b'\1' else 0)
+        assert registers['vic_irq_mask']&15==1 and registers['vic_sprites']==(3 if app_byte('desktop','pm_seen')==b'\1' else 0)
         assert registers['cia2_port']&3==0 and registers['cia2_ddr']&3==3
         assert registers['foreground_mmu'] in (0,0x0e) and not registers['mode']&0x40 and registers['common']&15==4
         assert (registers['cpu_ddr'],registers['cpu_port'])==(0x2f,0x75) and registers['text_graphics']==255
@@ -127,7 +157,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
         # Since c4647f7 the desktop also owns the VDSVC component and, unless
         # the REU backs it, the main-RAM VDC snapshot (64 mono / 72 colour pages).
         service_pages=(ROOT/'target/native-desktop/vdsvc.prg').read_bytes()[12]
-        snapshot_pages=0 if read(lst_symbol('native-desktop/desktop','vs_reu'))==b'\1' else scene['snapshot_pages']
+        snapshot_pages=0 if app_byte('desktop','vs_reu')==b'\1' else scene['snapshot_pages']
         assert heap[0x50:0xff].count(0)+heap[0x104:0x1ff].count(0)==426-36-app_pages-service_pages-snapshot_pages
         report['desktops'].append(dict(label=label,selected=selected,surface_bytes=9216,
             surface_sha256=hashlib.sha256(actual).hexdigest(),vdc=scene,irq_advanced=True,registers=registers,
@@ -201,7 +231,7 @@ def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
     print(f'Native {"capture transport" if focused else "desktop"} hardware evidence: {work}',flush=True)
     disk=work/'native.d64';shutil.copyfile(ROOT/'target/native-desktop/kestrel.d64',disk)
     if expected_images is None:
-        expected_images=dict(disk='1e7e1dcc59d301210f2ecc4dde45458f9b88ff015b79b889be46a80386e00388',
+        expected_images=dict(disk='2dc498e35945e8a9968d1561c2efffb5216e9713fdcded7223514e6b89d72599',
                              kernel='e940e95b3ffea1ef5bcb5939c685a7731843c9f7ac1fb61b0d0a6b9b95ecf9a2')
     assert set(expected_images)=={'disk','kernel'} and all(re.fullmatch(r'[0-9a-f]{64}',v) for v in expected_images.values())
     assert hashlib.sha256(disk.read_bytes()).hexdigest()==expected_images['disk']

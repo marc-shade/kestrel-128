@@ -93,7 +93,9 @@ def saved_region(capture, read_app, folder, label, *, address=0x3000, count=4096
 def capture_frame(capture, read_app, canvas, folder, label, selected, *, color=None, error=0,
                   surface_data=None, image_prefix='native-desktop/desktop'):
     symbol = lambda name: lst_symbol(image_prefix, name)
-    state = bytes(read_app(symbol('vd_phase'), 7))
+    # Through the IRQ observer: a direct host read during an IRQ or KERNAL
+    # call returns ROM (the Ultimate reads through the live memory map).
+    state = capture.capture(label+'-vdc-state', address=symbol('vd_phase'), count=7)
     (folder/(label+'-vdc-state.bin')).write_bytes(state)
     assert state[:2] == b'\2\1' and state[3] == 0, ('VDC phase/live/fault', state.hex())
     actual_color = bool(state[2])

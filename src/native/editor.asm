@@ -125,10 +125,16 @@ ed_source_ready:
         jmp ed_refresh
 cloop:
 .if NATIVE_EDITOR_GRAPHICS
+        ; dm_ensure works only after a key path reset it (N_READY clear), and
+        ; eg_repair_text clears N_READY before it redraws.
         jsr dm_ensure
         jsr eg_repair_text
-.endif
+        lda vm_pending        ; rows the VIC shows but a live VDC does not yet:
+        and vd_live           ; this pass presents them, the next one publishes
+        eor #1
+.else
         lda #1
+.endif
         sta N_READY
 ed_get_key:
 .if NATIVE_EDITOR_GRAPHICS
@@ -1396,8 +1402,7 @@ ed_tens:
         tax
         pla
         jsr ed_puts
-        jsr ed_clear_tail
-        rts
+        jmp ed_clear_tail
 
 ed_select_screen:
 .if NATIVE_EDITOR_GRAPHICS
