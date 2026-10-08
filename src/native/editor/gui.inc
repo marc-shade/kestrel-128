@@ -1340,4 +1340,5 @@ eg_maps: .byte 1,1,5,1,34,2,5,0,0,40
 .include "../graphics/buttons.inc"
 .include "../graphics/graphics-core.inc"
 .include "../graphics/text-core.inc"
+pm_start = 124               ; clear of every control here (native_*_scene RECTS)
 .include "../input/pointer.inc"

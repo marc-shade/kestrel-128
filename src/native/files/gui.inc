@@ -1452,4 +1452,5 @@ fm_status=FC_DATA_STORAGE+256
 .include "../graphics/buttons.inc"
 .include "../graphics/graphics-core.inc"
 .include "../graphics/text-core.inc"
+pm_start = 172               ; clear of every control here (native_*_scene RECTS)
 .include "../input/pointer.inc"

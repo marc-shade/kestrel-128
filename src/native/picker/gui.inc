@@ -984,5 +984,6 @@ pg_font: .binary "../graphics/font8.bin"
 pgm_control_count=20
 pgm_select_surface=pg_surface
 pgm_find_hit=pg_hit
+pgm_start = 52               ; clear of every control here (native_*_scene RECTS)
 .include "pointer.inc"
 .endif

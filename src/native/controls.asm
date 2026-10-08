@@ -853,6 +853,7 @@ uc_data=$5000
 ui_selected: .byte 0
 .include "graphics/graphics-core.inc"
 .include "graphics/text-core.inc"
+pm_start = 60               ; clear of every control here (native_*_scene RECTS)
 .include "input/pointer.inc"
 drive_picker .block
 FD_EMBEDDED=1

@@ -510,6 +510,7 @@ cg_save .block
 ui_selected: .byte 14
 .include "../graphics/graphics-core.inc"
 .include "../graphics/text-core.inc"
+pm_start = 172               ; clear of every control here (native_*_scene RECTS)
 .include "../input/pointer.inc"
 vm_select_surface=cg_select_surface
 BP_MODE=0

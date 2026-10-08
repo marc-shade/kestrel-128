@@ -7,6 +7,11 @@
 ; The two pointer sprites use the owned surface's unused bitmap/pointer tail.
 ; Call pgm_close before any display close, replacement or workspace return.
 .weak
+pgm_start = 160                ; start x and y. A hovered control takes focus when the
+                              ; pointer moves, so an app whose controls cover this point
+                              ; sets its own, clear of them (a physical 1351 drifts).
+.endweak
+.weak
 PM_KEYS_OWNED=0
 PM_KEYS_EXTERNAL=0
 PM_SECONDARY=0
@@ -62,7 +67,7 @@ pgm_install:
         sta pgm_buttons
         sta pgm_pending
         sta pgm_x+1
-        lda #160
+        lda #pgm_start
         sta pgm_x
         sta pgm_y
         lda #$ff

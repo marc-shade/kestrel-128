@@ -73,10 +73,10 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
         return vdc_frame(capture,read,None,work,label,selected,surface_data=wanted,image_prefix='native-desktop/'+app)
     def calculator(label,result,history):
         assert app_byte('calc','cg_bitmap')==b'\1'
-        # Focus follows the 1351 pointer, and its start (160,160) is the bottom
-        # edge of the + button, so a one-row drift moves the focus. Like the
-        # VICE and Py65 checks, compare with the app's own selection, read on
-        # the C128 before and after the bitmap (retaken if it changed).
+        # Focus follows a moving 1351 pointer onto any control it covers. The
+        # app starts the pointer clear of every control (pm_start), but compare
+        # with its own selection like the VICE and Py65 checks, read on the
+        # C128 before and after the bitmap (retaken if it changed).
         focus_moves=[]
         for attempt in range(3):
             tag=label if not attempt else f'{label}-retry{attempt}'
@@ -113,8 +113,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     def files(label):
         assert app_byte('files','fg_bitmap')==b'\1'
         entries=disk_records(disk.read_bytes())
-        # Focus follows the pointer here too: the start (160,160) is the bottom
-        # edge of a Files control, so read the app's focus around the bitmap.
+        # Focus follows the pointer here too; read the app's focus around the bitmap.
         focus_moves=[]
         for attempt in range(3):
             tag=label if not attempt else f'{label}-retry{attempt}'
@@ -231,7 +230,7 @@ def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
     print(f'Native {"capture transport" if focused else "desktop"} hardware evidence: {work}',flush=True)
     disk=work/'native.d64';shutil.copyfile(ROOT/'target/native-desktop/kestrel.d64',disk)
     if expected_images is None:
-        expected_images=dict(disk='2dc498e35945e8a9968d1561c2efffb5216e9713fdcded7223514e6b89d72599',
+        expected_images=dict(disk='ba686ea3bd52b71c45d68eca0538684d15aece6d446da33564df0d5528eef323',
                              kernel='e940e95b3ffea1ef5bcb5939c685a7731843c9f7ac1fb61b0d0a6b9b95ecf9a2')
     assert set(expected_images)=={'disk','kernel'} and all(re.fullmatch(r'[0-9a-f]{64}',v) for v in expected_images.values())
     assert hashlib.sha256(disk.read_bytes()).hexdigest()==expected_images['disk']
