@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native-desktop/gemdesk.prg -l target/native-desktop/gemdesk.sym -L target/native-desktop/gemdesk.lst src/native/gemdesk.asm
-; Wed Oct  7 12:21:36 2026
+; Wed Oct  7 17:23:26 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -7047,6 +7047,7 @@
 
 ;******  Processing file: src/native/input/pointer.inc
 
+=160						pm_start = 160                ; start x and y. A hovered control takes focus when the
 =0						PM_KEYS_OWNED=0
 =0						PM_KEYS_EXTERNAL=0
 =0						PM_SECONDARY=0
@@ -7100,7 +7101,7 @@
 .a400		8d 73 a6	sta $a673	        sta pm_buttons
 .a403		8d 6a a6	sta $a66a	        sta pm_pending
 .a406		8d 6d a6	sta $a66d	        sta pm_x+1
-.a409		a9 a0		lda #$a0	        lda #160
+.a409		a9 a0		lda #$a0	        lda #pm_start
 .a40b		8d 6c a6	sta $a66c	        sta pm_x
 .a40e		8d 6e a6	sta $a66e	        sta pm_y
 .a411		a9 ff		lda #$ff	        lda #$ff

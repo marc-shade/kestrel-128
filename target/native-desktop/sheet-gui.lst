@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -o target/native-desktop/sheet-build/gui.bin -l target/native-desktop/sheet-gui.sym -L target/native-desktop/sheet-gui.lst src/native/sheet/gui.asm
-; Wed Oct  7 12:21:36 2026
+; Wed Oct  7 17:23:26 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -542,6 +542,7 @@
 
 ;******  Processing file: src/native/sheet/../input/pointer.inc
 
+=160						pm_start = 160                ; start x and y. A hovered control takes focus when the
 =0						PM_KEYS_OWNED=0
 =0						PM_KEYS_EXTERNAL=0
 =0						PM_SECONDARY=0
@@ -595,7 +596,7 @@
 .63f9		8d 6c 66	sta $666c	        sta pm_buttons
 .63fc		8d 63 66	sta $6663	        sta pm_pending
 .63ff		8d 66 66	sta $6666	        sta pm_x+1
-.6402		a9 a0		lda #$a0	        lda #160
+.6402		a9 a0		lda #$a0	        lda #pm_start
 .6404		8d 65 66	sta $6665	        sta pm_x
 .6407		8d 67 66	sta $6667	        sta pm_y
 .640a		a9 ff		lda #$ff	        lda #$ff

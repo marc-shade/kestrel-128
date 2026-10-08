@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native-desktop/paint.prg -l target/native-desktop/paint.sym -L target/native-desktop/paint.lst src/native/paint.asm
-; Wed Oct  7 12:21:36 2026
+; Wed Oct  7 17:23:27 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -4637,6 +4637,7 @@
 
 ;******  Processing file: src/native/input/pointer.inc
 
+=160						pm_start = 160                ; start x and y. A hovered control takes focus when the
 =0						PM_KEYS_OWNED=0
 =0						PM_KEYS_EXTERNAL=0
 =0						PM_SECONDARY=0
@@ -4689,7 +4690,7 @@
 .8c9f		8d 10 8f	sta $8f10	        sta pm_buttons
 .8ca2		8d 07 8f	sta $8f07	        sta pm_pending
 .8ca5		8d 0a 8f	sta $8f0a	        sta pm_x+1
-.8ca8		a9 a0		lda #$a0	        lda #160
+.8ca8		a9 a0		lda #$a0	        lda #pm_start
 .8caa		8d 09 8f	sta $8f09	        sta pm_x
 .8cad		8d 0b 8f	sta $8f0b	        sta pm_y
 .8cb0		a9 ff		lda #$ff	        lda #$ff
