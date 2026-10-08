@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -D NATIVE_EDITOR_GRAPHICS=1 -B -o target/native-desktop/editor.prg -L target/native-desktop/editor.lst src/native/editor.asm
-; Wed Oct  7 12:21:36 2026
+; Wed Oct  7 17:23:27 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -9994,9 +9994,11 @@
 =20						pgm_control_count=20
 =$b0d9						pgm_select_surface=pg_surface
 =$b565						pgm_find_hit=pg_hit
+=52						pgm_start = 52               ; clear of every control here (native_*_scene RECTS)
 
 ;******  Processing file: src/native/picker/pointer.inc
 
+=160						pgm_start = 160                ; start x and y. A hovered control takes focus when the
 =0						PM_KEYS_OWNED=0
 =0						PM_KEYS_EXTERNAL=0
 =0						PM_SECONDARY=0
@@ -10049,7 +10051,7 @@
 .bce9		8d 5a bf	sta $bf5a	        sta pgm_buttons
 .bcec		8d 51 bf	sta $bf51	        sta pgm_pending
 .bcef		8d 54 bf	sta $bf54	        sta pgm_x+1
-.bcf2		a9 a0		lda #$a0	        lda #160
+.bcf2		a9 34		lda #$34	        lda #pgm_start
 .bcf4		8d 53 bf	sta $bf53	        sta pgm_x
 .bcf7		8d 55 bf	sta $bf55	        sta pgm_y
 .bcfa		a9 ff		lda #$ff	        lda #$ff
@@ -13996,9 +13998,11 @@
 
 ;******  Return to file: src/native/editor/gui.inc
 
+=124						pm_start = 124               ; clear of every control here (native_*_scene RECTS)
 
 ;******  Processing file: src/native/editor/../input/pointer.inc
 
+=160						pm_start = 160                ; start x and y. A hovered control takes focus when the
 =0						PM_KEYS_OWNED=0
 =0						PM_KEYS_EXTERNAL=0
 =0						PM_SECONDARY=0
@@ -14051,7 +14055,7 @@
 .e45b	bc6c	8d dd be	sta $bedd	        sta pm_buttons
 .e45e	bc6f	8d d4 be	sta $bed4	        sta pm_pending
 .e461	bc72	8d d7 be	sta $bed7	        sta pm_x+1
-.e464	bc75	a9 a0		lda #$a0	        lda #160
+.e464	bc75	a9 7c		lda #$7c	        lda #pm_start
 .e466	bc77	8d d6 be	sta $bed6	        sta pm_x
 .e469	bc7a	8d d8 be	sta $bed8	        sta pm_y
 .e46c	bc7d	a9 ff		lda #$ff	        lda #$ff
