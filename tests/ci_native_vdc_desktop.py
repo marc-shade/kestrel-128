@@ -32,7 +32,7 @@ class VDCBus(PointerBus):
         self.original = None
         self.stall = False
         self.stall_register = None
-        self.data_writes = self.block_copies = self.handshakes = 0
+        self.data_writes = self.data_reads = self.block_copies = self.handshakes = 0
 
     def physical(self, address):
         address &= 65535
@@ -60,6 +60,7 @@ class VDCBus(PointerBus):
                 at = self.reg[18]*256+self.reg[19]
                 value = self.vread(at)
                 self.advance(at+1)
+                self.data_reads += 1
                 return value
             return self.reg[self.selected]
         return super().__getitem__(address)
@@ -179,6 +180,20 @@ def run(group):
                     p.frame(); p.check(0)
                     for x, y in ((0,0),(319,199),(319,0),(0,199),(99,40),(103,64),(117,88)):
                         p.move(x,y); p.check(p.value('gd_selected'))
+                    # A move within one byte column reuses the saved background of
+                    # the rows both pointers cover; only the other rows are read.
+                    for origin, steps in (((305,100),((0,3),(0,-5),(1,2),(-1,-1),(2,0),(5,1))),
+                                         ((305,190),((0,4),(0,-3),(1,6))),
+                                         ((318,100),((0,2),(1,-3),(-6,1)))):
+                        p.move(*origin); p.check(p.value('gd_selected'))
+                        for dx, dy in steps:
+                            (ox, oy), reads = p.position, p.bus.data_reads
+                            p.frame(dx, dy); p.check(p.value('gd_selected'))
+                            (nx, ny) = p.position
+                            assert (nx-ox, ny-oy) == (dx, dy)
+                            kept = range(oy, min(200, oy+16)) if nx//4 == ox//4 else ()
+                            fresh = [row for row in range(ny, min(200, ny+16)) if row not in kept]
+                            assert p.bus.data_reads-reads == len(fresh)*(1+min(2, 80-nx//4)), ((ox,oy),(nx,ny),p.bus.data_reads-reads,len(fresh))
                     p.bus.pots = [255,255]; p.frame(); p.check(p.value('gd_selected'))
                     assert not p.value('vd_pointer_visible')
                     p.key(27, exited=True); p.restored()

@@ -303,9 +303,12 @@ vd_transfer_next:
         dec vd_left
         rts
 
-; Every selected register and every data byte uses a bounded ready handshake.
-; No foreground scratch in zero page, no long interrupt-disabled section.
+; Every register and data access waits on a bounded ready handshake; when the
+; VDC is already ready that costs one status read. No foreground scratch in
+; zero page, no long interrupt-disabled section.
 vd_wait:
+        bit $d600
+        bmi vd_ready
         pha
         lda #0
         sta vd_wait_low
@@ -320,16 +323,23 @@ vd_wait:
         lda #N_IOERROR
         jmp vd_fail
 +       pla
+vd_ready:
         rts
 vd_getreg:
         stx $d600
+vd_getbyte:
+        bit $d600
+        bmi +
         jsr vd_wait
-        lda $d601
++       lda $d601
         rts
 vd_setreg:
         stx $d600
+vd_putbyte:
+        bit $d600
+        bmi +
         jsr vd_wait
-        sta $d601
++       sta $d601
         rts
 vd_seek:
         lda vd_addr+1
@@ -339,20 +349,12 @@ vd_seek:
         ldx #19
         jsr vd_setreg
         ldx #31
-        stx $d600
-        jmp vd_wait
+        stx $d600              ; the data access that follows waits for ready
+        rts
 vd_read_seek:
         jsr vd_seek
         jsr vd_getbyte         ; prime the real VDC read latch, then re-address
         jmp vd_seek
-vd_getbyte:
-        jsr vd_wait
-        lda $d601
-        rts
-vd_putbyte:
-        jsr vd_wait
-        sta $d601
-        rts
 vd_peek:
         jsr vd_read_seek
         jmp vd_getbyte

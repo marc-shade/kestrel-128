@@ -175,6 +175,17 @@ def main():
         p.bus.pots=[64,64];p.frame(down=True);p.frame(down=False);assert p.ram[0x3d20]==32
         p.key(27,exited=True);p.restored();done('disconnect cancels armed click; reconnect baselines counters and held button',p)
 
+        # The reference 1351 reads about $53..$d0 (POTX $94, POTY $c5 at rest):
+        # readings above $bf are still a mouse; only an open port's $ff is not.
+        p=Pointer();p.bus.pots=[0x94,0xc5];p.frame();p.frame()
+        assert p.value('pm_seen')==1 and p.bus.video[0xd015]==3,'a 1351 reading $c5 is a mouse'
+        start=p.position;p.bus.pots=[0xc9,0xd0];p.frame()
+        assert p.value('pm_seen')==1 and p.position!=start,'motion between high readings'
+        for pots in ([255,0xc5],[0x94,255]):
+            p.bus.pots=pots;p.frame();assert not p.value('pm_seen') and p.bus.video[0xd015]==0,pots
+        p.bus.pots=[0x94,0xc5];p.frame();assert p.value('pm_seen')==1
+        p.key(27,exited=True);p.restored();done('readings above $bf are a mouse; an open port on either axis is not',p)
+
         p=Pointer();p.frame();samples=p.bus.samples
         for high,line in ((128,100),(0,79),(0,160),(0,255)):
             p.bus.raster_high=high;p.bus.raster=line;p.ram[0xa2]=(p.ram[0xa2]+1)&255;p.poll()

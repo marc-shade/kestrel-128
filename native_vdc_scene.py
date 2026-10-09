@@ -70,32 +70,42 @@ def pixels(selected=0, *, color=True, x=0, y=0, visible=False, error=0):
 
 
 def pack(data):
-    """Zero ends; literals 1..63; fills 64..127; prior-block copies 128..255."""
-    out = bytearray(); at = 0; literal = bytearray()
-    def flush():
-        if literal:
-            out.append(len(literal)); out.extend(literal); literal.clear()
-    while at < len(data):
-        run = 1
-        while at+run < len(data) and run < 64 and data[at+run] == data[at]: run += 1
+    """Zero ends; literals 1..63; fills 64..127; prior-block copies 128..255.
+
+    An optimal parse (fewest packed bytes) over the longest earlier match at
+    each position; a copy never overlaps its source, as the VDC block copy needs.
+    """
+    size = len(data); matches = [(0, 0)]*size; seen = {}
+    for at in range(size-2):
         length = distance = 0
-        if at >= 3:
-            first = max(0, at-16384)
-            prior = data.rfind(data[at:at+3], first, at)
-            while prior >= first:
-                count = 3
-                while count < min(130, at-prior, len(data)-at) and data[prior+count] == data[at+count]: count += 1
-                if count > length: length, distance = count, at-prior
-                if length == 130: break
-                prior = data.rfind(data[at:at+3], first, prior)
-        if run >= 3 and run >= length-1:
-            flush(); out.extend((63+run, data[at])); at += run
-        elif length >= 5:
-            flush(); out.extend((125+length, distance&255, distance>>8)); at += length
-        else:
-            literal.append(data[at]); at += 1
-            if len(literal) == 63: flush()
-    flush()
+        for prior in reversed(seen.get(data[at:at+3], [])[-512:]):
+            if at-prior > 16384: break
+            limit = min(130, at-prior, size-at)
+            if limit <= length: continue
+            count = 3
+            while count < limit and data[prior+count] == data[at+count]: count += 1
+            if count > length: length, distance = count, at-prior
+            if length == 130: break
+        matches[at] = (length, distance)
+        seen.setdefault(data[at:at+3], []).append(at)
+    run = [1]*size
+    for at in range(size-2, -1, -1):
+        if data[at] == data[at+1]: run[at] = run[at+1]+1
+    cost = [0]*(size+1); step = [None]*size
+    for at in range(size-1, -1, -1):
+        options = [(1+count+cost[at+count], 'literal', count) for count in range(1, min(63, size-at)+1)]
+        options += [(2+cost[at+count], 'fill', count) for count in range(1, min(64, run[at])+1)]
+        length, distance = matches[at]
+        options += [(3+cost[at+count], 'copy', count) for count in range(3, length+1)]
+        cost[at], kind, count = min(options, key=lambda option: option[0])
+        step[at] = kind, count
+    out = bytearray(); at = 0
+    while at < size:
+        kind, count = step[at]
+        if kind == 'literal': out.append(count); out += data[at:at+count]
+        elif kind == 'fill': out += bytes((63+count, data[at]))
+        else: out += bytes((125+count, matches[at][1]&255, matches[at][1]>>8))
+        at += count
     return bytes(out)+b'\0'
 
 
@@ -125,6 +135,9 @@ def write_assembly(directory):
              for at in range(0, len(packed), 16)]
     rows += ['vd_scene_end:', 'vd_arrow: .byte '+','.join(f'${v:02x}' for v in ARROW)]
     pointer = [sum(1<<(15-x) for x, value in enumerate(row) if value != ' ') for row in POINTER]
+    # graphics/vdc-pointer.inc redraws two bytes per row: its shifts are 0, 2, 4
+    # or 6 VDC pixels, so the low six bits of each 16-pixel row must stay clear.
+    assert all(v & 0x3f == 0 for v in pointer)
     (directory/'vdc-scene.inc').write_text('\n'.join(rows)+'\n')
     shape = ['; Generated from the shared launcher pointer.',
              'vd_pointer_hi: .byte '+','.join(f'${v>>8:02x}' for v in pointer),

@@ -57,6 +57,7 @@ class RunningLayout:
             ('f_filename', 'f_left', 2), ('nd_slot', 'nd_path', 256),
             ('ui_handles', 'ui_test_operation', 1), ('ui_system_device', 'ui_browser_stage', 1),
             ('nu_high', 'nu_part_state', 1), ('rc_key', 'rc_chunklen', 1),
+            ('heap_epoch', 'mp_end', 1),
             ('v_tag', 'v_port', 1)):
             declare(first, self.syms[first], self.syms[last]+length, 'declared mutable state')
         for offset in (8, 11):

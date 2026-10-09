@@ -86,13 +86,17 @@ the existing text launcher on both displays.
 ## Rendering
 
 The build-time [scene generator](../native_vdc_scene.py) emits a lossless
-2,393-byte stream for the 16,000-byte bitmap. Literal runs, fills and earlier
-nonoverlapping blocks map to VDC data writes and hardware fill/copy commands.
+2,346-byte stream for the 16,000-byte bitmap, choosing the shortest parse into
+literal runs, fills and earlier nonoverlapping blocks, which map to VDC data
+writes and hardware fill/copy commands.
 The independent scene renderer checks the expanded image. Selection updates
 change the arrow and, on 64 KiB hardware, the card attributes. The software
 pointer XORs a clipped arrow into the bitmap and restores its old pixels
 before moving or redrawing selection. Its horizontal position is twice the
-shared 320-pixel pointer coordinate.
+shared 320-pixel pointer coordinate, so the arrow always fits two bytes per
+row. Each row's saved pixels are kept by screen row, so a move that stays in
+the same byte column reuses them for the rows both positions cover instead
+of reading them back from the VDC.
 
 The RAM layout and register behavior follow the Commodore
 [C128 Programmer's Reference Guide](https://www.pagetable.com/docs/Commodore%20128%20Programmer%27s%20Reference%20Guide.pdf)

@@ -205,6 +205,20 @@ def main():
         for page in range(0x60,0x64):
             m=Modules();m.ram[0x3800+page]^=1;m.call(LOAD,4)
             done('corrupt-page-'+hex(page),m)
+        # The page-ownership walk (about 96 pages) is kept until the heap
+        # changes a page owner: a repeated call skips it, a heap_epoch change
+        # repeats it and then finds a page that is no longer the app's.
+        m=Modules();m.check_load();m.call(CALL,42,0)
+        def call_steps():
+            before=m.instructions;m.call(CALL,42,0);return m.instructions-before
+        cached=call_steps();assert call_steps()==cached
+        epoch=symbol('heap_epoch')
+        m.ram[epoch]=(m.ram[epoch]+1)&255;walked=call_steps()
+        pages=m.ram[symbol('field_app_end')]-0x60       # N_APPBASE $6000: six instructions a page
+        assert pages>0 and walked-cached>=5*pages,(walked,cached,pages)
+        m.ram[0x3860]^=1;assert call_steps()==cached,'cached ownership until the heap changes'
+        m.ram[epoch]=(m.ram[epoch]+1)&255;m.call(CALL,4)
+        done('page-ownership-walk-cached-until-heap-epoch-changes',m)
         for offset in (0,1,2,3,4,5,6):
             m=Modules();handle=m.ram[symbol('l_app_handle')];at=0x3c00+(handle-1)*8
             m.ram[at+offset]^=1;m.call(LOAD,4);done('changed-allocation-'+str(offset),m)

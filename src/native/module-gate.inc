@@ -39,14 +39,8 @@ module_start:
         bcs module_start_argument
         jsr app_owned
         bcs module_start_error
-        ldx #>N_APPBASE
-module_pages:
-        lda NPAGES0,x
-        cmp l_app_handle
-        bne module_start_handle
-        inx
-        cpx field_app_end
-        bne module_pages
+        jsr module_pages_check
+        bcs module_start_handle
         lda #0
         sta N_READY
         clc

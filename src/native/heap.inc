@@ -185,7 +185,10 @@ heap_get_one:
         lda NPAGES1,x
         rts
 heap_page_set:
-        ldy hbank
+        inc heap_epoch        ; any ownership change invalidates cached page checks
+        bne +
+        inc heap_epoch+1
++       ldy hbank
         bne heap_set_one
         sta NPAGES0,x
         rts

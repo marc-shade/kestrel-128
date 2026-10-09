@@ -230,8 +230,8 @@ def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
     print(f'Native {"capture transport" if focused else "desktop"} hardware evidence: {work}',flush=True)
     disk=work/'native.d64';shutil.copyfile(ROOT/'target/native-desktop/kestrel.d64',disk)
     if expected_images is None:
-        expected_images=dict(disk='ba686ea3bd52b71c45d68eca0538684d15aece6d446da33564df0d5528eef323',
-                             kernel='e940e95b3ffea1ef5bcb5939c685a7731843c9f7ac1fb61b0d0a6b9b95ecf9a2')
+        expected_images=dict(disk='0a5b30c91ce20babe55345edd25e75a972443c86998b36861fe837c21fd22f8a',
+                             kernel='a1cd53eb3dd97b2261e575ecef959dff78d1ddb0f211a00ac3d5bf155b555596')
     assert set(expected_images)=={'disk','kernel'} and all(re.fullmatch(r'[0-9a-f]{64}',v) for v in expected_images.values())
     assert hashlib.sha256(disk.read_bytes()).hexdigest()==expected_images['disk']
     assert hashlib.sha256((ROOT/'target/native-desktop/kestrel.prg').read_bytes()).hexdigest()==expected_images['kernel']

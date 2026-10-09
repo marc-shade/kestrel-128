@@ -164,13 +164,14 @@ pm_settling:
         sta pm_pots
         lda $d41a
         sta pm_pots+1
-        ; A proportional 1351 produces $40..$bf. Open ports read $ff.
+        ; An open port (or a 1351 in joystick mode) reads $ff. A proportional
+        ; 1351 keeps a 128-value window, but where it lies depends on the
+        ; mouse and the SID: the reference machine's spans about $53..$d0.
+        ; Motion uses only differences, so any other reading is a mouse.
         ldx #1
 -       lda pm_pots,x
-        cmp #$40
-        bcc pm_absent
-        cmp #$c0
-        bcs pm_absent
+        cmp #$ff
+        beq pm_absent
         dex
         bpl -
         php

@@ -32,5 +32,8 @@ vd_pointer_shift: .byte 0
 vd_pointer_rows: .byte 0
 vd_pointer_line: .byte 0
 vd_pointer_at: .byte 0
-vd_mask: .fill 3,0
-vd_under: .fill 48,0
+vd_old_rows: .byte 0
+vd_old_column: .byte 0
+vd_old_y: .byte 0
+vd_mask: .fill 2,0
+vd_under: .fill 32,0
