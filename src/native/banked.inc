@@ -276,6 +276,72 @@ bk_check_tails:
         clc
         rts
 bk_check_code:
+        jsr bk_check_shape
+        bcs bk_check_failed
+        lda bk_handle
+        beq bk_invalid
+        cmp #NSLOTS+1
+        bcs bk_invalid
+        sec
+        sbc #1
+        asl
+        asl
+        asl
+        tax
+        lda NHANDLES,x
+        cmp #BK_OWNER
+        bne bk_invalid
+        lda NHANDLES+1,x
+        cmp #1
+        bne bk_invalid
+        lda NHANDLES+2,x
+        cmp #>BK_BASE
+        bne bk_invalid
+        lda NHANDLES+3,x
+        cmp bk_pages
+        bne bk_invalid
+        ldy #1
+-       lda NHANDLES+4,x
+        cmp bk_handle,y
+        bne bk_invalid
+        inx
+        iny
+        cpy #4
+        bne -
+        ; The page-tag walk passed for this handle is reused until the heap
+        ; changes any page owner; loading or closing an image moves the epoch.
+        lda N_HEAPEPOCH
+        cmp bk_checked
+        bne bk_check_walk
+        lda N_HEAPEPOCH+1
+        cmp bk_checked+1
+        bne bk_check_walk
+        lda bk_handle
+        cmp bk_checked+2
+        beq bk_check_end
+bk_check_walk:
+        ldx #>BK_BASE
+        ldy bk_pages
+-       lda NPAGES1,x
+        cmp bk_handle
+        bne bk_invalid
+        inx
+        dey
+        bne -
+        lda N_HEAPEPOCH       ; only a passed walk is recorded
+        sta bk_checked
+        lda N_HEAPEPOCH+1
+        sta bk_checked+1
+        lda bk_handle
+        sta bk_checked+2
+bk_check_end:
+        clc
+        rts
+bk_check_failed:
+        rts
+; Image extent and entry: pages 1..limit equal to ceil(length), length 33 or
+; more, entry inside the image past its header. bk_load checks headers here.
+bk_check_shape:
         lda bk_pages
         beq bk_invalid
         cmp #(BK_LIMIT-BK_BASE)/256+1
@@ -307,44 +373,6 @@ bk_check_code:
         lda bk_relative
         sbc bk_length+1
         bcs bk_invalid
-        lda bk_handle
-        beq bk_invalid
-        cmp #NSLOTS+1
-        bcs bk_invalid
-        sec
-        sbc #1
-        asl
-        asl
-        asl
-        tax
-        lda NHANDLES,x
-        cmp #BK_OWNER
-        bne bk_invalid
-        lda NHANDLES+1,x
-        cmp #1
-        bne bk_invalid
-        lda NHANDLES+2,x
-        cmp #>BK_BASE
-        bne bk_invalid
-        lda NHANDLES+3,x
-        cmp bk_pages
-        bne bk_invalid
-        ldy #1
--       lda NHANDLES+4,x
-        cmp bk_handle,y
-        bne bk_invalid
-        inx
-        iny
-        cpy #4
-        bne -
-        ldx #>BK_BASE
-        ldy bk_pages
--       lda NPAGES1,x
-        cmp bk_handle
-        bne bk_invalid
-        inx
-        dey
-        bne -
         clc
         rts
 
@@ -368,3 +396,4 @@ bk_carry: .byte 0
 bk_saved_rcr: .byte 0
 bk_saved_regs: .fill 3,0
 bk_relative: .byte 0
+bk_checked: .fill 3,0        ; heap epoch and handle tag of the last passed page walk

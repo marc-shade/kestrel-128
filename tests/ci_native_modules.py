@@ -148,7 +148,7 @@ def main():
                 m.check_load(full);m.call(CALL,0 if size==17 else 42,0,irq=True)
                 assert m.ram[BASE+size:END]==b'\xcc'*(END-BASE-size)
                 done(f'{fmt}-extent-{size}',m)
-            for label,offset,value in [('origin',0,0),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,16),
+            for label,offset,value in [('origin',0,0),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,17),
                     ('minor-too-old',8,6),('flags',9,1),('parent',12,0),('entry-header',14,15),('entry-past-end',14,20),('extent-high',11,3)]:
                 m=Modules(fmt);bad=bytearray(m.module);bad[offset]=value
                 if label=='parent':bad[offset]^=m.module[offset]^0xff
@@ -206,13 +206,13 @@ def main():
             m=Modules();m.ram[0x3800+page]^=1;m.call(LOAD,4)
             done('corrupt-page-'+hex(page),m)
         # The page-ownership walk (about 96 pages) is kept until the heap
-        # changes a page owner: a repeated call skips it, a heap_epoch change
+        # changes a page owner: a repeated call skips it, an N_HEAPEPOCH change
         # repeats it and then finds a page that is no longer the app's.
         m=Modules();m.check_load();m.call(CALL,42,0)
         def call_steps():
             before=m.instructions;m.call(CALL,42,0);return m.instructions-before
         cached=call_steps();assert call_steps()==cached
-        epoch=symbol('heap_epoch')
+        epoch=symbol('N_HEAPEPOCH')
         m.ram[epoch]=(m.ram[epoch]+1)&255;walked=call_steps()
         pages=m.ram[symbol('field_app_end')]-0x60       # N_APPBASE $6000: six instructions a page
         assert pages>0 and walked-cached>=5*pages,(walked,cached,pages)

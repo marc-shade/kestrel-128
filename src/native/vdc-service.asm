@@ -34,12 +34,20 @@ bv_entry:
         bcs bm_entry
         cmp #5
         beq bv_status
-        cmp #4
-        beq bv_close
         cmp #1
         bcc bv_empty
+        ; Display operations 1-4 return with the status record in N_BUFFER,
+        ; as operation 5 gives it, saving the parent a second call.
+        jsr bv_display
+        php
+        pha
+        jsr bv_record
+        pla
+        plp
+        rts
+bv_display:
         cmp #4
-        bcs bv_argument
+        beq bv_close
         sta bv_operation
         lda N_BUFFER
         cmp #2
@@ -132,6 +140,9 @@ bv_argument:
         sec
         rts
 bv_status:
+        jsr bv_record
+        jmp vd_success
+bv_record:
         ldx #6
 -       lda vd_phase,x
         sta N_BUFFER,x
@@ -162,7 +173,7 @@ bv_status:
         sta N_BUFFER+39
         lda vm_pending
         sta N_BUFFER+40
-        jmp vd_success
+        rts
 bv_initial_bitmap:
         lda bv_mode
         bne +

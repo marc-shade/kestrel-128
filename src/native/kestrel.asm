@@ -219,6 +219,9 @@ native_nmi_gate:
         sta $ff00               ; expose native app RAM; retain KERNAL/I/O
         jmp (N_NMIPTR)           ; ROM $ff33 restores the interrupted mapping
 native_nmi_gate_end:
+native_heap_epoch:              ; N_HEAPEPOCH, bumped by every heap page-owner change
+        .word 0
+        .cerror native_heap_epoch != N_HEAPEPOCH, "N_HEAPEPOCH moved"
 native_low_end:
         .fill (-*) & $ff,0
 native_low_padded_end:

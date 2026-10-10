@@ -657,8 +657,7 @@ pg_enter:
         ldx pg_focus
         cpx #19
         beq pg_key_return
-        jsr pg_activate
-        rts
+        jmp pg_activate
 pg_mouse:
         jsr pgm_poll
         lda pgm_event

@@ -81,36 +81,16 @@ bk_load:
         sta bk_length
         lda N_BUFFER+11
         sta bk_length+1
-        bne +
-        lda bk_length
-        cmp #33
-        bcc bk_bad_image
-+       lda bk_length
-        cmp #1               ; ceil(length / 256), with checked upper bound
-        lda bk_length+1
-        adc #0
-        beq bk_bad_image
-        cmp #(BK_LIMIT-BK_BASE)/256+1
-        bcs bk_bad_image
-        cmp N_BUFFER+12
-        bne bk_bad_image
+        lda N_BUFFER+12
         sta bk_pages
-        lda N_BUFFER+15
-        bne +
-        lda N_BUFFER+14
-        cmp #32
-        bcc bk_bad_image
-+       lda N_BUFFER+14
-        cmp bk_length
-        lda N_BUFFER+15
-        sbc bk_length+1
-        bcs bk_bad_image
         lda N_BUFFER+14
         sta bk_entry
         lda N_BUFFER+15
         clc
-        adc #>BK_BASE
+        adc #>BK_BASE         ; an offset past the bank wraps below BK_BASE
         sta bk_entry+1
+        jsr bk_check_shape
+        bcs bk_bad_image
         lda N_BUFFER+16
         sta bk_expected
         lda N_BUFFER+17

@@ -42,8 +42,11 @@ is refused while state is nonzero. The source must close successfully before
 execution is enabled. There is no automatic load or I/O retry.
 
 Before every call, the executor checks the parent allocation generation,
-the bank-1 code token, owner, bank, extent, entry range and every allocated
-page tag. The provider is trusted native code: this is lifetime and bounds
+the bank-1 code token, owner, bank, extent and entry range. It walks every
+allocated page tag only when the heap has changed a page owner since the last
+walk that passed for this handle: the kernel's `N_HEAPEPOCH` (ABI 1.16) counts
+those changes. A page tag altered without a heap operation is therefore
+caught at the next heap change, not at the next call. The provider is trusted native code: this is lifetime and bounds
 checking, not an execution sandbox. It must balance its stack, restore any
 hardware state it borrows, and return with RTS. No nested banked call, task
 switch, foreground call from an interrupt, or one-way app exit is supported.

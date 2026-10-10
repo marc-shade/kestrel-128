@@ -10,7 +10,9 @@ import tempfile
 from py65.devices.mpu6502 import MPU
 from ci_native_heap import Bus, ROOT
 from native_vdc_chip import CaptureBus
-from native_capture import NativeCapture
+from native_capture import NativeCapture, ObservationChanged
+from native_vdc_check import capture_frame
+from native_vdc_scene import bitmap, attributes, pointer_bitmap
 
 
 class NativeCaptureBus(Bus):
@@ -188,6 +190,51 @@ def host_cases(folder):
     else:raise AssertionError('borrowed the active file-service buffer')
     assert before==bytes(mon.ram) and mon.chunks==0
     cases['host-active-file-buffer']=dict(no_writes=True)
+    # An app redraw while the observer borrows N_BUFFER is reported with the
+    # changed addresses, after the borrowed bytes are restored.
+    mon=CaptureMonitor();capture=NativeCapture(mon,folder,quiet=0)
+    write=capture.write
+    def restore(start,data):
+        write(start,data)
+        if start==0x3e00 and len(data)==512:mon.ram[0x3a1a]^=1  # scratch restored: app runs
+    capture.write=restore
+    try:capture.capture('pointer-redraw',mode=1)
+    except ObservationChanged as changed:assert set(changed.changes)=={0x3a1a},changed.changes
+    else:raise AssertionError('a change during observation was accepted')
+    assert capture.records[0]['restored'] is not True
+    cases['host-redraw-reported']=dict(changes=[0x3a1a])
+    cases.update(frame_cases(folder))
+    return cases
+
+
+class FrameCapture:
+    """Observer stand-in for capture_frame: one 64 KiB VDC desktop frame."""
+    def __init__(self,failures):
+        self.failures=dict(failures);self.point=bytes([1,80,0,100])
+        self.bitmap=pointer_bitmap(bitmap(0),160,100,True)
+    def capture(self,label,mode=0,bank=0,address=0,count=2000):
+        if label.endswith('-vdc-state'):return bytes([2,1,1,0,0,0x40,72])
+        if label in self.failures:raise ObservationChanged(label,self.failures.pop(label))
+        if label.endswith(('-pointer-before','-pointer-after')):return self.point
+        if address>=0x8000:return attributes(0)[address-0x8000:address-0x8000+count]
+        return self.bitmap[address-0x4000:address-0x4000+count]
+
+
+def frame_cases(folder):
+    cases={}
+    # A pointer redraw during a frame (argument or status pointer bytes only)
+    # retakes that attempt; any other change still fails the frame.
+    for name,changes in (('status',[0x3a1a]),('arguments',[0x3a07,0x3a0a,0x3a1c])):
+        fake=FrameCapture({'redraw-pointer-after':changes})
+        result=capture_frame(fake,None,None,folder,'redraw',0)
+        assert result['pointer_moves']==[dict(attempt=0,redraw_during_capture=sorted(changes))],result
+        cases[f'frame-retakes-pointer-redraw-{name}']=result['pointer_moves']
+    for changes in ([0x3d2f],[0x3a1a,0x3a00],[]):
+        fake=FrameCapture({'other-vdc-bitmap-07d0':changes})
+        try:capture_frame(fake,None,None,folder,'other',0)
+        except ObservationChanged:pass
+        else:raise AssertionError(('change outside the pointer bytes was retaken',changes))
+    cases['frame-other-changes-fail']=dict(rejected=3)
     return cases
 
 

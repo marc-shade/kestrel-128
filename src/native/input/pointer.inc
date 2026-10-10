@@ -14,6 +14,7 @@ pm_start = 160                ; start x and y. A hovered control takes focus whe
 PM_KEYS_OWNED=0
 PM_KEYS_EXTERNAL=0
 PM_SECONDARY=0
+PM_JUMP=12                    ; counts (6 pixels) in one sample that need confirmation
 .endweak
 pm_install:
  .if !PM_KEYS_OWNED
@@ -72,18 +73,14 @@ pm_install:
         lda #$ff
         sta pm_tick
         sta pm_arm
-        lda $d017
+        ldy #9                ; $d017/$d01b/$d01c/$d01d: plain unexpanded sprites 0-1
+-       ldx pm_registers,y
+        lda $d000,x
         and #$fc
-        sta $d017
-        lda $d01b
-        and #$fc
-        sta $d01b
-        lda $d01c
-        and #$fc
-        sta $d01c
-        lda $d01d
-        and #$fc
-        sta $d01d
+        sta $d000,x
+        dey
+        cpy #5
+        bne -
         lda #1
         sta $d027              ; sprite 0: white interior, above black outline
         lda #0
@@ -160,20 +157,18 @@ pm_settling:
         lda $dc00
         cmp #$7f
         bne pm_absent
-        lda $d419
-        sta pm_pots
-        lda $d41a
-        sta pm_pots+1
         ; An open port (or a 1351 in joystick mode) reads $ff. A proportional
         ; 1351 keeps a 128-value window, but where it lies depends on the
         ; mouse and the SID: the reference machine's spans about $53..$d0.
         ; Motion uses only differences, so any other reading is a mouse.
-        ldx #1
--       lda pm_pots,x
+        lda $d419
+        sta pm_pots
         cmp #$ff
         beq pm_absent
-        dex
-        bpl -
+        lda $d41a
+        sta pm_pots+1
+        cmp #$ff
+        beq pm_absent
         php
         sei
         lda $d02f
@@ -200,10 +195,12 @@ pm_settling:
         lda pm_seen
         bne pm_move
         inc pm_seen
-        lda pm_pots
-        sta pm_old
-        lda pm_pots+1
-        sta pm_old+1
+        ldx #1
+-       jsr pm_delta_advance
+        lda #0
+        sta pm_jumps,x        ; nothing held across a reconnect
+        dex
+        bpl -
         lda pm_down
         sta pm_buttons        ; held during entry/reconnect cannot launch
         lda #3
@@ -219,12 +216,9 @@ pm_absent:
         sta pm_arm
         rts
 pm_move:
-        lda #0
-        sta pm_moved
-        lda pm_pots
-        ldy pm_old
+        ldx #0                ; also the X axis for pm_delta
+        stx pm_moved
         jsr pm_delta
-        sty pm_old
         bcc pm_vertical
         inc pm_moved
         clc
@@ -241,20 +235,18 @@ pm_move:
         cmp #64
         bcc pm_vertical
 pm_right:
-        lda #1
-        sta pm_x+1
+        ldy #1
         lda #63
         bne pm_set_x
 pm_left:
-        lda #0
-        sta pm_x+1
+        ldy #0
+        tya
 pm_set_x:
+        sty pm_x+1
         sta pm_x
 pm_vertical:
-        lda pm_pots+1
-        ldy pm_old+1
+        ldx #1
         jsr pm_delta
-        sty pm_old+1
         bcc pm_hit_test
         inc pm_moved
         sta pm_step
@@ -314,34 +306,62 @@ pm_release:
 
 ; Signed 7-bit circular displacement, one pixel per two counter units.
 ; Ignore +/-1 without advancing the old counter so subpixel motion accumulates.
-; A=new, Y=old -> signed X:A, Y=next old, carry=movement.
-pm_delta:
-        sty pm_previous
-        sta pm_sample
+; A=new, Y=old, X=axis -> signed X:A, Y=next old, carry=movement.
+pm_delta:                     ; X: axis. Carry set: move by A, X high byte
+        lda pm_pots,x
         sec
-        sbc pm_previous
-        and #$7f
-        ldx #0
-        cmp #2
-        bcc pm_no_delta
-        cmp #127
-        beq pm_no_delta
-        cmp #64
-        bcc pm_positive
-        ora #$80
-        sec
+        sbc pm_old,x
+        asl                   ; the 7-bit difference as signed counts
+        cmp #$80
         ror
-        dex
-        bne pm_delta_done
-pm_positive:
+        ; A jump of PM_JUMP counts or more after a steady sample is held for
+        ; one sample and the baseline moves on. The next sample adds to it,
+        ; so a single bad pot reading and its return cancel, and real motion
+        ; lands one jiffy late in full. Jumps keep moving while they continue.
+        ldy pm_jumps,x        ; 0 steady, 1 a jump moved, else a held jump
+        cpy #2
+        bcc pm_delta_classify
+        jsr pm_delta_advance
+        clc
+        adc pm_jumps,x        ; -128..126
+pm_delta_classify:
+        pha
+        clc
+        adc #PM_JUMP-1
+        cmp #2*PM_JUMP-1      ; carry: PM_JUMP counts or more either way
+        lda #0
+        rol
+        sta pm_jumps,x
+        cpy #0                ; Y: the state before this sample
+        bne pm_delta_size     ; only a steady axis holds
         lsr
-pm_delta_done:
-        ldy pm_sample
+        bcc pm_delta_size
+        pla
+        sta pm_jumps,x
+        clc
+        bcc pm_delta_advance
+pm_delta_size:
+        pla
+        cmp #2                ; under 2 counts either way: wait for more
+        bcc pm_no_delta
+        cmp #$ff
+        beq pm_no_delta
+        jsr pm_delta_advance
+        ldx #0
+        cmp #$80
+        bcc +
+        dex
++       ror                   ; halve, keeping the sign
         sec
         rts
 pm_no_delta:
-        txa
         clc
+        rts
+pm_delta_advance:             ; the baseline moves to this sample
+        pha
+        lda pm_pots,x
+        sta pm_old,x
+        pla
         rts
 
 pm_place:
@@ -386,8 +406,7 @@ pm_event: .byte 0             ; 0=idle, 1=focus hit, 2=activate hit
 pm_moved: .byte 0
 pm_step: .word 0
 pm_columns: .byte 0
-pm_previous: .byte 0
-pm_sample: .byte 0
+pm_jumps: .word 0             ; per axis: 0, 1 after a moved jump, else held counts
 pm_high: .byte 0
 pm_init_saved: .byte 0
 pm_registers: .byte $00,$01,$02,$03,$10,$15,$17,$1b,$1c,$1d,$27,$28

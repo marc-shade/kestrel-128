@@ -207,7 +207,7 @@ def main():
         code=bytes.fromhex('a9028d013da9018d023dad203d8d003d20201ca92b60')
         m,iec,cases['owned-allocation']=run_case(fixture(code))
         assert m.stats()==(175,249,31) and m.ram[0x3d24]==43
-        mutations=[('origin',0,1),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,16),
+        mutations=[('origin',0,1),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,17),
                    ('flags',9,1),('pages-zero',12,0),('pages-too-large',12,97),
                    ('reserved',13,1),('entry-header',14,31),('entry-past-end',14,40),
                    ('entry-high',15,1),('title-control',18,13),('size-small',10,32),('size-high',11,17)]

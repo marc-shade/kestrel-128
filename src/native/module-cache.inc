@@ -365,13 +365,13 @@ rc_chunklen: .byte 0
 
 ; Every page of the app window must still belong to the app. The walk costs
 ; about 2,000 cycles and module calls run twice per jiffy in pointer apps, so
-; a passed walk is kept until the heap changes any page owner (heap_epoch),
+; a passed walk is kept until the heap changes any page owner (N_HEAPEPOCH),
 ; the app handle or the window end changes. C set when a page is not the app's.
 module_pages_check:
-        lda heap_epoch
+        lda N_HEAPEPOCH
         cmp mp_epoch
         bne mp_walk
-        lda heap_epoch+1
+        lda N_HEAPEPOCH+1
         cmp mp_epoch+1
         bne mp_walk
         lda l_app_handle
@@ -388,9 +388,9 @@ mp_walk:
         inx
         cpx field_app_end
         bne -
-        lda heap_epoch
+        lda N_HEAPEPOCH
         sta mp_epoch
-        lda heap_epoch+1
+        lda N_HEAPEPOCH+1
         sta mp_epoch+1
         lda l_app_handle
         sta mp_handle
@@ -402,7 +402,6 @@ mp_ok:
 mp_bad:
         sec
         rts
-heap_epoch: .word 0
 mp_epoch: .word 0
 mp_handle: .byte 0
 mp_end: .byte 0

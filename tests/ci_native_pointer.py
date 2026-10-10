@@ -118,24 +118,41 @@ def main():
         report['cases'].append(dict(name=name,frames=p.frames,instructions=p.instructions,**extra));print('PASS:',name,flush=True)
     try:
         p=Pointer();p.check(0)
-        # Exhaust all counter pairs, executing the assembled displacement routine.
-        cpu=MPU(memory=p.bus);entry=p.symbol('pm_delta');pairs=0
+        # Exhaust all counter pairs on both axes after a steady sample and after
+        # a moved jump, and a spread of pairs with a held jump, executing the
+        # assembled displacement routine. A jump of 12 counts or more after a
+        # steady sample is held and the baseline moves on; the next sample adds
+        # to it. Other axis bytes are sentinels that must stay untouched.
+        cpu=MPU(memory=p.bus);entry=p.symbol('pm_delta');jumps=p.symbol('pm_jumps')
+        pots=p.symbol('pm_pots');olds=p.symbol('pm_old');pairs=0
         stack=bytes(p.ram[0x100:0x200])
-        for old in range(64,192):
-            for new in range(64,192):
-                cpu.pc=entry;cpu.sp=0xe0;cpu.p=0x20;cpu.a=new;cpu.y=old;cpu.stPushWord(0xaff)
-                for _ in range(50):
-                    if cpu.pc==0xb00:break
-                    cpu.step()
-                assert cpu.pc==0xb00
-                raw=(new-old+64)%128-64
-                want=raw//2 if abs(raw)>1 else 0
-                observed=cpu.a if cpu.x==0 else cpu.a-256
-                assert (observed,bool(cpu.p&1),cpu.y)==(want,bool(want),new if want else old),(old,new,observed,want)
-                pairs+=1
+        for axis in (0,1):
+            for before in (0,1,12,13,40,63,-12,-13,-40,-64):
+                held=before not in (0,1)
+                for old in range(64,192,17) if held else range(64,192):
+                    for new in range(64,192):
+                        p.ram[jumps+axis]=before&255;p.ram[jumps+1-axis]=0x5a
+                        p.ram[pots+axis]=new;p.ram[pots+1-axis]=0x33
+                        p.ram[olds+axis]=old;p.ram[olds+1-axis]=0x44
+                        cpu.pc=entry;cpu.sp=0xe0;cpu.p=0x20;cpu.a=0;cpu.y=0;cpu.x=axis;cpu.stPushWord(0xaff)
+                        for _ in range(80):
+                            if cpu.pc==0xb00:break
+                            cpu.step()
+                        assert cpu.pc==0xb00 and cpu.sp==0xe0
+                        counts=(new-old+64)%128-64+(before if held else 0)
+                        jump=abs(counts)>=12
+                        if jump and not before:state,moved,baseline=counts&255,False,new
+                        elif abs(counts)<2:state,moved,baseline=int(jump),False,new if held else old
+                        else:state,moved,baseline=int(jump),True,new
+                        assert bool(cpu.p&1)==moved,(axis,before,old,new)
+                        if moved:assert (cpu.a|cpu.x<<8)==(counts>>1)&0xffff,(axis,before,old,new,cpu.a,cpu.x)
+                        assert (p.ram[jumps+axis],p.ram[olds+axis])==(state,baseline),(axis,before,old,new)
+                        assert (p.ram[jumps+1-axis],p.ram[pots+1-axis],p.ram[olds+1-axis])==(0x5a,0x33,0x44)
+                        pairs+=1
+        p.ram[jumps:jumps+2]=bytes(2);p.ram[pots:pots+2]=p.ram[olds:olds+2]=bytes((64,64))
         p.ram[0x100:0x200]=stack
         p.frame();assert p.position==(160,160) and p.value('pm_seen')==1 and p.bus.video[0xd015]==3
-        p.key(27,exited=True);p.restored();done('all 16384 circular counter pairs and stationary attach',p,counter_pairs=pairs)
+        p.key(27,exited=True);p.restored();done('counter pairs on both axes in steady, moving and held states, and stationary attach',p,counter_pairs=pairs)
 
         for index,name in enumerate((b'CALC',b'EDITOR',b'FILES',b'ULTIMATE',b'CLAUDE',b'PAINT',b'SHEET')):
             p=Pointer();p.frame();p.move(100,CARDS[index]+8);p.check(index)
@@ -185,6 +202,33 @@ def main():
             p.bus.pots=pots;p.frame();assert not p.value('pm_seen') and p.bus.video[0xd015]==0,pots
         p.bus.pots=[0x94,0xc5];p.frame();assert p.value('pm_seen')==1
         p.key(27,exited=True);p.restored();done('readings above $bf are a mouse; an open port on either axis is not',p)
+
+        # One wild pot reading would put the pointer on the SHEET card (y 136-151)
+        # from its start (160,160) and select it: it is dropped. Motion that
+        # continues moves a jiffy late on its first jump, then without delay.
+        p=Pointer();p.frame();start=p.position
+        def raw(axis,counts):p.bus.pots[axis]=64+((p.bus.pots[axis]-64+counts)&127)
+        raw(1,40);p.frame();assert p.position==start and p.value('gd_selected')==0
+        raw(1,-40);p.frame();assert p.position==start and p.value('gd_selected')==0,'a single spike is dropped'
+        p.frame(0,8);assert p.position==start,'first jump held'
+        p.frame(0,8);assert p.position==(start[0],start[1]+16),'confirmed with the held motion'
+        p.frame(0,8);assert p.position==(start[0],start[1]+24),'continuing jumps move at once'
+        p.frame(0,1);assert p.position==(start[0],start[1]+25)
+        p.frame(-7,0);assert p.position==(start[0],start[1]+25)
+        p.frame(-7,0);assert p.position==(start[0]-14,start[1]+25)
+        p.frame(2,0);assert p.position==(start[0]-12,start[1]+25),'small motion is never held'
+        assert p.value('gd_selected')==0
+        p.key(27,exited=True);p.restored();done('a single pot spike is dropped; jumps move once confirmed',p)
+
+        # Fast motion: 40 and 62 counts a sample. The held first sample is not
+        # measured against a baseline 80 or more counts behind (outside the
+        # 1351's 7-bit window), so the pointer never steps backwards.
+        for dx in (20,31,-20,-31):
+            p=Pointer();p.frame();x,y=p.position;trail=[]
+            for _ in range(3):p.frame(dx,0);trail.append(p.position[0])
+            assert trail==[x,x+2*dx,x+3*dx],(dx,trail)
+            p.key(27,exited=True);p.restored()
+        done('fast motion lands in full one sample late and never reverses',p)
 
         p=Pointer();p.frame();samples=p.bus.samples
         for high,line in ((128,100),(0,79),(0,160),(0,255)):

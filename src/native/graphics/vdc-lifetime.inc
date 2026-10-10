@@ -304,8 +304,10 @@ vd_transfer_next:
         rts
 
 ; Every register and data access waits on a bounded ready handshake; when the
-; VDC is already ready that costs one status read. No foreground scratch in
-; zero page, no long interrupt-disabled section.
+; VDC is already ready that costs one status read. Checked on a cool 8563
+; (2026-10-09): the byte errors seen earlier that day came with an overheated
+; chip and appeared with the slower timing too.
+; No foreground scratch in zero page, no long interrupt-disabled section.
 vd_wait:
         bit $d600
         bmi vd_ready
@@ -349,7 +351,7 @@ vd_seek:
         ldx #19
         jsr vd_setreg
         ldx #31
-        stx $d600              ; the data access that follows waits for ready
+        stx $d600
         rts
 vd_read_seek:
         jsr vd_seek

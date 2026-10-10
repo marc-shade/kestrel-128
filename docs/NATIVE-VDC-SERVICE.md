@@ -93,7 +93,8 @@ retry I/O through a poisoned stream or discard its owner.
 
 This is the suite's internal component interface under native ABI 1.12. Calls
 use `bk_call` with A equal to an operation and return the native A/carry result.
-The display parent retrieves status after each completed display operation. A checked-executor
+Display operations 1-4 return with the status record of operation 5 in `N_BUFFER`, so the
+display parent gets status with each operation in one call. A checked-executor
 failure leaves a conservative recovery phase until cleanup can be verified.
 
 | Operation | Meaning |

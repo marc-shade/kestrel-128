@@ -60,6 +60,12 @@ ABI 1.15 adds `N_RCACHE` at `$3d9f`: the number of 4 KiB REU pages the
 REU of 512 KiB or more (16), or zero. App REU arenas stop below them. No
 resident entry was added; the heap is unchanged.
 
+ABI 1.16 adds `N_HEAPEPOCH` at `$1bf8`, two bytes after the NMI bridge in the
+low section's padding: a read-only count, modulo 65,536, of heap page-owner
+changes. Equal values mean no page changed owner in between, so the kernel
+module gate and the bank-1 executor repeat their page-tag walks only after it
+moves.
+
 Use the native CPU observer when a hardware test needs bytes from a specific
 RAM bank. Direct cartridge DMA can return BASIC ROM at an application RAM
 address; the [editor checkpoint](validation/2026-09-09-native-editor/README.md)

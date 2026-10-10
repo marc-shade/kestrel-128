@@ -209,15 +209,23 @@ def main():
 
         # Inject interrupts at every unique instruction/map boundary in the
         # complete round trip, including both common tails and native callback.
-        b = new(); b.load(); b.ram[0x3a00] = 5
-        trace = []
-        b.call('call',operation=11,interrupt=lambda c,m,s:trace.append((c.pc,m.config,m.mmu[6])))
-        points = list(dict.fromkeys(trace))
-        assert any(config == 0x4e for _,config,_ in points)
+        # Both code-check paths: a cold cache walks the page map, a warm one
+        # reuses the passed check.
+        b = new(); b.load()
+        def cache(warm):
+            epoch = int.from_bytes(b.ram[0x1bf8:0x1bfa],'little')
+            b.set('checked',(epoch if warm else epoch^0xffff)|b.get('handle')<<16,3)
+        paths = []
+        for warm in (False,True):
+            b.ram[0x3a00] = 5; cache(warm); trace = []
+            b.call('call',operation=11,interrupt=lambda c,m,s:trace.append((c.pc,m.config,m.mmu[6])))
+            paths += [(warm,point) for point in dict.fromkeys(trace)]
+        assert any(config == 0x4e for _,(_,config,_) in paths)
+        assert len({point for _,point in paths}) > len({point for warm,point in paths if warm})
         injected = 0
         for kind in ('nmi','irq'):
-            for point in points:
-                b.ram[0x3a00] = 5; fired = []
+            for warm,point in paths:
+                b.ram[0x3a00] = 5; fired = []; cache(warm)
                 counted = b.ram[0xb10]
                 def inject(c,m,s):
                     if not fired and (c.pc,m.config,m.mmu[6]) == point:
@@ -318,12 +326,29 @@ def main():
             for value in values:
                 b.set(name,value,n);b.call('call',4)
             b.set(name,old,n)
+        b.set('checked',0,3)  # the page-tag walk runs again only after a heap change
         tag = b.ram[0x3960]; b.ram[0x3960] = 0
         b.call('call',4); b.ram[0x3960] = tag
         at = 0x3c00+(b.app[0]-1)*8+4
         b.ram[at] += 1; b.call('call',4); b.ram[at] -= 1
         b.call('close')
         done('busy, disabled IRQs, altered common tails/MMU, page tags and parent generations refused',b)
+
+        b = new(); b.load()
+        counts = []
+        for _ in range(2):
+            before = b.instructions; b.call('call',operation=0,flags=8); counts.append(b.instructions-before)
+        assert counts[0]-counts[1] >= 5*b.get('pages'), counts
+        epoch = int.from_bytes(b.ram[0x1bf8:0x1bfa],'little')
+        tag = b.ram[0x3960]; b.ram[0x3960] = 0
+        b.call('call',operation=0,flags=8)
+        spare = b.m.alloc(1,0,owner=32); b.m.select(spare,32); b.m.invoke('free')
+        assert int.from_bytes(b.ram[0x1bf8:0x1bfa],'little') == epoch+2
+        b.call('call',4)
+        b.ram[0x3960] = tag; b.call('call',operation=0,flags=8)
+        b.call('close')
+        done('a passed page-tag walk is reused until a heap page owner changes, then repeated',b,
+             walked=counts[0],cached=counts[1])
 
         b = new(); b.load()
         # The provider's callback helper refuses an IRQ-disabled caller

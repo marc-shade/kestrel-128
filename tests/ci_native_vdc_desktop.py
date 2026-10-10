@@ -182,9 +182,10 @@ def run(group):
                         p.move(x,y); p.check(p.value('gd_selected'))
                     # A move within one byte column reuses the saved background of
                     # the rows both pointers cover; only the other rows are read.
+                    # Steps stay under 6 pixels, which the 1351 jump filter holds.
                     for origin, steps in (((305,100),((0,3),(0,-5),(1,2),(-1,-1),(2,0),(5,1))),
-                                         ((305,190),((0,4),(0,-3),(1,6))),
-                                         ((318,100),((0,2),(1,-3),(-6,1)))):
+                                         ((305,190),((0,4),(0,-3),(1,5))),
+                                         ((318,100),((0,2),(1,-3),(-5,1)))):
                         p.move(*origin); p.check(p.value('gd_selected'))
                         for dx, dy in steps:
                             (ox, oy), reads = p.position, p.bus.data_reads

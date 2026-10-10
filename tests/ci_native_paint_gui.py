@@ -81,11 +81,17 @@ def main():
             p.close();p.restored();done('full-image viewport and colors, 255/256 and bottom/right pan, saturated edges and Home',p)
         if args.case in ('all','mouse'):
             p=GraphicalPaint();p.frame();p.check();p.move(24,48);p.frame(down=True)
-            wanted=bytearray(bytes(8192)+b'\x10'*1024);last=(16,16)
+            wanted=bytearray(bytes(8192)+b'\x10'*1024);last=aim=(16,16);origin=p.position
+            # A first jump of 6 pixels or more is held a sample, so the stroke
+            # runs from the last drawn point to wherever the pointer lands.
             for dx,dy in [(12,7),(20,20),(20,-7),(-10,-20)]:
-                endpoint=(last[0]+dx,last[1]+dy)
-                for x,y in segment(last,endpoint):wanted[y//8*320+x//8*8+y%8]|=128>>(x%8)
-                p.frame(dx=dx,dy=dy,down=True);p.check();last=endpoint
+                aim=(aim[0]+dx,aim[1]+dy)
+                p.frame(dx=dx,dy=dy,down=True);p.check()
+                now=(p.position[0]-origin[0]+16,p.position[1]-origin[1]+16)
+                assert now in (last,aim),(now,last,aim)
+                for x,y in segment(last,now) if now!=last else ():wanted[y//8*320+x//8*8+y%8]|=128>>(x%8)
+                last=now
+            assert last==aim
             p.frame(down=False);assert p.document()==wanted
             p.click(2);p.check();assert p.document()==bytes(8192)+b'\x10'*1024
             p.click(2);p.check();assert p.document()==wanted

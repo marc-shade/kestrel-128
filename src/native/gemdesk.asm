@@ -3343,8 +3343,7 @@ gm_clip_to_rect:
         jsr gm_times8
         sta gfx_y1
         stx gfx_y1+1
-        jsr gfx_set_clip
-        rts
+        jmp gfx_set_clip
 gm_clip_empty:
         sec
         rts

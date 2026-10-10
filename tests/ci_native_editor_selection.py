@@ -136,11 +136,13 @@ def main():
             e.exit();e.restored()
         elif args.case=='edges':
             e.prompt(0x88,'000040');e.frame();e.move(104,60)
-            def endpoint(x,y):
-                rows=document_lines(raw);first=[row[0] for row in rows].index(e.number('ed_view'))
+            def endpoint(x,y,view=None,horizontal=None):   # scroll state before the sample
+                view=e.number('ed_view') if view is None else view
+                horizontal=e.number('ed_horizontal') if horizontal is None else horizontal
+                rows=document_lines(raw);first=[row[0] for row in rows].index(view)
                 line=max(0,min(len(rows)-1,first+(-1 if y<56 else 16 if y>=184 else (y-56)//8)))
-                col=e.number('ed_horizontal')+max(0,x//8-1)
-                if x<8 and e.number('ed_horizontal'):col-=1
+                col=horizontal+max(0,x//8-1)
+                if x<8 and horizontal:col-=1
                 return rows[line][0]+min(len(rows[line][1]),col)
             anchor=endpoint(*e.position);e.frame(down=True)
             e.check(raw,anchor,False,selection=(anchor,anchor))
@@ -148,7 +150,8 @@ def main():
             for target in ((0,60),(0,68),(0,60),(0,20),(319,20),(319,100),(40,190),(40,20)):
                 while e.position!=target:
                     x,y=e.position;dx=max(-20,min(20,target[0]-x));dy=max(-20,min(20,target[1]-y))
-                    want=endpoint(x+dx,y+dy);e.frame(dx,dy)
+                    scroll=e.number('ed_view'),e.number('ed_horizontal')
+                    e.frame(dx,dy);want=endpoint(*e.position,*scroll)   # a first jump lands a sample late
                     assert e.number('ed_cursor')==want,(target,e.position,e.number('ed_cursor'),want)
                     assert not (raw[want-1:want+1]==b'\r\n')
                 points.append((target,want));e.check(raw,want,False,selection=tuple(sorted((anchor,want))))

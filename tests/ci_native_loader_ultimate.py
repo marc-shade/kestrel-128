@@ -92,10 +92,10 @@ def main():
         c=case('abi-1.9-accepted',seal(abi9));assert c.ram[0x3d24]==42
         abi12=bytearray(fixture());abi12[8]=12
         c=case('abi-1.12-accepted',seal(abi12));assert c.ram[0x3d24]==42
-        for minor in (13,14,15):
+        for minor in (13,14,15,16):
             image=bytearray(fixture());image[8]=minor
             c=case(f'abi-1.{minor}-accepted',seal(image));assert c.ram[0x3d24]==42
-        mutations=[('origin',0,1),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,16),
+        mutations=[('origin',0,1),('magic',2,0),('format',6,2),('abi',7,2),('minor',8,17),
                    ('flags',9,1),('pages-zero',12,0),('pages-too-large',12,97),('reserved',13,1),
                    ('entry-header',14,31),('entry-past-end',14,40),('title-control',18,13),('size-small',10,32)]
         for label,offset,value in mutations:

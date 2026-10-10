@@ -68,6 +68,16 @@ def verify_boot_layout(capture):
                 service_bytes=service_size,service_sha256=hashlib.sha256(service).hexdigest(),service_matches_image=True)
 
 
+class ObservationChanged(AssertionError):
+    """Native RAM the observer borrows or watches changed during a capture.
+
+    Raised after the borrowed bytes were restored and the observer resumed, so
+    a caller that can explain the changes (a pointer redraw) may retake."""
+    def __init__(self, message, changes):
+        super().__init__(message)
+        self.changes = changes
+
+
 class NativeCapture:
     def __init__(self,mon,work,quiet=2,*,kernel_prefix='native',batch=None):
         self.mon,self.work,self.quiet=mon,work,quiet
@@ -225,5 +235,5 @@ class NativeCapture:
                     if failure['observed_bytes']!=failure['expected_bytes']:
                         changed+=f' length {failure["observed_bytes"]}/{failure["expected_bytes"]}'
                     details.append(failure['message']+' ('+changed.strip()+')')
-                raise AssertionError('; '.join(details))
+                raise ObservationChanged('; '.join(details),[c['address'] for f in failures for c in f['changes']])
             record['restored']=True

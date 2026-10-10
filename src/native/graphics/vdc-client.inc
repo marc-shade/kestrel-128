@@ -175,10 +175,7 @@ bp_invoke:
         sta bp_carry
         lda bk_error
         bne bp_gate_failed
-        lda #5
-        jsr bk_call
-        bcs bp_gate_failed
-        ldx #40
+        ldx #40               ; operations 1-4 return the status record
 -       lda N_BUFFER,x
         sta bp_state,x
         dex

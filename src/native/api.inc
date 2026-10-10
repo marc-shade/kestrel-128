@@ -1,6 +1,6 @@
 ; Experimental native C128 ABI 1.14. Separate from the C64-mode $0811 table.
 N_ABI_MAJOR = 1
-N_ABI_MINOR = 15
+N_ABI_MINOR = 16
 ; Call from bank-0 code with system KERNAL and I/O visible. The standard
 ; bottom 1 KiB common area, zero page and stack mappings must remain in force.
 ; Foreground calls only; no IRQ/NMI callbacks or reentrant use.
@@ -88,6 +88,8 @@ N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
 N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
                                  ; reserves at the REU top (0 = none); app arenas stay below
+N_HEAPEPOCH     = $1bf8          ; ABI 1.16: 16-bit count of heap page-owner changes;
+                                 ; read-only, compare for equality to reuse a page check
 N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
