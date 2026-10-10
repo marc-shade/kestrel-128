@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -D NATIVE_DESKTOP_BOOT=1 -D NATIVE_BOOT_FORMAT=0 -o target/native-desktop/kestrel.prg -l target/native-desktop/kestrel.sym -L target/native-desktop/kestrel.lst src/native/kestrel.asm
-; Thu Oct  8 08:33:04 2026
+; Fri Oct  9 06:11:28 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -16,7 +16,7 @@
 ;******  Processing file: src/native/api.inc
 
 =1						N_ABI_MAJOR = 1
-=15						N_ABI_MINOR = 15
+=16						N_ABI_MINOR = 16
 =$1c20						N_ALLOC         = $1c20
 =$1c23						N_FREE          = $1c23
 =$1c26						N_READ          = $1c26
@@ -83,6 +83,7 @@
 =$3d2d						N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4						N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
 =$3d9f						N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
+=$1bf8						N_HEAPEPOCH     = $1bf8          ; ABI 1.16: 16-bit count of heap page-owner changes;
 =$3de5						N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31						N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e						N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
@@ -219,11 +220,11 @@
 .1c53		4c 9f 1f	jmp $1f9f	        jmp app_replace
 .1c56		4c a3 1f	jmp $1fa3	        jmp app_workspace
 .1c59		4c c2 18	jmp $18c2	        jmp field_edit
-.1c5c		4c f3 35	jmp $35f3	        jmp field_draw
+.1c5c		4c f1 35	jmp $35f1	        jmp field_draw
 .1c5f		4c 87 46	jmp $4687	        jmp module_load
 .1c62		4c cd 1a	jmp $1acd	        jmp module_call
 .1c65		4c 84 48	jmp $4884	        jmp module_close
-.1c68		4c 17 37	jmp $3717	        jmp display_show
+.1c68		4c 15 37	jmp $3715	        jmp display_show
 .1c6b		4c 97 1b	jmp $1b97	        jmp display_close
 .1c6e		4c 00 4b	jmp $4b00	        jmp ultimate_query
 .1c71		4c 93 4b	jmp $4b93	        jmp ultimate_command
@@ -247,7 +248,7 @@
 .1c91						native_calculator:
 .1c91		ad e4 3d	lda $3de4	        lda N_BOOTFORMAT
 .1c94		8d 2c 3d	sta $3d2c	        sta N_APPFORMAT
-.1c97		ad 15 37	lda $3715	        lda ui_system_device
+.1c97		ad 13 37	lda $3713	        lda ui_system_device
 .1c9a		8d 21 3d	sta $3d21	        sta N_DEVICE
 .1c9d		a2 03		ldx #$03	        ldx #3
 .1c9f						native_calc_name:
@@ -266,7 +267,7 @@
 .1cbb						native_browser:
 .1cbb		ad e4 3d	lda $3de4	        lda N_BOOTFORMAT
 .1cbe		8d 2c 3d	sta $3d2c	        sta N_APPFORMAT
-.1cc1		ad 15 37	lda $3715	        lda ui_system_device
+.1cc1		ad 13 37	lda $3713	        lda ui_system_device
 .1cc4		8d 21 3d	sta $3d21	        sta N_DEVICE
 .1cc7		a2 05		ldx #$05	        ldx #5
 .1cc9		a0 05		ldy #$05	        ldy #5
@@ -281,7 +282,7 @@
 .1cda		a9 00		lda #$00	        lda #0
 .1cdc		8d 9a 3d	sta $3d9a	        sta N_DOCREQUEST
 .1cdf						native_browser_name:
-.1cdf		b9 0a 37	lda $370a,y	        lda ui_browser_name,y
+.1cdf		b9 08 37	lda $3708,y	        lda ui_browser_name,y
 .1ce2		9d 40 3d	sta $3d40,x	        sta N_APPNAME,x
 .1ce5		88		dey		        dey
 .1ce6		ca		dex		        dex
@@ -289,14 +290,14 @@
 .1ce9		ad 9d 3d	lda $3d9d	        lda N_DOCRETURN
 .1cec		8d 9e 3d	sta $3d9e	        sta N_DOCRESUME
 .1cef		49 01		eor #$01	        eor #1                  ; Files returns to the Desktop; Desktop to workspace
-.1cf1		8d 16 37	sta $3716	        sta ui_browser_stage
+.1cf1		8d 14 37	sta $3714	        sta ui_browser_stage
 .1cf4		a9 00		lda #$00	        lda #0
 .1cf6		8d 9d 3d	sta $3d9d	        sta N_DOCRETURN
 .1cf9						native_dispatch:
 .1cf9		20 39 1d	jsr $1d39	        jsr app_launch
 .1cfc		90 0f		bcc $1d0d	        bcc native_dispatch_return
 .1cfe		8d 2b 3d	sta $3d2b	        sta N_BROWSERERROR
-.1d01		ae 16 37	ldx $3716	        ldx ui_browser_stage
+.1d01		ae 14 37	ldx $3714	        ldx ui_browser_stage
 .1d04		d0 30		bne $1d36	        bne native_browser_result
 .1d06		ae 23 3d	ldx $3d23	        ldx N_APPSTATE
 .1d09		d0 2b		bne $1d36	        bne native_browser_result
@@ -309,12 +310,12 @@
 .1d16		f0 14		beq $1d2c	        beq native_dispatch_done
 .1d18		ad 24 3d	lda $3d24	        lda N_EXITCODE
 .1d1b		8d 2b 3d	sta $3d2b	        sta N_BROWSERERROR
-.1d1e		ae 16 37	ldx $3716	        ldx ui_browser_stage
+.1d1e		ae 14 37	ldx $3714	        ldx ui_browser_stage
 .1d21		f0 98		beq $1cbb	        beq native_browser
 .1d23		d0 11		bne $1d36	        bne native_browser_result
 .1d25						native_dispatch_next:
 .1d25		a9 00		lda #$00	        lda #0
-.1d27		8d 16 37	sta $3716	        sta ui_browser_stage
+.1d27		8d 14 37	sta $3714	        sta ui_browser_stage
 .1d2a		f0 cd		beq $1cf9	        beq native_dispatch
 .1d2c						native_dispatch_done:
 .1d2c		a9 00		lda #$00	        lda #0
@@ -694,7 +695,7 @@
 .202b		c9 01		cmp #$01	        cmp #1
 .202d		d0 73		bne $20a2	        bne app_invalid
 .202f		ad 66 3d	lda $3d66	        lda N_APPHEADER+6
-.2032		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
+.2032		c9 11		cmp #$11	        cmp #N_ABI_MINOR+1
 .2034		b0 6c		bcs $20a2	        bcs app_invalid
 .2036		20 5d 1b	jsr $1b5d	        jsr module_window
 .2039		b0 67		bcs $20a2	        bcs app_invalid
@@ -1509,7 +1510,7 @@
 .26a4		c9 03		cmp #$03	        cmp #3
 .26a6		90 03		bcc $26ab	        bcs fs_argument
 .26a8		4c 18 22	jmp $2218
-.26ab		4c cc 32	jmp $32cc	        jmp nd_read
+.26ab		4c ca 32	jmp $32ca	        jmp nd_read
 .26ae		bd c2 3d	lda $3dc2,x	+       lda NFILES+2,x
 .26b1		cd 6a 2e	cmp $2e6a	        cmp f_operation
 .26b4		f0 03		beq $26b9	        beq *+5
@@ -1744,7 +1745,7 @@
 .28b9		aa		tax		        tax
 .28ba		e0 20		cpx #$20	        cpx #32
 .28bc		d0 e7		bne $28a5	        bne fs_release_check
-.28be		20 b0 34	jsr $34b0	        jsr nd_release
+.28be		20 ae 34	jsr $34ae	        jsr nd_release
 .28c1		90 03		bcc $28c6	        bcc *+5
 .28c3		4c 0c 22	jmp $220c	        jmp fs_finish
 .28c6		a9 00		lda #$00	        lda #0
@@ -2770,17 +2771,17 @@
 >315f		00				rc_command: .byte 0
 >3160		00				rc_chunklen: .byte 0
 .3161						module_pages_check:
-.3161		ad ad 31	lda $31ad	        lda heap_epoch
-.3164		cd af 31	cmp $31af	        cmp mp_epoch
+.3161		ad f8 1b	lda $1bf8	        lda N_HEAPEPOCH
+.3164		cd ad 31	cmp $31ad	        cmp mp_epoch
 .3167		d0 18		bne $3181	        bne mp_walk
-.3169		ad ae 31	lda $31ae	        lda heap_epoch+1
-.316c		cd b0 31	cmp $31b0	        cmp mp_epoch+1
+.3169		ad f9 1b	lda $1bf9	        lda N_HEAPEPOCH+1
+.316c		cd ae 31	cmp $31ae	        cmp mp_epoch+1
 .316f		d0 10		bne $3181	        bne mp_walk
 .3171		ad 8e 21	lda $218e	        lda l_app_handle
-.3174		cd b1 31	cmp $31b1	        cmp mp_handle
+.3174		cd af 31	cmp $31af	        cmp mp_handle
 .3177		d0 08		bne $3181	        bne mp_walk
 .3179		ad 55 1a	lda $1a55	        lda field_app_end
-.317c		cd b2 31	cmp $31b2	        cmp mp_end
+.317c		cd b0 31	cmp $31b0	        cmp mp_end
 .317f		f0 28		beq $31a9	        beq mp_ok
 .3181						mp_walk:
 .3181		a2 60		ldx #$60	        ldx #>N_APPBASE
@@ -2790,630 +2791,629 @@
 .318b		e8		inx		        inx
 .318c		ec 55 1a	cpx $1a55	        cpx field_app_end
 .318f		d0 f2		bne $3183	        bne -
-.3191		ad ad 31	lda $31ad	        lda heap_epoch
-.3194		8d af 31	sta $31af	        sta mp_epoch
-.3197		ad ae 31	lda $31ae	        lda heap_epoch+1
-.319a		8d b0 31	sta $31b0	        sta mp_epoch+1
+.3191		ad f8 1b	lda $1bf8	        lda N_HEAPEPOCH
+.3194		8d ad 31	sta $31ad	        sta mp_epoch
+.3197		ad f9 1b	lda $1bf9	        lda N_HEAPEPOCH+1
+.319a		8d ae 31	sta $31ae	        sta mp_epoch+1
 .319d		ad 8e 21	lda $218e	        lda l_app_handle
-.31a0		8d b1 31	sta $31b1	        sta mp_handle
+.31a0		8d af 31	sta $31af	        sta mp_handle
 .31a3		ad 55 1a	lda $1a55	        lda field_app_end
-.31a6		8d b2 31	sta $31b2	        sta mp_end
+.31a6		8d b0 31	sta $31b0	        sta mp_end
 .31a9						mp_ok:
 .31a9		18		clc		        clc
 .31aa		60		rts		        rts
 .31ab						mp_bad:
 .31ab		38		sec		        sec
 .31ac		60		rts		        rts
->31ad		00 00				heap_epoch: .word 0
->31af		00 00				mp_epoch: .word 0
->31b1		00				mp_handle: .byte 0
->31b2		00				mp_end: .byte 0
+>31ad		00 00				mp_epoch: .word 0
+>31af		00				mp_handle: .byte 0
+>31b0		00				mp_end: .byte 0
 
 ;******  Return to file: src/native/kestrel.asm
 
 
 ;******  Processing file: src/native/ultimate-directory.inc
 
-.31b3						nd_guard:
-.31b3		ad d7 34	lda $34d7	        lda nd_active
-.31b6		f0 04		beq $31bc	        beq nd_idle
-.31b8		a9 15		lda #$15	        lda #N_CHANNELS
-.31ba		38		sec		        sec
+.31b1						nd_guard:
+.31b1		ad d5 34	lda $34d5	        lda nd_active
+.31b4		f0 04		beq $31ba	        beq nd_idle
+.31b6		a9 15		lda #$15	        lda #N_CHANNELS
+.31b8		38		sec		        sec
+.31b9		60		rts		        rts
+.31ba						nd_idle:
+.31ba		18		clc		        clc
 .31bb		60		rts		        rts
-.31bc						nd_idle:
-.31bc		18		clc		        clc
-.31bd		60		rts		        rts
-.31be						nd_record:
-.31be		8a		txa		        txa
+.31bc						nd_record:
+.31bc		8a		txa		        txa
+.31bd		4a		lsr a		        lsr
+.31be		4a		lsr a		        lsr
 .31bf		4a		lsr a		        lsr
 .31c0		4a		lsr a		        lsr
-.31c1		4a		lsr a		        lsr
-.31c2		4a		lsr a		        lsr
-.31c3		18		clc		        clc
-.31c4		69 01		adc #$01	        adc #1
-.31c6		cd d6 34	cmp $34d6	        cmp nd_slot
-.31c9		d0 24		bne $31ef	        bne nd_corrupt
-.31cb		ad d8 34	lda $34d8	        lda nd_length
-.31ce		f0 1f		beq $31ef	        beq nd_corrupt
-.31d0		ad d7 34	lda $34d7	        lda nd_active
-.31d3		c9 02		cmp #$02	        cmp #2
-.31d5		b0 18		bcs $31ef	        bcs nd_corrupt
-.31d7		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.31da		29 08		and #$08	        and #8
-.31dc		d0 11		bne $31ef	        bne nd_corrupt
-.31de		20 68 40	jsr $4068	        jsr nu_remaining
-.31e1		d0 0c		bne $31ef	        bne nd_corrupt
-.31e3		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.31e6		29 01		and #$01	        and #1
-.31e8		f0 d2		beq $31bc	        beq nd_idle
-.31ea		ad d7 34	lda $34d7	        lda nd_active
-.31ed		f0 cd		beq $31bc	        beq nd_idle
-.31ef						nd_corrupt:
-.31ef		4c 21 22	jmp $2221	        jmp fs_corrupt
-.31f2						nd_prepare:
-.31f2		a9 12		lda #$12	        lda #$12
-.31f4		20 5c 44	jsr $445c	        jsr nu_two
-.31f7		b0 32		bcs $322b	        bcs nd_prepare_failed
-.31f9		c9 00		cmp #$00	        cmp #0
-.31fb		d0 2c		bne $3229	        bne nd_prepare_io
-.31fd		ad 7b 46	lda $467b	        lda nu_length+1
-.3200		d0 22		bne $3224	        bne nd_prepare_protocol
-.3202		ad 7a 46	lda $467a	        lda nu_length
-.3205		f0 1d		beq $3224	        beq nd_prepare_protocol
-.3207		8d d8 34	sta $34d8	        sta nd_length
-.320a		ad 00 3a	lda $3a00	        lda N_BUFFER
-.320d		c9 2f		cmp #$2f	        cmp #$2f
-.320f		d0 13		bne $3224	        bne nd_prepare_protocol
-.3211		a2 00		ldx #$00	        ldx #0
-.3213						nd_save_path:
-.3213		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
-.3216		f0 0c		beq $3224	        beq nd_prepare_protocol
-.3218		9d da 34	sta $34da,x	        sta nd_path,x
-.321b		e8		inx		        inx
-.321c		ec d8 34	cpx $34d8	        cpx nd_length
-.321f		d0 f2		bne $3213	        bne nd_save_path
-.3221		4c 21 41	jmp $4121	        jmp nu_allocate
-.3224						nd_prepare_protocol:
-.3224		a9 fc		lda #$fc	        lda #$fc
-.3226		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.3229						nd_prepare_io:
-.3229		a9 11		lda #$11	        lda #N_IOERROR
-.322b						nd_prepare_failed:
-.322b		4c 0c 22	jmp $220c	        jmp fs_finish
-.322e						nd_begin:
-.322e		ad 81 3d	lda $3d81	        lda N_FHANDLE
-.3231		8d d6 34	sta $34d6	        sta nd_slot
-.3234		a9 00		lda #$00	        lda #0
-.3236		8d d7 34	sta $34d7	        sta nd_active
-.3239		ad 86 3d	lda $3d86	        lda N_FNAMELEN
-.323c		a2 00		ldx #$00	        ldx #<N_UPATH
-.323e		a0 4e		ldy #$4e	        ldy #>N_UPATH
-.3240		20 99 32	jsr $3299	        jsr nd_change
-.3243		b0 51		bcs $3296	        bcs nd_open_failed
-.3245		c9 00		cmp #$00	        cmp #0
-.3247		d0 4d		bne $3296	        bne nd_open_failed
-.3249		a9 12		lda #$12	        lda #$12
-.324b		20 5c 44	jsr $445c	        jsr nu_two
-.324e		b0 46		bcs $3296	        bcs nd_open_failed
-.3250		c9 00		cmp #$00	        cmp #0
-.3252		d0 42		bne $3296	        bne nd_open_failed
-.3254		ad 7b 46	lda $467b	        lda nu_length+1
-.3257		d0 38		bne $3291	        bne nd_open_protocol
-.3259		ad 7a 46	lda $467a	        lda nu_length
-.325c		f0 33		beq $3291	        beq nd_open_protocol
-.325e		8d 86 3d	sta $3d86	        sta N_FNAMELEN
-.3261		ad 00 3a	lda $3a00	        lda N_BUFFER
-.3264		c9 2f		cmp #$2f	        cmp #$2f
-.3266		d0 29		bne $3291	        bne nd_open_protocol
-.3268		a2 00		ldx #$00	        ldx #0
-.326a						nd_canonical_path:
-.326a		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
-.326d		f0 22		beq $3291	        beq nd_open_protocol
-.326f		9d 00 4e	sta $4e00,x	        sta N_UPATH,x
-.3272		e8		inx		        inx
-.3273		ec 86 3d	cpx $3d86	        cpx N_FNAMELEN
-.3276		d0 f2		bne $326a	        bne nd_canonical_path
-.3278		a9 13		lda #$13	        lda #$13
-.327a		20 5c 44	jsr $445c	        jsr nu_two
-.327d		b0 17		bcs $3296	        bcs nd_open_failed
-.327f		c9 02		cmp #$02	        cmp #2                  ; 00 snapshot ready, 01 empty directory
-.3281		b0 13		bcs $3296	        bcs nd_open_failed
-.3283		ae 59 2e	ldx $2e59	        ldx f_slot
-.3286		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
-.3289		20 5f 28	jsr $285f	        jsr fs_snapshot
-.328c		a9 00		lda #$00	        lda #0
-.328e		4c 0c 22	jmp $220c	        jmp fs_finish
-.3291						nd_open_protocol:
-.3291		a9 fc		lda #$fc	        lda #$fc
-.3293		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.3296						nd_open_failed:
-.3296		4c 23 42	jmp $4223	        jmp nu_open_failed      ; retain the owner until CWD restoration succeeds
-.3299						nd_change:
-.3299		8d d9 34	sta $34d9	        sta nd_transfer_length
-.329c		8e b0 32	stx $32b0	        stx nd_path_byte+1
-.329f		8c b1 32	sty $32b1	        sty nd_path_byte+2
-.32a2		ad 5a 2e	lda $2e5a	        lda f_device
-.32a5		8d fc 4b	sta $4bfc	        sta NU_COMMAND
-.32a8		a9 11		lda #$11	        lda #$11
-.32aa		8d fd 4b	sta $4bfd	        sta NU_COMMAND+1
-.32ad		a2 00		ldx #$00	        ldx #0
-.32af						nd_path_byte:
-.32af		bd ff ff	lda $ffff,x	        lda $ffff,x
-.32b2		9d fe 4b	sta $4bfe,x	        sta NU_COMMAND+2,x
-.32b5		e8		inx		        inx
-.32b6		ec d9 34	cpx $34d9	        cpx nd_transfer_length
-.32b9		d0 f4		bne $32af	        bne nd_path_byte
-.32bb		18		clc		        clc
-.32bc		8a		txa		        txa
-.32bd		69 02		adc #$02	        adc #2
-.32bf		8d 76 46	sta $4676	        sta nu_cmdlen
-.32c2		a9 00		lda #$00	        lda #0
-.32c4		69 00		adc #$00	        adc #0
-.32c6		8d 77 46	sta $4677	        sta nu_cmdlen+1
-.32c9		4c 79 44	jmp $4479	        jmp nu_full
-.32cc						nd_read:
-.32cc		ad 6a 2e	lda $2e6a	        lda f_operation
-.32cf		d0 1c		bne $32ed	        bne nd_argument
-.32d1		ad 89 3d	lda $3d89	        lda N_FCOUNT
-.32d4		d0 1a		bne $32f0	        bne nd_range
-.32d6		ad 8a 3d	lda $3d8a	        lda N_FCOUNT+1
-.32d9		c9 02		cmp #$02	        cmp #2
-.32db		d0 13		bne $32f0	        bne nd_range
-.32dd		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.32e0		29 06		and #$06	        and #6
-.32e2		f0 12		beq $32f6	        beq nd_read_clean
-.32e4		bd c7 3d	lda $3dc7,x	        lda NFILES+7,x
-.32e7		d0 0a		bne $32f3	        bne nd_read_return
-.32e9		a9 11		lda #$11	        lda #N_IOERROR
-.32eb		d0 06		bne $32f3	        bne nd_read_return
-.32ed						nd_argument:
-.32ed		4c 18 22	jmp $2218	        jmp fs_argument
-.32f0						nd_range:
-.32f0		4c e0 26	jmp $26e0	        jmp fs_transfer_range
-.32f3						nd_read_return:
-.32f3		4c 0c 22	jmp $220c	        jmp fs_finish
-.32f6						nd_read_clean:
-.32f6		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.32f9		29 01		and #$01	        and #1
-.32fb		f0 03		beq $3300	        bne nd_publish_empty
-.32fd		4c dd 33	jmp $33dd
-.3300		bd c8 3d	lda $3dc8,x	        lda NFILES+8,x
-.3303		3d c9 3d	and $3dc9,x	        and NFILES+9,x
-.3306		3d ca 3d	and $3dca,x	        and NFILES+10,x
-.3309		3d cb 3d	and $3dcb,x	        and NFILES+11,x
-.330c		c9 ff		cmp #$ff	        cmp #$ff
-.330e		f0 e0		beq $32f0	        beq nd_range
-.3310		bd c1 3d	lda $3dc1,x	        lda NFILES+1,x
-.3313		8d 5a 2e	sta $2e5a	        sta f_device
-.3316		a9 01		lda #$01	        lda #1
-.3318		8d 85 46	sta $4685	        sta nu_packet_mode
-.331b		ad d7 34	lda $34d7	        lda nd_active
-.331e		d0 1f		bne $333f	        bne nd_continue
-.3320		ad 5a 2e	lda $2e5a	        lda f_device
-.3323		8d 70 46	sta $4670	        sta nu_short
-.3326		a9 14		lda #$14	        lda #$14
-.3328		8d 71 46	sta $4671	        sta nu_short+1
-.332b		a9 02		lda #$02	        lda #2
-.332d		8d 76 46	sta $4676	        sta nu_cmdlen
-.3330		a9 00		lda #$00	        lda #0
-.3332		8d 77 46	sta $4677	        sta nu_cmdlen+1
-.3335		a9 70		lda #$70	        lda #<nu_short
-.3337		a2 46		ldx #$46	        ldx #>nu_short
-.3339		20 82 44	jsr $4482	        jsr nu_send
-.333c		4c 53 33	jmp $3353	        jmp nd_received
-.333f						nd_continue:
-.333f		ad 1d df	lda $df1d	        lda $df1d
-.3342		c9 c9		cmp #$c9	        cmp #$c9
-.3344		d0 18		bne $335e	        bne nd_read_absent
-.3346		ad 1d df	lda $df1d	        lda $df1d
-.3349		c9 c9		cmp #$c9	        cmp #$c9
-.334b		d0 11		bne $335e	        bne nd_read_absent
-.334d		20 c3 45	jsr $45c3	        jsr nu_reply_init
-.3350		20 ed 44	jsr $44ed	        jsr nu_wait
-.3353						nd_received:
-.3353		90 13		bcc $3368	        bcc nd_validate
-.3355		c9 15		cmp #$15	        cmp #N_CHANNELS
-.3357		f0 9a		beq $32f3	        beq nd_read_return      ; no command was issued; do not poison the cursor
-.3359		f0 03		beq $335e	        bne nd_read_failed
-.335b		4c ec 33	jmp $33ec
-.335e						nd_read_absent:
-.335e		a9 fe		lda #$fe	        lda #$fe
-.3360		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.3363		f0 03		beq $3368	        bne nd_read_io
-.3365		4c ea 33	jmp $33ea
-.3368						nd_validate:
-.3368		ad 86 46	lda $4686	        lda nu_part_state
-.336b		c9 20		cmp #$20	        cmp #$20
-.336d		f0 0b		beq $337a	        beq nd_final_status
-.336f		c9 30		cmp #$30	        cmp #$30
-.3371		d0 72		bne $33e5	        bne nd_read_protocol
-.3373		ad 00 4f	lda $4f00	        lda N_USTATUS
-.3376		d0 72		bne $33ea	        bne nd_read_io
-.3378		f0 0a		beq $3384	        beq nd_packet_size
-.337a						nd_final_status:
-.337a		ad 80 46	lda $4680	        lda nu_code
-.337d		d0 6b		bne $33ea	        bne nd_read_io
-.337f		a9 00		lda #$00	        lda #0
-.3381		8d d7 34	sta $34d7	        sta nd_active          ; final packet ACK has reached transport idle
-.3384						nd_packet_size:
-.3384		ad 7b 46	lda $467b	        lda nu_length+1
-.3387		f0 0b		beq $3394	        beq nd_packet_low
-.3389		c9 01		cmp #$01	        cmp #1
-.338b		d0 58		bne $33e5	        bne nd_read_protocol
-.338d		ad 7a 46	lda $467a	        lda nu_length
-.3390		d0 53		bne $33e5	        bne nd_read_protocol
-.3392		f0 07		beq $339b	        beq nd_packet_name
-.3394						nd_packet_low:
-.3394		ad 7a 46	lda $467a	        lda nu_length
-.3397		c9 02		cmp #$02	        cmp #2
-.3399		90 4a		bcc $33e5	        bcc nd_read_protocol
-.339b						nd_packet_name:
-.339b		a2 01		ldx #$01	        ldx #1
-.339d						nd_name_byte:
-.339d		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
-.33a0		f0 43		beq $33e5	        beq nd_read_protocol
-.33a2		c9 2f		cmp #$2f	        cmp #$2f
-.33a4		f0 3f		beq $33e5	        beq nd_read_protocol
-.33a6		c9 5c		cmp #$5c	        cmp #$5c
-.33a8		f0 3b		beq $33e5	        beq nd_read_protocol
-.33aa		e8		inx		        inx
-.33ab		ec 7a 46	cpx $467a	        cpx nu_length
-.33ae		d0 ed		bne $339d	        bne nd_name_byte
-.33b0		ae 59 2e	ldx $2e59	        ldx f_slot
-.33b3		fe c8 3d	inc $3dc8,x	        inc NFILES+8,x
-.33b6		d0 0d		bne $33c5	        bne nd_position_ready
-.33b8		fe c9 3d	inc $3dc9,x	        inc NFILES+9,x
-.33bb		d0 08		bne $33c5	        bne nd_position_ready
-.33bd		fe ca 3d	inc $3dca,x	        inc NFILES+10,x
-.33c0		d0 03		bne $33c5	        bne nd_position_ready
-.33c2		fe cb 3d	inc $3dcb,x	        inc NFILES+11,x
-.33c5						nd_position_ready:
-.33c5		ad 7a 46	lda $467a	        lda nu_length
-.33c8		8d 8b 3d	sta $3d8b	        sta N_FACTUAL
-.33cb		ad 7b 46	lda $467b	        lda nu_length+1
-.33ce		8d 8c 3d	sta $3d8c	        sta N_FACTUAL+1
-.33d1		ad 86 46	lda $4686	        lda nu_part_state
-.33d4		c9 20		cmp #$20	        cmp #$20
-.33d6		d0 05		bne $33dd	        bne nd_publish_empty
-.33d8		a9 01		lda #$01	        lda #1
-.33da		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
-.33dd						nd_publish_empty:
-.33dd		20 5f 28	jsr $285f	        jsr fs_snapshot
-.33e0		a9 00		lda #$00	        lda #0
-.33e2		4c 0c 22	jmp $220c	        jmp fs_finish
-.33e5						nd_read_protocol:
-.33e5		a9 fc		lda #$fc	        lda #$fc
-.33e7		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.33ea						nd_read_io:
-.33ea		a9 11		lda #$11	        lda #N_IOERROR
-.33ec						nd_read_failed:
-.33ec		ae 59 2e	ldx $2e59	        ldx f_slot
-.33ef		9d c7 3d	sta $3dc7,x	        sta NFILES+7,x
-.33f2		48		pha		        pha
-.33f3		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.33f6		09 06		ora #$06	        ora #6
-.33f8		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
-.33fb		68		pla		        pla
-.33fc		4c 0c 22	jmp $220c	        jmp fs_finish
-.33ff						nd_close:
-.33ff		bd c1 3d	lda $3dc1,x	        lda NFILES+1,x
-.3402		8d 5a 2e	sta $2e5a	        sta f_device
-.3405		20 6b 34	jsr $346b	        jsr nd_cancel
-.3408		b0 4f		bcs $3459	        bcs nd_close_failed
-.340a		ad d8 34	lda $34d8	        lda nd_length
-.340d		a2 da		ldx #$da	        ldx #<nd_path
-.340f		a0 34		ldy #$34	        ldy #>nd_path
-.3411		20 99 32	jsr $3299	        jsr nd_change
-.3414		b0 43		bcs $3459	        bcs nd_close_failed
-.3416		c9 00		cmp #$00	        cmp #0
-.3418		d0 3d		bne $3457	        bne nd_close_io
-.341a		a9 12		lda #$12	        lda #$12
-.341c		20 5c 44	jsr $445c	        jsr nu_two
-.341f		b0 38		bcs $3459	        bcs nd_close_failed
-.3421		c9 00		cmp #$00	        cmp #0
-.3423		d0 32		bne $3457	        bne nd_close_io
-.3425		ad 7b 46	lda $467b	        lda nu_length+1
-.3428		d0 28		bne $3452	        bne nd_close_protocol
-.342a		ad 7a 46	lda $467a	        lda nu_length
-.342d		cd d8 34	cmp $34d8	        cmp nd_length
-.3430		d0 20		bne $3452	        bne nd_close_protocol
-.3432		a2 00		ldx #$00	        ldx #0
-.3434						nd_restored_byte:
-.3434		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
-.3437		dd da 34	cmp $34da,x	        cmp nd_path,x
-.343a		d0 16		bne $3452	        bne nd_close_protocol
-.343c		e8		inx		        inx
-.343d		ec d8 34	cpx $34d8	        cpx nd_length
-.3440		d0 f2		bne $3434	        bne nd_restored_byte
-.3442		20 5f 28	jsr $285f	        jsr fs_snapshot
-.3445		ae 59 2e	ldx $2e59	        ldx f_slot
-.3448		a9 00		lda #$00	        lda #0
-.344a		9d c0 3d	sta $3dc0,x	        sta NFILES,x
-.344d		8d d6 34	sta $34d6	        sta nd_slot
-.3450		18		clc		        clc
-.3451		60		rts		        rts
-.3452						nd_close_protocol:
-.3452		a9 fc		lda #$fc	        lda #$fc
-.3454		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.3457						nd_close_io:
-.3457		a9 11		lda #$11	        lda #N_IOERROR
-.3459						nd_close_failed:
-.3459		ae 59 2e	ldx $2e59	        ldx f_slot
-.345c		9d c7 3d	sta $3dc7,x	        sta NFILES+7,x
-.345f		48		pha		        pha
-.3460		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
-.3463		09 04		ora #$04	        ora #4
-.3465		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
-.3468		68		pla		        pla
-.3469		38		sec		        sec
-.346a		60		rts		        rts
-.346b						nd_cancel:
-.346b		ad d7 34	lda $34d7	        lda nd_active
-.346e		d0 03		bne $3473	        beq nd_idle
-.3470		4c bc 31	jmp $31bc
-.3473		ad 1d df	lda $df1d	        lda $df1d
-.3476		c9 c9		cmp #$c9	        cmp #$c9
-.3478		d0 26		bne $34a0	        bne nd_cancel_absent
-.347a		ad 1d df	lda $df1d	        lda $df1d
-.347d		c9 c9		cmp #$c9	        cmp #$c9
-.347f		d0 1f		bne $34a0	        bne nd_cancel_absent
-.3481		ad 1c df	lda $df1c	        lda $df1c
-.3484		29 3f		and #$3f	        and #$3f
-.3486		f0 21		beq $34a9	        beq nd_cancel_done
-.3488		a9 04		lda #$04	        lda #4
-.348a		8d 1c df	sta $df1c	        sta $df1c
-.348d		20 3d 46	jsr $463d	        jsr nu_timer_init
-.3490						nd_cancel_wait:
-.3490		ad 1c df	lda $df1c	        lda $df1c
-.3493		29 3f		and #$3f	        and #$3f
-.3495		f0 12		beq $34a9	        beq nd_cancel_done
-.3497		20 4b 46	jsr $464b	        jsr nu_tick
-.349a		90 f4		bcc $3490	        bcc nd_cancel_wait
-.349c		a9 ff		lda #$ff	        lda #$ff
-.349e		d0 02		bne $34a2	        bne nd_cancel_error
-.34a0						nd_cancel_absent:
-.34a0		a9 fe		lda #$fe	        lda #$fe
-.34a2						nd_cancel_error:
-.34a2		8d 90 3d	sta $3d90	        sta N_FSTATUS
-.34a5		a9 11		lda #$11	        lda #N_IOERROR
-.34a7		38		sec		        sec
-.34a8		60		rts		        rts
-.34a9						nd_cancel_done:
-.34a9		a9 00		lda #$00	        lda #0
-.34ab		8d d7 34	sta $34d7	        sta nd_active
-.34ae		18		clc		        clc
-.34af		60		rts		        rts
-.34b0						nd_release:
-.34b0		ad d6 34	lda $34d6	        lda nd_slot
-.34b3		f0 bb		beq $3470	        beq nd_idle
-.34b5		c9 03		cmp #$03	        cmp #3
-.34b7		90 03		bcc $34bc	        bcs nd_corrupt
-.34b9		4c ef 31	jmp $31ef
-.34bc		38		sec		        sec
-.34bd		e9 01		sbc #$01	        sbc #1
+.31c1		18		clc		        clc
+.31c2		69 01		adc #$01	        adc #1
+.31c4		cd d4 34	cmp $34d4	        cmp nd_slot
+.31c7		d0 24		bne $31ed	        bne nd_corrupt
+.31c9		ad d6 34	lda $34d6	        lda nd_length
+.31cc		f0 1f		beq $31ed	        beq nd_corrupt
+.31ce		ad d5 34	lda $34d5	        lda nd_active
+.31d1		c9 02		cmp #$02	        cmp #2
+.31d3		b0 18		bcs $31ed	        bcs nd_corrupt
+.31d5		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.31d8		29 08		and #$08	        and #8
+.31da		d0 11		bne $31ed	        bne nd_corrupt
+.31dc		20 68 40	jsr $4068	        jsr nu_remaining
+.31df		d0 0c		bne $31ed	        bne nd_corrupt
+.31e1		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.31e4		29 01		and #$01	        and #1
+.31e6		f0 d2		beq $31ba	        beq nd_idle
+.31e8		ad d5 34	lda $34d5	        lda nd_active
+.31eb		f0 cd		beq $31ba	        beq nd_idle
+.31ed						nd_corrupt:
+.31ed		4c 21 22	jmp $2221	        jmp fs_corrupt
+.31f0						nd_prepare:
+.31f0		a9 12		lda #$12	        lda #$12
+.31f2		20 5c 44	jsr $445c	        jsr nu_two
+.31f5		b0 32		bcs $3229	        bcs nd_prepare_failed
+.31f7		c9 00		cmp #$00	        cmp #0
+.31f9		d0 2c		bne $3227	        bne nd_prepare_io
+.31fb		ad 7b 46	lda $467b	        lda nu_length+1
+.31fe		d0 22		bne $3222	        bne nd_prepare_protocol
+.3200		ad 7a 46	lda $467a	        lda nu_length
+.3203		f0 1d		beq $3222	        beq nd_prepare_protocol
+.3205		8d d6 34	sta $34d6	        sta nd_length
+.3208		ad 00 3a	lda $3a00	        lda N_BUFFER
+.320b		c9 2f		cmp #$2f	        cmp #$2f
+.320d		d0 13		bne $3222	        bne nd_prepare_protocol
+.320f		a2 00		ldx #$00	        ldx #0
+.3211						nd_save_path:
+.3211		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.3214		f0 0c		beq $3222	        beq nd_prepare_protocol
+.3216		9d d8 34	sta $34d8,x	        sta nd_path,x
+.3219		e8		inx		        inx
+.321a		ec d6 34	cpx $34d6	        cpx nd_length
+.321d		d0 f2		bne $3211	        bne nd_save_path
+.321f		4c 21 41	jmp $4121	        jmp nu_allocate
+.3222						nd_prepare_protocol:
+.3222		a9 fc		lda #$fc	        lda #$fc
+.3224		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.3227						nd_prepare_io:
+.3227		a9 11		lda #$11	        lda #N_IOERROR
+.3229						nd_prepare_failed:
+.3229		4c 0c 22	jmp $220c	        jmp fs_finish
+.322c						nd_begin:
+.322c		ad 81 3d	lda $3d81	        lda N_FHANDLE
+.322f		8d d4 34	sta $34d4	        sta nd_slot
+.3232		a9 00		lda #$00	        lda #0
+.3234		8d d5 34	sta $34d5	        sta nd_active
+.3237		ad 86 3d	lda $3d86	        lda N_FNAMELEN
+.323a		a2 00		ldx #$00	        ldx #<N_UPATH
+.323c		a0 4e		ldy #$4e	        ldy #>N_UPATH
+.323e		20 97 32	jsr $3297	        jsr nd_change
+.3241		b0 51		bcs $3294	        bcs nd_open_failed
+.3243		c9 00		cmp #$00	        cmp #0
+.3245		d0 4d		bne $3294	        bne nd_open_failed
+.3247		a9 12		lda #$12	        lda #$12
+.3249		20 5c 44	jsr $445c	        jsr nu_two
+.324c		b0 46		bcs $3294	        bcs nd_open_failed
+.324e		c9 00		cmp #$00	        cmp #0
+.3250		d0 42		bne $3294	        bne nd_open_failed
+.3252		ad 7b 46	lda $467b	        lda nu_length+1
+.3255		d0 38		bne $328f	        bne nd_open_protocol
+.3257		ad 7a 46	lda $467a	        lda nu_length
+.325a		f0 33		beq $328f	        beq nd_open_protocol
+.325c		8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.325f		ad 00 3a	lda $3a00	        lda N_BUFFER
+.3262		c9 2f		cmp #$2f	        cmp #$2f
+.3264		d0 29		bne $328f	        bne nd_open_protocol
+.3266		a2 00		ldx #$00	        ldx #0
+.3268						nd_canonical_path:
+.3268		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.326b		f0 22		beq $328f	        beq nd_open_protocol
+.326d		9d 00 4e	sta $4e00,x	        sta N_UPATH,x
+.3270		e8		inx		        inx
+.3271		ec 86 3d	cpx $3d86	        cpx N_FNAMELEN
+.3274		d0 f2		bne $3268	        bne nd_canonical_path
+.3276		a9 13		lda #$13	        lda #$13
+.3278		20 5c 44	jsr $445c	        jsr nu_two
+.327b		b0 17		bcs $3294	        bcs nd_open_failed
+.327d		c9 02		cmp #$02	        cmp #2                  ; 00 snapshot ready, 01 empty directory
+.327f		b0 13		bcs $3294	        bcs nd_open_failed
+.3281		ae 59 2e	ldx $2e59	        ldx f_slot
+.3284		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
+.3287		20 5f 28	jsr $285f	        jsr fs_snapshot
+.328a		a9 00		lda #$00	        lda #0
+.328c		4c 0c 22	jmp $220c	        jmp fs_finish
+.328f						nd_open_protocol:
+.328f		a9 fc		lda #$fc	        lda #$fc
+.3291		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.3294						nd_open_failed:
+.3294		4c 23 42	jmp $4223	        jmp nu_open_failed      ; retain the owner until CWD restoration succeeds
+.3297						nd_change:
+.3297		8d d7 34	sta $34d7	        sta nd_transfer_length
+.329a		8e ae 32	stx $32ae	        stx nd_path_byte+1
+.329d		8c af 32	sty $32af	        sty nd_path_byte+2
+.32a0		ad 5a 2e	lda $2e5a	        lda f_device
+.32a3		8d fc 4b	sta $4bfc	        sta NU_COMMAND
+.32a6		a9 11		lda #$11	        lda #$11
+.32a8		8d fd 4b	sta $4bfd	        sta NU_COMMAND+1
+.32ab		a2 00		ldx #$00	        ldx #0
+.32ad						nd_path_byte:
+.32ad		bd ff ff	lda $ffff,x	        lda $ffff,x
+.32b0		9d fe 4b	sta $4bfe,x	        sta NU_COMMAND+2,x
+.32b3		e8		inx		        inx
+.32b4		ec d7 34	cpx $34d7	        cpx nd_transfer_length
+.32b7		d0 f4		bne $32ad	        bne nd_path_byte
+.32b9		18		clc		        clc
+.32ba		8a		txa		        txa
+.32bb		69 02		adc #$02	        adc #2
+.32bd		8d 76 46	sta $4676	        sta nu_cmdlen
+.32c0		a9 00		lda #$00	        lda #0
+.32c2		69 00		adc #$00	        adc #0
+.32c4		8d 77 46	sta $4677	        sta nu_cmdlen+1
+.32c7		4c 79 44	jmp $4479	        jmp nu_full
+.32ca						nd_read:
+.32ca		ad 6a 2e	lda $2e6a	        lda f_operation
+.32cd		d0 1c		bne $32eb	        bne nd_argument
+.32cf		ad 89 3d	lda $3d89	        lda N_FCOUNT
+.32d2		d0 1a		bne $32ee	        bne nd_range
+.32d4		ad 8a 3d	lda $3d8a	        lda N_FCOUNT+1
+.32d7		c9 02		cmp #$02	        cmp #2
+.32d9		d0 13		bne $32ee	        bne nd_range
+.32db		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.32de		29 06		and #$06	        and #6
+.32e0		f0 12		beq $32f4	        beq nd_read_clean
+.32e2		bd c7 3d	lda $3dc7,x	        lda NFILES+7,x
+.32e5		d0 0a		bne $32f1	        bne nd_read_return
+.32e7		a9 11		lda #$11	        lda #N_IOERROR
+.32e9		d0 06		bne $32f1	        bne nd_read_return
+.32eb						nd_argument:
+.32eb		4c 18 22	jmp $2218	        jmp fs_argument
+.32ee						nd_range:
+.32ee		4c e0 26	jmp $26e0	        jmp fs_transfer_range
+.32f1						nd_read_return:
+.32f1		4c 0c 22	jmp $220c	        jmp fs_finish
+.32f4						nd_read_clean:
+.32f4		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.32f7		29 01		and #$01	        and #1
+.32f9		f0 03		beq $32fe	        bne nd_publish_empty
+.32fb		4c db 33	jmp $33db
+.32fe		bd c8 3d	lda $3dc8,x	        lda NFILES+8,x
+.3301		3d c9 3d	and $3dc9,x	        and NFILES+9,x
+.3304		3d ca 3d	and $3dca,x	        and NFILES+10,x
+.3307		3d cb 3d	and $3dcb,x	        and NFILES+11,x
+.330a		c9 ff		cmp #$ff	        cmp #$ff
+.330c		f0 e0		beq $32ee	        beq nd_range
+.330e		bd c1 3d	lda $3dc1,x	        lda NFILES+1,x
+.3311		8d 5a 2e	sta $2e5a	        sta f_device
+.3314		a9 01		lda #$01	        lda #1
+.3316		8d 85 46	sta $4685	        sta nu_packet_mode
+.3319		ad d5 34	lda $34d5	        lda nd_active
+.331c		d0 1f		bne $333d	        bne nd_continue
+.331e		ad 5a 2e	lda $2e5a	        lda f_device
+.3321		8d 70 46	sta $4670	        sta nu_short
+.3324		a9 14		lda #$14	        lda #$14
+.3326		8d 71 46	sta $4671	        sta nu_short+1
+.3329		a9 02		lda #$02	        lda #2
+.332b		8d 76 46	sta $4676	        sta nu_cmdlen
+.332e		a9 00		lda #$00	        lda #0
+.3330		8d 77 46	sta $4677	        sta nu_cmdlen+1
+.3333		a9 70		lda #$70	        lda #<nu_short
+.3335		a2 46		ldx #$46	        ldx #>nu_short
+.3337		20 82 44	jsr $4482	        jsr nu_send
+.333a		4c 51 33	jmp $3351	        jmp nd_received
+.333d						nd_continue:
+.333d		ad 1d df	lda $df1d	        lda $df1d
+.3340		c9 c9		cmp #$c9	        cmp #$c9
+.3342		d0 18		bne $335c	        bne nd_read_absent
+.3344		ad 1d df	lda $df1d	        lda $df1d
+.3347		c9 c9		cmp #$c9	        cmp #$c9
+.3349		d0 11		bne $335c	        bne nd_read_absent
+.334b		20 c3 45	jsr $45c3	        jsr nu_reply_init
+.334e		20 ed 44	jsr $44ed	        jsr nu_wait
+.3351						nd_received:
+.3351		90 13		bcc $3366	        bcc nd_validate
+.3353		c9 15		cmp #$15	        cmp #N_CHANNELS
+.3355		f0 9a		beq $32f1	        beq nd_read_return      ; no command was issued; do not poison the cursor
+.3357		f0 03		beq $335c	        bne nd_read_failed
+.3359		4c ea 33	jmp $33ea
+.335c						nd_read_absent:
+.335c		a9 fe		lda #$fe	        lda #$fe
+.335e		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.3361		f0 03		beq $3366	        bne nd_read_io
+.3363		4c e8 33	jmp $33e8
+.3366						nd_validate:
+.3366		ad 86 46	lda $4686	        lda nu_part_state
+.3369		c9 20		cmp #$20	        cmp #$20
+.336b		f0 0b		beq $3378	        beq nd_final_status
+.336d		c9 30		cmp #$30	        cmp #$30
+.336f		d0 72		bne $33e3	        bne nd_read_protocol
+.3371		ad 00 4f	lda $4f00	        lda N_USTATUS
+.3374		d0 72		bne $33e8	        bne nd_read_io
+.3376		f0 0a		beq $3382	        beq nd_packet_size
+.3378						nd_final_status:
+.3378		ad 80 46	lda $4680	        lda nu_code
+.337b		d0 6b		bne $33e8	        bne nd_read_io
+.337d		a9 00		lda #$00	        lda #0
+.337f		8d d5 34	sta $34d5	        sta nd_active          ; final packet ACK has reached transport idle
+.3382						nd_packet_size:
+.3382		ad 7b 46	lda $467b	        lda nu_length+1
+.3385		f0 0b		beq $3392	        beq nd_packet_low
+.3387		c9 01		cmp #$01	        cmp #1
+.3389		d0 58		bne $33e3	        bne nd_read_protocol
+.338b		ad 7a 46	lda $467a	        lda nu_length
+.338e		d0 53		bne $33e3	        bne nd_read_protocol
+.3390		f0 07		beq $3399	        beq nd_packet_name
+.3392						nd_packet_low:
+.3392		ad 7a 46	lda $467a	        lda nu_length
+.3395		c9 02		cmp #$02	        cmp #2
+.3397		90 4a		bcc $33e3	        bcc nd_read_protocol
+.3399						nd_packet_name:
+.3399		a2 01		ldx #$01	        ldx #1
+.339b						nd_name_byte:
+.339b		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.339e		f0 43		beq $33e3	        beq nd_read_protocol
+.33a0		c9 2f		cmp #$2f	        cmp #$2f
+.33a2		f0 3f		beq $33e3	        beq nd_read_protocol
+.33a4		c9 5c		cmp #$5c	        cmp #$5c
+.33a6		f0 3b		beq $33e3	        beq nd_read_protocol
+.33a8		e8		inx		        inx
+.33a9		ec 7a 46	cpx $467a	        cpx nu_length
+.33ac		d0 ed		bne $339b	        bne nd_name_byte
+.33ae		ae 59 2e	ldx $2e59	        ldx f_slot
+.33b1		fe c8 3d	inc $3dc8,x	        inc NFILES+8,x
+.33b4		d0 0d		bne $33c3	        bne nd_position_ready
+.33b6		fe c9 3d	inc $3dc9,x	        inc NFILES+9,x
+.33b9		d0 08		bne $33c3	        bne nd_position_ready
+.33bb		fe ca 3d	inc $3dca,x	        inc NFILES+10,x
+.33be		d0 03		bne $33c3	        bne nd_position_ready
+.33c0		fe cb 3d	inc $3dcb,x	        inc NFILES+11,x
+.33c3						nd_position_ready:
+.33c3		ad 7a 46	lda $467a	        lda nu_length
+.33c6		8d 8b 3d	sta $3d8b	        sta N_FACTUAL
+.33c9		ad 7b 46	lda $467b	        lda nu_length+1
+.33cc		8d 8c 3d	sta $3d8c	        sta N_FACTUAL+1
+.33cf		ad 86 46	lda $4686	        lda nu_part_state
+.33d2		c9 20		cmp #$20	        cmp #$20
+.33d4		d0 05		bne $33db	        bne nd_publish_empty
+.33d6		a9 01		lda #$01	        lda #1
+.33d8		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
+.33db						nd_publish_empty:
+.33db		20 5f 28	jsr $285f	        jsr fs_snapshot
+.33de		a9 00		lda #$00	        lda #0
+.33e0		4c 0c 22	jmp $220c	        jmp fs_finish
+.33e3						nd_read_protocol:
+.33e3		a9 fc		lda #$fc	        lda #$fc
+.33e5		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.33e8						nd_read_io:
+.33e8		a9 11		lda #$11	        lda #N_IOERROR
+.33ea						nd_read_failed:
+.33ea		ae 59 2e	ldx $2e59	        ldx f_slot
+.33ed		9d c7 3d	sta $3dc7,x	        sta NFILES+7,x
+.33f0		48		pha		        pha
+.33f1		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.33f4		09 06		ora #$06	        ora #6
+.33f6		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
+.33f9		68		pla		        pla
+.33fa		4c 0c 22	jmp $220c	        jmp fs_finish
+.33fd						nd_close:
+.33fd		bd c1 3d	lda $3dc1,x	        lda NFILES+1,x
+.3400		8d 5a 2e	sta $2e5a	        sta f_device
+.3403		20 69 34	jsr $3469	        jsr nd_cancel
+.3406		b0 4f		bcs $3457	        bcs nd_close_failed
+.3408		ad d6 34	lda $34d6	        lda nd_length
+.340b		a2 d8		ldx #$d8	        ldx #<nd_path
+.340d		a0 34		ldy #$34	        ldy #>nd_path
+.340f		20 97 32	jsr $3297	        jsr nd_change
+.3412		b0 43		bcs $3457	        bcs nd_close_failed
+.3414		c9 00		cmp #$00	        cmp #0
+.3416		d0 3d		bne $3455	        bne nd_close_io
+.3418		a9 12		lda #$12	        lda #$12
+.341a		20 5c 44	jsr $445c	        jsr nu_two
+.341d		b0 38		bcs $3457	        bcs nd_close_failed
+.341f		c9 00		cmp #$00	        cmp #0
+.3421		d0 32		bne $3455	        bne nd_close_io
+.3423		ad 7b 46	lda $467b	        lda nu_length+1
+.3426		d0 28		bne $3450	        bne nd_close_protocol
+.3428		ad 7a 46	lda $467a	        lda nu_length
+.342b		cd d6 34	cmp $34d6	        cmp nd_length
+.342e		d0 20		bne $3450	        bne nd_close_protocol
+.3430		a2 00		ldx #$00	        ldx #0
+.3432						nd_restored_byte:
+.3432		bd 00 3a	lda $3a00,x	        lda N_BUFFER,x
+.3435		dd d8 34	cmp $34d8,x	        cmp nd_path,x
+.3438		d0 16		bne $3450	        bne nd_close_protocol
+.343a		e8		inx		        inx
+.343b		ec d6 34	cpx $34d6	        cpx nd_length
+.343e		d0 f2		bne $3432	        bne nd_restored_byte
+.3440		20 5f 28	jsr $285f	        jsr fs_snapshot
+.3443		ae 59 2e	ldx $2e59	        ldx f_slot
+.3446		a9 00		lda #$00	        lda #0
+.3448		9d c0 3d	sta $3dc0,x	        sta NFILES,x
+.344b		8d d4 34	sta $34d4	        sta nd_slot
+.344e		18		clc		        clc
+.344f		60		rts		        rts
+.3450						nd_close_protocol:
+.3450		a9 fc		lda #$fc	        lda #$fc
+.3452		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.3455						nd_close_io:
+.3455		a9 11		lda #$11	        lda #N_IOERROR
+.3457						nd_close_failed:
+.3457		ae 59 2e	ldx $2e59	        ldx f_slot
+.345a		9d c7 3d	sta $3dc7,x	        sta NFILES+7,x
+.345d		48		pha		        pha
+.345e		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
+.3461		09 04		ora #$04	        ora #4
+.3463		9d c3 3d	sta $3dc3,x	        sta NFILES+3,x
+.3466		68		pla		        pla
+.3467		38		sec		        sec
+.3468		60		rts		        rts
+.3469						nd_cancel:
+.3469		ad d5 34	lda $34d5	        lda nd_active
+.346c		d0 03		bne $3471	        beq nd_idle
+.346e		4c ba 31	jmp $31ba
+.3471		ad 1d df	lda $df1d	        lda $df1d
+.3474		c9 c9		cmp #$c9	        cmp #$c9
+.3476		d0 26		bne $349e	        bne nd_cancel_absent
+.3478		ad 1d df	lda $df1d	        lda $df1d
+.347b		c9 c9		cmp #$c9	        cmp #$c9
+.347d		d0 1f		bne $349e	        bne nd_cancel_absent
+.347f		ad 1c df	lda $df1c	        lda $df1c
+.3482		29 3f		and #$3f	        and #$3f
+.3484		f0 21		beq $34a7	        beq nd_cancel_done
+.3486		a9 04		lda #$04	        lda #4
+.3488		8d 1c df	sta $df1c	        sta $df1c
+.348b		20 3d 46	jsr $463d	        jsr nu_timer_init
+.348e						nd_cancel_wait:
+.348e		ad 1c df	lda $df1c	        lda $df1c
+.3491		29 3f		and #$3f	        and #$3f
+.3493		f0 12		beq $34a7	        beq nd_cancel_done
+.3495		20 4b 46	jsr $464b	        jsr nu_tick
+.3498		90 f4		bcc $348e	        bcc nd_cancel_wait
+.349a		a9 ff		lda #$ff	        lda #$ff
+.349c		d0 02		bne $34a0	        bne nd_cancel_error
+.349e						nd_cancel_absent:
+.349e		a9 fe		lda #$fe	        lda #$fe
+.34a0						nd_cancel_error:
+.34a0		8d 90 3d	sta $3d90	        sta N_FSTATUS
+.34a3		a9 11		lda #$11	        lda #N_IOERROR
+.34a5		38		sec		        sec
+.34a6		60		rts		        rts
+.34a7						nd_cancel_done:
+.34a7		a9 00		lda #$00	        lda #0
+.34a9		8d d5 34	sta $34d5	        sta nd_active
+.34ac		18		clc		        clc
+.34ad		60		rts		        rts
+.34ae						nd_release:
+.34ae		ad d4 34	lda $34d4	        lda nd_slot
+.34b1		f0 bb		beq $346e	        beq nd_idle
+.34b3		c9 03		cmp #$03	        cmp #3
+.34b5		90 03		bcc $34ba	        bcs nd_corrupt
+.34b7		4c ed 31	jmp $31ed
+.34ba		38		sec		        sec
+.34bb		e9 01		sbc #$01	        sbc #1
+.34bd		0a		asl a		        asl
+.34be		0a		asl a		        asl
 .34bf		0a		asl a		        asl
 .34c0		0a		asl a		        asl
-.34c1		0a		asl a		        asl
-.34c2		0a		asl a		        asl
-.34c3		aa		tax		        tax
-.34c4		bd c0 3d	lda $3dc0,x	        lda NFILES,x
-.34c7		cd 80 3d	cmp $3d80	        cmp N_FOWNER
-.34ca		d0 06		bne $34d2	        bne nd_release_other
-.34cc		8e 59 2e	stx $2e59	        stx f_slot
-.34cf		4c ff 33	jmp $33ff	        jmp nd_close
-.34d2						nd_release_other:
-.34d2		a9 00		lda #$00	        lda #0
-.34d4		18		clc		        clc
-.34d5		60		rts		        rts
->34d6		00				nd_slot: .byte 0
->34d7		00				nd_active: .byte 0
->34d8		00				nd_length: .byte 0
->34d9		00				nd_transfer_length: .byte 0
->34da		00 00 00 00 00 00 00 00		nd_path: .fill 256,0
->34e2		00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+.34c1		aa		tax		        tax
+.34c2		bd c0 3d	lda $3dc0,x	        lda NFILES,x
+.34c5		cd 80 3d	cmp $3d80	        cmp N_FOWNER
+.34c8		d0 06		bne $34d0	        bne nd_release_other
+.34ca		8e 59 2e	stx $2e59	        stx f_slot
+.34cd		4c fd 33	jmp $33fd	        jmp nd_close
+.34d0						nd_release_other:
+.34d0		a9 00		lda #$00	        lda #0
+.34d2		18		clc		        clc
+.34d3		60		rts		        rts
+>34d4		00				nd_slot: .byte 0
+>34d5		00				nd_active: .byte 0
+>34d6		00				nd_length: .byte 0
+>34d7		00				nd_transfer_length: .byte 0
+>34d8		00 00 00 00 00 00 00 00		nd_path: .fill 256,0
+>34e0		00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 ;		...repeated 14 times (224 bytes)...
->35d2		00 00 00 00 00 00 00 00
+>35d0		00 00 00 00 00 00 00 00
 
 ;******  Return to file: src/native/kestrel.asm
 
-.35da						native_keycheck:
-.35da		08		php		        php
-.35db		78		sei		        sei
-.35dc		c0 58		cpy #$58	        cpy #88                 ; 0..87 are keys; 88 is the null sentinel
-.35de		90 0f		bcc $35ef	        bcc native_keycheck_valid
-.35e0		ee 1e 3d	inc $3d1e	        inc native_key_rejects   ; retain rejected activity for diagnostics
-.35e3		d0 03		bne $35e8	        bne +
-.35e5		ee 1f 3d	inc $3d1f	        inc native_key_rejects+1
-.35e8						+
-.35e8		28		plp		        plp
-.35e9		a9 7f		lda #$7f	        lda #$7f                ; same column cleanup as ROM SCNRTS
-.35eb		8d 00 dc	sta $dc00	        sta $dc00
-.35ee		60		rts		        rts
-.35ef						native_keycheck_valid:
-.35ef		28		plp		        plp
-.35f0		6c 1c 3d	jmp ($3d1c)	        jmp (native_keycheck_saved)
-.35f3						native_keycheck_end:
+.35d8						native_keycheck:
+.35d8		08		php		        php
+.35d9		78		sei		        sei
+.35da		c0 58		cpy #$58	        cpy #88                 ; 0..87 are keys; 88 is the null sentinel
+.35dc		90 0f		bcc $35ed	        bcc native_keycheck_valid
+.35de		ee 1e 3d	inc $3d1e	        inc native_key_rejects   ; retain rejected activity for diagnostics
+.35e1		d0 03		bne $35e6	        bne +
+.35e3		ee 1f 3d	inc $3d1f	        inc native_key_rejects+1
+.35e6						+
+.35e6		28		plp		        plp
+.35e7		a9 7f		lda #$7f	        lda #$7f                ; same column cleanup as ROM SCNRTS
+.35e9		8d 00 dc	sta $dc00	        sta $dc00
+.35ec		60		rts		        rts
+.35ed						native_keycheck_valid:
+.35ed		28		plp		        plp
+.35ee		6c 1c 3d	jmp ($3d1c)	        jmp (native_keycheck_saved)
+.35f1						native_keycheck_end:
 
 ;******  Processing file: src/native/field-view.inc
 
-.35f3						field_draw:
-.35f3		08		php		        php
-.35f4		20 a7 17	jsr $17a7	        jsr field_start
-.35f7		90 03		bcc $35fc	        bcc +
-.35f9		4c fe 19	jmp $19fe	        jmp field_early
-.35fc		ad 38 3d	lda $3d38	+       lda N_UIWIDTH
-.35ff		c9 03		cmp #$03	        cmp #3
-.3601		b0 03		bcs $3606	        bcc field_draw_invalid
-.3603		4c fe 36	jmp $36fe
-.3606		c9 50		cmp #$50	        cmp #80
-.3608		b0 f9		bcs $3603	        bcs field_draw_invalid
-.360a		a9 28		lda #$28	        lda #40
-.360c		24 d7		bit $d7		        bit $d7
-.360e		10 02		bpl $3612	        bpl +
-.3610		a9 50		lda #$50	        lda #80
-.3612		8d 5b 1a	sta $1a5b	+       sta field_columns
-.3615		38		sec		        sec
-.3616		20 f0 ff	jsr $fff0	        jsr $fff0
-.3619		e0 19		cpx #$19	        cpx #25
-.361b		b0 e6		bcs $3603	        bcs field_draw_invalid
-.361d		98		tya		        tya
-.361e		18		clc		        clc
-.361f		6d 38 3d	adc $3d38	        adc N_UIWIDTH
-.3622		b0 df		bcs $3603	        bcs field_draw_invalid
-.3624		cd 5b 1a	cmp $1a5b	        cmp field_columns
-.3627		b0 da		bcs $3603	        bcs field_draw_invalid
-.3629		ad 38 3d	lda $3d38	        lda N_UIWIDTH
-.362c		38		sec		        sec
-.362d		e9 02		sbc #$02	        sbc #2
-.362f		8d 57 1a	sta $1a57	        sta field_capacity
-.3632		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
-.3635		cd 4a 1a	cmp $1a4a	        cmp field_state+UI_CARET
-.3638		90 c9		bcc $3603	        bcc field_draw_invalid
-.363a		a5 d7		lda $d7		        lda $d7
-.363c		29 80		and #$80	        and #$80
-.363e		f0 04		beq $3644	        beq +
-.3640		a2 06		ldx #$06	        ldx #UI_VIEW80
-.3642		d0 02		bne $3646	        bne field_draw_view
-.3644		a2 05		ldx #$05	+       ldx #UI_VIEW40
-.3646						field_draw_view:
-.3646		8e 58 1a	stx $1a58	        stx field_view_index
-.3649		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
-.364c		38		sec		        sec
-.364d		ed 57 1a	sbc $1a57	        sbc field_capacity
-.3650		b0 02		bcs $3654	        bcs +
-.3652		a9 ff		lda #$ff	        lda #$ff
-.3654		18		clc		+       clc
-.3655		69 01		adc #$01	        adc #1
-.3657		dd 49 1a	cmp $1a49,x	        cmp field_state,x
-.365a		b0 03		bcs $365f	        bcs +
-.365c		9d 49 1a	sta $1a49,x	        sta field_state,x
-.365f						+
-.365f		bd 49 1a	lda $1a49,x	        lda field_state,x
-.3662		cd 4a 1a	cmp $1a4a	        cmp field_state+UI_CARET
-.3665		90 06		bcc $366d	        bcc +
-.3667		ad 4a 1a	lda $1a4a	        lda field_state+UI_CARET
-.366a		9d 49 1a	sta $1a49,x	        sta field_state,x
-.366d		ad 4a 1a	lda $1a4a	+       lda field_state+UI_CARET
-.3670		38		sec		        sec
-.3671		fd 49 1a	sbc $1a49,x	        sbc field_state,x
-.3674		cd 57 1a	cmp $1a57	        cmp field_capacity
-.3677		90 0d		bcc $3686	        bcc field_draw_begin
-.3679		ad 4a 1a	lda $1a4a	        lda field_state+UI_CARET
-.367c		38		sec		        sec
-.367d		ed 57 1a	sbc $1a57	        sbc field_capacity
-.3680		18		clc		        clc
-.3681		69 01		adc #$01	        adc #1
-.3683		9d 49 1a	sta $1a49,x	        sta field_state,x
-.3686						field_draw_begin:
-.3686		bd 49 1a	lda $1a49,x	        lda field_state,x
-.3689		8d 59 1a	sta $1a59	        sta field_at
-.368c		a9 92		lda #$92	        lda #$92
-.368e		20 01 37	jsr $3701	        jsr field_chrout
-.3691		a9 20		lda #$20	        lda #32
-.3693		ae 59 1a	ldx $1a59	        ldx field_at
-.3696		f0 02		beq $369a	        beq +
-.3698		a9 3c		lda #$3c	        lda #$3c
-.369a		20 01 37	jsr $3701	+       jsr field_chrout
-.369d		ad 57 1a	lda $1a57	        lda field_capacity
-.36a0		8d 5a 1a	sta $1a5a	        sta field_left_count
-.36a3						field_draw_character:
-.36a3		ae 59 1a	ldx $1a59	        ldx field_at
-.36a6		ec 4a 1a	cpx $1a4a	        cpx field_state+UI_CARET
-.36a9		d0 05		bne $36b0	        bne +
-.36ab		a9 12		lda #$12	        lda #$12
-.36ad		20 01 37	jsr $3701	        jsr field_chrout
-.36b0		ae 59 1a	ldx $1a59	+       ldx field_at
-.36b3		ec 49 1a	cpx $1a49	        cpx field_state+UI_LENGTH
-.36b6		b0 0f		bcs $36c7	        bcs field_draw_blank
-.36b8		20 38 1a	jsr $1a38	        jsr field_read
-.36bb		c9 20		cmp #$20	        cmp #32
-.36bd		90 04		bcc $36c3	        bcc field_draw_dot
-.36bf		c9 7f		cmp #$7f	        cmp #127
-.36c1		90 06		bcc $36c9	        bcc field_draw_put
-.36c3						field_draw_dot:
-.36c3		a9 2e		lda #$2e	        lda #$2e
-.36c5		d0 02		bne $36c9	        bne field_draw_put
-.36c7						field_draw_blank:
-.36c7		a9 20		lda #$20	        lda #32
-.36c9						field_draw_put:
-.36c9		20 01 37	jsr $3701	        jsr field_chrout
-.36cc		ae 59 1a	ldx $1a59	        ldx field_at
-.36cf		ec 4a 1a	cpx $1a4a	        cpx field_state+UI_CARET
-.36d2		d0 05		bne $36d9	        bne +
-.36d4		a9 92		lda #$92	        lda #$92
-.36d6		20 01 37	jsr $3701	        jsr field_chrout
-.36d9		ee 59 1a	inc $1a59	+       inc field_at
-.36dc		ce 5a 1a	dec $1a5a	        dec field_left_count
-.36df		d0 c2		bne $36a3	        bne field_draw_character
-.36e1		ae 58 1a	ldx $1a58	        ldx field_view_index
-.36e4		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
-.36e7		38		sec		        sec
-.36e8		fd 49 1a	sbc $1a49,x	        sbc field_state,x
-.36eb		cd 57 1a	cmp $1a57	        cmp field_capacity
-.36ee		f0 06		beq $36f6	        beq field_draw_last_blank
-.36f0		90 04		bcc $36f6	        bcc field_draw_last_blank
-.36f2		a9 3e		lda #$3e	        lda #$3e
-.36f4		d0 02		bne $36f8	        bne field_draw_last
-.36f6						field_draw_last_blank:
-.36f6		a9 20		lda #$20	        lda #32
-.36f8						field_draw_last:
-.36f8		20 01 37	jsr $3701	        jsr field_chrout
-.36fb		4c de 19	jmp $19de	        jmp field_finish
-.36fe						field_draw_invalid:
-.36fe		4c f6 19	jmp $19f6	        jmp field_invalid
-.3701						field_chrout:
-.3701		48		pha		        pha
-.3702		a9 00		lda #$00	        lda #0
-.3704		85 f4		sta $f4		        sta $f4
-.3706		68		pla		        pla
-.3707		4c d2 ff	jmp $ffd2	        jmp $ffd2
+.35f1						field_draw:
+.35f1		08		php		        php
+.35f2		20 a7 17	jsr $17a7	        jsr field_start
+.35f5		90 03		bcc $35fa	        bcc +
+.35f7		4c fe 19	jmp $19fe	        jmp field_early
+.35fa		ad 38 3d	lda $3d38	+       lda N_UIWIDTH
+.35fd		c9 03		cmp #$03	        cmp #3
+.35ff		b0 03		bcs $3604	        bcc field_draw_invalid
+.3601		4c fc 36	jmp $36fc
+.3604		c9 50		cmp #$50	        cmp #80
+.3606		b0 f9		bcs $3601	        bcs field_draw_invalid
+.3608		a9 28		lda #$28	        lda #40
+.360a		24 d7		bit $d7		        bit $d7
+.360c		10 02		bpl $3610	        bpl +
+.360e		a9 50		lda #$50	        lda #80
+.3610		8d 5b 1a	sta $1a5b	+       sta field_columns
+.3613		38		sec		        sec
+.3614		20 f0 ff	jsr $fff0	        jsr $fff0
+.3617		e0 19		cpx #$19	        cpx #25
+.3619		b0 e6		bcs $3601	        bcs field_draw_invalid
+.361b		98		tya		        tya
+.361c		18		clc		        clc
+.361d		6d 38 3d	adc $3d38	        adc N_UIWIDTH
+.3620		b0 df		bcs $3601	        bcs field_draw_invalid
+.3622		cd 5b 1a	cmp $1a5b	        cmp field_columns
+.3625		b0 da		bcs $3601	        bcs field_draw_invalid
+.3627		ad 38 3d	lda $3d38	        lda N_UIWIDTH
+.362a		38		sec		        sec
+.362b		e9 02		sbc #$02	        sbc #2
+.362d		8d 57 1a	sta $1a57	        sta field_capacity
+.3630		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
+.3633		cd 4a 1a	cmp $1a4a	        cmp field_state+UI_CARET
+.3636		90 c9		bcc $3601	        bcc field_draw_invalid
+.3638		a5 d7		lda $d7		        lda $d7
+.363a		29 80		and #$80	        and #$80
+.363c		f0 04		beq $3642	        beq +
+.363e		a2 06		ldx #$06	        ldx #UI_VIEW80
+.3640		d0 02		bne $3644	        bne field_draw_view
+.3642		a2 05		ldx #$05	+       ldx #UI_VIEW40
+.3644						field_draw_view:
+.3644		8e 58 1a	stx $1a58	        stx field_view_index
+.3647		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
+.364a		38		sec		        sec
+.364b		ed 57 1a	sbc $1a57	        sbc field_capacity
+.364e		b0 02		bcs $3652	        bcs +
+.3650		a9 ff		lda #$ff	        lda #$ff
+.3652		18		clc		+       clc
+.3653		69 01		adc #$01	        adc #1
+.3655		dd 49 1a	cmp $1a49,x	        cmp field_state,x
+.3658		b0 03		bcs $365d	        bcs +
+.365a		9d 49 1a	sta $1a49,x	        sta field_state,x
+.365d						+
+.365d		bd 49 1a	lda $1a49,x	        lda field_state,x
+.3660		cd 4a 1a	cmp $1a4a	        cmp field_state+UI_CARET
+.3663		90 06		bcc $366b	        bcc +
+.3665		ad 4a 1a	lda $1a4a	        lda field_state+UI_CARET
+.3668		9d 49 1a	sta $1a49,x	        sta field_state,x
+.366b		ad 4a 1a	lda $1a4a	+       lda field_state+UI_CARET
+.366e		38		sec		        sec
+.366f		fd 49 1a	sbc $1a49,x	        sbc field_state,x
+.3672		cd 57 1a	cmp $1a57	        cmp field_capacity
+.3675		90 0d		bcc $3684	        bcc field_draw_begin
+.3677		ad 4a 1a	lda $1a4a	        lda field_state+UI_CARET
+.367a		38		sec		        sec
+.367b		ed 57 1a	sbc $1a57	        sbc field_capacity
+.367e		18		clc		        clc
+.367f		69 01		adc #$01	        adc #1
+.3681		9d 49 1a	sta $1a49,x	        sta field_state,x
+.3684						field_draw_begin:
+.3684		bd 49 1a	lda $1a49,x	        lda field_state,x
+.3687		8d 59 1a	sta $1a59	        sta field_at
+.368a		a9 92		lda #$92	        lda #$92
+.368c		20 ff 36	jsr $36ff	        jsr field_chrout
+.368f		a9 20		lda #$20	        lda #32
+.3691		ae 59 1a	ldx $1a59	        ldx field_at
+.3694		f0 02		beq $3698	        beq +
+.3696		a9 3c		lda #$3c	        lda #$3c
+.3698		20 ff 36	jsr $36ff	+       jsr field_chrout
+.369b		ad 57 1a	lda $1a57	        lda field_capacity
+.369e		8d 5a 1a	sta $1a5a	        sta field_left_count
+.36a1						field_draw_character:
+.36a1		ae 59 1a	ldx $1a59	        ldx field_at
+.36a4		ec 4a 1a	cpx $1a4a	        cpx field_state+UI_CARET
+.36a7		d0 05		bne $36ae	        bne +
+.36a9		a9 12		lda #$12	        lda #$12
+.36ab		20 ff 36	jsr $36ff	        jsr field_chrout
+.36ae		ae 59 1a	ldx $1a59	+       ldx field_at
+.36b1		ec 49 1a	cpx $1a49	        cpx field_state+UI_LENGTH
+.36b4		b0 0f		bcs $36c5	        bcs field_draw_blank
+.36b6		20 38 1a	jsr $1a38	        jsr field_read
+.36b9		c9 20		cmp #$20	        cmp #32
+.36bb		90 04		bcc $36c1	        bcc field_draw_dot
+.36bd		c9 7f		cmp #$7f	        cmp #127
+.36bf		90 06		bcc $36c7	        bcc field_draw_put
+.36c1						field_draw_dot:
+.36c1		a9 2e		lda #$2e	        lda #$2e
+.36c3		d0 02		bne $36c7	        bne field_draw_put
+.36c5						field_draw_blank:
+.36c5		a9 20		lda #$20	        lda #32
+.36c7						field_draw_put:
+.36c7		20 ff 36	jsr $36ff	        jsr field_chrout
+.36ca		ae 59 1a	ldx $1a59	        ldx field_at
+.36cd		ec 4a 1a	cpx $1a4a	        cpx field_state+UI_CARET
+.36d0		d0 05		bne $36d7	        bne +
+.36d2		a9 92		lda #$92	        lda #$92
+.36d4		20 ff 36	jsr $36ff	        jsr field_chrout
+.36d7		ee 59 1a	inc $1a59	+       inc field_at
+.36da		ce 5a 1a	dec $1a5a	        dec field_left_count
+.36dd		d0 c2		bne $36a1	        bne field_draw_character
+.36df		ae 58 1a	ldx $1a58	        ldx field_view_index
+.36e2		ad 49 1a	lda $1a49	        lda field_state+UI_LENGTH
+.36e5		38		sec		        sec
+.36e6		fd 49 1a	sbc $1a49,x	        sbc field_state,x
+.36e9		cd 57 1a	cmp $1a57	        cmp field_capacity
+.36ec		f0 06		beq $36f4	        beq field_draw_last_blank
+.36ee		90 04		bcc $36f4	        bcc field_draw_last_blank
+.36f0		a9 3e		lda #$3e	        lda #$3e
+.36f2		d0 02		bne $36f6	        bne field_draw_last
+.36f4						field_draw_last_blank:
+.36f4		a9 20		lda #$20	        lda #32
+.36f6						field_draw_last:
+.36f6		20 ff 36	jsr $36ff	        jsr field_chrout
+.36f9		4c de 19	jmp $19de	        jmp field_finish
+.36fc						field_draw_invalid:
+.36fc		4c f6 19	jmp $19f6	        jmp field_invalid
+.36ff						field_chrout:
+.36ff		48		pha		        pha
+.3700		a9 00		lda #$00	        lda #0
+.3702		85 f4		sta $f4		        sta $f4
+.3704		68		pla		        pla
+.3705		4c d2 ff	jmp $ffd2	        jmp $ffd2
 
 ;******  Return to file: src/native/kestrel.asm
 
->370a		42 52 4f 57 53 45 46 49		ui_browser_name: .text "browsefiles"
->3712		4c 45 53
->3715		00				ui_system_device: .byte 0
->3716		00				ui_browser_stage: .byte 0
+>3708		42 52 4f 57 53 45 46 49		ui_browser_name: .text "browsefiles"
+>3710		4c 45 53
+>3713		00				ui_system_device: .byte 0
+>3714		00				ui_browser_stage: .byte 0
 =$3d16						ui_status = N_RESULT
 
 ;******  Processing file: src/native/display-gate.inc
 
-.3717						display_show:
-.3717		08		php		        php
-.3718		20 00 13	jsr $1300	        jsr heap_enter
-.371b		90 03		bcc $3720	        bcc *+5
-.371d		4c 4d 13	jmp $134d	        jmp heap_enter_failed
-.3720		ad 91 3d	lda $3d91	        lda N_FBUSY
-.3723		0d 3b 3d	ora $3d3b	        ora N_UIBUSY
-.3726		0d f3 4f	ora $4ff3	        ora v_tag
-.3729		f0 04		beq $372f	        beq +
-.372b		a9 07		lda #$07	        lda #N_REENTRANT
-.372d		d0 28		bne $3757	        bne display_error
-.372f		ba		tsx		+       tsx
-.3730		bd 01 01	lda $0101,x	        lda $0101,x
-.3733		29 04		and #$04	        and #4
-.3735		d0 1e		bne $3755	        bne display_platform
-.3737		20 58 4f	jsr $4f58	        jsr app_owned
-.373a		b0 1b		bcs $3757	        bcs display_error
-.373c		ad 00 3d	lda $3d00	        lda N_OWNER
-.373f		cd 20 3d	cmp $3d20	        cmp N_CURRENT
-.3742		f0 04		beq $3748	        beq +
-.3744		a9 05		lda #$05	        lda #N_WRONGOWNER
-.3746		d0 0f		bne $3757	        bne display_error
-.3748		20 eb 14	jsr $14eb	+       jsr heap_handle
-.374b		b0 0a		bcs $3757	        bcs display_error
-.374d		20 39 15	jsr $1539	        jsr heap_check_record
-.3750		b0 05		bcs $3757	        bcs display_error
-.3752		4c 3c 49	jmp $493c	        jmp display_prepare
-.3755						display_platform:
-.3755		a9 08		lda #$08	        lda #N_PLATFORM
-.3757						display_error:
-.3757		4c 3e 13	jmp $133e	        jmp heap_finish
-.375a						native_display_gate_end:
+.3715						display_show:
+.3715		08		php		        php
+.3716		20 00 13	jsr $1300	        jsr heap_enter
+.3719		90 03		bcc $371e	        bcc *+5
+.371b		4c 4d 13	jmp $134d	        jmp heap_enter_failed
+.371e		ad 91 3d	lda $3d91	        lda N_FBUSY
+.3721		0d 3b 3d	ora $3d3b	        ora N_UIBUSY
+.3724		0d f3 4f	ora $4ff3	        ora v_tag
+.3727		f0 04		beq $372d	        beq +
+.3729		a9 07		lda #$07	        lda #N_REENTRANT
+.372b		d0 28		bne $3755	        bne display_error
+.372d		ba		tsx		+       tsx
+.372e		bd 01 01	lda $0101,x	        lda $0101,x
+.3731		29 04		and #$04	        and #4
+.3733		d0 1e		bne $3753	        bne display_platform
+.3735		20 58 4f	jsr $4f58	        jsr app_owned
+.3738		b0 1b		bcs $3755	        bcs display_error
+.373a		ad 00 3d	lda $3d00	        lda N_OWNER
+.373d		cd 20 3d	cmp $3d20	        cmp N_CURRENT
+.3740		f0 04		beq $3746	        beq +
+.3742		a9 05		lda #$05	        lda #N_WRONGOWNER
+.3744		d0 0f		bne $3755	        bne display_error
+.3746		20 eb 14	jsr $14eb	+       jsr heap_handle
+.3749		b0 0a		bcs $3755	        bcs display_error
+.374b		20 39 15	jsr $1539	        jsr heap_check_record
+.374e		b0 05		bcs $3755	        bcs display_error
+.3750		4c 3c 49	jmp $493c	        jmp display_prepare
+.3753						display_platform:
+.3753		a9 08		lda #$08	        lda #N_PLATFORM
+.3755						display_error:
+.3755		4c 3e 13	jmp $133e	        jmp heap_finish
+.3758						native_display_gate_end:
 
 ;******  Return to file: src/native/kestrel.asm
 
-.375a						native_code_end:
+.3758						native_code_end:
 >3800		00 00 00 00 00 00 00 00		        .fill 512,0
 >3808		00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 ;		...repeated 30 times (480 bytes)...
@@ -3463,7 +3463,7 @@
 .4023		bd c2 3d	lda $3dc2,x	        lda NFILES+2,x
 .4026		c9 02		cmp #$02	        cmp #2
 .4028		d0 03		bne $402d	        bne +
-.402a		4c be 31	jmp $31be	        jmp nd_record
+.402a		4c bc 31	jmp $31bc	        jmp nd_record
 .402d						+
 .402d		bd c3 3d	lda $3dc3,x	        lda NFILES+3,x
 .4030		29 04		and #$04	        and #4
@@ -3502,7 +3502,7 @@
 .4071		1d 5e 46	ora $465e,x	        ora nu_high,x
 .4074		60		rts		        rts
 .4075						nu_open:
-.4075		20 b3 31	jsr $31b3	        jsr nd_guard
+.4075		20 b1 31	jsr $31b1	        jsr nd_guard
 .4078		90 03		bcc $407d	        bcc *+5
 .407a		4c 0c 22	jmp $220c	        jmp fs_finish
 .407d		ad 85 3d	lda $3d85	        lda N_FDEVICE
@@ -3515,7 +3515,7 @@
 .408e		b0 6a		bcs $40fa	        bcs nu_argument
 .4090		c9 02		cmp #$02	        cmp #2
 .4092		d0 05		bne $4099	        bne +
-.4094		ad d6 34	lda $34d6	        lda nd_slot
+.4094		ad d4 34	lda $34d4	        lda nd_slot
 .4097		d0 64		bne $40fd	        bne nu_context_busy
 .4099						+
 .4099		ad 88 3d	lda $3d88	        lda N_FTYPE
@@ -3584,7 +3584,7 @@
 .4117		ad 87 3d	lda $3d87	        lda N_FMODE
 .411a		c9 02		cmp #$02	        cmp #2
 .411c		d0 03		bne $4121	        bne nu_allocate
-.411e		4c f2 31	jmp $31f2	        jmp nd_prepare
+.411e		4c f0 31	jmp $31f0	        jmp nd_prepare
 .4121						nu_allocate:
 .4121		ae 59 2e	ldx $2e59	        ldx f_slot
 .4124		fe c4 3d	inc $3dc4,x	        inc NFILES+4,x
@@ -3628,7 +3628,7 @@
 .4185		ad 87 3d	lda $3d87	        lda N_FMODE
 .4188		c9 02		cmp #$02	        cmp #2
 .418a		d0 03		bne $418f	        bne +
-.418c		4c 2e 32	jmp $322e	        jmp nd_begin
+.418c		4c 2c 32	jmp $322c	        jmp nd_begin
 .418f						+
 .418f		ad 5a 2e	lda $2e5a	        lda f_device
 .4192		8d fc 4b	sta $4bfc	        sta NU_COMMAND
@@ -3704,7 +3704,7 @@
 .4230						nu_open_return:
 .4230		4c 0c 22	jmp $220c	        jmp fs_finish
 .4233						nu_transfer:
-.4233		20 b3 31	jsr $31b3	        jsr nd_guard
+.4233		20 b1 31	jsr $31b1	        jsr nd_guard
 .4236		90 03		bcc $423b	        bcc *+5
 .4238		4c 0c 22	jmp $220c	        jmp fs_finish
 .423b		ad 89 3d	lda $3d89	        lda N_FCOUNT
@@ -3921,8 +3921,8 @@
 .4418		bd c2 3d	lda $3dc2,x	        lda NFILES+2,x
 .441b		c9 02		cmp #$02	        cmp #2
 .441d		d0 03		bne $4422	        bne +
-.441f		4c ff 33	jmp $33ff	        jmp nd_close
-.4422		20 b3 31	jsr $31b3	+       jsr nd_guard
+.441f		4c fd 33	jmp $33fd	        jmp nd_close
+.4422		20 b1 31	jsr $31b1	+       jsr nd_guard
 .4425		90 01		bcc $4428	        bcc *+3
 .4427		60		rts		        rts
 .4428		bd c1 3d	lda $3dc1,x	        lda NFILES+1,x
@@ -4004,7 +4004,7 @@
 .44d4		d0 df		bne $44b5	        bne nu_command_byte
 .44d6		ad 85 46	lda $4685	        lda nu_packet_mode
 .44d9		f0 03		beq $44de	        beq +
-.44db		8d d7 34	sta $34d7	        sta nd_active          ; claim the transaction before triggering it
+.44db		8d d5 34	sta $34d5	        sta nd_active          ; claim the transaction before triggering it
 .44de						+
 .44de		a9 01		lda #$01	        lda #1
 .44e0		8d 1c df	sta $df1c	        sta $df1c
@@ -4488,7 +4488,7 @@
 .48b9		ad 56 3d	lda $3d56	        lda N_MHEADER+6
 .48bc		c9 07		cmp #$07	        cmp #7
 .48be		90 70		bcc $4930	        bcc module_invalid
-.48c0		c9 10		cmp #$10	        cmp #N_ABI_MINOR+1
+.48c0		c9 11		cmp #$11	        cmp #N_ABI_MINOR+1
 .48c2		b0 6c		bcs $4930	        bcs module_invalid
 .48c4		ad 5a 3d	lda $3d5a	        lda N_MHEADER+10
 .48c7		cd 6e 3d	cmp $3d6e	        cmp N_APPHEADER+14
@@ -4647,7 +4647,7 @@
 .4b06		4c 02 22	jmp $2202	        jmp fs_enter_failed
 .4b09		a9 00		lda #$00	+       lda #0
 .4b0b		8d 00 4f	sta $4f00	        sta N_USTATUS
-.4b0e		20 b3 31	jsr $31b3	        jsr nd_guard
+.4b0e		20 b1 31	jsr $31b1	        jsr nd_guard
 .4b11		b0 55		bcs $4b68	        bcs uq_finish
 .4b13		ad 3c 3d	lda $3d3c	        lda N_UOP
 .4b16		c9 09		cmp #$09	        cmp #N_U_QUERY_COUNT
@@ -4714,7 +4714,7 @@
 .4b99		4c 02 22	jmp $2202	        jmp fs_enter_failed
 .4b9c		a9 00		lda #$00	+       lda #0
 .4b9e		8d 00 4f	sta $4f00	        sta N_USTATUS
-.4ba1		20 b3 31	jsr $31b3	        jsr nd_guard
+.4ba1		20 b1 31	jsr $31b1	        jsr nd_guard
 .4ba4		b0 c2		bcs $4b68	        bcs uq_finish
 .4ba6		18		clc		        clc
 .4ba7		ad 89 3d	lda $3d89	        lda N_FCOUNT
@@ -5099,9 +5099,9 @@
 .5148	1448	bd 00 39	lda $3900,x	        lda NPAGES1,x
 .514b	144b	60		rts		        rts
 .514c	144c					heap_page_set:
-.514c	144c	ee ad 31	inc $31ad	        inc heap_epoch        ; any ownership change invalidates cached page checks
+.514c	144c	ee f8 1b	inc $1bf8	        inc N_HEAPEPOCH       ; any ownership change invalidates cached page checks
 .514f	144f	d0 03		bne $1454	        bne +
-.5151	1451	ee ae 31	inc $31ae	        inc heap_epoch+1
+.5151	1451	ee f9 1b	inc $1bf9	        inc N_HEAPEPOCH+1
 .5154	1454	ac 98 17	ldy $1798	+       ldy hbank
 .5157	1457	d0 04		bne $145d	        bne heap_set_one
 .5159	1459	9d 00 38	sta $3800,x	        sta NPAGES0,x
@@ -6070,8 +6070,10 @@
 .58f2	1bf2	8d 00 ff	sta $ff00	        sta $ff00               ; expose native app RAM; retain KERNAL/I/O
 .58f5	1bf5	6c 3e 3d	jmp ($3d3e)	        jmp (N_NMIPTR)           ; ROM $ff33 restores the interrupted mapping
 .58f8	1bf8					native_nmi_gate_end:
-.58f8	1bf8					native_low_end:
->58f8	1bf8	00 00 00 00 00 00 00 00		        .fill (-*) & $ff,0
+.58f8	1bf8					native_heap_epoch:
+>58f8	1bf8	00 00				        .word 0
+.58fa	1bfa					native_low_end:
+>58fa	1bfa	00 00 00 00 00 00		        .fill (-*) & $ff,0
 .5900	1c00					native_low_padded_end:
 =9						native_low_pages = (native_low_padded_end-native_low_start)/256
 .5900						native_boot_image:
@@ -6110,7 +6112,7 @@
 .5949		8d 00 4a	sta $4a00	        sta N_BROWSERPATH
 .594c		a5 ba		lda $ba		        lda $ba
 .594e		8d 21 3d	sta $3d21	        sta N_DEVICE
-.5951		8d 15 37	sta $3715	        sta ui_system_device
+.5951		8d 13 37	sta $3713	        sta ui_system_device
 .5954		8d 2d 3d	sta $3d2d	        sta N_BOOTDEVICE
 .5957		8d 29 3d	sta $3d29	        sta N_BROWSERDEV
 .595a		20 ba 59	jsr $59ba	        jsr heap_init
@@ -6142,7 +6144,7 @@
 .598a		08		php		        php
 .598b		78		sei		        sei
 .598c		ad 3c 03	lda $033c	        lda $033c
-.598f		c9 da		cmp #$da	        cmp #<native_keycheck
+.598f		c9 d8		cmp #$d8	        cmp #<native_keycheck
 .5991		d0 07		bne $599a	        bne native_keyboard_install
 .5993		ad 3d 03	lda $033d	        lda $033d
 .5996		c9 35		cmp #$35	        cmp #>native_keycheck
@@ -6152,7 +6154,7 @@
 .599d		8d 1c 3d	sta $3d1c	        sta native_keycheck_saved
 .59a0		ad 3d 03	lda $033d	        lda $033d
 .59a3		8d 1d 3d	sta $3d1d	        sta native_keycheck_saved+1
-.59a6		a9 da		lda #$da	        lda #<native_keycheck
+.59a6		a9 d8		lda #$d8	        lda #<native_keycheck
 .59a8		8d 3c 03	sta $033c	        sta $033c
 .59ab		a9 35		lda #$35	        lda #>native_keycheck
 .59ad		8d 3d 03	sta $033d	        sta $033d
