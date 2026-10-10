@@ -7,7 +7,7 @@ startup.o:
     STARTUP           Offs=000000  Size=00002C  Align=00001  Fill=0000
     CSTACK            Offs=000000  Size=000180  Align=00001  Fill=0000
 gui.o:
-    GUI               Offs=000000  Size=001A58  Align=00001  Fill=0000
+    GUI               Offs=000000  Size=001A5A  Align=00001  Fill=0000
 main.o:
     CODE              Offs=000000  Size=001053  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=000462  Align=00001  Fill=0000
@@ -174,12 +174,12 @@ ZEROPAGE              000002  00001B  00001A  00001
 LOADADDR              005FFE  005FFF  000002  00001
 HEADER                006000  00601F  000020  00001
 STARTUP               006020  00604B  00002C  00001
-GUI                   006080  007AD7  001A58  00001
-CODE                  007AD8  009DDE  002307  00001
-RODATA                009DDF  00A24B  00046D  00001
-DATA                  00A24C  00A27E  000033  00001
-BSS                   00A27F  00AC4F  0009D1  00001
-CSTACK                00AC50  00ADCF  000180  00001
+GUI                   006080  007AD9  001A5A  00001
+CODE                  007ADA  009DE0  002307  00001
+RODATA                009DE1  00A24D  00046D  00001
+DATA                  00A24E  00A280  000033  00001
+BSS                   00A281  00AC51  0009D1  00001
+CSTACK                00AC52  00ADD1  000180  00001
 CALCLOAD              00ADFE  00ADFF  000002  00001
 CALCHEADER            00AE00  00AE0F  000010  00001
 ENGINE                00AE10  00BF15  001106  00001
@@ -187,85 +187,85 @@ ENGINE                00AE10  00BF15  001106  00001
 
 Exports list by name:
 ---------------------
-__BSS_RUN__               00A27F RLA    __BSS_SIZE__              0009D1 REA    
-__CSTACK_RUN__            00AC50 RLA    __CSTACK_SIZE__           000180 REA    
+__BSS_RUN__               00A281 RLA    __BSS_SIZE__              0009D1 REA    
+__CSTACK_RUN__            00AC52 RLA    __CSTACK_SIZE__           000180 REA    
 __ENGINE_SIZE__           001106 REA    __STARTUP__               000001 REA    
-__bzero                   009B7B RLA    _busy                     00A285 RLA    
-_fit_column               0096EF RLA    _format_next              009694 RLA    
-_main                     008607 RLA    _memcmp                   009B09 RLA    
-_memcpy                   009B3F RLA    _memset                   009B83 RLA    
-_sg_begin                 006080 RLA    _sg_chars                 007222 RLA    
-_sg_colors                00760A RLA    _sg_dirty                 007209 RLA    
-_sg_end                   006086 RLA    _sg_hit                   007204 RLA    
-_sg_mode                  007203 RLA    _sg_poll                  006089 RLA    
+__bzero                   009B7D RLA    _busy                     00A287 RLA    
+_fit_column               0096F1 RLA    _format_next              009696 RLA    
+_main                     008609 RLA    _memcmp                   009B0B RLA    
+_memcpy                   009B41 RLA    _memset                   009B85 RLA    
+_sg_begin                 006080 RLA    _sg_chars                 007224 RLA    
+_sg_colors                00760C RLA    _sg_dirty                 00720B RLA    
+_sg_end                   006086 RLA    _sg_hit                   007206 RLA    
+_sg_mode                  007205 RLA    _sg_poll                  006089 RLA    
 _sg_present               006083 RLA    _sg_retry                 00608C RLA    
-_sg_vdc_fault             006B93 RLA    _sg_vdc_live              006B91 RLA    
-_sh_api                   009604 RLA    _sh_arith                 00BD3F RLA    
-_sh_as                    00AA4C RLA    _sh_bs                    00AA4D RLA    
+_sg_vdc_fault             006B90 RLA    _sg_vdc_live              006B8E RLA    
+_sh_api                   009606 RLA    _sh_arith                 00BD3F RLA    
+_sh_as                    00AA4E RLA    _sh_bs                    00AA4F RLA    
 _sh_calculate             00B935 RLA    _sh_clear                 00BEEE RLA    
-_sh_clip_text             00A2E2 RLA    _sh_clipboard             009640 RLA    
+_sh_clip_text             00A2E4 RLA    _sh_clipboard             009642 RLA    
 _sh_compare               00BEB5 RLA    _sh_digit                 00BEF8 RLA    
-_sh_document              00966F RLA    _sh_fit                   00BF0B RLA    
-_sh_format_number         008B2B RLA    _sh_ma                    00AA44 RLA    
-_sh_mb                    00AA48 RLA    _sh_na                    00AA4E RLA    
-_sh_number                00A2D2 RLA    _sh_read_cell             008C81 RLA    
-_sh_recalculate           009617 RLA    _sh_scale                 00AA50 RLA    
-_sh_status                00AA4F RLA    _sh_types                 00A720 RLA    
-_sh_values                00A320 RLA    _strlen                   009D12 RLA    
-_wb_cleanup               008D49 RLA    _wb_device                00AA92 RLA    
-_wb_dirty                 00AA8B RLA    _wb_error                 00AA8C RLA    
-_wb_format                00AA93 RLA    _wb_formats               00AA94 RLA    
-_wb_history               00AA8E RLA    _wb_history_cell          00AA8F RLA    
-_wb_new                   008CD2 RLA    _wb_open                  008E7E RLA    
-_wb_path                  00AA98 RLA    _wb_poisoned              00AA8D RLA    
-_wb_poll                  007AD8 RLA    _wb_progress              00AA90 RLA    
-_wb_save                  009003 RLA    _wb_set                   008D52 RLA    
-_wb_undo                  008E16 RLA    addeqysp                  00984E RLA    
-addysp                    00985E RLA    addysp1                   00985D RLA    
-aslax2                    009880 RLA    aulong                    009871 RLA    
-axlong                    00989C RLA    axulong                   0098A2 RLA    
-booleq                    009AE3 RLA    decax1                    0098A9 RLA    
-decax6                    0098B0 RLA    decaxy                    0098B7 RLA    
-decsp1                    0098C0 RLA    decsp4                    0098C9 RLA    
-decsp5                    0098D6 RLA    decsp6                    0098E3 RLA    
-getlop                    009A5B RLA    incax1                    00991E RLA    
-incax2                    009925 RLA    incax3                    00992C RLA    
-incax4                    00993B RLA    incax6                    009931 RLA    
-incax8                    009936 RLA    incaxy                    00993D RLA    
-inceaxy                   0099EB RLA    incsp1                    009946 RLA    
-incsp2                    009955 RLA    incsp3                    009963 RLA    
-incsp4                    009968 RLA    incsp5                    00996D RLA    
-incsp6                    009972 RLA    incsp8                    009977 RLA    
-laddeqysp                 00997E RLA    ldax0sp                   0099AC RLA    
-ldaxi                     00999F RLA    ldaxysp                   0099AE RLA    
-ldeax0sp                  0099CC RLA    ldeaxi                    0099B5 RLA    
-ldeaxysp                  0099CE RLA    leaa0sp                   0099DF RLA    
-mulax10                   009C12 RLA    mulax9                    009C2B RLA    
-negeax                    0099FC RLA    popax                     00994D RLA    
-popptr1                   009C42 RLA    ptr1                      00000A RLZ    
+_sh_document              009671 RLA    _sh_fit                   00BF0B RLA    
+_sh_format_number         008B2D RLA    _sh_ma                    00AA46 RLA    
+_sh_mb                    00AA4A RLA    _sh_na                    00AA50 RLA    
+_sh_number                00A2D4 RLA    _sh_read_cell             008C83 RLA    
+_sh_recalculate           009619 RLA    _sh_scale                 00AA52 RLA    
+_sh_status                00AA51 RLA    _sh_types                 00A722 RLA    
+_sh_values                00A322 RLA    _strlen                   009D14 RLA    
+_wb_cleanup               008D4B RLA    _wb_device                00AA94 RLA    
+_wb_dirty                 00AA8D RLA    _wb_error                 00AA8E RLA    
+_wb_format                00AA95 RLA    _wb_formats               00AA96 RLA    
+_wb_history               00AA90 RLA    _wb_history_cell          00AA91 RLA    
+_wb_new                   008CD4 RLA    _wb_open                  008E80 RLA    
+_wb_path                  00AA9A RLA    _wb_poisoned              00AA8F RLA    
+_wb_poll                  007ADA RLA    _wb_progress              00AA92 RLA    
+_wb_save                  009005 RLA    _wb_set                   008D54 RLA    
+_wb_undo                  008E18 RLA    addeqysp                  009850 RLA    
+addysp                    009860 RLA    addysp1                   00985F RLA    
+aslax2                    009882 RLA    aulong                    009873 RLA    
+axlong                    00989E RLA    axulong                   0098A4 RLA    
+booleq                    009AE5 RLA    decax1                    0098AB RLA    
+decax6                    0098B2 RLA    decaxy                    0098B9 RLA    
+decsp1                    0098C2 RLA    decsp4                    0098CB RLA    
+decsp5                    0098D8 RLA    decsp6                    0098E5 RLA    
+getlop                    009A5D RLA    incax1                    009920 RLA    
+incax2                    009927 RLA    incax3                    00992E RLA    
+incax4                    00993D RLA    incax6                    009933 RLA    
+incax8                    009938 RLA    incaxy                    00993F RLA    
+inceaxy                   0099ED RLA    incsp1                    009948 RLA    
+incsp2                    009957 RLA    incsp3                    009965 RLA    
+incsp4                    00996A RLA    incsp5                    00996F RLA    
+incsp6                    009974 RLA    incsp8                    009979 RLA    
+laddeqysp                 009980 RLA    ldax0sp                   0099AE RLA    
+ldaxi                     0099A1 RLA    ldaxysp                   0099B0 RLA    
+ldeax0sp                  0099CE RLA    ldeaxi                    0099B7 RLA    
+ldeaxysp                  0099D0 RLA    leaa0sp                   0099E1 RLA    
+mulax10                   009C14 RLA    mulax9                    009C2D RLA    
+negeax                    0099FE RLA    popax                     00994F RLA    
+popptr1                   009C44 RLA    ptr1                      00000A RLZ    
 ptr2                      00000C RLZ    ptr3                      00000E RLZ    
-ptr4                      000010 RLZ    push0                     009C66 RLA    
-pusha                     009C54 RLA    pusha0                    009C68 RLA    
-pushax                    009C6A RLA    pusheax                   009A23 RLA    
-pushl0                    009A1A RLA    pushw                     009C80 RLA    
-pushw0sp                  009C8F RLA    pushwysp                  009C91 RLA    
-regsave                   000006 RLZ    return0                   009CAB RLA    
-sg_module                 007A57 RLA    shlax1                    009878 RLA    
-shlax4                    00988B RLA    shrax2                    009CAF RLA    
+ptr4                      000010 RLZ    push0                     009C68 RLA    
+pusha                     009C56 RLA    pusha0                    009C6A RLA    
+pushax                    009C6C RLA    pusheax                   009A25 RLA    
+pushl0                    009A1C RLA    pushw                     009C82 RLA    
+pushw0sp                  009C91 RLA    pushwysp                  009C93 RLA    
+regsave                   000006 RLZ    return0                   009CAD RLA    
+sg_module                 007A59 RLA    shlax1                    00987A RLA    
+shlax4                    00988D RLA    shrax2                    009CB1 RLA    
 sp                        000002 RLZ    sreg                      000004 RLZ    
-staspidx                  009CBA RLA    stax0sp                   009CD0 RLA    
-staxysp                   009CD2 RLA    steax0sp                  009CDB RLA    
-steaxspidx                009CF0 RLA    steaxysp                  009CDD RLA    
-subeqysp                  009D2A RLA    subysp                    009D3D RLA    
+staspidx                  009CBC RLA    stax0sp                   009CD2 RLA    
+staxysp                   009CD4 RLA    steax0sp                  009CDD RLA    
+steaxspidx                009CF2 RLA    steaxysp                  009CDF RLA    
+subeqysp                  009D2C RLA    subysp                    009D3F RLA    
 tmp1                      000012 RLZ    tmp2                      000013 RLZ    
 tmp3                      000014 RLZ    tmp4                      000015 RLZ    
-tosaddax                  009832 RLA    tosicmp                   0098F2 RLA    
-tosicmp0                  0098F0 RLA    tosudiv0ax                009A4A RLA    
-tosudiva0                 009D4A RLA    tosumod0ax                009AC4 RLA    
-tosumoda0                 009D99 RLA    tosumula0                 009BD8 RLA    
-tosxorax                  009DAC RLA    udiv16                    009D5B RLA    
-udiv32                    009A7F RLA    utsteax                   009A3B RLA    
-zerobss                   009DBC RLA    
+tosaddax                  009834 RLA    tosicmp                   0098F4 RLA    
+tosicmp0                  0098F2 RLA    tosudiv0ax                009A4C RLA    
+tosudiva0                 009D4C RLA    tosumod0ax                009AC6 RLA    
+tosumoda0                 009D9B RLA    tosumula0                 009BDA RLA    
+tosxorax                  009DAE RLA    udiv16                    009D5D RLA    
+udiv32                    009A81 RLA    utsteax                   009A3D RLA    
+zerobss                   009DBE RLA    
 
 
 Exports list by value:
@@ -280,72 +280,72 @@ __CSTACK_SIZE__           000180 REA    __BSS_SIZE__              0009D1 REA
 __ENGINE_SIZE__           001106 REA    _sg_begin                 006080 RLA    
 _sg_present               006083 RLA    _sg_end                   006086 RLA    
 _sg_poll                  006089 RLA    _sg_retry                 00608C RLA    
-_sg_vdc_live              006B91 RLA    _sg_vdc_fault             006B93 RLA    
-_sg_mode                  007203 RLA    _sg_hit                   007204 RLA    
-_sg_dirty                 007209 RLA    _sg_chars                 007222 RLA    
-_sg_colors                00760A RLA    sg_module                 007A57 RLA    
-_wb_poll                  007AD8 RLA    _main                     008607 RLA    
-_sh_format_number         008B2B RLA    _sh_read_cell             008C81 RLA    
-_wb_new                   008CD2 RLA    _wb_cleanup               008D49 RLA    
-_wb_set                   008D52 RLA    _wb_undo                  008E16 RLA    
-_wb_open                  008E7E RLA    _wb_save                  009003 RLA    
-_sh_api                   009604 RLA    _sh_recalculate           009617 RLA    
-_sh_clipboard             009640 RLA    _sh_document              00966F RLA    
-_format_next              009694 RLA    _fit_column               0096EF RLA    
-tosaddax                  009832 RLA    addeqysp                  00984E RLA    
-addysp1                   00985D RLA    addysp                    00985E RLA    
-aulong                    009871 RLA    shlax1                    009878 RLA    
-aslax2                    009880 RLA    shlax4                    00988B RLA    
-axlong                    00989C RLA    axulong                   0098A2 RLA    
-decax1                    0098A9 RLA    decax6                    0098B0 RLA    
-decaxy                    0098B7 RLA    decsp1                    0098C0 RLA    
-decsp4                    0098C9 RLA    decsp5                    0098D6 RLA    
-decsp6                    0098E3 RLA    tosicmp0                  0098F0 RLA    
-tosicmp                   0098F2 RLA    incax1                    00991E RLA    
-incax2                    009925 RLA    incax3                    00992C RLA    
-incax6                    009931 RLA    incax8                    009936 RLA    
-incax4                    00993B RLA    incaxy                    00993D RLA    
-incsp1                    009946 RLA    popax                     00994D RLA    
-incsp2                    009955 RLA    incsp3                    009963 RLA    
-incsp4                    009968 RLA    incsp5                    00996D RLA    
-incsp6                    009972 RLA    incsp8                    009977 RLA    
-laddeqysp                 00997E RLA    ldaxi                     00999F RLA    
-ldax0sp                   0099AC RLA    ldaxysp                   0099AE RLA    
-ldeaxi                    0099B5 RLA    ldeax0sp                  0099CC RLA    
-ldeaxysp                  0099CE RLA    leaa0sp                   0099DF RLA    
-inceaxy                   0099EB RLA    negeax                    0099FC RLA    
-pushl0                    009A1A RLA    pusheax                   009A23 RLA    
-utsteax                   009A3B RLA    tosudiv0ax                009A4A RLA    
-getlop                    009A5B RLA    udiv32                    009A7F RLA    
-tosumod0ax                009AC4 RLA    booleq                    009AE3 RLA    
-_memcmp                   009B09 RLA    _memcpy                   009B3F RLA    
-__bzero                   009B7B RLA    _memset                   009B83 RLA    
-tosumula0                 009BD8 RLA    mulax10                   009C12 RLA    
-mulax9                    009C2B RLA    popptr1                   009C42 RLA    
-pusha                     009C54 RLA    push0                     009C66 RLA    
-pusha0                    009C68 RLA    pushax                    009C6A RLA    
-pushw                     009C80 RLA    pushw0sp                  009C8F RLA    
-pushwysp                  009C91 RLA    return0                   009CAB RLA    
-shrax2                    009CAF RLA    staspidx                  009CBA RLA    
-stax0sp                   009CD0 RLA    staxysp                   009CD2 RLA    
-steax0sp                  009CDB RLA    steaxysp                  009CDD RLA    
-steaxspidx                009CF0 RLA    _strlen                   009D12 RLA    
-subeqysp                  009D2A RLA    subysp                    009D3D RLA    
-tosudiva0                 009D4A RLA    udiv16                    009D5B RLA    
-tosumoda0                 009D99 RLA    tosxorax                  009DAC RLA    
-zerobss                   009DBC RLA    __BSS_RUN__               00A27F RLA    
-_busy                     00A285 RLA    _sh_number                00A2D2 RLA    
-_sh_clip_text             00A2E2 RLA    _sh_values                00A320 RLA    
-_sh_types                 00A720 RLA    _sh_ma                    00AA44 RLA    
-_sh_mb                    00AA48 RLA    _sh_as                    00AA4C RLA    
-_sh_bs                    00AA4D RLA    _sh_na                    00AA4E RLA    
-_sh_status                00AA4F RLA    _sh_scale                 00AA50 RLA    
-_wb_dirty                 00AA8B RLA    _wb_error                 00AA8C RLA    
-_wb_poisoned              00AA8D RLA    _wb_history               00AA8E RLA    
-_wb_history_cell          00AA8F RLA    _wb_progress              00AA90 RLA    
-_wb_device                00AA92 RLA    _wb_format                00AA93 RLA    
-_wb_formats               00AA94 RLA    _wb_path                  00AA98 RLA    
-__CSTACK_RUN__            00AC50 RLA    _sh_calculate             00B935 RLA    
+_sg_vdc_live              006B8E RLA    _sg_vdc_fault             006B90 RLA    
+_sg_mode                  007205 RLA    _sg_hit                   007206 RLA    
+_sg_dirty                 00720B RLA    _sg_chars                 007224 RLA    
+_sg_colors                00760C RLA    sg_module                 007A59 RLA    
+_wb_poll                  007ADA RLA    _main                     008609 RLA    
+_sh_format_number         008B2D RLA    _sh_read_cell             008C83 RLA    
+_wb_new                   008CD4 RLA    _wb_cleanup               008D4B RLA    
+_wb_set                   008D54 RLA    _wb_undo                  008E18 RLA    
+_wb_open                  008E80 RLA    _wb_save                  009005 RLA    
+_sh_api                   009606 RLA    _sh_recalculate           009619 RLA    
+_sh_clipboard             009642 RLA    _sh_document              009671 RLA    
+_format_next              009696 RLA    _fit_column               0096F1 RLA    
+tosaddax                  009834 RLA    addeqysp                  009850 RLA    
+addysp1                   00985F RLA    addysp                    009860 RLA    
+aulong                    009873 RLA    shlax1                    00987A RLA    
+aslax2                    009882 RLA    shlax4                    00988D RLA    
+axlong                    00989E RLA    axulong                   0098A4 RLA    
+decax1                    0098AB RLA    decax6                    0098B2 RLA    
+decaxy                    0098B9 RLA    decsp1                    0098C2 RLA    
+decsp4                    0098CB RLA    decsp5                    0098D8 RLA    
+decsp6                    0098E5 RLA    tosicmp0                  0098F2 RLA    
+tosicmp                   0098F4 RLA    incax1                    009920 RLA    
+incax2                    009927 RLA    incax3                    00992E RLA    
+incax6                    009933 RLA    incax8                    009938 RLA    
+incax4                    00993D RLA    incaxy                    00993F RLA    
+incsp1                    009948 RLA    popax                     00994F RLA    
+incsp2                    009957 RLA    incsp3                    009965 RLA    
+incsp4                    00996A RLA    incsp5                    00996F RLA    
+incsp6                    009974 RLA    incsp8                    009979 RLA    
+laddeqysp                 009980 RLA    ldaxi                     0099A1 RLA    
+ldax0sp                   0099AE RLA    ldaxysp                   0099B0 RLA    
+ldeaxi                    0099B7 RLA    ldeax0sp                  0099CE RLA    
+ldeaxysp                  0099D0 RLA    leaa0sp                   0099E1 RLA    
+inceaxy                   0099ED RLA    negeax                    0099FE RLA    
+pushl0                    009A1C RLA    pusheax                   009A25 RLA    
+utsteax                   009A3D RLA    tosudiv0ax                009A4C RLA    
+getlop                    009A5D RLA    udiv32                    009A81 RLA    
+tosumod0ax                009AC6 RLA    booleq                    009AE5 RLA    
+_memcmp                   009B0B RLA    _memcpy                   009B41 RLA    
+__bzero                   009B7D RLA    _memset                   009B85 RLA    
+tosumula0                 009BDA RLA    mulax10                   009C14 RLA    
+mulax9                    009C2D RLA    popptr1                   009C44 RLA    
+pusha                     009C56 RLA    push0                     009C68 RLA    
+pusha0                    009C6A RLA    pushax                    009C6C RLA    
+pushw                     009C82 RLA    pushw0sp                  009C91 RLA    
+pushwysp                  009C93 RLA    return0                   009CAD RLA    
+shrax2                    009CB1 RLA    staspidx                  009CBC RLA    
+stax0sp                   009CD2 RLA    staxysp                   009CD4 RLA    
+steax0sp                  009CDD RLA    steaxysp                  009CDF RLA    
+steaxspidx                009CF2 RLA    _strlen                   009D14 RLA    
+subeqysp                  009D2C RLA    subysp                    009D3F RLA    
+tosudiva0                 009D4C RLA    udiv16                    009D5D RLA    
+tosumoda0                 009D9B RLA    tosxorax                  009DAE RLA    
+zerobss                   009DBE RLA    __BSS_RUN__               00A281 RLA    
+_busy                     00A287 RLA    _sh_number                00A2D4 RLA    
+_sh_clip_text             00A2E4 RLA    _sh_values                00A322 RLA    
+_sh_types                 00A722 RLA    _sh_ma                    00AA46 RLA    
+_sh_mb                    00AA4A RLA    _sh_as                    00AA4E RLA    
+_sh_bs                    00AA4F RLA    _sh_na                    00AA50 RLA    
+_sh_status                00AA51 RLA    _sh_scale                 00AA52 RLA    
+_wb_dirty                 00AA8D RLA    _wb_error                 00AA8E RLA    
+_wb_poisoned              00AA8F RLA    _wb_history               00AA90 RLA    
+_wb_history_cell          00AA91 RLA    _wb_progress              00AA92 RLA    
+_wb_device                00AA94 RLA    _wb_format                00AA95 RLA    
+_wb_formats               00AA96 RLA    _wb_path                  00AA9A RLA    
+__CSTACK_RUN__            00AC52 RLA    _sh_calculate             00B935 RLA    
 _sh_arith                 00BD3F RLA    _sh_compare               00BEB5 RLA    
 _sh_clear                 00BEEE RLA    _sh_digit                 00BEF8 RLA    
 _sh_fit                   00BF0B RLA    

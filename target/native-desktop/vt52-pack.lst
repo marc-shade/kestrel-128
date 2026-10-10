@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -D PK_ABI=14 -D PK_WINDOW=0 -D PK_PAGES=16 -D PK_RUNTIME_END=28416 -D PK_CLEANUP_BASE=28624 -D PK_RAW_END=28416 -D PK_RAW_ENTRY=24608 -D PK_PACKED_LENGTH=2112 -D PK_BODY_CRC=29582 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/vt52-pack.lst -l target/native-desktop/vt52-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
-; Thu Oct  8 12:58:50 2026
+; Fri Oct  9 18:31:05 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -25,7 +25,7 @@
 ;******  Processing file: src/native/api.inc
 
 =1						N_ABI_MAJOR = 1
-=15						N_ABI_MINOR = 15
+=16						N_ABI_MINOR = 16
 =$1c20						N_ALLOC         = $1c20
 =$1c23						N_FREE          = $1c23
 =$1c26						N_READ          = $1c26
@@ -92,6 +92,7 @@
 =$3d2d						N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4						N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
 =$3d9f						N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
+=$1bf8						N_HEAPEPOCH     = $1bf8          ; ABI 1.16: 16-bit count of heap page-owner changes;
 =$3de5						N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31						N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e						N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length

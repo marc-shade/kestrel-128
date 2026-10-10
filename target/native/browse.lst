@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native/browse.prg -L target/native/browse.lst src/native/browser.asm
-; Sun Oct  4 16:10:15 2026
+; Fri Oct  9 06:11:22 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -11,7 +11,7 @@
 ;******  Processing file: src/native/api.inc
 
 =1					N_ABI_MAJOR = 1
-=15					N_ABI_MINOR = 15
+=16					N_ABI_MINOR = 16
 =$1c20					N_ALLOC         = $1c20
 =$1c23					N_FREE          = $1c23
 =$1c26					N_READ          = $1c26
@@ -78,6 +78,7 @@
 =$3d2d					N_BOOTDEVICE    = $3d2d          ; boot IEC device; independent of app source
 =$3de4					N_BOOTFORMAT    = $3de4          ; ABI 1.12: boot geometry, 0 D64 / 1 D71 / 2 D81
 =$3d9f					N_RCACHE        = $3d9f          ; ABI 1.15: 4 KiB REU pages the kernel module cache
+=$1bf8					N_HEAPEPOCH     = $1bf8          ; ABI 1.16: 16-bit count of heap page-owner changes;
 =$3de5					N_CLIPBOARD     = $3de5          ; ABI 1.13: 27 session bytes; clipboard library only
 =31					N_CLIPOWNER     = 31             ; clipboard allocations survive foreground cleanup
 =$3d2e					N_BROWSERLEN    = $3d2e          ; ABI 1.5: persistent Ultimate browser path length
