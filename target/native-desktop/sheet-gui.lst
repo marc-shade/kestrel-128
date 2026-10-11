@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -o target/native-desktop/sheet-build/gui.bin -l target/native-desktop/sheet-gui.sym -L target/native-desktop/sheet-gui.lst src/native/sheet/gui.asm
-; Fri Oct  9 18:30:17 2026
+; Sun Oct 11 02:35:34 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -1126,6 +1126,7 @@
 =0						BP_STATE_STORAGE=0
 =1						BP_TRACK_DIRTY=1
 =0						BP_HISTORY=0
+=1						BP_COLOR_ROWS=1               ; mark colour-cell-only rows 2 for the service
 .6947						vd_open:
 .6947		a9 00		lda #$00	        lda #0
 .6949		8d 12 3d	sta $3d12	        sta N_READY

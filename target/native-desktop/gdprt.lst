@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -b -I target/native-desktop -o target/native-desktop/gdprt.bin -l target/native-desktop/gdprt.sym -L target/native-desktop/gdprt.lst src/native/gemdesk-prt.asm
-; Fri Oct  9 18:30:36 2026
+; Sun Oct 11 02:35:53 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -12,13 +12,13 @@
 
 =$944e					ae_km_hold	= $944e
 =$3d0d					N_ERROR		= $3d0d
-=$aeb2					bk_fetch_tail	= $aeb2
-=$acd5					bk_service_call	= $acd5
+=$aeb1					bk_fetch_tail	= $aeb1
+=$acd4					bk_service_call	= $acd4
 =2					MU_BUTTON	= 2
 =$9924					gfx_bind_handle	= $9924
 =$7ad3					gm_clip_to_rect	= $7ad3
 =$81a8					gm_icon_dev_lo	= $81a8
-=$b22a					bk_stub		= $b22a
+=$b229					bk_stub		= $b229
 =$75cd					gm_set_title	= $75cd
 =$7ca3					gm_set_rect	= $7ca3
 =$979d					dc_line		= $979d
@@ -47,8 +47,8 @@
 =$7f60					gm_open_entry	= $7f60
 =$3de0					NFCMDS		= $3de0
 =$a09c					gfx_font	= $a09c
-=$af00					bk_load		= $af00
-=$b12b					bk_close_done	= $b12b
+=$aeff					bk_load		= $aeff
+=$b12a					bk_close_done	= $b12a
 =$86f0					gm_dev_format	= $86f0
 =$5000					GM_WORKSPACE	= $5000
 =$16					GM_DESK		= $16
@@ -75,8 +75,8 @@
 =$6c86					gm_atype	= $6c86
 =7					GM_MOP_RESTORE	= 7
 =$99d8					gfx_glyph_empty	= $99d8
-=$ace2					bk_dispatch	= $ace2
-=$acb4					bk_protect_code	= $acb4
+=$ace1					bk_dispatch	= $ace1
+=$acb3					bk_protect_code	= $acb3
 =$3d85					N_FDEVICE	= $3d85
 =127					DC_LFN		= 127
 =$879b					gm_win_sel	= $879b
@@ -101,20 +101,20 @@
 =$a63b					pm_place	= $a63b
 =1					AE_MIRROR	= 1
 =$3c00					NHANDLES	= $3c00
-=$ad93					bk_compare_cookie= $ad93
+=$ad92					bk_compare_cookie= $ad92
 =22					WM_CLOSED	= 22
 =$9441					ae_km_keys	= $9441
 =$6a87					gm_chunk_heap	= $6a87
 =$81d5					gm_icon_bits	= $81d5
 =$86cf					gm_s_nomodule2	= $86cf
-=$abd3					vd_handle	= $abd3
+=$abd2					vd_handle	= $abd2
 =$9f7b					gfx_right_masks	= $9f7b
 =$7aa1					gm_read_done	= $7aa1
 =$6615					gm_deselect_icon= $6615
 =$a9d2					bp_closed	= $a9d2
 =$877b					gm_ix0		= $877b
 =$877d					gm_ix1		= $877d
-=$ace5					bk_service_return= $ace5
+=$ace4					bk_service_return= $ace4
 =$0020					WK_SIZER	= $0020
 =$3d50					N_MHEADER	= $3d50
 =$91e4					ae_attach	= $91e4
@@ -134,12 +134,12 @@
 =$6054					gm_loop		= $6054
 =$9895					dc_iostatus	= $9895
 =$8644					gm_mtoken	= $8644
-=$aefc					bk_relative	= $aefc
+=$aefb					bk_relative	= $aefb
 =$a463					pm_close_return	= $a463
 =$1070					pk_reject	= $1070
 =$9ca9					gfx_glyph_ink	= $9ca9
 =$7aa2					gm_work		= $7aa2
-=$ac83					bk_callback	= $ac83
+=$ac82					bk_callback	= $ac82
 =$a5d0					pm_release	= $a5d0
 =$3d2a					N_BROWSERFMT	= $3d2a
 =$1c4a					N_FCLOSE	= $1c4a
@@ -158,13 +158,14 @@
 =5					AE_OP_POST	= 5
 =$a058					gfx_text_length	= $a058
 =$7e82					gm_band		= $7e82
-=$b03e					bk_load_more	= $b03e
+=$b03d					bk_load_more	= $b03d
 =$740f					gm_ult_scan_next= $740f
 =6					WS_FIND		= 6
 =$6e69					gm_del_named	= $6e69
 =3					AE_OP_STEP	= 3
 =$10ae					pk_mask		= $10ae
 =$8817					gm_banchor	= $8817
+=$ab9d					vm_cell_done	= $ab9d
 =$878b					gm_win_dev	= $878b
 =$608f					gm_fatal	= $608f
 =$7cb3					gm_fulled	= $7cb3
@@ -197,7 +198,7 @@
 =$9f50					gfx_band_left	= $9f50
 =$1c2f					N_STATS		= $1c2f
 =$85c3					gm_stop		= $85c3
-=$aef6					bk_result	= $aef6
+=$aef5					bk_result	= $aef5
 =$a67d					pm_step		= $a67d
 =$9b05					gfx_clip_cell	= $9b05
 =$9445					ae_km_dx	= $9445
@@ -206,7 +207,7 @@
 =$9218					ae_stream_taken	= $9218
 =$3d28					N_ACTION	= $3d28
 =$9c05					gfx_bitmap_row	= $9c05
-=$abcc					vd_phase	= $abcc
+=$abcb					vd_phase	= $abcb
 =$80c9					gm_div		= $80c9
 =8					WF_HSLIDE	= 8
 =$9b96					gfx_failed	= $9b96
@@ -229,7 +230,7 @@
 =$ab6c					vm_dirty	= $ab6c
 =$750a					gm_fn_missing	= $750a
 =16					GM_BELL		= 16
-=$aee1					bk_file		= $aee1
+=$aee0					bk_file		= $aee0
 =6					AE_OP_MENU	= 6
 =32					AE_CAP_DCLICK	= 32
 =$6dcb					gm_aput		= $6dcb
@@ -237,7 +238,7 @@
 =$64e3					gm_copy		= $64e3
 =$a394					gfx_text_end	= $a394
 =$9dcd					gfx_band_pixel	= $9dcd
-=$ade2					bk_check_code	= $ade2
+=$ade1					bk_check_code	= $ade1
 =$6420					gm_draw_icon	= $6420
 =$625f					gm_n32_digit	= $625f
 =$6eef					gm_del_many	= $6eef
@@ -245,10 +246,10 @@
 =$85c2					gm_sslot	= $85c2
 =2					GM_MOP_PREFS	= 2
 =$83a4					gm_s_undone	= $83a4
-=$ab9f					vm_first	= $ab9f
+=$ab9e					vm_first	= $ab9e
 =$7fdc					gm_launcher	= $7fdc
 =$6e4d					gm_del_copy	= $6e4d
-=$abc0					bp_result	= $abc0
+=$abbf					bp_result	= $abbf
 =$68ba					gm_df_found	= $68ba
 =$6529					gm_label_clear	= $6529
 =$81c3					gm_label_trash	= $81c3
@@ -268,12 +269,12 @@
 =$8579					gm_s_usbfail	= $8579
 =$97f4					dc_get_bad	= $97f4
 =$86dd					gm_slot		= $86dd
-=$abc3					bp_name		= $abc3
-=$b0f7					bk_load_badarg	= $b0f7
+=$abc2					bp_name		= $abc2
+=$b0f6					bk_load_badarg	= $b0f6
 =$a670					pm_x		= $a670
 =$a672					pm_y		= $a672
 =$63fb					gm_icons_clip_reset= $63fb
-=$ada6					bk_platform	= $ada6
+=$ada5					bk_platform	= $ada5
 =$a61a					pm_delta_size	= $a61a
 =$86ff					gm_total	= $86ff
 =$a8aa					nk_saved_callback= $a8aa
@@ -281,11 +282,11 @@
 =$3d37					N_UIKEY		= $3d37
 =$3d9d					N_DOCRETURN	= $3d9d
 =$8295					gm_menu		= $8295
-=$b23a					bk_crc		= $b23a
+=$b239					bk_crc		= $b239
 =$69ab					gm_scan_fail	= $69ab
 =$853f					gm_s_notusb	= $853f
 =$71e6					gm_session_built= $71e6
-=$acc3					bk_protect_parent= $acc3
+=$acc2					bk_protect_parent= $acc2
 =$109e					pk_pass		= $109e
 =$3d01					N_PAGES		= $3d01
 =$879f					gm_nsel		= $879f
@@ -302,7 +303,7 @@
 =6					GM_MOP_COPY	= 6
 =12					PM_JUMP		= 12
 =$6419					gm_icon_next	= $6419
-=$aee5					bk_cookie	= $aee5
+=$aee4					bk_cookie	= $aee4
 =$7fd6					gm_launcher_leave= $7fd6
 =$922f					ae_alert_read	= $922f
 =$6f96					gm_del_text	= $6f96
@@ -318,10 +319,10 @@
 =$9cd6					gfx_set		= $9cd6
 =$6dbf					gm_astr_src	= $6dbf
 =$69b5					gm_sort_write	= $69b5
-=$adb8					bk_bad_handle	= $adb8
+=$adb7					bk_bad_handle	= $adb7
 =$75ca					gm_close_full	= $75ca
 =$66dd					gm_menu_control	= $66dd
-=$b238					bk_expected	= $b238
+=$b237					bk_expected	= $b237
 =$a964					bp_loaded	= $a964
 =$10af					pk_masks	= $10af
 =8					AE_CAP_WINDOW	= 8
@@ -335,6 +336,7 @@
 =4					GM_PRINTER	= 4
 =$7f34					gm_band_done	= $7f34
 =$7ffd					gm_slot_of	= $7ffd
+=0					BP_COLOR_ROWS	= 0
 =$661e					gm_repaint_icon_sel= $661e
 =3					GM_USB		= 3
 =$0080					WK_DNARROW	= $0080
@@ -354,11 +356,11 @@
 =$76c9					gm_ult_del_done	= $76c9
 =$9f73					gfx_left_masks	= $9f73
 =$7228					gm_module_run	= $7228
-=$b077					bk_load_eof	= $b077
+=$b076					bk_load_eof	= $b076
 =$10ba					pk_end		= $10ba
 =$3d12					N_READY		= $3d12
 =$86f7					gm_m		= $86f7
-=$abe8					vd_pointer_y	= $abe8
+=$abe7					vd_pointer_y	= $abe7
 =1					N_U_HARDWARE	= 1
 =$6341					gm_message	= $6341
 =$81b1					gm_icon_label_hi= $81b1
@@ -381,20 +383,20 @@
 =$8064					gm_select_mem_x	= $8064
 =$85bb					gm_desk_color	= $85bb
 =$944d					ae_km_click	= $944d
-=$abce					vd_color	= $abce
+=$abcd					vd_color	= $abcd
 =0					N_OK		= 0
 =4					GM_WINDOWS	= 4
 =$3d3c					N_UOP		= $3d3c
 =$3d20					N_CURRENT	= $3d20
 =$a66e					pm_pending	= $a66e
 =0					GFX_TEXT_STORAGE= 0
-=$abf3					ru_probe_live	= $abf3
+=$abf2					ru_probe_live	= $abf2
 =$1c3e					N_EXIT		= $1c3e
 =$ab68					bp_argument	= $ab68
 =$1c41					N_FOPEN		= $1c41
 =$3d25					N_DOSCODE	= $3d25
 =0					AE_OP_ATTACH	= 0
-=$abbe					bp_prefix	= $abbe
+=$abbd					bp_prefix	= $abbd
 =$86db					gm_icon_sel	= $86db
 =$86d2					gm_surface	= $86d2
 =$3d23					N_APPSTATE	= $3d23
@@ -405,7 +407,7 @@
 =$94f3					ae_ev_first	= $94f3
 =$a8ac					nk_filter_image	= $a8ac
 =$a66d					pm_tick		= $a66d
-=$aefd					bk_checked	= $aefd
+=$aefc					bk_checked	= $aefc
 =$73fa					gm_ult_read	= $73fa
 =$9ed3					gfx_glyph_shifted= $9ed3
 =$79d9					gm_rec_src	= $79d9
@@ -421,7 +423,7 @@
 =2					WS_CLOSE	= 2
 =$a71c					nk_install	= $a71c
 =$9a94					gfx_clip_replace= $9a94
-=$aef2					bk_busy		= $aef2
+=$aef1					bk_busy		= $aef1
 =$9805					dc_restore	= $9805
 =$16					N_MEXHAUSTED	= $16
 =14985					SD_BELL_FREQ	= 14985
@@ -431,7 +433,7 @@
 =$86a8					gm_lock_want	= $86a8
 =$1c26					gfx_heap_read	= $1c26
 =$aa51					bp_pointer	= $aa51
-=$abcd					vd_live		= $abcd
+=$abcc					vd_live		= $abcc
 =$6aae					gm_copy_rec	= $6aae
 =1					N_BADARG	= 1
 =$7031					gm_release	= $7031
@@ -459,10 +461,10 @@
 =$8486					gm_drive_alert	= $8486
 =$8178					gm_cards_name	= $8178
 =$7485					gm_ult_scan_fail0= $7485
-=$adaa					bk_invalid	= $adaa
+=$ada9					bk_invalid	= $ada9
 =$a774					nk_close	= $a774
 =$94fd					ae_pointer_buttons= $94fd
-=$abc1					bp_carry	= $abc1
+=$abc0					bp_carry	= $abc0
 =$9c60					gfx_bitmap_loaded= $9c60
 =$70ed					gm_drop_print	= $70ed
 =$6b83					gm_cmp_name	= $6b83
@@ -487,23 +489,23 @@
 =$5000					AE_DATA		= $5000
 =$7326					gm_path_page	= $7326
 =$6000					BK_BASE		= $6000
-=$abd1					vd_base		= $abd1
+=$abd0					vd_base		= $abd0
 =$9b5a					gfx_color_x	= $9b5a
 =$6eee					gm_del_none	= $6eee
 =$86bb					gm_s_nomodule	= $86bb
 =$8769					gm_math		= $8769
 =$86da					gm_start_error	= $86da
-=$aeb6					bk_jump_tail	= $aeb6
+=$aeb5					bk_jump_tail	= $aeb5
 =$8825					gm_mem1		= $8825
 =$8821					gm_mem0		= $8821
 =$882d					gm_mem3		= $882d
 =$8829					gm_mem2		= $8829
 =$85bd					gm_orect	= $85bd
 =$8500					gm_s_unproven	= $8500
-=$ada2					bk_nested	= $ada2
+=$ada1					bk_nested	= $ada1
 =8					AE_OP_WINDOW	= 8
 =$768d					gm_ult_attr	= $768d
-=$abe9					vs_reu		= $abe9
+=$abe8					vs_reu		= $abe8
 =$3de4					N_BOOTFORMAT	= $3de4
 =0					BP_HISTORY	= 0
 =$943b					ae_km_eaten	= $943b
@@ -518,7 +520,7 @@
 =$6bd6					gm_set_view	= $6bd6
 =$83e5					gm_s_error	= $83e5
 =$8361					gm_s_type	= $8361
-=$adba					bk_finish	= $adba
+=$adb9					bk_finish	= $adb9
 =$66ad					gm_key_drive	= $66ad
 =$6a7d					gm_chunk_size	= $6a7d
 =$3d29					N_BROWSERDEV	= $3d29
@@ -535,7 +537,7 @@
 =$6569					gm_icon_hit	= $6569
 =$a952					vd_open		= $a952
 =7					AE_MINOR	= 7
-=$acf6					bk_enter	= $acf6
+=$acf5					bk_enter	= $acf5
 =$a773					nk_return	= $a773
 =$70c6					gm_row_drop	= $70c6
 =$9d59					gfx_xor_load	= $9d59
@@ -554,12 +556,12 @@
 =$84e4					gm_editor_name	= $84e4
 =$86ba					gm_mwanted	= $86ba
 =32					N_APPOWNER	= 32
-=$adae					bk_enter_failed	= $adae
+=$adad					bk_enter_failed	= $adad
 =$9755					dc_open_failed	= $9755
 =$615f					gm_bind		= $615f
 =$13					N_LONGIMAGE	= $13
 =$9b1a					gfx_clip_divide	= $9b1a
-=$ae3c					bk_check_walk	= $ae3c
+=$ae3b					bk_check_walk	= $ae3b
 =$aa0f					bp_presented	= $aa0f
 =$9384					ae_read_pointer	= $9384
 =$a632					pm_delta_advance= $a632
@@ -585,10 +587,10 @@
 =$944f					ae_post		= $944f
 =$9f33					gfx_operation	= $9f33
 =10					WF_TOP		= 10
-=$b195					bk_write_chunk	= $b195
+=$b194					bk_write_chunk	= $b194
 =$8647					gm_mod_names	= $8647
 =$6168					gm_aes_setup	= $6168
-=$abc2					bp_error	= $abc2
+=$abc1					bp_error	= $abc1
 =$84fc					gm_doc_kind	= $84fc
 =$98c0					dc_saved	= $98c0
 =$876e					gm_ra		= $876e
@@ -631,13 +633,13 @@
 =$3900					NPAGES1		= $3900
 =$3800					NPAGES0		= $3800
 =$9438					ae_km_set_y	= $9438
-=$b147					bk_select_file	= $b147
+=$b146					bk_select_file	= $b146
 =0					BP_STATE_STORAGE= 0
 =$a66f					pm_sample_line	= $a66f
 =$95fe					gm_paths	= $95fe
 =$9f35					gfx_offset	= $9f35
 =2					N_NOMEM		= 2
-=$aedd					bk_handle	= $aedd
+=$aedc					bk_handle	= $aedc
 =$9868					dc_device	= $9868
 =7					N_U_IP		= 7
 =$9275					ae_event_sample	= $9275
@@ -647,7 +649,7 @@
 =$881a					gm_s_items	= $881a
 =$85a0					gm_s_usbhex	= $85a0
 =$97f7					dc_close	= $97f7
-=$aedc					bk_state	= $aedc
+=$aedb					bk_state	= $aedb
 =$9c81					gfx_mask_last	= $9c81
 =$9b3a					gfx_color_rows	= $9b3a
 =$9e0f					gfx_band_set	= $9e0f
@@ -666,13 +668,13 @@
 =$0800					WK_HSLIDE	= $0800
 =$9f41					gfx_first	= $9f41
 =$a67f					pm_columns	= $a67f
-=$ac59					bk_return	= $ac59
+=$ac58					bk_return	= $ac58
 =$6afb					gm_ins_inner	= $6afb
 =$3d15					N_LASTKEY	= $3d15
 =$7bbb					gm_max_top	= $7bbb
 =$a013					gfx_text_saturate= $a013
 =31					N_CLIPOWNER	= 31
-=$adc6					bk_check_tails	= $adc6
+=$adc5					bk_check_tails	= $adc5
 =$98ca					dc_eoi		= $98ca
 =40					DC_MAX		= 40
 =$9764					dc_blocks_free	= $9764
@@ -682,15 +684,15 @@
 =$9f1c					gfx_y1		= $9f1c
 =$9f18					gfx_y0		= $9f18
 =$9f3f					gfx_old		= $9f3f
-=$aef9					bk_saved_regs	= $aef9
+=$aef8					bk_saved_regs	= $aef8
 =6					GM_GAP_COUNT	= 6
 =$3d8b					N_FACTUAL	= $3d8b
 =$6d15					gm_info_page	= $6d15
 =$9b49					gfx_color_multiply= $9b49
-=$abd2					vd_pages	= $abd2
-=$b1ca					bk_crc_buffer	= $b1ca
+=$abd1					vd_pages	= $abd1
+=$b1c9					bk_crc_buffer	= $b1c9
 =$3d92					N_FPOSITION	= $3d92
-=$b222					bk_prefix	= $b222
+=$b221					bk_prefix	= $b221
 =$6f63					gm_del_badname	= $6f63
 =$6e25					gm_delete_slot	= $6e25
 =$1c59					N_FEDIT		= $1c59
@@ -710,12 +712,12 @@
 =$3d22					N_NAMELEN	= $3d22
 =$662f					gm_redraw_icon_cells= $662f
 =$a7aa					nk_saved_keys	= $a7aa
-=$b0f2					bk_checksum	= $b0f2
+=$b0f1					bk_checksum	= $b0f1
 =1					AE_MAJOR	= 1
 =$a02a					gfx_load_glyph	= $a02a
 =$9d5e					gfx_xor_store	= $9d5e
 =$8797					gm_win_top	= $8797
-=$abea					vs_token	= $abea
+=$abe9					vs_token	= $abe9
 =$800c					gm_top_slot	= $800c
 =$699c					gm_scan_end	= $699c
 =$755e					gm_ult_rescan	= $755e
@@ -730,23 +732,23 @@
 =$0200					WK_LFARROW	= $0200
 =$9c4b					gfx_read_row	= $9c4b
 =$625a					gm_anum32	= $625a
-=$aef5					bk_service	= $aef5
-=$abd7					vd_saved	= $abd7
+=$aef4					bk_service	= $aef4
+=$abd6					vd_saved	= $abd6
 =$1c71					N_UCOMMAND	= $1c71
 =$86f9					gm_gapi		= $86f9
 =$1c44					N_FREAD		= $1c44
 =$8106					gm_decimal4	= $8106
 =$80f8					gm_decimal2	= $80f8
-=$b23e					gm_end		= $b23e
+=$b23d					gm_end		= $b23d
 =$94f2					ae_ev_key	= $94f2
 =1					AE_POINTER	= 1
 =$8392					gm_gaps		= $8392
 =$8424					gm_bad_chars_end= $8424
 =8					GM_NOOVERASK	= 8
-=$b133					bk_close_source	= $b133
+=$b132					bk_close_source	= $b132
 =4					WS_SET		= 4
 =9					GM_MOP_NEWFOLDER= 9
-=$aef8					bk_saved_rcr	= $aef8
+=$aef7					bk_saved_rcr	= $aef7
 =21					WM_TOPPED	= 21
 =$6861					gm_drive_format	= $6861
 =4					WF_WORKXYWH	= 4
@@ -755,8 +757,8 @@
 =4					AE_CAP_MENU	= 4
 =$98cd					dc_dollar	= $98cd
 =27					WM_SIZED	= 27
-=$aef3					bk_error	= $aef3
-=$aee9					bk_current	= $aee9
+=$aef2					bk_error	= $aef2
+=$aee8					bk_current	= $aee8
 =$85bc					gm_restoring	= $85bc
 =$6a1c					gm_resort_slot	= $6a1c
 =$942e					ae_km_up	= $942e
@@ -783,7 +785,7 @@
 =$a43b					pm_install_return= $a43b
 =$0008					WK_MOVER	= $0008
 =$a04e					gfx_text_load	= $a04e
-=$b0ed					bk_short_image	= $b0ed
+=$b0ec					bk_short_image	= $b0ec
 =$86d6					gm_file		= $86d6
 =$9fd5					gfx_text_failed	= $9fd5
 =$876d					gm_t8		= $876d
@@ -792,7 +794,7 @@
 =$9e9b					gfx_aligned_copy= $9e9b
 =$63a5					gm_redraw_window= $63a5
 =$1c50					N_DIRPAGE	= $1c50
-=$b17f					bk_io_return	= $b17f
+=$b17e					bk_io_return	= $b17e
 =10					MN_SELECTED	= 10
 =$c000					AE_LIMIT	= $c000
 =$3d1b					N_MSTATE	= $3d1b
@@ -838,8 +840,8 @@
 =9					N_CORRUPT	= 9
 =$8374					gm_s_files	= $8374
 =$68c2					gm_scan		= $68c2
-=$b0fc					bk_close	= $b0fc
-=$aef0					bk_entry	= $aef0
+=$b0fb					bk_close	= $b0fb
+=$aeef					bk_entry	= $aeef
 =$a594					pm_set_y	= $a594
 =$a563					pm_set_x	= $a563
 =$9af7					gfx_store_clip_next= $9af7
@@ -858,10 +860,10 @@
 =$1c29					gfx_heap_write	= $1c29
 =$9f2b					gfx_clipped	= $9f2b
 =$3d60					N_APPHEADER	= $3d60
-=$aeee					bk_length	= $aeee
+=$aeed					bk_length	= $aeed
 =16					MU_MESAG	= 16
 =$16					GM_SELECTED	= $16
-=$abb9					vm_pending	= $abb9
+=$abb8					vm_pending	= $abb8
 =$9d98					gfx_band_done	= $9d98
 =$3d90					N_FSTATUS	= $3d90
 =$79bc					gm_rows_done	= $79bc
@@ -893,11 +895,11 @@
 =$8777					gm_wx		= $8777
 =$729a					gm_module_fail	= $729a
 =$8d35					ae_state	= $8d35
-=$b0e3					bk_bad_image	= $b0e3
+=$b0e2					bk_bad_image	= $b0e2
 =5					WF_CURRXYWH	= 5
-=$b184					bk_select_code	= $b184
+=$b183					bk_select_code	= $b183
 =$877a					gm_wh		= $877a
-=$abbf					bp_started	= $abbf
+=$abbe					bp_started	= $abbe
 =$6098					gm_fatal_text	= $6098
 =$3d30					N_BROWSERPOS	= $3d30
 =$9341					ae_wait_moved	= $9341
@@ -909,7 +911,7 @@
 =$804a					gm_free_slot	= $804a
 =$14					N_CHECKSUM	= $14
 =10					AE_OP_SESSION	= 10
-=$ae65					bk_check_shape	= $ae65
+=$ae64					bk_check_shape	= $ae64
 =$7e05					gm_first_sel	= $7e05
 =$3d04					N_HANDLE	= $3d04
 =$6ce0					gm_info_icon	= $6ce0
@@ -922,7 +924,7 @@
 =32					MU_TIMER	= 32
 =$8700					AE_BASE		= $8700
 =$7714					gm_iec_document	= $7714
-=$abe6					vd_pointer_x	= $abe6
+=$abe5					vd_pointer_x	= $abe5
 =$935b					ae_wait_time	= $935b
 =$5000					gm_rows		= $5000
 =$8846					gm_order	= $8846
@@ -936,8 +938,8 @@
 =$8768					gm_row		= $8768
 =$0010					WK_INFO		= $0010
 =$50					N_FIRST0	= $50
-=$abf4					bp_backend_pending= $abf4
-=$aef7					bk_carry	= $aef7
+=$abf3					bp_backend_pending= $abf3
+=$aef6					bk_carry	= $aef6
 =$9caf					gfx_load	= $9caf
 =$6fcd					gm_fail_head	= $6fcd
 =$6db7					gm_astr		= $6db7
@@ -966,11 +968,11 @@
 =$10a7					pk_next		= $10a7
 =$9de9					gfx_band_mask_ready= $9de9
 =$1074					pk_accept	= $1074
-=$b23c					bk_crc_left	= $b23c
-=$abba					bp_file		= $abba
+=$b23b					bk_crc_left	= $b23b
+=$abb9					bp_file		= $abb9
 =$6c85					gm_aname_done	= $6c85
 =$70f2					gm_release_done	= $70f2
-=$b158					bk_read_chunk	= $b158
+=$b157					bk_read_chunk	= $b157
 =$86f4					gm_view		= $86f4
 =$a51f					pm_absent	= $a51f
 =$9db9					gfx_band_masked	= $9db9
@@ -994,7 +996,7 @@
 =$a466					pm_poll		= $a466
 =$a09a					gfx_text_index	= $a09a
 =$76c0					gm_ult_del_unknown= $76c0
-=$b234					bk_count	= $b234
+=$b233					bk_count	= $b233
 =$8763					gm_cx		= $8763
 =$793a					gm_paint_done	= $793a
 =$98f2					sd_click	= $98f2
@@ -1003,24 +1005,24 @@
 =$3d17					N_MTOKEN	= $3d17
 =$9cdf					gfx_copy	= $9cdf
 =$aacb					bp_load		= $aacb
-=$b23e					gm_module	= $b23e
+=$b23d					gm_module	= $b23d
 =$1c4d					N_FRELEASE	= $1c4d
 =$9ccb					gfx_clear	= $9ccb
 =4					N_BADHANDLE	= 4
-=$aef4					bk_operation	= $aef4
+=$aef3					bk_operation	= $aef3
 =$a9ae					bp_dispose	= $a9ae
-=$b1e0					bk_crc_get	= $b1e0
+=$b1df					bk_crc_get	= $b1df
 =$995b					gfx_success	= $995b
 =$693f					gm_scan_record	= $693f
-=$abcc					bp_state	= $abcc
-=$abcf					vd_fault	= $abcf
+=$abcb					bp_state	= $abcb
+=$abce					vd_fault	= $abce
 =$9f43					gfx_bits	= $9f43
 =28					WM_MOVED	= 28
 =3					GM_MOP_FORMAT	= 3
 =$809a					gm_mul		= $809a
 =$7e29					gm_each		= $7e29
 =$9602					gm_rec_addr	= $9602
-=$abf2					ru_active	= $abf2
+=$abf1					ru_active	= $abf1
 =$9af0					gfx_empty	= $9af0
 =$3d39					N_UIFLAGS	= $3d39
 =$997e					gfx_glyph	= $997e
@@ -1034,7 +1036,7 @@
 =$87a3					gm_win_bits	= $87a3
 =$3d00					N_OWNER		= $3d00
 =21					GM_RECORD	= 21
-=$aec0					bk_services	= $aec0
+=$aebf					bk_services	= $aebf
 =$8184					gm_types	= $8184
 =$3d11					N_BUSY		= $3d11
 =$7940					gm_row_loop	= $7940
@@ -1051,12 +1053,12 @@
 =$1300					N_LOWBASE	= $1300
 =$817d					gm_drive_title	= $817d
 =$61					GM_PAPER	= $61
-=$abe5					vd_pointer_visible= $abe5
+=$abe4					vd_pointer_visible= $abe4
 =0					PM_SECONDARY	= 0
 =$877f					gm_clip		= $877f
 =5					GM_ICONS	= 5
 =$04					N_FIRST1	= $04
-=$aeed					bk_pages	= $aeed
+=$aeec					bk_pages	= $aeec
 =3					WF_INFO		= 3
 =$9972					gfx_colors	= $9972
 =$6b9e					gm_cmp_ordinal	= $6b9e
@@ -1100,7 +1102,7 @@
 =$7279					gm_module_call	= $7279
 =$967f					dc_begin	= $967f
 =$9208					ae_register	= $9208
-=$ae64					bk_check_failed	= $ae64
+=$ae63					bk_check_failed	= $ae63
 =$6adc					gm_sort		= $6adc
 =$8a4a					ae_call		= $8a4a
 =8					MU_M2		= 8
@@ -1124,7 +1126,7 @@
 =$6d68					gm_info_sum	= $6d68
 =$a675					pm_pots		= $a675
 =$8609					gm_inf_name	= $8609
-=$aba0					vm_rows		= $aba0
+=$ab9f					vm_rows		= $ab9f
 =$3d3d					N_UARG		= $3d3d
 =$a9ec					vm_present	= $a9ec
 =3					UI_BUFFER	= 3
@@ -1152,9 +1154,10 @@
 =$86a9					gm_lock_name	= $86a9
 =$9828					dc_field_track	= $9828
 =$94cf					ae_ev_params	= $94cf
+=$ab96					vm_cell_row	= $ab96
 =1					FO_PRESENT	= 1
 =1					BP_TRACK_DIRTY	= 1
-=$abf5					bk_call		= $abf5
+=$abf4					bk_call		= $abf4
 =$6c73					gm_info_name	= $6c73
 =$9eca					gfx_glyph_shift	= $9eca
 =$83ed					gm_badname_alert= $83ed
@@ -1174,13 +1177,13 @@
 =$a025					gfx_text_done	= $a025
 =$a683					pm_init_saved	= $a683
 =16					WF_VSLSIZE	= 16
-=$acd0					bk_service_bad	= $acd0
+=$accf					bk_service_bad	= $accf
 =$84f8					gm_usht		= $84f8
 =$aa20					bp_fault	= $aa20
 =$7478					gm_ult_scan_done= $7478
 =0					BP_SHARED_MEMORY= 0
 =$946f					ae_menu_read	= $946f
-=$b0d9					bk_load_success	= $b0d9
+=$b0d8					bk_load_success	= $b0d8
 =$9894					dc_track	= $9894
 =$6339					gm_alert_rows	= $6339
 =$1c62					N_MCALL		= $1c62
@@ -1188,14 +1191,14 @@
 =$698b					gm_scan_skip	= $698b
 =$81cd					gm_label_printer= $81cd
 =$9d20					gfx_band	= $9d20
-=$ae62					bk_check_end	= $ae62
+=$ae61					bk_check_end	= $ae61
 =1					MU_KEYBD	= 1
 =$83e3					gm_s_bar	= $83e3
 =$a682					pm_high		= $a682
 =$3d2f					N_DESKTOPSEL	= $3d2f
 =16					AE_CAP_SESSION	= 16
 =$9a21					gfx_limits_y	= $9a21
-=$b0e8					bk_long_image	= $b0e8
+=$b0e7					bk_long_image	= $b0e7
 =$a530					pm_move		= $a530
 =16					GM_PAGES	= 16
 =16					AC_PAGES	= 16
@@ -1212,7 +1215,7 @@
 =$a981					bp_open_bad	= $a981
 =$8783					gm_rect		= $8783
 =$3d34					N_BROWSERNAME_LEN= $3d34
-=$b236					bk_offset	= $b236
+=$b235					bk_offset	= $b235
 =$8770					gm_num		= $8770
 =7					WF_FULLXYWH	= 7
 =$98cb					dc_free		= $98cb
@@ -1227,790 +1230,790 @@
 
 ;******  Return to file: src/native/gemdesk-prt.asm
 
-.b23e					gm_mod_prt:
->b23e	4e 4d 4f 44			        .text "nmod"
->b242	01 01 0e 00			        .byte 1,1,14,0
->b246	22 07				        .word gm_mod_prt_end-gm_mod_prt
->b248	00 00				        .word 0
->b24a	10 00				        .word dsk.entry-gm_mod_prt
->b24c	00 00				        .word 0
-.b24e					dsk
-.b24e					entry:
-.b24e	ad 43 86	lda $8643	        lda gm_mop
-.b251	c9 0a		cmp #$0a	        cmp #GM_MOP_PRTSCR
-.b253	d0 03		bne $b258	        bne +
-.b255	4c 5b b2	jmp $b25b	        jmp print_screen
-.b258	4c a2 b6	jmp $b6a2	+       jmp prt.print_target
-.b25b					print_screen:
-.b25b	20 6c b4	jsr $b46c	        jsr printer_open
-.b25e	90 03		bcc $b263	        bcs print_absent
-.b260	4c 5d b4	jmp $b45d
-.b263	a9 00		lda #$00	        lda #0
-.b265	8d fd b8	sta $b8fd	        sta ps_file
-.b268	20 8a b2	jsr $b28a	        jsr ps_bands
-.b26b	08		php		        php
-.b26c	48		pha		        pha
-.b26d	20 82 b2	jsr $b282	        jsr ps_stop
-.b270	68		pla		        pla
-.b271	28		plp		        plp
-.b272	90 0d		bcc $b281	        bcc ps_done
-.b274	c9 02		cmp #$02	        cmp #2
-.b276	f0 e8		beq $b260	        beq print_absent
-.b278	a9 2a		lda #$2a	        lda #<s_prtscr_stopped
-.b27a	a2 b9		ldx #$b9	        ldx #>s_prtscr_stopped
-.b27c					ps_alert:
-.b27c	a0 01		ldy #$01	        ldy #1
-.b27e	4c f4 62	jmp $62f4	        jmp gm_alert
-.b281					ps_done:
-.b281	60		rts		        rts
-.b282					ps_stop:
-.b282	20 cc ff	jsr $ffcc	        jsr $ffcc
-.b285	a9 79		lda #$79	        lda #PRT_LFN
-.b287	4c c3 ff	jmp $ffc3	        jmp $ffc3
-.b28a					ps_bands:
-.b28a	a9 00		lda #$00	        lda #0
-.b28c	8d 49 b9	sta $b949	        sta ps_y
-.b28f					ps_band:
-.b28f	20 cc ff	jsr $ffcc	        jsr $ffcc               ; (reads leave the channels to the file service)
-.b292	ad 49 b9	lda $b949	        lda ps_y                ; the two character rows the band crosses
+.b23d					gm_mod_prt:
+>b23d	4e 4d 4f 44			        .text "nmod"
+>b241	01 01 0e 00			        .byte 1,1,14,0
+>b245	22 07				        .word gm_mod_prt_end-gm_mod_prt
+>b247	00 00				        .word 0
+>b249	10 00				        .word dsk.entry-gm_mod_prt
+>b24b	00 00				        .word 0
+.b24d					dsk
+.b24d					entry:
+.b24d	ad 43 86	lda $8643	        lda gm_mop
+.b250	c9 0a		cmp #$0a	        cmp #GM_MOP_PRTSCR
+.b252	d0 03		bne $b257	        bne +
+.b254	4c 5a b2	jmp $b25a	        jmp print_screen
+.b257	4c a1 b6	jmp $b6a1	+       jmp prt.print_target
+.b25a					print_screen:
+.b25a	20 6b b4	jsr $b46b	        jsr printer_open
+.b25d	90 03		bcc $b262	        bcs print_absent
+.b25f	4c 5c b4	jmp $b45c
+.b262	a9 00		lda #$00	        lda #0
+.b264	8d fc b8	sta $b8fc	        sta ps_file
+.b267	20 89 b2	jsr $b289	        jsr ps_bands
+.b26a	08		php		        php
+.b26b	48		pha		        pha
+.b26c	20 81 b2	jsr $b281	        jsr ps_stop
+.b26f	68		pla		        pla
+.b270	28		plp		        plp
+.b271	90 0d		bcc $b280	        bcc ps_done
+.b273	c9 02		cmp #$02	        cmp #2
+.b275	f0 e8		beq $b25f	        beq print_absent
+.b277	a9 29		lda #$29	        lda #<s_prtscr_stopped
+.b279	a2 b9		ldx #$b9	        ldx #>s_prtscr_stopped
+.b27b					ps_alert:
+.b27b	a0 01		ldy #$01	        ldy #1
+.b27d	4c f4 62	jmp $62f4	        jmp gm_alert
+.b280					ps_done:
+.b280	60		rts		        rts
+.b281					ps_stop:
+.b281	20 cc ff	jsr $ffcc	        jsr $ffcc
+.b284	a9 79		lda #$79	        lda #PRT_LFN
+.b286	4c c3 ff	jmp $ffc3	        jmp $ffc3
+.b289					ps_bands:
+.b289	a9 00		lda #$00	        lda #0
+.b28b	8d 48 b9	sta $b948	        sta ps_y
+.b28e					ps_band:
+.b28e	20 cc ff	jsr $ffcc	        jsr $ffcc               ; (reads leave the channels to the file service)
+.b291	ad 48 b9	lda $b948	        lda ps_y                ; the two character rows the band crosses
+.b294	4a		lsr a		        lsr
 .b295	4a		lsr a		        lsr
 .b296	4a		lsr a		        lsr
-.b297	4a		lsr a		        lsr
-.b298	8d 4e b9	sta $b94e	        sta ps_math
-.b29b	20 75 b3	jsr $b375	        jsr ps_fetch            ; ps_a and ps_b at those rows
-.b29e	90 03		bcc $b2a3	        bcs ps_cancelled
-.b2a0	4c 5b b3	jmp $b35b
-.b2a3	a9 c8		lda #$c8	        lda #200                ; rows in this band: 7, or what is left
-.b2a5	38		sec		        sec
-.b2a6	ed 49 b9	sbc $b949	        sbc ps_y
-.b2a9	c9 07		cmp #$07	        cmp #7
-.b2ab	90 02		bcc $b2af	        bcc +
-.b2ad	a9 07		lda #$07	        lda #7
-.b2af	8d 4a b9	sta $b94a	+       sta ps_rows
-.b2b2	a2 79		ldx #$79	        ldx #PRT_LFN
-.b2b4	20 c9 ff	jsr $ffc9	        jsr $ffc9
-.b2b7	90 03		bcc $b2bc	        bcs ps_gone
-.b2b9	4c 54 b3	jmp $b354
-.b2bc	a9 08		lda #$08	        lda #8                  ; bit-image mode
-.b2be	20 d2 ff	jsr $ffd2	        jsr $ffd2
-.b2c1	a9 28		lda #$28	        lda #40
-.b2c3	8d 4b b9	sta $b94b	        sta ps_cells
-.b2c6					ps_cell:
-.b2c6	a0 07		ldy #$07	        ldy #7                  ; the cell's 8 rows from each character row
-.b2c8					-
-.b2c8	b9 ff ff	lda $ffff,y	ps_a:   lda $ffff,y
-.b2cb	99 4f b9	sta $b94f,y	        sta ps_cell16,y
-.b2ce	b9 ff ff	lda $ffff,y	ps_b:   lda $ffff,y
-.b2d1	99 57 b9	sta $b957,y	        sta ps_cell16+8,y
-.b2d4	88		dey		        dey
-.b2d5	10 f1		bpl $b2c8	        bpl -
-.b2d7	ad c9 b2	lda $b2c9	        lda ps_a+1
-.b2da	18		clc		        clc
-.b2db	69 08		adc #$08	        adc #8
-.b2dd	8d c9 b2	sta $b2c9	        sta ps_a+1
-.b2e0	90 03		bcc $b2e5	        bcc +
-.b2e2	ee ca b2	inc $b2ca	        inc ps_a+2
-.b2e5	ad cf b2	lda $b2cf	+       lda ps_b+1
-.b2e8	18		clc		        clc
-.b2e9	69 08		adc #$08	        adc #8
-.b2eb	8d cf b2	sta $b2cf	        sta ps_b+1
-.b2ee	90 03		bcc $b2f3	        bcc +
-.b2f0	ee d0 b2	inc $b2d0	        inc ps_b+2
-.b2f3	a9 80		lda #$80	+       lda #$80
-.b2f5	8d 4c b9	sta $b94c	        sta ps_mask
-.b2f8					ps_column:
-.b2f8	ad 49 b9	lda $b949	        lda ps_y                ; from the band's bottom row up to its top
-.b2fb	29 07		and #$07	        and #7
-.b2fd	18		clc		        clc
-.b2fe	6d 4a b9	adc $b94a	        adc ps_rows
-.b301	a8		tay		        tay
-.b302	ae 4a b9	ldx $b94a	        ldx ps_rows
-.b305	a9 00		lda #$00	        lda #0
-.b307	8d 4d b9	sta $b94d	        sta ps_dots
-.b30a	88		dey		-       dey
-.b30b	b9 4f b9	lda $b94f,y	        lda ps_cell16,y
-.b30e	2d 4c b9	and $b94c	        and ps_mask
-.b311	c9 01		cmp #$01	        cmp #1                  ; carry = a dot
-.b313	2e 4d b9	rol $b94d	        rol ps_dots
-.b316	ca		dex		        dex
-.b317	d0 f1		bne $b30a	        bne -
-.b319	ad 4d b9	lda $b94d	        lda ps_dots
-.b31c	09 80		ora #$80	        ora #$80
-.b31e	20 d2 ff	jsr $ffd2	        jsr $ffd2
-.b321	4e 4c b9	lsr $b94c	        lsr ps_mask
-.b324	d0 d2		bne $b2f8	        bne ps_column
-.b326	ce 4b b9	dec $b94b	        dec ps_cells
-.b329	d0 9b		bne $b2c6	        bne ps_cell
-.b32b	a9 0d		lda #$0d	        lda #13
-.b32d	20 d2 ff	jsr $ffd2	        jsr $ffd2
-.b330	a5 90		lda $90		        lda $90
-.b332	30 20		bmi $b354	        bmi ps_gone
-.b334	20 cc ff	jsr $ffcc	        jsr $ffcc
-.b337	20 3b 1c	jsr $1c3b	        jsr N_KEYIN             ; Esc stops between bands
-.b33a	c9 1b		cmp #$1b	        cmp #27
-.b33c	f0 1d		beq $b35b	        beq ps_cancelled
-.b33e	ad 49 b9	lda $b949	        lda ps_y
-.b341	18		clc		        clc
-.b342	69 07		adc #$07	        adc #7
-.b344	8d 49 b9	sta $b949	        sta ps_y
-.b347	c9 c8		cmp #$c8	        cmp #200
-.b349	b0 03		bcs $b34e	        bcc ps_band
-.b34b	4c 8f b2	jmp $b28f
-.b34e	20 62 b3	jsr $b362	        jsr ps_text
-.b351	b0 01		bcs $b354	        bcs ps_gone
-.b353	60		rts		        rts                     ; (carry clear)
-.b354					ps_gone:
-.b354	20 cc ff	jsr $ffcc	        jsr $ffcc
-.b357	a9 02		lda #$02	        lda #2
-.b359	38		sec		        sec
-.b35a	60		rts		        rts
-.b35b					ps_cancelled:
-.b35b	20 62 b3	jsr $b362	        jsr ps_text
-.b35e	a9 01		lda #$01	        lda #1
-.b360	38		sec		        sec
-.b361	60		rts		        rts
-.b362					ps_text:
-.b362	a2 79		ldx #$79	        ldx #PRT_LFN
-.b364	20 c9 ff	jsr $ffc9	        jsr $ffc9
-.b367	b0 06		bcs $b36f	        bcs +
-.b369	a9 0f		lda #$0f	        lda #15
-.b36b	20 d2 ff	jsr $ffd2	        jsr $ffd2
-.b36e	18		clc		        clc
-.b36f	08		php		+       php
-.b370	20 cc ff	jsr $ffcc	        jsr $ffcc
-.b373	28		plp		        plp
-.b374	60		rts		        rts
-.b375					ps_fetch:
-.b375	ad fd b8	lda $b8fd	        lda ps_file
-.b378	d0 31		bne $b3ab	        bne pf_file
-.b37a	ad 4e b9	lda $b94e	        lda ps_math             ; the surface: both rows read again
-.b37d	20 28 b4	jsr $b428	        jsr ps_row
-.b380	b0 63		bcs $b3e5	        bcs pf_done
-.b382	a2 00		ldx #$00	        ldx #0                  ; the first to ps_first, the second stays in N_BUFFER
-.b384	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
-.b387	9d 00 50	sta $5000,x	        sta ps_first,x
-.b38a	bd a0 3a	lda $3aa0,x	        lda N_BUFFER+160,x
-.b38d	9d a0 50	sta $50a0,x	        sta ps_first+160,x
-.b390	e8		inx		        inx
-.b391	e0 a0		cpx #$a0	        cpx #160
-.b393	d0 ef		bne $b384	        bne -
-.b395	ae 4e b9	ldx $b94e	        ldx ps_math
-.b398	e8		inx		        inx
-.b399	8a		txa		        txa
-.b39a	c9 19		cmp #$19	        cmp #25
-.b39c	b0 05		bcs $b3a3	        bcs +                   ; none below the last: its rows are not printed
-.b39e	20 28 b4	jsr $b428	        jsr ps_row
-.b3a1	b0 42		bcs $b3e5	        bcs pf_done
-.b3a3	a9 00		lda #$00	+       lda #<ps_first
-.b3a5	a2 50		ldx #$50	        ldx #>ps_first
-.b3a7	a0 3a		ldy #$3a	        ldy #>N_BUFFER          ; (N_BUFFER is page-aligned)
-.b3a9	d0 2b		bne $b3d6	        bne pf_point
-.b3ab					pf_file:
-.b3ab	ad 4e b9	lda $b94e	        lda ps_math
-.b3ae	cd fe b8	cmp $b8fe	        cmp ps_top
-.b3b1	f0 1b		beq $b3ce	        beq pf_held
-.b3b3	ee fe b8	inc $b8fe	        inc ps_top              ; the band moved down one row: the lower held
-.b3b6	ad 00 b9	lda $b900	        lda pf_lower            ; row is now the upper, the next is read
-.b3b9	ae ff b8	ldx $b8ff	        ldx pf_upper
-.b3bc	8e 00 b9	stx $b900	        stx pf_lower
-.b3bf	8d ff b8	sta $b8ff	        sta pf_upper
-.b3c2	ad fe b8	lda $b8fe	        lda ps_top
-.b3c5	c9 18		cmp #$18	        cmp #24
-.b3c7	b0 05		bcs $b3ce	        bcs pf_held             ; no row below the last
-.b3c9	20 e6 b3	jsr $b3e6	        jsr pf_read_lower
-.b3cc	b0 17		bcs $b3e5	        bcs pf_done
-.b3ce					pf_held:
-.b3ce	a9 00		lda #$00	        lda #0
-.b3d0	ae ff b8	ldx $b8ff	        ldx pf_upper
-.b3d3	ac 00 b9	ldy $b900	        ldy pf_lower
-.b3d6					pf_point:
-.b3d6	8d c9 b2	sta $b2c9	        sta ps_a+1
-.b3d9	8e ca b2	stx $b2ca	        stx ps_a+2
-.b3dc	a9 00		lda #$00	        lda #0
-.b3de	8d cf b2	sta $b2cf	        sta ps_b+1
-.b3e1	8c d0 b2	sty $b2d0	        sty ps_b+2
-.b3e4	18		clc		        clc
-.b3e5					pf_done:
-.b3e5	60		rts		        rts
-.b3e6					pf_read_lower:
-.b3e6	a2 00		ldx #$00	        ldx #0
-.b3e8	20 ac b5	jsr $b5ac	        jsr prt.select
-.b3eb	a9 40		lda #$40	        lda #<320
-.b3ed	8d 89 3d	sta $3d89	        sta N_FCOUNT
-.b3f0	a9 01		lda #$01	        lda #>320
-.b3f2	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
-.b3f5	20 44 1c	jsr $1c44	        jsr N_FREAD
-.b3f8	b0 2b		bcs $b425	        bcs +
-.b3fa	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.b3fd	c9 40		cmp #$40	        cmp #<320
-.b3ff	d0 25		bne $b426	        bne pf_short
-.b401	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
-.b404	c9 01		cmp #$01	        cmp #>320
-.b406	d0 1e		bne $b426	        bne pf_short
-.b408	ad 00 b9	lda $b900	        lda pf_lower
-.b40b	8d 18 b4	sta $b418	        sta pf_store+2
-.b40e	8d 1e b4	sta $b41e	        sta pf_store2+2
-.b411	a2 00		ldx #$00	        ldx #0
-.b413	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
-.b416					pf_store:
-.b416	9d 00 ff	sta $ff00,x	        sta $ff00,x
-.b419	bd a0 3a	lda $3aa0,x	        lda N_BUFFER+160,x
-.b41c					pf_store2:
-.b41c	9d a0 ff	sta $ffa0,x	        sta $ffa0,x
-.b41f	e8		inx		        inx
-.b420	e0 a0		cpx #$a0	        cpx #160
-.b422	d0 ef		bne $b413	        bne -
-.b424	18		clc		        clc
-.b425	60		rts		+       rts
-.b426					pf_short:
-.b426	38		sec		        sec
-.b427	60		rts		        rts
-.b428					ps_row:
-.b428	8d 4e b9	sta $b94e	        sta ps_math             ; offset = row*320 = row*256 + row*64
+.b297	8d 4d b9	sta $b94d	        sta ps_math
+.b29a	20 74 b3	jsr $b374	        jsr ps_fetch            ; ps_a and ps_b at those rows
+.b29d	90 03		bcc $b2a2	        bcs ps_cancelled
+.b29f	4c 5a b3	jmp $b35a
+.b2a2	a9 c8		lda #$c8	        lda #200                ; rows in this band: 7, or what is left
+.b2a4	38		sec		        sec
+.b2a5	ed 48 b9	sbc $b948	        sbc ps_y
+.b2a8	c9 07		cmp #$07	        cmp #7
+.b2aa	90 02		bcc $b2ae	        bcc +
+.b2ac	a9 07		lda #$07	        lda #7
+.b2ae	8d 49 b9	sta $b949	+       sta ps_rows
+.b2b1	a2 79		ldx #$79	        ldx #PRT_LFN
+.b2b3	20 c9 ff	jsr $ffc9	        jsr $ffc9
+.b2b6	90 03		bcc $b2bb	        bcs ps_gone
+.b2b8	4c 53 b3	jmp $b353
+.b2bb	a9 08		lda #$08	        lda #8                  ; bit-image mode
+.b2bd	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.b2c0	a9 28		lda #$28	        lda #40
+.b2c2	8d 4a b9	sta $b94a	        sta ps_cells
+.b2c5					ps_cell:
+.b2c5	a0 07		ldy #$07	        ldy #7                  ; the cell's 8 rows from each character row
+.b2c7					-
+.b2c7	b9 ff ff	lda $ffff,y	ps_a:   lda $ffff,y
+.b2ca	99 4e b9	sta $b94e,y	        sta ps_cell16,y
+.b2cd	b9 ff ff	lda $ffff,y	ps_b:   lda $ffff,y
+.b2d0	99 56 b9	sta $b956,y	        sta ps_cell16+8,y
+.b2d3	88		dey		        dey
+.b2d4	10 f1		bpl $b2c7	        bpl -
+.b2d6	ad c8 b2	lda $b2c8	        lda ps_a+1
+.b2d9	18		clc		        clc
+.b2da	69 08		adc #$08	        adc #8
+.b2dc	8d c8 b2	sta $b2c8	        sta ps_a+1
+.b2df	90 03		bcc $b2e4	        bcc +
+.b2e1	ee c9 b2	inc $b2c9	        inc ps_a+2
+.b2e4	ad ce b2	lda $b2ce	+       lda ps_b+1
+.b2e7	18		clc		        clc
+.b2e8	69 08		adc #$08	        adc #8
+.b2ea	8d ce b2	sta $b2ce	        sta ps_b+1
+.b2ed	90 03		bcc $b2f2	        bcc +
+.b2ef	ee cf b2	inc $b2cf	        inc ps_b+2
+.b2f2	a9 80		lda #$80	+       lda #$80
+.b2f4	8d 4b b9	sta $b94b	        sta ps_mask
+.b2f7					ps_column:
+.b2f7	ad 48 b9	lda $b948	        lda ps_y                ; from the band's bottom row up to its top
+.b2fa	29 07		and #$07	        and #7
+.b2fc	18		clc		        clc
+.b2fd	6d 49 b9	adc $b949	        adc ps_rows
+.b300	a8		tay		        tay
+.b301	ae 49 b9	ldx $b949	        ldx ps_rows
+.b304	a9 00		lda #$00	        lda #0
+.b306	8d 4c b9	sta $b94c	        sta ps_dots
+.b309	88		dey		-       dey
+.b30a	b9 4e b9	lda $b94e,y	        lda ps_cell16,y
+.b30d	2d 4b b9	and $b94b	        and ps_mask
+.b310	c9 01		cmp #$01	        cmp #1                  ; carry = a dot
+.b312	2e 4c b9	rol $b94c	        rol ps_dots
+.b315	ca		dex		        dex
+.b316	d0 f1		bne $b309	        bne -
+.b318	ad 4c b9	lda $b94c	        lda ps_dots
+.b31b	09 80		ora #$80	        ora #$80
+.b31d	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.b320	4e 4b b9	lsr $b94b	        lsr ps_mask
+.b323	d0 d2		bne $b2f7	        bne ps_column
+.b325	ce 4a b9	dec $b94a	        dec ps_cells
+.b328	d0 9b		bne $b2c5	        bne ps_cell
+.b32a	a9 0d		lda #$0d	        lda #13
+.b32c	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.b32f	a5 90		lda $90		        lda $90
+.b331	30 20		bmi $b353	        bmi ps_gone
+.b333	20 cc ff	jsr $ffcc	        jsr $ffcc
+.b336	20 3b 1c	jsr $1c3b	        jsr N_KEYIN             ; Esc stops between bands
+.b339	c9 1b		cmp #$1b	        cmp #27
+.b33b	f0 1d		beq $b35a	        beq ps_cancelled
+.b33d	ad 48 b9	lda $b948	        lda ps_y
+.b340	18		clc		        clc
+.b341	69 07		adc #$07	        adc #7
+.b343	8d 48 b9	sta $b948	        sta ps_y
+.b346	c9 c8		cmp #$c8	        cmp #200
+.b348	b0 03		bcs $b34d	        bcc ps_band
+.b34a	4c 8e b2	jmp $b28e
+.b34d	20 61 b3	jsr $b361	        jsr ps_text
+.b350	b0 01		bcs $b353	        bcs ps_gone
+.b352	60		rts		        rts                     ; (carry clear)
+.b353					ps_gone:
+.b353	20 cc ff	jsr $ffcc	        jsr $ffcc
+.b356	a9 02		lda #$02	        lda #2
+.b358	38		sec		        sec
+.b359	60		rts		        rts
+.b35a					ps_cancelled:
+.b35a	20 61 b3	jsr $b361	        jsr ps_text
+.b35d	a9 01		lda #$01	        lda #1
+.b35f	38		sec		        sec
+.b360	60		rts		        rts
+.b361					ps_text:
+.b361	a2 79		ldx #$79	        ldx #PRT_LFN
+.b363	20 c9 ff	jsr $ffc9	        jsr $ffc9
+.b366	b0 06		bcs $b36e	        bcs +
+.b368	a9 0f		lda #$0f	        lda #15
+.b36a	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.b36d	18		clc		        clc
+.b36e	08		php		+       php
+.b36f	20 cc ff	jsr $ffcc	        jsr $ffcc
+.b372	28		plp		        plp
+.b373	60		rts		        rts
+.b374					ps_fetch:
+.b374	ad fc b8	lda $b8fc	        lda ps_file
+.b377	d0 31		bne $b3aa	        bne pf_file
+.b379	ad 4d b9	lda $b94d	        lda ps_math             ; the surface: both rows read again
+.b37c	20 27 b4	jsr $b427	        jsr ps_row
+.b37f	b0 63		bcs $b3e4	        bcs pf_done
+.b381	a2 00		ldx #$00	        ldx #0                  ; the first to ps_first, the second stays in N_BUFFER
+.b383	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b386	9d 00 50	sta $5000,x	        sta ps_first,x
+.b389	bd a0 3a	lda $3aa0,x	        lda N_BUFFER+160,x
+.b38c	9d a0 50	sta $50a0,x	        sta ps_first+160,x
+.b38f	e8		inx		        inx
+.b390	e0 a0		cpx #$a0	        cpx #160
+.b392	d0 ef		bne $b383	        bne -
+.b394	ae 4d b9	ldx $b94d	        ldx ps_math
+.b397	e8		inx		        inx
+.b398	8a		txa		        txa
+.b399	c9 19		cmp #$19	        cmp #25
+.b39b	b0 05		bcs $b3a2	        bcs +                   ; none below the last: its rows are not printed
+.b39d	20 27 b4	jsr $b427	        jsr ps_row
+.b3a0	b0 42		bcs $b3e4	        bcs pf_done
+.b3a2	a9 00		lda #$00	+       lda #<ps_first
+.b3a4	a2 50		ldx #$50	        ldx #>ps_first
+.b3a6	a0 3a		ldy #$3a	        ldy #>N_BUFFER          ; (N_BUFFER is page-aligned)
+.b3a8	d0 2b		bne $b3d5	        bne pf_point
+.b3aa					pf_file:
+.b3aa	ad 4d b9	lda $b94d	        lda ps_math
+.b3ad	cd fd b8	cmp $b8fd	        cmp ps_top
+.b3b0	f0 1b		beq $b3cd	        beq pf_held
+.b3b2	ee fd b8	inc $b8fd	        inc ps_top              ; the band moved down one row: the lower held
+.b3b5	ad ff b8	lda $b8ff	        lda pf_lower            ; row is now the upper, the next is read
+.b3b8	ae fe b8	ldx $b8fe	        ldx pf_upper
+.b3bb	8e ff b8	stx $b8ff	        stx pf_lower
+.b3be	8d fe b8	sta $b8fe	        sta pf_upper
+.b3c1	ad fd b8	lda $b8fd	        lda ps_top
+.b3c4	c9 18		cmp #$18	        cmp #24
+.b3c6	b0 05		bcs $b3cd	        bcs pf_held             ; no row below the last
+.b3c8	20 e5 b3	jsr $b3e5	        jsr pf_read_lower
+.b3cb	b0 17		bcs $b3e4	        bcs pf_done
+.b3cd					pf_held:
+.b3cd	a9 00		lda #$00	        lda #0
+.b3cf	ae fe b8	ldx $b8fe	        ldx pf_upper
+.b3d2	ac ff b8	ldy $b8ff	        ldy pf_lower
+.b3d5					pf_point:
+.b3d5	8d c8 b2	sta $b2c8	        sta ps_a+1
+.b3d8	8e c9 b2	stx $b2c9	        stx ps_a+2
+.b3db	a9 00		lda #$00	        lda #0
+.b3dd	8d ce b2	sta $b2ce	        sta ps_b+1
+.b3e0	8c cf b2	sty $b2cf	        sty ps_b+2
+.b3e3	18		clc		        clc
+.b3e4					pf_done:
+.b3e4	60		rts		        rts
+.b3e5					pf_read_lower:
+.b3e5	a2 00		ldx #$00	        ldx #0
+.b3e7	20 ab b5	jsr $b5ab	        jsr prt.select
+.b3ea	a9 40		lda #$40	        lda #<320
+.b3ec	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b3ef	a9 01		lda #$01	        lda #>320
+.b3f1	8d 8a 3d	sta $3d8a	        sta N_FCOUNT+1
+.b3f4	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b3f7	b0 2b		bcs $b424	        bcs +
+.b3f9	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.b3fc	c9 40		cmp #$40	        cmp #<320
+.b3fe	d0 25		bne $b425	        bne pf_short
+.b400	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.b403	c9 01		cmp #$01	        cmp #>320
+.b405	d0 1e		bne $b425	        bne pf_short
+.b407	ad ff b8	lda $b8ff	        lda pf_lower
+.b40a	8d 17 b4	sta $b417	        sta pf_store+2
+.b40d	8d 1d b4	sta $b41d	        sta pf_store2+2
+.b410	a2 00		ldx #$00	        ldx #0
+.b412	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b415					pf_store:
+.b415	9d 00 ff	sta $ff00,x	        sta $ff00,x
+.b418	bd a0 3a	lda $3aa0,x	        lda N_BUFFER+160,x
+.b41b					pf_store2:
+.b41b	9d a0 ff	sta $ffa0,x	        sta $ffa0,x
+.b41e	e8		inx		        inx
+.b41f	e0 a0		cpx #$a0	        cpx #160
+.b421	d0 ef		bne $b412	        bne -
+.b423	18		clc		        clc
+.b424	60		rts		+       rts
+.b425					pf_short:
+.b425	38		sec		        sec
+.b426	60		rts		        rts
+.b427					ps_row:
+.b427	8d 4d b9	sta $b94d	        sta ps_math             ; offset = row*320 = row*256 + row*64
+.b42a	4a		lsr a		        lsr
 .b42b	4a		lsr a		        lsr
-.b42c	4a		lsr a		        lsr
-.b42d	18		clc		        clc
-.b42e	6d 4e b9	adc $b94e	        adc ps_math
-.b431	8d 09 3d	sta $3d09	        sta N_OFFSET+1
-.b434	ad 4e b9	lda $b94e	        lda ps_math
-.b437	4a		lsr a		        lsr
+.b42c	18		clc		        clc
+.b42d	6d 4d b9	adc $b94d	        adc ps_math
+.b430	8d 09 3d	sta $3d09	        sta N_OFFSET+1
+.b433	ad 4d b9	lda $b94d	        lda ps_math
+.b436	4a		lsr a		        lsr
+.b437	6a		ror a		        ror
 .b438	6a		ror a		        ror
-.b439	6a		ror a		        ror
-.b43a	29 c0		and #$c0	        and #$c0
-.b43c	8d 08 3d	sta $3d08	        sta N_OFFSET
-.b43f	a9 40		lda #$40	        lda #<320
-.b441	8d 0a 3d	sta $3d0a	        sta N_COUNT
-.b444	a9 01		lda #$01	        lda #>320
-.b446	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
-.b449	a2 03		ldx #$03	        ldx #3
-.b44b	bd d2 86	lda $86d2,x	-       lda gm_surface,x
-.b44e	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
-.b451	ca		dex		        dex
-.b452	10 f7		bpl $b44b	        bpl -
-.b454	ad 20 3d	lda $3d20	        lda N_CURRENT
-.b457	8d 00 3d	sta $3d00	        sta N_OWNER
-.b45a	4c 26 1c	jmp $1c26	        jmp N_READ
+.b439	29 c0		and #$c0	        and #$c0
+.b43b	8d 08 3d	sta $3d08	        sta N_OFFSET
+.b43e	a9 40		lda #$40	        lda #<320
+.b440	8d 0a 3d	sta $3d0a	        sta N_COUNT
+.b443	a9 01		lda #$01	        lda #>320
+.b445	8d 0b 3d	sta $3d0b	        sta N_COUNT+1
+.b448	a2 03		ldx #$03	        ldx #3
+.b44a	bd d2 86	lda $86d2,x	-       lda gm_surface,x
+.b44d	9d 04 3d	sta $3d04,x	        sta N_HANDLE,x
+.b450	ca		dex		        dex
+.b451	10 f7		bpl $b44a	        bpl -
+.b453	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b456	8d 00 3d	sta $3d00	        sta N_OWNER
+.b459	4c 26 1c	jmp $1c26	        jmp N_READ
 =121					PRT_LFN = 121
-.b45d					print_absent:
-.b45d	ad a6 86	lda $86a6	        lda gm_prt_dev
-.b460	09 30		ora #$30	        ora #$30
-.b462	8d 22 b9	sta $b922	        sta s_noprinter_dev
-.b465	a9 01		lda #$01	        lda #<s_noprinter
-.b467	a2 b9		ldx #$b9	        ldx #>s_noprinter
-.b469	4c 7c b2	jmp $b27c	        jmp ps_alert
-.b46c					printer_open:
-.b46c	a9 00		lda #$00	        lda #0                  ; (device 4 or 5, secondary 7 or 0); carry set if refused
-.b46e	aa		tax		        tax
-.b46f	20 68 ff	jsr $ff68	        jsr $ff68
-.b472	a9 79		lda #$79	        lda #PRT_LFN
-.b474	ae a6 86	ldx $86a6	        ldx gm_prt_dev
-.b477	ac a7 86	ldy $86a7	        ldy gm_prt_sa
-.b47a	20 ba ff	jsr $ffba	        jsr $ffba
-.b47d	a9 00		lda #$00	        lda #0
-.b47f	20 bd ff	jsr $ffbd	        jsr $ffbd
-.b482	4c c0 ff	jmp $ffc0	        jmp $ffc0
-.b485					prt
+.b45c					print_absent:
+.b45c	ad a6 86	lda $86a6	        lda gm_prt_dev
+.b45f	09 30		ora #$30	        ora #$30
+.b461	8d 21 b9	sta $b921	        sta s_noprinter_dev
+.b464	a9 00		lda #$00	        lda #<s_noprinter
+.b466	a2 b9		ldx #$b9	        ldx #>s_noprinter
+.b468	4c 7b b2	jmp $b27b	        jmp ps_alert
+.b46b					printer_open:
+.b46b	a9 00		lda #$00	        lda #0                  ; (device 4 or 5, secondary 7 or 0); carry set if refused
+.b46d	aa		tax		        tax
+.b46e	20 68 ff	jsr $ff68	        jsr $ff68
+.b471	a9 79		lda #$79	        lda #PRT_LFN
+.b473	ae a6 86	ldx $86a6	        ldx gm_prt_dev
+.b476	ac a7 86	ldy $86a7	        ldy gm_prt_sa
+.b479	20 ba ff	jsr $ffba	        jsr $ffba
+.b47c	a9 00		lda #$00	        lda #0
+.b47e	20 bd ff	jsr $ffbd	        jsr $ffbd
+.b481	4c c0 ff	jmp $ffc0	        jmp $ffc0
+.b484					prt
 
 ;******  Processing file: src/native/gemdesk-stream.inc
 
-.b485					check:
-.b485	a9 00		lda #$00	        lda #0
-.b487	8d 8c b6	sta $b68c	        sta isdir
-.b48a	ad 92 b6	lda $b692	        lda sfmt
-.b48d	c9 03		cmp #$03	        cmp #3
-.b48f	f0 18		beq $b4a9	        beq usb_check
-.b491	ad 42 88	lda $8842	        lda gm_rec+17           ; an unclosed file has no checked extent
-.b494	10 2e		bpl $b4c4	        bpl unsupported
-.b496	ad 41 88	lda $8841	        lda gm_rec+16           ; SEQ 1, PRG 2, USR 3 -> 0, 1, 2
-.b499	29 07		and #$07	        and #7
-.b49b	f0 27		beq $b4c4	        beq unsupported
-.b49d	c9 04		cmp #$04	        cmp #4
-.b49f	b0 23		bcs $b4c4	        bcs unsupported         ; REL and DIR are not streams
-.b4a1	38		sec		        sec
-.b4a2	e9 01		sbc #$01	        sbc #1
-.b4a4	8d 93 b6	sta $b693	        sta stype
-.b4a7	18		clc		        clc
-.b4a8	60		rts		        rts
-.b4a9					usb_check:
-.b4a9	ad 45 88	lda $8845	        lda gm_rec+20
-.b4ac	20 88 74	jsr $7488	        jsr gm_ult_fullname
-.b4af	b0 61		bcs $b512	        bcs fail
-.b4b1	ad 8d 76	lda $768d	        lda gm_ult_attr
-.b4b4	29 10		and #$10	        and #$10
-.b4b6	8d 8c b6	sta $b68c	        sta isdir
-.b4b9	f0 07		beq $b4c2	        beq +                   ; a file
-.b4bb	ad 8d b6	lda $b68d	        lda dfmt                ; a folder: only onto USB
-.b4be	c9 03		cmp #$03	        cmp #3
-.b4c0	d0 02		bne $b4c4	        bne unsupported
-.b4c2	18		clc		+       clc
-.b4c3	60		rts		        rts
-.b4c4					unsupported:
-.b4c4	a9 44		lda #$44	        lda #<s_unsupported
-.b4c6	a2 b6		ldx #$b6	        ldx #>s_unsupported
-.b4c8					refuse:
-.b4c8	a0 01		ldy #$01	        ldy #1
-.b4ca	20 f4 62	jsr $62f4	        jsr gm_alert
-.b4cd	38		sec		        sec
-.b4ce	60		rts		        rts
-.b4cf					source_name:
-.b4cf	ad 92 b6	lda $b692	        lda sfmt
-.b4d2	c9 03		cmp #$03	        cmp #3
-.b4d4	d0 20		bne $b4f6	        bne iec_name
-.b4d6	ad 45 88	lda $8845	        lda gm_rec+20
-.b4d9	20 88 74	jsr $7488	        jsr gm_ult_fullname     ; N_UPATH/N_FNAMELEN; the leaf in gm_name/gm_nlen
-.b4dc	b0 34		bcs $b512	        bcs fail
-.b4de	a2 00		ldx #$00	        ldx #0
-.b4e0	bd 00 4e	lda $4e00,x	-       lda N_UPATH,x
-.b4e3	9d 00 52	sta $5200,x	        sta spath,x
-.b4e6	e8		inx		        inx
-.b4e7	ec 86 3d	cpx $3d86	        cpx N_FNAMELEN
-.b4ea	d0 f4		bne $b4e0	        bne -
-.b4ec	8e 94 b6	stx $b694	        stx slen
-.b4ef	a9 00		lda #$00	        lda #0
-.b4f1	8d 93 b6	sta $b693	        sta stype
-.b4f4	18		clc		        clc
-.b4f5	60		rts		        rts
-.b4f6					iec_name:
-.b4f6	a2 00		ldx #$00	        ldx #0
-.b4f8	bd 31 88	lda $8831,x	-       lda gm_rec,x
-.b4fb	c9 a0		cmp #$a0	        cmp #$a0
-.b4fd	f0 0b		beq $b50a	        beq +
-.b4ff	9d 00 52	sta $5200,x	        sta spath,x
-.b502	9d 4a 89	sta $894a,x	        sta gm_name,x
-.b505	e8		inx		        inx
-.b506	e0 10		cpx #$10	        cpx #16
-.b508	d0 ee		bne $b4f8	        bne -
-.b50a	8e 94 b6	stx $b694	+       stx slen
-.b50d	8e 3e 85	stx $853e	        stx gm_nlen
-.b510	18		clc		        clc
-.b511	60		rts		        rts
-.b512					fail:
-.b512	20 17 b5	jsr $b517	        jsr fail_alert
-.b515	38		sec		        sec
-.b516	60		rts		        rts
-.b517					fail_alert:
-.b517	48		pha		        pha                     ; gm_error_hex takes the code from the stack
-.b518	a9 30		lda #$30	        lda #<s_nocopy
-.b51a	a2 b6		ldx #$b6	        ldx #>s_nocopy
-.b51c	20 cd 6f	jsr $6fcd	        jsr gm_fail_head
-.b51f	4c 70 6f	jmp $6f70	        jmp gm_error_hex
-.b522					open:
-.b522	8e 95 b6	stx $b695	        stx slot
-.b525	8d 87 3d	sta $3d87	        sta N_FMODE
-.b528	ad 20 3d	lda $3d20	        lda N_CURRENT
-.b52b	8d 80 3d	sta $3d80	        sta N_FOWNER
-.b52e	a9 00		lda #$00	        lda #0
-.b530	a2 03		ldx #$03	        ldx #3
-.b532	9d 81 3d	sta $3d81,x	-       sta N_FHANDLE,x
-.b535	ca		dex		        dex
-.b536	10 fa		bpl $b532	        bpl -
-.b538	ad 95 b6	lda $b695	        lda slot
-.b53b	d0 2c		bne $b569	        bne open_destination
-.b53d	ad 91 b6	lda $b691	        lda sdev
-.b540	8d 85 3d	sta $3d85	        sta N_FDEVICE
-.b543	ad 92 b6	lda $b692	        lda sfmt
-.b546	8d 96 3d	sta $3d96	        sta N_FFORMAT
-.b549	ad 93 b6	lda $b693	        lda stype
-.b54c	8d 88 3d	sta $3d88	        sta N_FTYPE
-.b54f	ad 94 b6	lda $b694	        lda slen
-.b552	8d 86 3d	sta $3d86	        sta N_FNAMELEN
-.b555	a2 00		ldx #$00	        ldx #0
-.b557	bd 00 52	lda $5200,x	-       lda spath,x
-.b55a	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
-.b55d	e0 10		cpx #$10	        cpx #16
-.b55f	b0 03		bcs $b564	        bcs +
-.b561	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
-.b564	e8		inx		+       inx
-.b565	d0 f0		bne $b557	        bne -
-.b567	f0 2a		beq $b593	        beq open_call
-.b569					open_destination:
-.b569	ad 8e b6	lda $b68e	        lda dopen
-.b56c	8d 85 3d	sta $3d85	        sta N_FDEVICE
-.b56f	ad 8d b6	lda $b68d	        lda dfmt
-.b572	8d 96 3d	sta $3d96	        sta N_FFORMAT
-.b575	ad 8f b6	lda $b68f	        lda dtype
-.b578	8d 88 3d	sta $3d88	        sta N_FTYPE
-.b57b	ad 90 b6	lda $b690	        lda dlen
-.b57e	8d 86 3d	sta $3d86	        sta N_FNAMELEN
-.b581	a2 00		ldx #$00	        ldx #0
-.b583	bd 00 53	lda $5300,x	-       lda dpath,x
-.b586	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
-.b589	e0 10		cpx #$10	        cpx #16
-.b58b	b0 03		bcs $b590	        bcs +
-.b58d	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
-.b590	e8		inx		+       inx
-.b591	d0 f0		bne $b583	        bne -
-.b593					open_call:
-.b593	20 41 1c	jsr $1c41	        jsr N_FOPEN
-.b596	08		php		        php
-.b597	48		pha		        pha
-.b598	ae 95 b6	ldx $b695	        ldx slot
-.b59b	a0 00		ldy #$00	        ldy #0
-.b59d	b9 81 3d	lda $3d81,y	-       lda N_FHANDLE,y
-.b5a0	9d 9a b6	sta $b69a,x	        sta handles,x
-.b5a3	e8		inx		        inx
-.b5a4	c8		iny		        iny
-.b5a5	c0 04		cpy #$04	        cpy #4
-.b5a7	d0 f4		bne $b59d	        bne -
-.b5a9	68		pla		        pla
-.b5aa	28		plp		        plp
-.b5ab	60		rts		        rts
-.b5ac					select:
-.b5ac	8e 95 b6	stx $b695	        stx slot
-.b5af	ad 20 3d	lda $3d20	        lda N_CURRENT
-.b5b2	8d 80 3d	sta $3d80	        sta N_FOWNER
-.b5b5	a0 00		ldy #$00	        ldy #0
-.b5b7	bd 9a b6	lda $b69a,x	-       lda handles,x
-.b5ba	99 81 3d	sta $3d81,y	        sta N_FHANDLE,y
-.b5bd	e8		inx		        inx
-.b5be	c8		iny		        iny
-.b5bf	c0 04		cpy #$04	        cpy #4
-.b5c1	d0 f4		bne $b5b7	        bne -
-.b5c3	60		rts		        rts
-.b5c4					read_source:
-.b5c4	a9 00		lda #$00	        lda #0
-.b5c6	a0 02		ldy #$02	        ldy #2
-.b5c8	d0 02		bne $b5cc	        bne read_count
-.b5ca					read_head:
-.b5ca	a0 00		ldy #$00	        ldy #0
-.b5cc					read_count:
-.b5cc	8d 89 3d	sta $3d89	        sta N_FCOUNT
-.b5cf	8c 8a 3d	sty $3d8a	        sty N_FCOUNT+1
-.b5d2	a2 00		ldx #$00	        ldx #0
-.b5d4	20 ac b5	jsr $b5ac	        jsr select
-.b5d7	20 44 1c	jsr $1c44	        jsr N_FREAD
-.b5da	b0 13		bcs $b5ef	        bcs +
-.b5dc	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
-.b5df	8d 97 b6	sta $b697	        sta size
-.b5e2	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
-.b5e5	8d 98 b6	sta $b698	        sta size+1
-.b5e8	ad 8d 3d	lda $3d8d	        lda N_FEOF
-.b5eb	8d 99 b6	sta $b699	        sta eof
-.b5ee	18		clc		        clc
-.b5ef	60		rts		+       rts
-.b5f0					cancel:
-.b5f0	20 3b 1c	jsr $1c3b	        jsr N_KEYIN
-.b5f3	c9 1b		cmp #$1b	        cmp #27
-.b5f5	f0 02		beq $b5f9	        beq +
-.b5f7	18		clc		        clc
-.b5f8	60		rts		        rts
-.b5f9	38		sec		+       sec
-.b5fa	60		rts		        rts
-.b5fb					close_streams:
-.b5fb	a2 04		ldx #$04	        ldx #4
-.b5fd	20 04 b6	jsr $b604	        jsr close_one
-.b600	b0 2d		bcs $b62f	        bcs +
-.b602	a2 00		ldx #$00	        ldx #0
-.b604					close_one:
-.b604	bd 9a b6	lda $b69a,x	        lda handles,x
-.b607	1d 9b b6	ora $b69b,x	        ora handles+1,x
-.b60a	1d 9c b6	ora $b69c,x	        ora handles+2,x
-.b60d	1d 9d b6	ora $b69d,x	        ora handles+3,x
-.b610	f0 1c		beq $b62e	        beq closed
-.b612	8e 96 b6	stx $b696	        stx close_at
-.b615	20 ac b5	jsr $b5ac	        jsr select
-.b618	20 4a 1c	jsr $1c4a	        jsr N_FCLOSE
-.b61b	b0 12		bcs $b62f	        bcs +
-.b61d	ae 96 b6	ldx $b696	        ldx close_at
-.b620	a9 00		lda #$00	        lda #0
-.b622	9d 9a b6	sta $b69a,x	        sta handles,x
-.b625	9d 9b b6	sta $b69b,x	        sta handles+1,x
-.b628	9d 9c b6	sta $b69c,x	        sta handles+2,x
-.b62b	9d 9d b6	sta $b69d,x	        sta handles+3,x
-.b62e					closed:
-.b62e	18		clc		        clc
-.b62f	60		rts		+       rts
->b630	5b 33 5d 5b 43 6f 75 6c		s_nocopy: .byte 91,51,93,91,67,111,117,108,100,32,110,111,116,32,99,111,112,121,124,0   ; [3][Could not copy|
->b638	64 20 6e 6f 74 20 63 6f 70 79 7c 00
->b644	5b 31 5d 5b 46 6f 6c 64		s_unsupported: .byte 91,49,93,91,70,111,108,100,101,114,115,32,111,110,116,111,32,97,32,100,114,105,118,101,44,124,82,69,76,32,97,110,100,32,117,110,99,108,111,115,101,100,32,102,105,108,101,115,124,99,97,110,110,111,116,32,98,101,32,99,111,112,105,101,100,46,93,91,79,75,93,0   ; [1][Folders onto a drive,|REL and unclosed files|cannot be copied.][OK]
->b64c	65 72 73 20 6f 6e 74 6f 20 61 20 64 72 69 76 65
->b65c	2c 7c 52 45 4c 20 61 6e 64 20 75 6e 63 6c 6f 73
->b66c	65 64 20 66 69 6c 65 73 7c 63 61 6e 6e 6f 74 20
->b67c	62 65 20 63 6f 70 69 65 64 2e 5d 5b 4f 4b 5d 00
->b68c	00				isdir: .byte 0                  ; the row is a folder
->b68d	00				dfmt: .byte 0
->b68e	00				dopen: .byte 0
->b68f	00				dtype: .byte 0
->b690	00				dlen: .byte 0
->b691	00				sdev: .byte 0
->b692	00				sfmt: .byte 0
->b693	00				stype: .byte 0
->b694	00				slen: .byte 0
->b695	00				slot: .byte 0
->b696	00				close_at: .byte 0
->b697	00 00				size: .word 0
->b699	00				eof: .byte 0
->b69a	00 00 00 00 00 00 00 00		handles: .fill 8,0
+.b484					check:
+.b484	a9 00		lda #$00	        lda #0
+.b486	8d 8b b6	sta $b68b	        sta isdir
+.b489	ad 91 b6	lda $b691	        lda sfmt
+.b48c	c9 03		cmp #$03	        cmp #3
+.b48e	f0 18		beq $b4a8	        beq usb_check
+.b490	ad 42 88	lda $8842	        lda gm_rec+17           ; an unclosed file has no checked extent
+.b493	10 2e		bpl $b4c3	        bpl unsupported
+.b495	ad 41 88	lda $8841	        lda gm_rec+16           ; SEQ 1, PRG 2, USR 3 -> 0, 1, 2
+.b498	29 07		and #$07	        and #7
+.b49a	f0 27		beq $b4c3	        beq unsupported
+.b49c	c9 04		cmp #$04	        cmp #4
+.b49e	b0 23		bcs $b4c3	        bcs unsupported         ; REL and DIR are not streams
+.b4a0	38		sec		        sec
+.b4a1	e9 01		sbc #$01	        sbc #1
+.b4a3	8d 92 b6	sta $b692	        sta stype
+.b4a6	18		clc		        clc
+.b4a7	60		rts		        rts
+.b4a8					usb_check:
+.b4a8	ad 45 88	lda $8845	        lda gm_rec+20
+.b4ab	20 88 74	jsr $7488	        jsr gm_ult_fullname
+.b4ae	b0 61		bcs $b511	        bcs fail
+.b4b0	ad 8d 76	lda $768d	        lda gm_ult_attr
+.b4b3	29 10		and #$10	        and #$10
+.b4b5	8d 8b b6	sta $b68b	        sta isdir
+.b4b8	f0 07		beq $b4c1	        beq +                   ; a file
+.b4ba	ad 8c b6	lda $b68c	        lda dfmt                ; a folder: only onto USB
+.b4bd	c9 03		cmp #$03	        cmp #3
+.b4bf	d0 02		bne $b4c3	        bne unsupported
+.b4c1	18		clc		+       clc
+.b4c2	60		rts		        rts
+.b4c3					unsupported:
+.b4c3	a9 43		lda #$43	        lda #<s_unsupported
+.b4c5	a2 b6		ldx #$b6	        ldx #>s_unsupported
+.b4c7					refuse:
+.b4c7	a0 01		ldy #$01	        ldy #1
+.b4c9	20 f4 62	jsr $62f4	        jsr gm_alert
+.b4cc	38		sec		        sec
+.b4cd	60		rts		        rts
+.b4ce					source_name:
+.b4ce	ad 91 b6	lda $b691	        lda sfmt
+.b4d1	c9 03		cmp #$03	        cmp #3
+.b4d3	d0 20		bne $b4f5	        bne iec_name
+.b4d5	ad 45 88	lda $8845	        lda gm_rec+20
+.b4d8	20 88 74	jsr $7488	        jsr gm_ult_fullname     ; N_UPATH/N_FNAMELEN; the leaf in gm_name/gm_nlen
+.b4db	b0 34		bcs $b511	        bcs fail
+.b4dd	a2 00		ldx #$00	        ldx #0
+.b4df	bd 00 4e	lda $4e00,x	-       lda N_UPATH,x
+.b4e2	9d 00 52	sta $5200,x	        sta spath,x
+.b4e5	e8		inx		        inx
+.b4e6	ec 86 3d	cpx $3d86	        cpx N_FNAMELEN
+.b4e9	d0 f4		bne $b4df	        bne -
+.b4eb	8e 93 b6	stx $b693	        stx slen
+.b4ee	a9 00		lda #$00	        lda #0
+.b4f0	8d 92 b6	sta $b692	        sta stype
+.b4f3	18		clc		        clc
+.b4f4	60		rts		        rts
+.b4f5					iec_name:
+.b4f5	a2 00		ldx #$00	        ldx #0
+.b4f7	bd 31 88	lda $8831,x	-       lda gm_rec,x
+.b4fa	c9 a0		cmp #$a0	        cmp #$a0
+.b4fc	f0 0b		beq $b509	        beq +
+.b4fe	9d 00 52	sta $5200,x	        sta spath,x
+.b501	9d 4a 89	sta $894a,x	        sta gm_name,x
+.b504	e8		inx		        inx
+.b505	e0 10		cpx #$10	        cpx #16
+.b507	d0 ee		bne $b4f7	        bne -
+.b509	8e 93 b6	stx $b693	+       stx slen
+.b50c	8e 3e 85	stx $853e	        stx gm_nlen
+.b50f	18		clc		        clc
+.b510	60		rts		        rts
+.b511					fail:
+.b511	20 16 b5	jsr $b516	        jsr fail_alert
+.b514	38		sec		        sec
+.b515	60		rts		        rts
+.b516					fail_alert:
+.b516	48		pha		        pha                     ; gm_error_hex takes the code from the stack
+.b517	a9 2f		lda #$2f	        lda #<s_nocopy
+.b519	a2 b6		ldx #$b6	        ldx #>s_nocopy
+.b51b	20 cd 6f	jsr $6fcd	        jsr gm_fail_head
+.b51e	4c 70 6f	jmp $6f70	        jmp gm_error_hex
+.b521					open:
+.b521	8e 94 b6	stx $b694	        stx slot
+.b524	8d 87 3d	sta $3d87	        sta N_FMODE
+.b527	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b52a	8d 80 3d	sta $3d80	        sta N_FOWNER
+.b52d	a9 00		lda #$00	        lda #0
+.b52f	a2 03		ldx #$03	        ldx #3
+.b531	9d 81 3d	sta $3d81,x	-       sta N_FHANDLE,x
+.b534	ca		dex		        dex
+.b535	10 fa		bpl $b531	        bpl -
+.b537	ad 94 b6	lda $b694	        lda slot
+.b53a	d0 2c		bne $b568	        bne open_destination
+.b53c	ad 90 b6	lda $b690	        lda sdev
+.b53f	8d 85 3d	sta $3d85	        sta N_FDEVICE
+.b542	ad 91 b6	lda $b691	        lda sfmt
+.b545	8d 96 3d	sta $3d96	        sta N_FFORMAT
+.b548	ad 92 b6	lda $b692	        lda stype
+.b54b	8d 88 3d	sta $3d88	        sta N_FTYPE
+.b54e	ad 93 b6	lda $b693	        lda slen
+.b551	8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.b554	a2 00		ldx #$00	        ldx #0
+.b556	bd 00 52	lda $5200,x	-       lda spath,x
+.b559	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
+.b55c	e0 10		cpx #$10	        cpx #16
+.b55e	b0 03		bcs $b563	        bcs +
+.b560	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
+.b563	e8		inx		+       inx
+.b564	d0 f0		bne $b556	        bne -
+.b566	f0 2a		beq $b592	        beq open_call
+.b568					open_destination:
+.b568	ad 8d b6	lda $b68d	        lda dopen
+.b56b	8d 85 3d	sta $3d85	        sta N_FDEVICE
+.b56e	ad 8c b6	lda $b68c	        lda dfmt
+.b571	8d 96 3d	sta $3d96	        sta N_FFORMAT
+.b574	ad 8e b6	lda $b68e	        lda dtype
+.b577	8d 88 3d	sta $3d88	        sta N_FTYPE
+.b57a	ad 8f b6	lda $b68f	        lda dlen
+.b57d	8d 86 3d	sta $3d86	        sta N_FNAMELEN
+.b580	a2 00		ldx #$00	        ldx #0
+.b582	bd 00 53	lda $5300,x	-       lda dpath,x
+.b585	9d 00 4e	sta $4e00,x	        sta N_UPATH,x
+.b588	e0 10		cpx #$10	        cpx #16
+.b58a	b0 03		bcs $b58f	        bcs +
+.b58c	9d a0 3d	sta $3da0,x	        sta N_FNAME,x
+.b58f	e8		inx		+       inx
+.b590	d0 f0		bne $b582	        bne -
+.b592					open_call:
+.b592	20 41 1c	jsr $1c41	        jsr N_FOPEN
+.b595	08		php		        php
+.b596	48		pha		        pha
+.b597	ae 94 b6	ldx $b694	        ldx slot
+.b59a	a0 00		ldy #$00	        ldy #0
+.b59c	b9 81 3d	lda $3d81,y	-       lda N_FHANDLE,y
+.b59f	9d 99 b6	sta $b699,x	        sta handles,x
+.b5a2	e8		inx		        inx
+.b5a3	c8		iny		        iny
+.b5a4	c0 04		cpy #$04	        cpy #4
+.b5a6	d0 f4		bne $b59c	        bne -
+.b5a8	68		pla		        pla
+.b5a9	28		plp		        plp
+.b5aa	60		rts		        rts
+.b5ab					select:
+.b5ab	8e 94 b6	stx $b694	        stx slot
+.b5ae	ad 20 3d	lda $3d20	        lda N_CURRENT
+.b5b1	8d 80 3d	sta $3d80	        sta N_FOWNER
+.b5b4	a0 00		ldy #$00	        ldy #0
+.b5b6	bd 99 b6	lda $b699,x	-       lda handles,x
+.b5b9	99 81 3d	sta $3d81,y	        sta N_FHANDLE,y
+.b5bc	e8		inx		        inx
+.b5bd	c8		iny		        iny
+.b5be	c0 04		cpy #$04	        cpy #4
+.b5c0	d0 f4		bne $b5b6	        bne -
+.b5c2	60		rts		        rts
+.b5c3					read_source:
+.b5c3	a9 00		lda #$00	        lda #0
+.b5c5	a0 02		ldy #$02	        ldy #2
+.b5c7	d0 02		bne $b5cb	        bne read_count
+.b5c9					read_head:
+.b5c9	a0 00		ldy #$00	        ldy #0
+.b5cb					read_count:
+.b5cb	8d 89 3d	sta $3d89	        sta N_FCOUNT
+.b5ce	8c 8a 3d	sty $3d8a	        sty N_FCOUNT+1
+.b5d1	a2 00		ldx #$00	        ldx #0
+.b5d3	20 ab b5	jsr $b5ab	        jsr select
+.b5d6	20 44 1c	jsr $1c44	        jsr N_FREAD
+.b5d9	b0 13		bcs $b5ee	        bcs +
+.b5db	ad 8b 3d	lda $3d8b	        lda N_FACTUAL
+.b5de	8d 96 b6	sta $b696	        sta size
+.b5e1	ad 8c 3d	lda $3d8c	        lda N_FACTUAL+1
+.b5e4	8d 97 b6	sta $b697	        sta size+1
+.b5e7	ad 8d 3d	lda $3d8d	        lda N_FEOF
+.b5ea	8d 98 b6	sta $b698	        sta eof
+.b5ed	18		clc		        clc
+.b5ee	60		rts		+       rts
+.b5ef					cancel:
+.b5ef	20 3b 1c	jsr $1c3b	        jsr N_KEYIN
+.b5f2	c9 1b		cmp #$1b	        cmp #27
+.b5f4	f0 02		beq $b5f8	        beq +
+.b5f6	18		clc		        clc
+.b5f7	60		rts		        rts
+.b5f8	38		sec		+       sec
+.b5f9	60		rts		        rts
+.b5fa					close_streams:
+.b5fa	a2 04		ldx #$04	        ldx #4
+.b5fc	20 03 b6	jsr $b603	        jsr close_one
+.b5ff	b0 2d		bcs $b62e	        bcs +
+.b601	a2 00		ldx #$00	        ldx #0
+.b603					close_one:
+.b603	bd 99 b6	lda $b699,x	        lda handles,x
+.b606	1d 9a b6	ora $b69a,x	        ora handles+1,x
+.b609	1d 9b b6	ora $b69b,x	        ora handles+2,x
+.b60c	1d 9c b6	ora $b69c,x	        ora handles+3,x
+.b60f	f0 1c		beq $b62d	        beq closed
+.b611	8e 95 b6	stx $b695	        stx close_at
+.b614	20 ab b5	jsr $b5ab	        jsr select
+.b617	20 4a 1c	jsr $1c4a	        jsr N_FCLOSE
+.b61a	b0 12		bcs $b62e	        bcs +
+.b61c	ae 95 b6	ldx $b695	        ldx close_at
+.b61f	a9 00		lda #$00	        lda #0
+.b621	9d 99 b6	sta $b699,x	        sta handles,x
+.b624	9d 9a b6	sta $b69a,x	        sta handles+1,x
+.b627	9d 9b b6	sta $b69b,x	        sta handles+2,x
+.b62a	9d 9c b6	sta $b69c,x	        sta handles+3,x
+.b62d					closed:
+.b62d	18		clc		        clc
+.b62e	60		rts		+       rts
+>b62f	5b 33 5d 5b 43 6f 75 6c		s_nocopy: .byte 91,51,93,91,67,111,117,108,100,32,110,111,116,32,99,111,112,121,124,0   ; [3][Could not copy|
+>b637	64 20 6e 6f 74 20 63 6f 70 79 7c 00
+>b643	5b 31 5d 5b 46 6f 6c 64		s_unsupported: .byte 91,49,93,91,70,111,108,100,101,114,115,32,111,110,116,111,32,97,32,100,114,105,118,101,44,124,82,69,76,32,97,110,100,32,117,110,99,108,111,115,101,100,32,102,105,108,101,115,124,99,97,110,110,111,116,32,98,101,32,99,111,112,105,101,100,46,93,91,79,75,93,0   ; [1][Folders onto a drive,|REL and unclosed files|cannot be copied.][OK]
+>b64b	65 72 73 20 6f 6e 74 6f 20 61 20 64 72 69 76 65
+>b65b	2c 7c 52 45 4c 20 61 6e 64 20 75 6e 63 6c 6f 73
+>b66b	65 64 20 66 69 6c 65 73 7c 63 61 6e 6e 6f 74 20
+>b67b	62 65 20 63 6f 70 69 65 64 2e 5d 5b 4f 4b 5d 00
+>b68b	00				isdir: .byte 0                  ; the row is a folder
+>b68c	00				dfmt: .byte 0
+>b68d	00				dopen: .byte 0
+>b68e	00				dtype: .byte 0
+>b68f	00				dlen: .byte 0
+>b690	00				sdev: .byte 0
+>b691	00				sfmt: .byte 0
+>b692	00				stype: .byte 0
+>b693	00				slen: .byte 0
+>b694	00				slot: .byte 0
+>b695	00				close_at: .byte 0
+>b696	00 00				size: .word 0
+>b698	00				eof: .byte 0
+>b699	00 00 00 00 00 00 00 00		handles: .fill 8,0
 =20992					spath = gm_sortbuf+512          ; the names, after a 512-byte chunk (painting,
 =21248					dpath = gm_sortbuf+768          ; only when a progress window closes, fills just
 
 ;******  Return to file: src/native/gemdesk-prt.asm
 
-.b6a2					print_target:
-.b6a2	ae dd 86	ldx $86dd	        ldx gm_slot
-.b6a5	bd 8b 87	lda $878b,x	        lda gm_win_dev,x
-.b6a8	8d 91 b6	sta $b691	        sta sdev
-.b6ab	bd 8f 87	lda $878f,x	        lda gm_win_fmt,x
-.b6ae	8d 92 b6	sta $b692	        sta sfmt
-.b6b1	a9 00		lda #$00	        lda #0
-.b6b3	8d 51 b8	sta $b851	        sta stop
-.b6b6	8d 8d b6	sta $b68d	        sta dfmt                ; (so check refuses a folder)
-.b6b9	8d 01 87	sta $8701	        sta gm_alen
-.b6bc	a9 9e		lda #$9e	        lda #<s_print
-.b6be	a2 b8		ldx #$b8	        ldx #>s_print
-.b6c0	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b6c3	ae dd 86	ldx $86dd	        ldx gm_slot
-.b6c6	bd 9f 87	lda $879f,x	        lda gm_nsel,x
-.b6c9	c9 02		cmp #$02	        cmp #2
-.b6cb	b0 13		bcs $b6e0	        bcs print_many
-.b6cd	20 ec 6d	jsr $6dec	        jsr gm_read_record
-.b6d0	90 03		bcc $b6d5	        bcc +
-.b6d2	4c ff 6b	jmp $6bff	        jmp gm_view_fail
-.b6d5	20 85 b4	jsr $b485	+       jsr check
-.b6d8	b0 51		bcs $b72b	        bcs print_done
-.b6da	20 71 6c	jsr $6c71	        jsr gm_aname
-.b6dd	4c f2 b6	jmp $b6f2	        jmp print_ask
-.b6e0					print_many:
-.b6e0	8d 70 87	sta $8770	        sta gm_num
-.b6e3	a9 00		lda #$00	        lda #0
-.b6e5	8d 71 87	sta $8771	        sta gm_num+1
-.b6e8	20 d5 6d	jsr $6dd5	        jsr gm_anum
-.b6eb	a9 1a		lda #$1a	        lda #<gm_s_items
-.b6ed	a2 88		ldx #$88	        ldx #>gm_s_items
-.b6ef	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b6f2					print_ask:
-.b6f2	a9 a9		lda #$a9	        lda #<s_print_choice
-.b6f4	a2 b8		ldx #$b8	        ldx #>s_print_choice
-.b6f6	20 b7 6d	jsr $6db7	        jsr gm_astr
-.b6f9	a9 00		lda #$00	        lda #0
-.b6fb	20 cb 6d	jsr $6dcb	        jsr gm_aput
-.b6fe	a9 02		lda #$02	        lda #<gm_abuf
-.b700	a2 87		ldx #$87	        ldx #>gm_abuf
-.b702	a0 01		ldy #$01	        ldy #1
-.b704	20 f4 62	jsr $62f4	        jsr gm_alert
-.b707	b0 22		bcs $b72b	        bcs print_done
-.b709	ad 00 3a	lda $3a00	        lda N_BUFFER
-.b70c	c9 01		cmp #$01	        cmp #1
-.b70e	d0 1b		bne $b72b	        bne print_done
-.b710	20 6c b4	jsr $b46c	        jsr printer_open        ; the printer, once for every row
-.b713	90 03		bcc $b718	        bcs print_absent
-.b715	4c 5d b4	jmp $b45d
-.b718	a9 2c		lda #$2c	        lda #<print_item
-.b71a	a2 b7		ldx #$b7	        ldx #>print_item
-.b71c	20 29 7e	jsr $7e29	        jsr gm_each
-.b71f	a9 79		lda #$79	        lda #PRT_LFN
-.b721	20 c3 ff	jsr $ffc3	        jsr $ffc3
-.b724	ad 51 b8	lda $b851	        lda stop                ; 2: the printer stopped answering
-.b727	c9 02		cmp #$02	        cmp #2
-.b729	f0 ea		beq $b715	        beq print_absent
-.b72b					print_done:
-.b72b	60		rts		        rts
-.b72c					print_item:
-.b72c	ad 51 b8	lda $b851	        lda stop
-.b72f	d0 fa		bne $b72b	        bne print_done
-.b731	20 ec 6d	jsr $6dec	        jsr gm_read_record
-.b734	b0 f5		bcs $b72b	        bcs print_done
-.b736	20 85 b4	jsr $b485	        jsr check
-.b739	b0 f0		bcs $b72b	        bcs print_done
-.b73b	20 cf b4	jsr $b4cf	        jsr source_name
-.b73e	b0 eb		bcs $b72b	        bcs print_done
-.b740	a9 00		lda #$00	        lda #0
-.b742	8d fa b8	sta $b8fa	        sta ep_last
-.b745	8d 9a b6	sta $b69a	        sta handles
-.b748	8d 9b b6	sta $b69b	        sta handles+1
-.b74b	8d 9c b6	sta $b69c	        sta handles+2
-.b74e	8d 9d b6	sta $b69d	        sta handles+3
-.b751	a2 00		ldx #$00	        ldx #0
-.b753	a9 00		lda #$00	        lda #0
-.b755	20 22 b5	jsr $b522	        jsr open
-.b758	b0 20		bcs $b77a	        bcs print_failed
-.b75a	a9 10		lda #$10	        lda #16                 ; the header a picture starts with
-.b75c	20 ca b5	jsr $b5ca	        jsr read_head
-.b75f	b0 19		bcs $b77a	        bcs print_failed
-.b761	a2 0b		ldx #$0b	        ldx #11
-.b763	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
-.b766	dd 52 b8	cmp $b852,x	        cmp upnt,x
-.b769	d0 1a		bne $b785	        bne print_have          ; not a picture: these bytes are text
-.b76b	ca		dex		        dex
-.b76c	10 f5		bpl $b763	        bpl -
-.b76e	ad 97 b6	lda $b697	        lda size
-.b771	c9 10		cmp #$10	        cmp #16
-.b773	d0 03		bne $b778	        beq print_picture
-.b775	4c 09 b8	jmp $b809
-.b778	d0 0b		bne $b785	        bne print_have
-.b77a					print_failed:
-.b77a	20 12 b5	jsr $b512	        jsr fail                ; (fail reports; the handle is closed below)
-.b77d	4c 03 b8	jmp $b803	        jmp print_close
-.b780					print_chunk:
-.b780	20 c4 b5	jsr $b5c4	        jsr read_source
-.b783	b0 f5		bcs $b77a	        bcs print_failed
-.b785					print_have:
-.b785	ad 97 b6	lda $b697	        lda size
-.b788	0d 98 b6	ora $b698	        ora size+1
-.b78b	f0 76		beq $b803	        beq print_close
-.b78d	a2 79		ldx #$79	        ldx #PRT_LFN
-.b78f	20 c9 ff	jsr $ffc9	        jsr $ffc9               ; CHKOUT (the file service reset the channels)
-.b792	b0 67		bcs $b7fb	        bcs print_gone
-.b794	a5 90		lda $90		        lda $90
-.b796	30 63		bmi $b7fb	        bmi print_gone
-.b798	a9 00		lda #$00	        lda #<N_BUFFER
-.b79a	8d af b7	sta $b7af	        sta print_read+1
-.b79d	a9 3a		lda #$3a	        lda #>N_BUFFER
-.b79f	8d b0 b7	sta $b7b0	        sta print_read+2
-.b7a2	ad 97 b6	lda $b697	        lda size
-.b7a5	8d fb b8	sta $b8fb	        sta pleft
-.b7a8	ad 98 b6	lda $b698	        lda size+1
-.b7ab	8d fc b8	sta $b8fc	        sta pleft+1
-.b7ae					print_byte:
-.b7ae					print_read:
-.b7ae	ad ff ff	lda $ffff	        lda $ffff
-.b7b1	ae 92 b6	ldx $b692	        ldx sfmt
-.b7b4	e0 03		cpx #$03	        cpx #3
-.b7b6	d0 05		bne $b7bd	        bne print_out           ; IEC: as stored
-.b7b8	20 5e b8	jsr $b85e	        jsr ascii_petscii
-.b7bb	b0 07		bcs $b7c4	        bcs print_next
-.b7bd					print_out:
-.b7bd	20 d2 ff	jsr $ffd2	        jsr $ffd2
-.b7c0	a5 90		lda $90		        lda $90
-.b7c2	30 37		bmi $b7fb	        bmi print_gone
-.b7c4					print_next:
-.b7c4	ee af b7	inc $b7af	        inc print_read+1
-.b7c7	d0 03		bne $b7cc	        bne +
-.b7c9	ee b0 b7	inc $b7b0	        inc print_read+2
-.b7cc	ad fb b8	lda $b8fb	+       lda pleft
-.b7cf	d0 03		bne $b7d4	        bne +
-.b7d1	ce fc b8	dec $b8fc	        dec pleft+1
-.b7d4	ce fb b8	dec $b8fb	+       dec pleft
-.b7d7	ad fb b8	lda $b8fb	        lda pleft
-.b7da	0d fc b8	ora $b8fc	        ora pleft+1
-.b7dd	d0 cf		bne $b7ae	        bne print_byte
-.b7df	20 cc ff	jsr $ffcc	        jsr $ffcc               ; CLRCHN before the next read
-.b7e2	ad 99 b6	lda $b699	        lda eof
-.b7e5	d0 1c		bne $b803	        bne print_close
-.b7e7	20 f0 b5	jsr $b5f0	        jsr cancel
-.b7ea	90 94		bcc $b780	        bcc print_chunk
-.b7ec	a9 01		lda #$01	        lda #1
-.b7ee	8d 51 b8	sta $b851	        sta stop
-.b7f1	a9 ba		lda #$ba	        lda #<s_print_stopped
-.b7f3	a2 b8		ldx #$b8	        ldx #>s_print_stopped
-.b7f5	20 c8 b4	jsr $b4c8	        jsr refuse
-.b7f8	4c 03 b8	jmp $b803	        jmp print_close
-.b7fb					print_gone:
-.b7fb	20 cc ff	jsr $ffcc	        jsr $ffcc
-.b7fe	a9 02		lda #$02	        lda #2
-.b800	8d 51 b8	sta $b851	        sta stop
-.b803					print_close:
-.b803	a2 00		ldx #$00	        ldx #0
-.b805	20 04 b6	jsr $b604	        jsr close_one
-.b808	60		rts		        rts
-.b809					print_picture:
-.b809	a9 01		lda #$01	        lda #1
-.b80b	8d fd b8	sta $b8fd	        sta ps_file
-.b80e	a9 00		lda #$00	        lda #0
-.b810	8d fe b8	sta $b8fe	        sta ps_top
-.b813	a9 54		lda #$54	        lda #>PIC_ROWS          ; row 0, then row 1 below it
-.b815	8d 00 b9	sta $b900	        sta pf_lower
-.b818	20 e6 b3	jsr $b3e6	        jsr pf_read_lower
-.b81b	b0 2d		bcs $b84a	        bcs pic_short
-.b81d	a9 54		lda #$54	        lda #>PIC_ROWS
-.b81f	8d ff b8	sta $b8ff	        sta pf_upper
-.b822	a9 56		lda #$56	        lda #>(PIC_ROWS+512)
-.b824	8d 00 b9	sta $b900	        sta pf_lower
-.b827	20 e6 b3	jsr $b3e6	        jsr pf_read_lower
-.b82a	b0 1e		bcs $b84a	        bcs pic_short
-.b82c	20 8a b2	jsr $b28a	        jsr ps_bands
-.b82f	90 d2		bcc $b803	        bcc print_close
-.b831	c9 02		cmp #$02	        cmp #2
-.b833	f0 0f		beq $b844	        beq print_gone0
-.b835	a9 01		lda #$01	        lda #1                  ; Esc, or a row that could not be read
-.b837	8d 51 b8	sta $b851	        sta stop
-.b83a	a9 ba		lda #$ba	        lda #<s_print_stopped
-.b83c	a2 b8		ldx #$b8	        ldx #>s_print_stopped
-.b83e	20 c8 b4	jsr $b4c8	        jsr refuse
-.b841	4c 03 b8	jmp $b803	        jmp print_close
-.b844					print_gone0:
-.b844	8d 51 b8	sta $b851	        sta stop
-.b847	4c 03 b8	jmp $b803	        jmp print_close
-.b84a					pic_short:
-.b84a	a9 11		lda #$11	        lda #N_IOERROR
-.b84c	f0 03		beq $b851	        bne print_failed
-.b84e	4c 7a b7	jmp $b77a
+.b6a1					print_target:
+.b6a1	ae dd 86	ldx $86dd	        ldx gm_slot
+.b6a4	bd 8b 87	lda $878b,x	        lda gm_win_dev,x
+.b6a7	8d 90 b6	sta $b690	        sta sdev
+.b6aa	bd 8f 87	lda $878f,x	        lda gm_win_fmt,x
+.b6ad	8d 91 b6	sta $b691	        sta sfmt
+.b6b0	a9 00		lda #$00	        lda #0
+.b6b2	8d 50 b8	sta $b850	        sta stop
+.b6b5	8d 8c b6	sta $b68c	        sta dfmt                ; (so check refuses a folder)
+.b6b8	8d 01 87	sta $8701	        sta gm_alen
+.b6bb	a9 9d		lda #$9d	        lda #<s_print
+.b6bd	a2 b8		ldx #$b8	        ldx #>s_print
+.b6bf	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b6c2	ae dd 86	ldx $86dd	        ldx gm_slot
+.b6c5	bd 9f 87	lda $879f,x	        lda gm_nsel,x
+.b6c8	c9 02		cmp #$02	        cmp #2
+.b6ca	b0 13		bcs $b6df	        bcs print_many
+.b6cc	20 ec 6d	jsr $6dec	        jsr gm_read_record
+.b6cf	90 03		bcc $b6d4	        bcc +
+.b6d1	4c ff 6b	jmp $6bff	        jmp gm_view_fail
+.b6d4	20 84 b4	jsr $b484	+       jsr check
+.b6d7	b0 51		bcs $b72a	        bcs print_done
+.b6d9	20 71 6c	jsr $6c71	        jsr gm_aname
+.b6dc	4c f1 b6	jmp $b6f1	        jmp print_ask
+.b6df					print_many:
+.b6df	8d 70 87	sta $8770	        sta gm_num
+.b6e2	a9 00		lda #$00	        lda #0
+.b6e4	8d 71 87	sta $8771	        sta gm_num+1
+.b6e7	20 d5 6d	jsr $6dd5	        jsr gm_anum
+.b6ea	a9 1a		lda #$1a	        lda #<gm_s_items
+.b6ec	a2 88		ldx #$88	        ldx #>gm_s_items
+.b6ee	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b6f1					print_ask:
+.b6f1	a9 a8		lda #$a8	        lda #<s_print_choice
+.b6f3	a2 b8		ldx #$b8	        ldx #>s_print_choice
+.b6f5	20 b7 6d	jsr $6db7	        jsr gm_astr
+.b6f8	a9 00		lda #$00	        lda #0
+.b6fa	20 cb 6d	jsr $6dcb	        jsr gm_aput
+.b6fd	a9 02		lda #$02	        lda #<gm_abuf
+.b6ff	a2 87		ldx #$87	        ldx #>gm_abuf
+.b701	a0 01		ldy #$01	        ldy #1
+.b703	20 f4 62	jsr $62f4	        jsr gm_alert
+.b706	b0 22		bcs $b72a	        bcs print_done
+.b708	ad 00 3a	lda $3a00	        lda N_BUFFER
+.b70b	c9 01		cmp #$01	        cmp #1
+.b70d	d0 1b		bne $b72a	        bne print_done
+.b70f	20 6b b4	jsr $b46b	        jsr printer_open        ; the printer, once for every row
+.b712	90 03		bcc $b717	        bcs print_absent
+.b714	4c 5c b4	jmp $b45c
+.b717	a9 2b		lda #$2b	        lda #<print_item
+.b719	a2 b7		ldx #$b7	        ldx #>print_item
+.b71b	20 29 7e	jsr $7e29	        jsr gm_each
+.b71e	a9 79		lda #$79	        lda #PRT_LFN
+.b720	20 c3 ff	jsr $ffc3	        jsr $ffc3
+.b723	ad 50 b8	lda $b850	        lda stop                ; 2: the printer stopped answering
+.b726	c9 02		cmp #$02	        cmp #2
+.b728	f0 ea		beq $b714	        beq print_absent
+.b72a					print_done:
+.b72a	60		rts		        rts
+.b72b					print_item:
+.b72b	ad 50 b8	lda $b850	        lda stop
+.b72e	d0 fa		bne $b72a	        bne print_done
+.b730	20 ec 6d	jsr $6dec	        jsr gm_read_record
+.b733	b0 f5		bcs $b72a	        bcs print_done
+.b735	20 84 b4	jsr $b484	        jsr check
+.b738	b0 f0		bcs $b72a	        bcs print_done
+.b73a	20 ce b4	jsr $b4ce	        jsr source_name
+.b73d	b0 eb		bcs $b72a	        bcs print_done
+.b73f	a9 00		lda #$00	        lda #0
+.b741	8d f9 b8	sta $b8f9	        sta ep_last
+.b744	8d 99 b6	sta $b699	        sta handles
+.b747	8d 9a b6	sta $b69a	        sta handles+1
+.b74a	8d 9b b6	sta $b69b	        sta handles+2
+.b74d	8d 9c b6	sta $b69c	        sta handles+3
+.b750	a2 00		ldx #$00	        ldx #0
+.b752	a9 00		lda #$00	        lda #0
+.b754	20 21 b5	jsr $b521	        jsr open
+.b757	b0 20		bcs $b779	        bcs print_failed
+.b759	a9 10		lda #$10	        lda #16                 ; the header a picture starts with
+.b75b	20 c9 b5	jsr $b5c9	        jsr read_head
+.b75e	b0 19		bcs $b779	        bcs print_failed
+.b760	a2 0b		ldx #$0b	        ldx #11
+.b762	bd 00 3a	lda $3a00,x	-       lda N_BUFFER,x
+.b765	dd 51 b8	cmp $b851,x	        cmp upnt,x
+.b768	d0 1a		bne $b784	        bne print_have          ; not a picture: these bytes are text
+.b76a	ca		dex		        dex
+.b76b	10 f5		bpl $b762	        bpl -
+.b76d	ad 96 b6	lda $b696	        lda size
+.b770	c9 10		cmp #$10	        cmp #16
+.b772	d0 03		bne $b777	        beq print_picture
+.b774	4c 08 b8	jmp $b808
+.b777	d0 0b		bne $b784	        bne print_have
+.b779					print_failed:
+.b779	20 11 b5	jsr $b511	        jsr fail                ; (fail reports; the handle is closed below)
+.b77c	4c 02 b8	jmp $b802	        jmp print_close
+.b77f					print_chunk:
+.b77f	20 c3 b5	jsr $b5c3	        jsr read_source
+.b782	b0 f5		bcs $b779	        bcs print_failed
+.b784					print_have:
+.b784	ad 96 b6	lda $b696	        lda size
+.b787	0d 97 b6	ora $b697	        ora size+1
+.b78a	f0 76		beq $b802	        beq print_close
+.b78c	a2 79		ldx #$79	        ldx #PRT_LFN
+.b78e	20 c9 ff	jsr $ffc9	        jsr $ffc9               ; CHKOUT (the file service reset the channels)
+.b791	b0 67		bcs $b7fa	        bcs print_gone
+.b793	a5 90		lda $90		        lda $90
+.b795	30 63		bmi $b7fa	        bmi print_gone
+.b797	a9 00		lda #$00	        lda #<N_BUFFER
+.b799	8d ae b7	sta $b7ae	        sta print_read+1
+.b79c	a9 3a		lda #$3a	        lda #>N_BUFFER
+.b79e	8d af b7	sta $b7af	        sta print_read+2
+.b7a1	ad 96 b6	lda $b696	        lda size
+.b7a4	8d fa b8	sta $b8fa	        sta pleft
+.b7a7	ad 97 b6	lda $b697	        lda size+1
+.b7aa	8d fb b8	sta $b8fb	        sta pleft+1
+.b7ad					print_byte:
+.b7ad					print_read:
+.b7ad	ad ff ff	lda $ffff	        lda $ffff
+.b7b0	ae 91 b6	ldx $b691	        ldx sfmt
+.b7b3	e0 03		cpx #$03	        cpx #3
+.b7b5	d0 05		bne $b7bc	        bne print_out           ; IEC: as stored
+.b7b7	20 5d b8	jsr $b85d	        jsr ascii_petscii
+.b7ba	b0 07		bcs $b7c3	        bcs print_next
+.b7bc					print_out:
+.b7bc	20 d2 ff	jsr $ffd2	        jsr $ffd2
+.b7bf	a5 90		lda $90		        lda $90
+.b7c1	30 37		bmi $b7fa	        bmi print_gone
+.b7c3					print_next:
+.b7c3	ee ae b7	inc $b7ae	        inc print_read+1
+.b7c6	d0 03		bne $b7cb	        bne +
+.b7c8	ee af b7	inc $b7af	        inc print_read+2
+.b7cb	ad fa b8	lda $b8fa	+       lda pleft
+.b7ce	d0 03		bne $b7d3	        bne +
+.b7d0	ce fb b8	dec $b8fb	        dec pleft+1
+.b7d3	ce fa b8	dec $b8fa	+       dec pleft
+.b7d6	ad fa b8	lda $b8fa	        lda pleft
+.b7d9	0d fb b8	ora $b8fb	        ora pleft+1
+.b7dc	d0 cf		bne $b7ad	        bne print_byte
+.b7de	20 cc ff	jsr $ffcc	        jsr $ffcc               ; CLRCHN before the next read
+.b7e1	ad 98 b6	lda $b698	        lda eof
+.b7e4	d0 1c		bne $b802	        bne print_close
+.b7e6	20 ef b5	jsr $b5ef	        jsr cancel
+.b7e9	90 94		bcc $b77f	        bcc print_chunk
+.b7eb	a9 01		lda #$01	        lda #1
+.b7ed	8d 50 b8	sta $b850	        sta stop
+.b7f0	a9 b9		lda #$b9	        lda #<s_print_stopped
+.b7f2	a2 b8		ldx #$b8	        ldx #>s_print_stopped
+.b7f4	20 c7 b4	jsr $b4c7	        jsr refuse
+.b7f7	4c 02 b8	jmp $b802	        jmp print_close
+.b7fa					print_gone:
+.b7fa	20 cc ff	jsr $ffcc	        jsr $ffcc
+.b7fd	a9 02		lda #$02	        lda #2
+.b7ff	8d 50 b8	sta $b850	        sta stop
+.b802					print_close:
+.b802	a2 00		ldx #$00	        ldx #0
+.b804	20 03 b6	jsr $b603	        jsr close_one
+.b807	60		rts		        rts
+.b808					print_picture:
+.b808	a9 01		lda #$01	        lda #1
+.b80a	8d fc b8	sta $b8fc	        sta ps_file
+.b80d	a9 00		lda #$00	        lda #0
+.b80f	8d fd b8	sta $b8fd	        sta ps_top
+.b812	a9 54		lda #$54	        lda #>PIC_ROWS          ; row 0, then row 1 below it
+.b814	8d ff b8	sta $b8ff	        sta pf_lower
+.b817	20 e5 b3	jsr $b3e5	        jsr pf_read_lower
+.b81a	b0 2d		bcs $b849	        bcs pic_short
+.b81c	a9 54		lda #$54	        lda #>PIC_ROWS
+.b81e	8d fe b8	sta $b8fe	        sta pf_upper
+.b821	a9 56		lda #$56	        lda #>(PIC_ROWS+512)
+.b823	8d ff b8	sta $b8ff	        sta pf_lower
+.b826	20 e5 b3	jsr $b3e5	        jsr pf_read_lower
+.b829	b0 1e		bcs $b849	        bcs pic_short
+.b82b	20 89 b2	jsr $b289	        jsr ps_bands
+.b82e	90 d2		bcc $b802	        bcc print_close
+.b830	c9 02		cmp #$02	        cmp #2
+.b832	f0 0f		beq $b843	        beq print_gone0
+.b834	a9 01		lda #$01	        lda #1                  ; Esc, or a row that could not be read
+.b836	8d 50 b8	sta $b850	        sta stop
+.b839	a9 b9		lda #$b9	        lda #<s_print_stopped
+.b83b	a2 b8		ldx #$b8	        ldx #>s_print_stopped
+.b83d	20 c7 b4	jsr $b4c7	        jsr refuse
+.b840	4c 02 b8	jmp $b802	        jmp print_close
+.b843					print_gone0:
+.b843	8d 50 b8	sta $b850	        sta stop
+.b846	4c 02 b8	jmp $b802	        jmp print_close
+.b849					pic_short:
+.b849	a9 11		lda #$11	        lda #N_IOERROR
+.b84b	f0 03		beq $b850	        bne print_failed
+.b84d	4c 79 b7	jmp $b779
 =21504					PIC_ROWS = gm_sortbuf+1024      ; two rows of 320 bytes, a 512-byte page pair each
->b851	00				stop: .byte 0                   ; 1 Esc, 2 the printer stopped answering
->b852	55 50 4e 54 01 00 40 01		upnt: .byte 85,80,78,84,1,0,$40,$01,$c8,0,$28,$23   ; UPNT, version 1, 320x200, 9000 bytes
->b85a	c8 00 28 23
-.b85e					ascii_petscii:
-.b85e	ae fa b8	ldx $b8fa	        ldx ep_last
-.b861	8d fa b8	sta $b8fa	        sta ep_last
-.b864	c9 0a		cmp #$0a	        cmp #10
-.b866	d0 08		bne $b870	        bne +
-.b868	e0 0d		cpx #$0d	        cpx #13                 ; CR LF: the CR ended the line
-.b86a	f0 30		beq $b89c	        beq ap_skip
-.b86c	a9 0d		lda #$0d	        lda #13
-.b86e	18		clc		        clc
-.b86f	60		rts		        rts
-.b870	c9 0d		cmp #$0d	+       cmp #13
-.b872	f0 26		beq $b89a	        beq ap_keep
-.b874	c9 09		cmp #$09	        cmp #9
-.b876	d0 04		bne $b87c	        bne +
-.b878	a9 20		lda #$20	        lda #32
-.b87a	18		clc		        clc
-.b87b	60		rts		        rts
-.b87c	c9 20		cmp #$20	+       cmp #32
-.b87e	90 1c		bcc $b89c	        bcc ap_skip
-.b880	c9 7f		cmp #$7f	        cmp #127
-.b882	b0 18		bcs $b89c	        bcs ap_skip
-.b884	c9 41		cmp #$41	        cmp #$41
-.b886	90 12		bcc $b89a	        bcc ap_keep
-.b888	c9 5b		cmp #$5b	        cmp #$5b
-.b88a	b0 04		bcs $b890	        bcs +
-.b88c	09 80		ora #$80	        ora #$80
-.b88e	18		clc		        clc
-.b88f	60		rts		        rts
-.b890	c9 61		cmp #$61	+       cmp #$61
-.b892	90 06		bcc $b89a	        bcc ap_keep
-.b894	c9 7b		cmp #$7b	        cmp #$7b
-.b896	b0 02		bcs $b89a	        bcs ap_keep
-.b898	29 df		and #$df	        and #$df
-.b89a					ap_keep:
-.b89a	18		clc		        clc
-.b89b	60		rts		        rts
-.b89c					ap_skip:
-.b89c	38		sec		        sec
-.b89d	60		rts		        rts
->b89e	5b 32 5d 5b 50 72 69 6e		s_print: .byte 91,50,93,91,80,114,105,110,116,32,0   ; [2][Print
->b8a6	74 20 00
->b8a9	3f 5d 5b 50 72 69 6e 74		s_print_choice: .byte 63,93,91,80,114,105,110,116,124,67,97,110,99,101,108,93,0   ; ?][Print|Cancel]
->b8b1	7c 43 61 6e 63 65 6c 5d 00
->b8ba	5b 31 5d 5b 50 72 69 6e		s_print_stopped: .byte 91,49,93,91,80,114,105,110,116,105,110,103,32,115,116,111,112,112,101,100,46,124,84,104
->b8c2	74 69 6e 67 20 73 74 6f 70 70 65 64 2e 7c 54 68
->b8d2	65 20 70 72 69 6e 74 65		        .byte 101,32,112,114,105,110,116,101,114,32,109,97,121,32,104,111,108,100,124,112,97,114,116,32
->b8da	72 20 6d 61 79 20 68 6f 6c 64 7c 70 61 72 74 20
->b8ea	6f 66 20 61 20 66 69 6c		        .byte 111,102,32,97,32,102,105,108,101,46,93,91,79,75,93,0   ; [1][Printing stopped.|The printer may hold|part of a file.][OK]
->b8f2	65 2e 5d 5b 4f 4b 5d 00
->b8fa	00				ep_last: .byte 0
->b8fb	00 00				pleft: .word 0
->b8fd	00				ps_file: .byte 0                ; 0 the surface, 1 a picture file
->b8fe	00				ps_top: .byte 0                 ; a picture: the character row held as the upper
->b8ff	00				pf_upper: .byte 0               ; the pages of the two held rows
->b900	00				pf_lower: .byte 0
->b901	5b 31 5d 5b 4e 6f 20 70		s_noprinter: .byte 91,49,93,91,78,111,32,112,114,105,110,116,101,114,32,97,110,115,119,101,114,115,124,111,110,32,100,101,118,105,99,101,32
->b909	72 69 6e 74 65 72 20 61 6e 73 77 65 72 73 7c 6f
->b919	6e 20 64 65 76 69 63 65 20
->b922	34 2e 5d 5b 4f 4b 5d 00		s_noprinter_dev: .byte 52,46,93,91,79,75,93,0   ; [1][No printer answers|on device 4.][OK]
->b92a	5b 31 5d 5b 50 72 69 6e		s_prtscr_stopped: .byte 91,49,93,91,80,114,105,110,116,32,83,99,114,101,101,110,124,115,116,111,112,112,101,100,46,93,91,79,75,93,0   ; [1][Print Screen|stopped.][OK]
->b932	74 20 53 63 72 65 65 6e 7c 73 74 6f 70 70 65 64
->b942	2e 5d 5b 4f 4b 5d 00
->b949	00				ps_y: .byte 0
->b94a	00				ps_rows: .byte 0
->b94b	00				ps_cells: .byte 0
->b94c	00				ps_mask: .byte 0
->b94d	00				ps_dots: .byte 0
->b94e	00				ps_math: .byte 0
->b94f	00 00 00 00 00 00 00 00		ps_cell16: .fill 16,0
->b957	00 00 00 00 00 00 00 00
+>b850	00				stop: .byte 0                   ; 1 Esc, 2 the printer stopped answering
+>b851	55 50 4e 54 01 00 40 01		upnt: .byte 85,80,78,84,1,0,$40,$01,$c8,0,$28,$23   ; UPNT, version 1, 320x200, 9000 bytes
+>b859	c8 00 28 23
+.b85d					ascii_petscii:
+.b85d	ae f9 b8	ldx $b8f9	        ldx ep_last
+.b860	8d f9 b8	sta $b8f9	        sta ep_last
+.b863	c9 0a		cmp #$0a	        cmp #10
+.b865	d0 08		bne $b86f	        bne +
+.b867	e0 0d		cpx #$0d	        cpx #13                 ; CR LF: the CR ended the line
+.b869	f0 30		beq $b89b	        beq ap_skip
+.b86b	a9 0d		lda #$0d	        lda #13
+.b86d	18		clc		        clc
+.b86e	60		rts		        rts
+.b86f	c9 0d		cmp #$0d	+       cmp #13
+.b871	f0 26		beq $b899	        beq ap_keep
+.b873	c9 09		cmp #$09	        cmp #9
+.b875	d0 04		bne $b87b	        bne +
+.b877	a9 20		lda #$20	        lda #32
+.b879	18		clc		        clc
+.b87a	60		rts		        rts
+.b87b	c9 20		cmp #$20	+       cmp #32
+.b87d	90 1c		bcc $b89b	        bcc ap_skip
+.b87f	c9 7f		cmp #$7f	        cmp #127
+.b881	b0 18		bcs $b89b	        bcs ap_skip
+.b883	c9 41		cmp #$41	        cmp #$41
+.b885	90 12		bcc $b899	        bcc ap_keep
+.b887	c9 5b		cmp #$5b	        cmp #$5b
+.b889	b0 04		bcs $b88f	        bcs +
+.b88b	09 80		ora #$80	        ora #$80
+.b88d	18		clc		        clc
+.b88e	60		rts		        rts
+.b88f	c9 61		cmp #$61	+       cmp #$61
+.b891	90 06		bcc $b899	        bcc ap_keep
+.b893	c9 7b		cmp #$7b	        cmp #$7b
+.b895	b0 02		bcs $b899	        bcs ap_keep
+.b897	29 df		and #$df	        and #$df
+.b899					ap_keep:
+.b899	18		clc		        clc
+.b89a	60		rts		        rts
+.b89b					ap_skip:
+.b89b	38		sec		        sec
+.b89c	60		rts		        rts
+>b89d	5b 32 5d 5b 50 72 69 6e		s_print: .byte 91,50,93,91,80,114,105,110,116,32,0   ; [2][Print
+>b8a5	74 20 00
+>b8a8	3f 5d 5b 50 72 69 6e 74		s_print_choice: .byte 63,93,91,80,114,105,110,116,124,67,97,110,99,101,108,93,0   ; ?][Print|Cancel]
+>b8b0	7c 43 61 6e 63 65 6c 5d 00
+>b8b9	5b 31 5d 5b 50 72 69 6e		s_print_stopped: .byte 91,49,93,91,80,114,105,110,116,105,110,103,32,115,116,111,112,112,101,100,46,124,84,104
+>b8c1	74 69 6e 67 20 73 74 6f 70 70 65 64 2e 7c 54 68
+>b8d1	65 20 70 72 69 6e 74 65		        .byte 101,32,112,114,105,110,116,101,114,32,109,97,121,32,104,111,108,100,124,112,97,114,116,32
+>b8d9	72 20 6d 61 79 20 68 6f 6c 64 7c 70 61 72 74 20
+>b8e9	6f 66 20 61 20 66 69 6c		        .byte 111,102,32,97,32,102,105,108,101,46,93,91,79,75,93,0   ; [1][Printing stopped.|The printer may hold|part of a file.][OK]
+>b8f1	65 2e 5d 5b 4f 4b 5d 00
+>b8f9	00				ep_last: .byte 0
+>b8fa	00 00				pleft: .word 0
+>b8fc	00				ps_file: .byte 0                ; 0 the surface, 1 a picture file
+>b8fd	00				ps_top: .byte 0                 ; a picture: the character row held as the upper
+>b8fe	00				pf_upper: .byte 0               ; the pages of the two held rows
+>b8ff	00				pf_lower: .byte 0
+>b900	5b 31 5d 5b 4e 6f 20 70		s_noprinter: .byte 91,49,93,91,78,111,32,112,114,105,110,116,101,114,32,97,110,115,119,101,114,115,124,111,110,32,100,101,118,105,99,101,32
+>b908	72 69 6e 74 65 72 20 61 6e 73 77 65 72 73 7c 6f
+>b918	6e 20 64 65 76 69 63 65 20
+>b921	34 2e 5d 5b 4f 4b 5d 00		s_noprinter_dev: .byte 52,46,93,91,79,75,93,0   ; [1][No printer answers|on device 4.][OK]
+>b929	5b 31 5d 5b 50 72 69 6e		s_prtscr_stopped: .byte 91,49,93,91,80,114,105,110,116,32,83,99,114,101,101,110,124,115,116,111,112,112,101,100,46,93,91,79,75,93,0   ; [1][Print Screen|stopped.][OK]
+>b931	74 20 53 63 72 65 65 6e 7c 73 74 6f 70 70 65 64
+>b941	2e 5d 5b 4f 4b 5d 00
+>b948	00				ps_y: .byte 0
+>b949	00				ps_rows: .byte 0
+>b94a	00				ps_cells: .byte 0
+>b94b	00				ps_mask: .byte 0
+>b94c	00				ps_dots: .byte 0
+>b94d	00				ps_math: .byte 0
+>b94e	00 00 00 00 00 00 00 00		ps_cell16: .fill 16,0
+>b956	00 00 00 00 00 00 00 00
 =$5000					ps_first = gm_sortbuf           ; a band's first character row (320 bytes)
->b95f	00				sdev: .byte 0                   ; (a temporary for print_target)
-.b960					gm_mod_prt_end:
+>b95e	00				sdev: .byte 0                   ; (a temporary for print_target)
+.b95f					gm_mod_prt_end:
 
 ;******  End of listing
