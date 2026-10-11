@@ -490,7 +490,11 @@ def menu_cases(work, report, done):
     demo.key(0x85); frame(open_title=0, hover=0)
     assert len(saved_pages()) == 1, 'the drop-down owns one save-under allocation'
     demo.key(0x1d); frame(open_title=1, hover=0)
-    demo.key(0x11); frame(open_title=1, hover=3)          # skips disabled Open and the separator
+    before = demo.cpu.processorCycles
+    demo.key(0x11); key_cycles = demo.cpu.processorCycles-before
+    frame(open_title=1, hover=3)                           # skips disabled Open and the separator
+    # A hover change recolours the two rows, not the whole drop-down.
+    assert key_cycles < 60000, ('cursor hover redrew the drop-down', key_cycles)
     demo.key(0x91); frame(open_title=1, hover=0)
     demo.key(0x91); frame(open_title=1, hover=3)          # wraps upward
     demo.key(13); frame()
@@ -505,7 +509,10 @@ def menu_cases(work, report, done):
     point(11*8+4, 3, 1); frame(open_title=2)               # press on Options
     point(11*8+4, 3, 0); frame(open_title=2)               # release on the title keeps it open
     point(12*8, 2*8+3, 0); frame(open_title=2, hover=0)    # hover Grid
-    point(12*8, 3*8+3, 0); frame(open_title=2, hover=1)    # hover Snap
+    before = demo.cpu.processorCycles
+    point(12*8, 3*8+3, 0); hover_cycles = demo.cpu.processorCycles-before
+    frame(open_title=2, hover=1)                           # hover Snap
+    assert hover_cycles < 60000, ('pointer hover redrew the drop-down', hover_cycles)
     point(12*8, 2*8+3, 1); point(12*8, 2*8+3, 0)           # click Grid
     flags[(2, 0)] = 1
     frame(); assert chosen() == (2, 0, 3) and demo.value('demo_grid') == 1

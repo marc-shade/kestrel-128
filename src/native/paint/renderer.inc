@@ -133,6 +133,12 @@ pa_focus:
         jmp pa_focus_paint
 
 pa_labels:
+        lda #0                  ; the status line shows the current position
+        sta pa_labels_stale
+        lda pd_dirty
+        sta pa_drawn_dirty
+        lda pa_status
+        sta pa_drawn_status
         lda #8
         sta gfx_x0
         lda #20
@@ -156,6 +162,42 @@ pa_labels:
         jsr pa_text
         bcs pa_draw_done
         jmp pa_message
+; Only the position changed since the status line was drawn: rewrite the
+; three digits of X and of Y, not the whole line and the message below it.
+pa_status_digits:
+        jsr pa_make_status
+        lda #2                  ; "X:nnn" digits from text column 2
+        jsr pa_status_field
+        bcs pa_digits_done
+        lda #8                  ; "Y:nnn" from column 8
+pa_status_field:
+        sta pa_number
+        tax
+        ldy #0
+-       lda gfx_text_buffer,x
+        sta gfx_text_buffer,y
+        inx
+        iny
+        cpy #3
+        bne -
+        sty gfx_text_length
+        lda pa_number
+        asl
+        asl
+        asl
+        clc
+        adc #8
+        sta gfx_x0
+        lda #20
+        sta gfx_y0
+        lda #0
+        sta gfx_x0+1
+        sta gfx_y0+1
+        lda #3                  ; byte-aligned glyph copy: replaces the old digits
+        sta gfx_pen
+        jmp gfx_text
+pa_digits_done:
+        rts
 pa_make_status:
         ldx #21
 -       lda pa_status_template,x

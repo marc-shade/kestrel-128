@@ -182,7 +182,7 @@ bv_initial_bitmap:
 bv_initial_attributes:
         lda bv_mode
         beq +
-        jmp vd_render_selection
+        jmp vd_render_all
 +       jmp vd_success
 vm_select_surface:
         lda N_CURRENT
@@ -258,10 +258,6 @@ gd_selected: .byte 0
 gd_launch_error: .byte 0
 gd_card_rows: .byte 5,7,9,11,13,15,17
 pm_tops: .byte 40,56,72,88,104,120,136
-gfx_rows:
- .for row=0, row<25, row+=1
-        .word row*320
- .endfor
 .include "banked-client.inc"
 .include "shared-memory-service.inc"
 .include "history-service.inc"

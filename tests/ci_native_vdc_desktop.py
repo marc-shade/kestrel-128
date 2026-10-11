@@ -195,6 +195,16 @@ def run(group):
                             kept = range(oy, min(200, oy+16)) if nx//4 == ox//4 else ()
                             fresh = [row for row in range(ny, min(200, ny+16)) if row not in kept]
                             assert p.bus.data_reads-reads == len(fresh)*(1+min(2, 80-nx//4)), ((ox,oy),(nx,ny),p.bus.data_reads-reads,len(fresh))
+                    # Hovering the selected card redraws only the pointer; moving
+                    # to the next card rewrites only the two cards that change
+                    # (their attribute rows and markers), not the whole scene.
+                    p.move(100, 76); p.check(2)
+                    writes = p.bus.data_writes; p.frame(2, 1); p.check(2)
+                    assert p.bus.data_writes-writes <= 96, ('hover redraw', p.bus.data_writes-writes)
+                    p.move(100, 84)
+                    writes = p.bus.data_writes; p.frame(0, 4); p.check(3)
+                    limit = 2*96+2*8+(4*80 if size == 64 else 0)
+                    assert p.bus.data_writes-writes <= limit, ('card change redraw', p.bus.data_writes-writes, limit)
                     p.bus.pots = [255,255]; p.frame(); p.check(p.value('gd_selected'))
                     assert not p.value('vd_pointer_visible')
                     p.key(27, exited=True); p.restored()

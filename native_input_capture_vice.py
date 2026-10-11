@@ -58,13 +58,14 @@ def run_input_capture(mon, work, report, key):
     after = (work/'input-vdc-borrower-metadata-after.bin').read_bytes()
     changes = [dict(address=0x3800+i, before=a, after=b)
                for i, (a, b) in enumerate(zip(before, after)) if a != b]
-    # Two Downs: N_KEYS 2, N_LASTKEY 17, N_DESKTOPSEL 2. The redraw (gd_highlight,
-    # f99fa51 seven cards) colours each card's two rows through gfx_colors on the
-    # desktop surface; its last call leaves N_HANDLE = gd_handle and N_OFFSET/N_COUNT
-    # at the last card's second color row, columns 2..37.
-    offset = 8192+(CARDS[-1]//8+1)*40+2
+    # Two Downs: N_KEYS 2, N_LASTKEY 17, N_DESKTOPSEL 2. Each redraw (gd_highlight)
+    # recolours only the card shown selected and the new one, two rows each through
+    # gfx_colors on the desktop surface, in card order: the last call is the new
+    # selection, card 2. It leaves N_HANDLE = gd_handle, N_OFFSET/N_COUNT at card
+    # 2's second color row, columns 2..37, and N_VALUE the selected colour 7.
+    offset = 8192+(CARDS[2]//8+1)*40+2
     wanted = dict(zip(range(0x3d04,0x3d0c), handle+offset.to_bytes(2,'little')+(36).to_bytes(2,'little')))
-    wanted.update({0x3d13:2, 0x3d14:0, 0x3d15:17, 0x3d2f:2})
+    wanted.update({0x3d0c:7, 0x3d13:2, 0x3d14:0, 0x3d15:17, 0x3d2f:2})
     expected = [dict(address=at, before=before[at-0x3800], after=value)
                 for at, value in sorted(wanted.items()) if before[at-0x3800] != value]
     assert changes == expected, (changes, expected)
@@ -75,10 +76,10 @@ def run_input_capture(mon, work, report, key):
                         for i, (a, b) in enumerate(zip(before_resident, resident)) if a != b]
     layout = RunningLayout(ROOT, image_dir=ROOT/'target/native-desktop')
     # Heap transfers retain their last byte and pointers in explicitly mutable
-    # state; the last colour written is the unselected card's $1b.
+    # state; the last colour written is the selected card's $07.
     hbyte = layout.syms['hbyte']    # low-section heap scratch; moves with the low section's layout
     assert layout.layout['low_start'] <= hbyte < 0x1c00 and layout.mutable[hbyte] == 'hbank'
-    assert resident[hbyte-0x1300] == 0x1b
+    assert resident[hbyte-0x1300] == 0x07
     assert all(change['address'] in layout.mutable for change in resident_changes), resident_changes
     report['input_control'] = dict(passed=True, injected_keys=injected,
         expected_input_metadata_changes=changes, physical_failure_cause_proven=False,

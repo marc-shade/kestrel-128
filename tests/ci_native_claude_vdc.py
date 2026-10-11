@@ -81,6 +81,15 @@ def run(size,addressing,case):
 
     if case=='core':
         c=Claude();c.check();assert c.value('cg_vdc_owned')
+        # Hovering onto another enabled control recolours that control and the
+        # previous focus only: a 64 KiB VDC rewrites just their attribute rows.
+        c.frame();c.move(232,180);c.check();focus=c.value('cg_focus')
+        for _ in range(20):
+            before=c.bus.data_writes;c.frame(dx=-2)
+            if c.value('cg_focus')!=focus:break
+        crossing=c.bus.data_writes-before;c.check()
+        assert c.value('cg_focus')!=focus
+        if c.bus.size==64:assert crossing<=3*80+2*96,('focus change redrew controls',crossing)
         c.frame();c.click(4);c.check();c.click(3);c.check()
         c.click(0);c.check();assert not c.value('cg_vdc_owned') and c.value('cg_live')==1
         chars=bytearray(b' '*2000);attrs=bytearray([0x8e]*2000)

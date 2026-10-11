@@ -103,6 +103,16 @@ def main():
                     before = p.bus.data_writes
                     p.frame(dx=1); p.check()
                     assert p.bus.data_writes-before <= 96
+                    # Moving onto the next button only recolours two buttons: a
+                    # 64 KiB VDC rewrites their attribute rows, not the bitmap.
+                    p.move(40,80); p.check(); focus = p.value('ui_selected')
+                    for _ in range(20):
+                        before = p.bus.data_writes; p.frame(dx=2)
+                        if p.value('ui_selected') != focus: break
+                    crossing = p.bus.data_writes-before; p.check()
+                    assert p.value('ui_selected') != focus
+                    if size == 64:
+                        assert crossing <= 2*80+2*96, ('focus change rewrote bitmap rows', crossing)
                     p.key(9); p.check()
                     p.type('SRESULT'); p.check(); p.key(9); p.check(); p.key(9)
                     p.key(13); p.check()

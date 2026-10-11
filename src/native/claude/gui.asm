@@ -568,7 +568,7 @@ cg_focus_set:
         cpx cg_focus
         beq +
         stx cg_focus
-        inc cg_controls_dirty
+        inc cg_focus_dirty      ; only the two controls' colours change
 +       rts
 cg_activate:
         jsr cg_enabled
@@ -810,9 +810,15 @@ cg_secondary_done:
         jsr cg_activate
         sta cg_action
 +       lda cg_controls_dirty
-        beq +
+        beq cg_focus_check
         jsr cg_controls
-+       jsr cg_panel
+        jmp cg_controls_done
+cg_focus_check:
+        lda cg_focus_dirty
+        beq cg_controls_done
+        jsr cg_focus_paint
+cg_controls_done:
+        jsr cg_panel
         jsr cg_vdc_sync
         lda cg_action
         ldx #0
@@ -840,40 +846,8 @@ cg_header_draw:
         sta cg_control
 cg_control_next:
         ldx cg_control
-        lda #$b6
-        sta N_VALUE
-        jsr cg_enabled
-        bcs +
-        lda #$1b
-        cpx cg_focus
-        bne cg_control_color
-        lda #7
-cg_control_color:
-        sta N_VALUE
-+       lda cg_y0,x
-        sta cg_row
--       jsr cg_offset
-        ldx cg_control
-        lda N_OFFSET
-        clc
-        adc cg_x0,x
-        sta N_OFFSET
-        lda N_OFFSET+1
-        adc #32
-        sta N_OFFSET+1
-        lda cg_x1,x
-        sec
-        sbc cg_x0,x
-        sta N_COUNT
-        lda #0
-        sta N_COUNT+1
-        jsr N_FILL
+        jsr cg_control_paint
         bcs cg_failed
-        inc cg_row
-        ldx cg_control
-        lda cg_row
-        cmp cg_y1,x
-        bne -
         inc cg_control
         lda cg_control
         cmp #7
@@ -930,7 +904,70 @@ cg_status_ready:
         bcs cg_failed
         lda #0
         sta cg_controls_dirty
+        sta cg_focus_dirty
+        lda cg_focus
+        sta cg_focus_drawn
         jmp cg_vdc_controls
+; A focus change recolours the control drawn focused and the new focus only.
+cg_focus_paint:
+        jsr cg_surface
+        lda #0
+        sta cg_focus_dirty
+        ldx cg_focus_drawn
+        cpx #7
+        bcs +
+        jsr cg_control_paint
+        bcs cg_failed
++       ldx cg_focus
+        stx cg_focus_drawn
+        jsr cg_control_paint
+        bcs cg_failed
+        rts
+; X: control. Fill its colour cells and mark its rows for the VDC.
+cg_control_paint:
+        stx cg_control
+        lda #$b6
+        sta N_VALUE
+        jsr cg_enabled
+        bcs +
+        lda #$1b
+        cpx cg_focus
+        bne cg_control_color
+        lda #7
+cg_control_color:
+        sta N_VALUE
++       lda cg_y0,x
+        sta cg_row
+-       jsr cg_offset
+        ldx cg_control
+        lda N_OFFSET
+        clc
+        adc cg_x0,x
+        sta N_OFFSET
+        lda N_OFFSET+1
+        adc #32
+        sta N_OFFSET+1
+        lda cg_x1,x
+        sec
+        sbc cg_x0,x
+        sta N_COUNT
+        lda #0
+        sta N_COUNT+1
+        jsr N_FILL
+        bcs cg_paint_return
+        ldx cg_row              ; colour cells only: the VDC keeps the bitmap
+        lda #2
+        ora vm_rows,x
+        sta vm_rows,x
+        sta vm_pending
+        inc cg_row
+        ldx cg_control
+        lda cg_row
+        cmp cg_y1,x
+        bne -
+        clc
+cg_paint_return:
+        rts
 cg_row_unpack:
         jsr cg_bitmap_offset
         lda #$40
@@ -1012,6 +1049,8 @@ cg_top: .byte 0
 cg_font_hi: .byte 0
 cg_dirty: .fill 25,0
 cg_controls_dirty: .byte 0
+cg_focus_dirty: .byte 0
+cg_focus_drawn: .byte $ff
 cg_control: .byte 0
 cg_row: .byte 0
 cg_panel_row: .byte 0

@@ -72,7 +72,7 @@ def main():
             # A 10-pixel step is a jump the 1351 filter holds a sample: keep the
             # button down until it lands.
             p.frame(down=True);p.frame(dx=10);assert p.position==(20,40);p.frame();assert p.position==(30,40)
-            p.frame(down=False);p.check()
+            p.frame(down=False);p.settle();p.check()
             drawn=bytearray(bytes(8192)+b'\x10'*1024)
             for x in range(12,23):
                 drawn[320+x//8*8]|=128>>(x&7);drawn[8192+40+x//8]=p.value('pd_color')*16

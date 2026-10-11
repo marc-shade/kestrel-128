@@ -8,6 +8,7 @@ BP_SHARED_MEMORY=0
 BP_STATE_STORAGE=0
 BP_TRACK_DIRTY=1
 BP_HISTORY=0
+BP_COLOR_ROWS=1               ; mark colour-cell-only rows 2 for the service
 .endweak
 vd_open:
         lda #0
@@ -312,32 +313,39 @@ bp_argument:
 gfx_track_dirty=1
  .if BP_TRACK_DIRTY
 vm_dirty:
-        lda gfx_clipped+6
-        sec
-        sbc #1
-        ldx gfx_operation
-        cpx #1
-        beq +
-        lsr
-        lsr
-        lsr
-+       tax
+        ldy gfx_operation     ; 1: colour cells, already in cell rows
         lda gfx_clipped+2
-        ldy gfx_operation
-        cpy #1
-        beq +
-        lsr
-        lsr
-        lsr
-+       sta vm_first
-        lda #1
-        sta vm_pending
--       sta vm_rows,x
-        cpx vm_first
-        beq +
+        jsr vm_cell_row
+        sta vm_first
+        ldx gfx_clipped+6     ; the last row drawn
         dex
-        jmp -
-+       rts
+        txa
+        jsr vm_cell_row
+        tax
+        lda #1
+ .if BP_COLOR_ROWS
+        cpy #1                ; colour cells only: mark 2, so the service can
+        bne +                 ; leave the row's bitmap; any other drawing marks 1
+        asl
++
+ .endif
+        sta vm_pending
+        tay
+-       tya
+        ora vm_rows,x
+        sta vm_rows,x
+        cpx vm_first
+        beq vm_cell_done
+        dex
+        bpl -
+vm_cell_row:
+        cpy #1
+        beq vm_cell_done
+        lsr
+        lsr
+        lsr
+vm_cell_done:
+        rts
 vm_first: .byte 0
  .endif
 vm_rows: .fill 25,0

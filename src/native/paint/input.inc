@@ -229,7 +229,26 @@ pa_choose_focus:
         clc
         rts
 +       jmp pa_focus
+pa_labels_stale: .byte 0
+pa_drawn_dirty: .byte 0
+pa_drawn_status: .byte 0
+pa_refresh_quick:               ; the status line after pointer motion stops
+        lda pa_bitmap
+        beq pa_refresh_labels
+        lda pd_dirty
+        cmp pa_drawn_dirty
+        bne pa_refresh_labels
+        lda pa_status
+        cmp pa_drawn_status
+        bne pa_refresh_labels
+        lda #0
+        sta pa_labels_stale
+        jsr pa_status_digits
+        bcs pa_drawing_error
+        jmp pa_console
 pa_refresh_labels:
+        lda #0
+        sta pa_labels_stale
         lda pa_bitmap
         beq +
         jsr pa_labels
@@ -365,7 +384,12 @@ pa_mouse_present:
 pa_mouse_main:
         lda pm_event
         ora pm_moved
+        bne +
+        lda pa_labels_stale     ; the pointer has stopped: show its position
         beq pa_mouse_stroke
+        jsr pa_refresh_quick
+        jmp pa_mouse_stroke
++
         lda #0
         sta pa_keyboard
         lda pm_hit
@@ -375,7 +399,7 @@ pa_mouse_main:
         lda pa_segment
         bne pa_mouse_stroke
         jsr pa_endpoint_to_point
-        jsr pa_refresh_labels
+        jsr pa_refresh_motion
         jmp pa_mouse_stroke
 pa_mouse_tool:
         lda pm_event
@@ -416,13 +440,16 @@ pa_mouse_stroke:
         bne +
         lda pm_moved
         beq pa_input_done
-        jmp pa_refresh_labels
+        jmp pa_refresh_motion
 +
         lda #0
         sta pa_status
         jsr pa_segment_blit
         bcs pa_drawing_error
-        jmp pa_refresh_labels
+pa_refresh_motion:              ; the status line waits until the pointer stops
+        lda #1
+        sta pa_labels_stale
+        jmp pa_console
 pa_stroke_ended:
         lda #0
         sta pd_stroke

@@ -61,6 +61,10 @@ or a failed close leaves the current picture and undo intact. A successful
 Open makes the preceding picture available through Undo. An unsaved picture
 requires an explicit choice before Open proceeds.
 
+While the pointer moves over the canvas, a stroke is drawn at once but the
+status line's coordinates wait: they are redrawn on the first sample in
+which the pointer has not moved, so motion costs only the pointer redraw.
+
 The app reserves a separate display allocation and restores the pointer,
 display mode, keyboard callback, and complete ROM function-key table before
 returning to the desktop. If the display is occupied or unsupported, both text consoles retain

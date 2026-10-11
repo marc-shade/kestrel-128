@@ -9,7 +9,7 @@ VD_USE_STATUS_SURFACE=0
 .if VD_DESKTOP_COMMON
 .weak
 vd_initial_bitmap=vd_unpack
-vd_initial_attributes=vd_render_selection
+vd_initial_attributes=vd_render_all
 .endweak
 .include "../graphics/vdc-lifetime.inc"
 .endif
@@ -113,7 +113,12 @@ vd_select:
 vd_return_fault:
         sec
         rts
+vd_render_all:                ; a new or restored scene: draw every card
+        lda #$ff
+        sta vd_shown
 vd_render_selection:
+        ; Only the cards whose highlight changes are rewritten: the one shown
+        ; selected (vd_shown) and the new selection. vd_shown=$ff: all.
         lda vd_color
         beq vd_markers
         lda #0
@@ -124,21 +129,23 @@ vd_render_selection:
         lda #80
         sta vd_count
 vd_color_row:
-        lda #$2f
-        ldy #79
--       sta N_BUFFER,y
-        dey
-        bpl -
         ldx #6
 -       lda vd_row
         sec
         sbc gd_card_rows,x
         cmp #2
-        bcc vd_color_card
+        bcc +
         dex
         bpl -
++       jsr vd_card_changes   ; X: this row's card, or $ff
+        bcc vd_color_skip
+        lda #$2f
+        ldy #79
+-       sta N_BUFFER,y
+        dey
+        bpl -
+        txa
         bmi vd_color_write
-vd_color_card:
         lda #$1f
         cpx gd_selected
         bne +
@@ -150,6 +157,7 @@ vd_color_card:
         bne -
 vd_color_write:
         jsr vd_write_block
+vd_color_skip:
         jsr vd_next_row
         inc vd_row
         lda vd_row
@@ -160,6 +168,8 @@ vd_markers:
         sta vd_index
 vd_marker:
         ldx vd_index
+        jsr vd_card_changes
+        bcc vd_marker_next
         lda pm_tops,x
         clc
         adc #4
@@ -177,10 +187,13 @@ vd_marker:
         iny
         cpy #8
         bne -
+vd_marker_next:
         inc vd_index
         lda vd_index
         cmp #7
         bne vd_marker
+        lda gd_selected
+        sta vd_shown
         lda gd_launch_error
         beq vd_unpack_done
         ; The VIC error renderer has prepared the same ASCII label and digits.
@@ -241,6 +254,18 @@ vd_glyph_load:
 .include "../graphics/vdc-pointer.inc"
 .include "../graphics/vdc-state.inc"
 .endif
+vd_card_changes:              ; carry set: card X's highlight must be drawn
+        lda vd_shown
+        bmi +                 ; nothing drawn yet: every row and card
+        cpx gd_selected
+        beq +
+        cpx vd_shown
+        beq +
+        clc
+        rts
++       sec
+        rts
+vd_shown: .byte $ff           ; the card drawn selected, $ff for none
 .include "vdc-scene.inc"
 .if VD_DESKTOP_COMMON
 .include "../graphics/vdc-pointer-shape.inc"

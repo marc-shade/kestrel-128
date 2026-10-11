@@ -16,7 +16,14 @@ class GraphicalPaint(FilePaint):
     def number(self,name,size=2):
         at=self.symbol(name);return int.from_bytes(self.ram[at:at+size],'little')
 
+    def settle(self,down=None):
+        # Pointer motion over the canvas leaves the status line for the first
+        # sample without motion; let it catch up before comparing surfaces.
+        if self.value('pa_labels_stale'):self.frame(down=down)
+        assert not self.value('pa_labels_stale')
+
     def check(self):
+        assert not self.value('pa_labels_stale'),'status line not yet refreshed: settle() first'
         assert not self.value('pa_picker_active')
         state=dict(x=self.number('pd_x'),y=self.value('pd_y'),pen=self.value('pd_pen'),
                    color=self.value('pd_color'),dirty=bool(self.value('pd_dirty')),focus=self.value('ui_selected'),
@@ -86,7 +93,12 @@ def main():
             # runs from the last drawn point to wherever the pointer lands.
             for dx,dy in [(12,7),(20,20),(20,-7),(-10,-20)]:
                 aim=(aim[0]+dx,aim[1]+dy)
-                p.frame(dx=dx,dy=dy,down=True);p.check()
+                status=bytes(p.ram[0xc000+640:0xc000+1280])   # character rows 2-3
+                p.frame(dx=dx,dy=dy,down=True)
+                # The stroke is drawn at once; the status line waits for a still sample.
+                if p.position!=(last[0]-16+origin[0],last[1]-16+origin[1]):
+                    assert p.value('pa_labels_stale') and bytes(p.ram[0xc000+640:0xc000+1280])==status
+                p.settle(down=True);p.check()
                 now=(p.position[0]-origin[0]+16,p.position[1]-origin[1]+16)
                 assert now in (last,aim),(now,last,aim)
                 for x,y in segment(last,now) if now!=last else ():wanted[y//8*320+x//8*8+y%8]|=128>>(x%8)

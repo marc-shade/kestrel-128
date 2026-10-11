@@ -4324,6 +4324,7 @@ gm_order = gm_dirpage
 .include "graphics/text-core.inc"
 .include "input/pointer.inc"
 BP_MODE=0                       ; the VDC shows this VIC surface (docs/NATIVE-VDC-SERVICE.md)
+BP_COLOR_ROWS=0                 ; the AES draws its colours; keep the module window
 bp_select_surface=gm_select_surface
 .include "graphics/vdc-client.inc"
 ; ---- module window (docs/NATIVE-MODULES.md) ------------------------------------------

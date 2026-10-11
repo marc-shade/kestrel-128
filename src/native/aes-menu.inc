@@ -816,6 +816,29 @@ mn_item_normal:
         jsr gfx_text
         bcs mn_items_done
 mn_item_colors:
+        jsr mn_row_colors
+        bcs mn_items_done
+        inc mn_row
+        jmp mn_item_row
+mn_items_done:
+        rts
+; A hover change recolours the row hovered before (X) and the new one.
+mn_hover_rows:
+        txa
+        jsr mn_recolor
+        lda mn_hover
+mn_recolor:                     ; A: drop-down row, $ff for none
+        cmp #$ff
+        beq mn_recolor_done
+        sta mn_row
+        ldx mn_open
+        dex
+        stx mn_title
+        clc
+        adc mn_title_first,x
+        sta mn_item
+; The current row's cell colours: grey, paper, or the hover highlight.
+mn_row_colors:
         lda mn_dx
         sta gfx_x0
         clc
@@ -843,11 +866,9 @@ mn_item_colors:
         bne +
         lda #AL_FOCUS_INK
 +       sta gfx_color
-        jsr gfx_colors
-        bcs mn_items_done
-        inc mn_row
-        jmp mn_item_row
-mn_items_done:
+        jmp gfx_colors
+mn_recolor_done:
+        clc
         rts
 ; Pixel y of the current drop-down row (cell row 2 is the first item).
 mn_row_y:
@@ -945,10 +966,14 @@ mn_input_open:
         jmp mn_choose
 +       cmp #$11                ; cursor down
         bne +
+        lda mn_hover            ; only the two rows' colours change
+        sta mn_hover_from
         jsr mn_next_enabled
         jmp mn_consumed
 +       cmp #$91                ; cursor up
         bne +
+        lda mn_hover
+        sta mn_hover_from
         jsr mn_previous_enabled
         jmp mn_consumed
 +       cmp #$1d                ; cursor right: next title
@@ -1004,8 +1029,9 @@ mn_in_items:
         lda #$ff
 +       cmp mn_hover
         beq +
+        ldx mn_hover
         sta mn_hover
-        jsr mn_draw_items
+        jsr mn_hover_rows
 +       lda mn_release
         beq mn_consumed
         lda mn_hover
@@ -1154,7 +1180,13 @@ mn_next_enabled:
         lda #$ff
         sta mn_hover
 mn_hover_set:
+        ldx mn_hover_from       ; $fe: a newly opened drop-down, draw it all
+        lda #$fe
+        sta mn_hover_from
+        cpx #$fe
+        bne +
         jmp mn_draw_items
++       jmp mn_hover_rows
 mn_previous_enabled:
         ldy mn_dh
 -       ldx mn_hover
@@ -1171,7 +1203,7 @@ mn_previous_enabled:
         bne -
         lda #$ff
         sta mn_hover
-        jmp mn_draw_items
+        jmp mn_hover_set
 
 ; A new foreground app: its menu is gone with its surface.
 mn_reset:
@@ -1186,6 +1218,7 @@ mn_titles: .byte 0
 mn_items: .byte 0
 mn_open: .byte 0
 mn_hover: .byte $ff
+mn_hover_from: .byte $fe          ; hover before a cursor key, $fe for none
 mn_title: .byte 0
 mn_row: .byte 0
 mn_item: .byte 0

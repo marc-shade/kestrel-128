@@ -123,6 +123,12 @@ Operations 1–3 consume this packet in bank-0 `N_BUFFER`:
 
 The surface and mode remain bound until close. Mirror presentation clears the
 parent's dirty flags only after success, including the initial full upload.
+A dirty flag of 2 marks a row whose colour cells alone changed (the
+`gfx_colors` operation, or an app's own colour fill); 1 or 3 marks any other
+drawing. On a 64 KiB VDC a row flagged 2 rewrites only its 80 attribute
+bytes and keeps the bitmap the VDC already holds; on a 16 KiB VDC colours
+select reversed ink, so every flagged row is drawn in full. GEMDESK, whose
+colours come from the AES, marks every row 1.
 Desktop error glyphs are read from the owned VIC status row, preserving the
 native VDC layout without storing a second font in the component.
 

@@ -66,6 +66,8 @@ gd_fill:
         bne gd_fill
         jsr draw_scene
         bcs gd_failed
+        lda #$ff              ; a fresh scene: color every card
+        sta gd_shown
         jsr gd_highlight
         bcs gd_failed
         jsr gd_graphics_status
@@ -150,7 +152,9 @@ gd_idle:
         sta gd_selected
         sta N_DESKTOPSEL
         jmp gd_launch
-+       lda pm_hit
++       lda pm_hit             ; hover: every move over a card reports it
+        cmp gd_selected
+        beq gd_loop            ; already selected: nothing to redraw
         jmp gd_select
 gd_calc:
         lda #0
@@ -253,7 +257,14 @@ gd_highlight:
         lda #0
         sta gd_index
 gd_highlight_next:
-        lda #2
+        ldx gd_index          ; only the cards whose highlight changes
+        lda gd_shown
+        bmi +
+        cpx gd_selected
+        beq +
+        cpx gd_shown
+        bne gd_highlight_skip
++       lda #2
         sta gfx_x0
         lda #38
         sta gfx_x1
@@ -275,10 +286,13 @@ gd_highlight_next:
 +       sta gfx_color
         jsr gfx_colors
         bcs gd_highlight_return
+gd_highlight_skip:
         inc gd_index
         lda gd_index
         cmp #GD_APP_COUNT
         bne gd_highlight_next
+        lda gd_selected
+        sta gd_shown
         lda #0
         clc
 gd_highlight_return:
@@ -433,6 +447,7 @@ gd_launch_error: .byte 0
 gd_handle:       .fill 4,0
 gd_screen:       .byte 0
 gd_index:        .byte 0
+gd_shown:        .byte $ff       ; the card colored selected, $ff for none
 gd_card_rows:    .byte 5,7,9,11,13,15,17
 gd_name_lengths: .byte 4,6,5,8,6,5,5
 gd_name_offsets: .byte 0,4,10,15,23,29,34

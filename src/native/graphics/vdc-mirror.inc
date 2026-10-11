@@ -88,16 +88,22 @@ vm_failed:
         sec
         rts
 
+vm_row_offset:                ; N_OFFSET = vm_row*320, the row's bitmap bytes
+        lda #0
+        sta N_OFFSET
+        lda vm_row
+        lsr
+        ror N_OFFSET
+        lsr
+        ror N_OFFSET          ; (row and 3)*64 low, row/4 high
+        clc
+        adc vm_row            ; + row*256
+        sta N_OFFSET+1
+        rts
 vm_draw_row:
         jsr vm_select_surface
-        ; Color offset = $2000 + row*40. Reuse the graphics row*320 table.
-        lda vm_row
-        asl
-        tax
-        lda gfx_rows,x
-        sta N_OFFSET
-        lda gfx_rows+1,x
-        sta N_OFFSET+1
+        ; Color offset = $2000 + row*40 = row*320/8.
+        jsr vm_row_offset
         ldx #3
 -       lsr N_OFFSET+1
         ror N_OFFSET
@@ -150,13 +156,13 @@ vm_mono:
 vm_color_done:
         dey
         bpl vm_color_next
-        lda vm_row
-        asl
-        tax
-        lda gfx_rows,x
-        sta N_OFFSET
-        lda gfx_rows+1,x
-        sta N_OFFSET+1
+        ldx vm_row            ; colour cells only, and colour on the VDC
+        lda vm_rows,x         ; attributes: the bitmap there is current
+        cmp #2
+        bne +
+        lda vd_color
+        bne vm_attributes
++       jsr vm_row_offset
         lda #64
         sta N_COUNT
         lda #1
@@ -215,6 +221,7 @@ vm_read:
         bne vm_line_next
         lda vd_color
         beq vm_done
+vm_attributes:
         ; Attributes occupy a separate 80x25 map at $8000 on 64K VDCs.
         lda vd_base
         pha

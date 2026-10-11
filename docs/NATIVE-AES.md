@@ -184,6 +184,10 @@ app's events:
 | Cursor up/down | Move over enabled items, wrapping |
 | Cursor left/right | Switch menus |
 | Escape, or a press outside | Close the menu |
+
+A hover change, by pointer or cursor key, recolours only the row that was
+highlighted and the new one; opening or switching a menu draws the whole
+drop-down.
 | An enabled item's Ctrl shortcut | Choose it without opening anything |
 
 A disabled item's shortcut reaches the app as an ordinary key. While a menu
