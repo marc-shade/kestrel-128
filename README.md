@@ -211,6 +211,27 @@ python3 -B tests/sweep_native.py --group vice --jobs 2 --out /tmp/sweep-vice
 KESTREL_ULTIMATE_HOST=192.0.2.10 python3 -B hw_native_gem_check.py --report /tmp/gem.json
 ```
 
+The CPU suites are pure Python, so PyPy 3.11 runs them far faster than
+CPython. Measured 2026-10-11 on fedora at commit 952ed55: all 323 CPU jobs
+pass under PyPy in 35 minutes of wall-clock on 3 workers (6,299 s of summed
+job time), against 76,823 s of summed job time for the same jobs on CPython
+3.14 (median per-job speedup 11.5x; jobs that take under 10 s on CPython can
+run slower). A paired CPython/PyPy run of 93 jobs gave the same exit status
+and report verdict for every job. The VICE suites are unaffected. CPython
+stays the default; `--python` (or `KESTREL_TEST_PYTHON`) selects the
+interpreter that runs each suite:
+
+```sh
+uv venv --python pypy3.11 ~/.venvs/uos-tests-pypy
+uv pip install --python ~/.venvs/uos-tests-pypy/bin/python -r tests/requirements.txt
+python3 -B tests/sweep_native.py --group cpu --jobs 4 --python ~/.venvs/uos-tests-pypy/bin/python --out /tmp/sweep-cpu
+```
+
+PyPy 3.11 bundles zlib 1.2.7 where Fedora's CPython 3.14 uses zlib-ng, so the
+`.gz` capture files a suite writes differ byte for byte between the two
+interpreters (the decompressed content is identical); compare `captures.sha256`
+values only within one interpreter.
+
 Records of each change, with the commands and results, are under
 [`docs/validation/`](docs/validation/) (see its README for what was kept).
 
