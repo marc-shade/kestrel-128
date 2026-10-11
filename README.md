@@ -219,7 +219,9 @@ job time), against 76,823 s of summed job time for the same jobs on CPython
 run slower). A paired CPython/PyPy run of 93 jobs gave the same exit status
 and report verdict for every job. The VICE suites are unaffected. CPython
 stays the default; `--python` (or `KESTREL_TEST_PYTHON`) selects the
-interpreter that runs each suite:
+interpreter that runs each suite. The sweep imports every suite to list its
+jobs, so the interpreter running `sweep_native.py` needs the requirements
+too; it stops with an error when one is missing.
 
 ```sh
 uv venv --python pypy3.11 ~/.venvs/uos-tests-pypy

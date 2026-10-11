@@ -117,6 +117,11 @@ def capture(path):
         return caught.parser
     except SystemExit:
         return None
+    except ModuleNotFoundError as error:
+        # Introspection imports the suite here, so this interpreter needs the
+        # suite dependencies too; without them every job would run unconfigured.
+        sys.exit(f'{path.stem}: {error}. Run this script with an interpreter that has '
+                 'tests/requirements.txt installed (the same one --python names).')
     except Exception as error:                              # import-time checks of the suite
         print(f'note: {path.stem} not introspected ({type(error).__name__}: {error}); '
               'running it with defaults', file=sys.stderr)
