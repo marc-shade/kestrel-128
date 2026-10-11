@@ -14,7 +14,12 @@ report per job.
 
 Usage:
   sweep_native.py --out DIR [--group cpu|vice|all] [--jobs N] [--only NAME...]
-                  [--list] [--timeout SECONDS]
+                  [--list] [--timeout SECONDS] [--python INTERPRETER]
+
+--python (or KESTREL_TEST_PYTHON) picks the interpreter that runs each suite;
+it needs py65 and pyte (tests/requirements.txt). The CPU suites run about 12x
+faster under PyPy 3.11 (README, Testing). The default stays the interpreter
+that runs this script.
 """
 import argparse
 import concurrent.futures as futures
@@ -222,6 +227,7 @@ def run(job, out, timeout, port):
 
 
 def main():
+    global PYTHON
     parser = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--group', choices=('cpu', 'vice', 'all'), default='cpu')
@@ -229,8 +235,12 @@ def main():
     parser.add_argument('--only', nargs='+', help='suite names (ci_native_x) to include')
     parser.add_argument('--list', action='store_true', help='print the job list and exit')
     parser.add_argument('--timeout', type=int, default=4*3600)
+    parser.add_argument('--python', help='interpreter that runs each suite '
+                        '(default: KESTREL_TEST_PYTHON, else the one running this script)')
     parser.add_argument('--shard', default='0/1', help='I/N: run every Nth job starting at I (split across machines)')
     args = parser.parse_args()
+    if args.python:
+        PYTHON = args.python
     shard, shards = (int(part) for part in args.shard.split('/'))
 
     jobs = []
