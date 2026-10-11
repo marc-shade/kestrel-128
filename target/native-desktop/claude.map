@@ -7,7 +7,7 @@ startup.o:
     STARTUP           Offs=000000  Size=00002C  Align=00001  Fill=0000
     CSTACK            Offs=000000  Size=000400  Align=00001  Fill=0000
 gui.o:
-    GUI               Offs=000000  Size=00324F  Align=00001  Fill=0000
+    GUI               Offs=000000  Size=003249  Align=00001  Fill=0000
 main.o:
     CODE              Offs=000000  Size=000C25  Align=00001  Fill=0000
     RODATA            Offs=000000  Size=00026B  Align=00001  Fill=0000
@@ -72,64 +72,64 @@ ZEROPAGE              000002  00001B  00001A  00001
 LOADADDR              005FFE  005FFF  000002  00001
 HEADER                006000  00601F  000020  00001
 STARTUP               006020  00604B  00002C  00001
-GUI                   006080  0092CE  00324F  00001
-CODE                  0092CF  00AD21  001A53  00001
-RODATA                00AD22  00AFA8  000287  00001
-DATA                  00AFA9  00AFE6  00003E  00001
-BSS                   00AFE7  00BB82  000B9C  00001
-CSTACK                00BB83  00BF82  000400  00001
+GUI                   006080  0092C8  003249  00001
+CODE                  0092C9  00AD1B  001A53  00001
+RODATA                00AD1C  00AFA2  000287  00001
+DATA                  00AFA3  00AFE0  00003E  00001
+BSS                   00AFE1  00BB7C  000B9C  00001
+CSTACK                00BB7D  00BF7C  000400  00001
 
 
 Exports list by name:
 ---------------------
-__BSS_RUN__               00AFE7 RLA    __BSS_SIZE__              000B9C REA    
-__CSTACK_RUN__            00BB83 RLA    __CSTACK_SIZE__           000400 REA    
-__STARTUP__               000001 REA    _acia_avail               00A37C RLA    
-_acia_get                 00A38C RLA    _acia_open                00A236 RLA    
-_acia_put                 00A399 RLA    _acia_shutdown            00A2E1 RLA    
+__BSS_RUN__               00AFE1 RLA    __BSS_SIZE__              000B9C REA    
+__CSTACK_RUN__            00BB7D RLA    __CSTACK_SIZE__           000400 REA    
+__STARTUP__               000001 REA    _acia_avail               00A376 RLA    
+_acia_get                 00A386 RLA    _acia_open                00A230 RLA    
+_acia_put                 00A393 RLA    _acia_shutdown            00A2DB RLA    
 _gui_begin                006080 RLA    _gui_bitmap               0069C5 RLA    
-_gui_clip_chunk           008E13 RLA    _gui_clip_count           008E67 RLA    
-_gui_clip_length          0091BE RLA    _gui_clip_prepare         008DE1 RLA    
-_gui_clip_status          008E68 RLA    _gui_controls_dirty       0069EB RLA    
+_gui_clip_chunk           008E0D RLA    _gui_clip_count           008E61 RLA    
+_gui_clip_length          0091B8 RLA    _gui_clip_prepare         008DDB RLA    
+_gui_clip_status          008E62 RLA    _gui_controls_dirty       0069EB RLA    
 _gui_cursor_col           00696E RLA    _gui_cursor_row           00696D RLA    
 _gui_dirty                0069D2 RLA    _gui_dirty_all            00608C RLA    
 _gui_end                  006089 RLA    _gui_font_hi              0069D1 RLA    
 _gui_font_ram             00696B RLA    _gui_key                  006086 RLA    
-_gui_live                 0069CC RLA    _gui_paste_active         008E69 RLA    
-_gui_poll                 006083 RLA    _gui_recovery             0084BE RLA    
-_gui_retiring             0084BF RLA    _gui_terminal_read        0063DC RLA    
-_gui_terminal_restore     008494 RLA    _gui_top                  0069D0 RLA    
-_gui_vdc_end              008471 RLA    _gui_vdc_owned            0084BC RLA    
-_gui_view                 00696C RLA    _kb_get                   00A3BC RLA    
-_main                     009CD5 RLA    _native_border            00B013 RLA    
-_native_quit              00B012 RLA    _native_video_begin       00A520 RLA    
-_native_video_end         00A61B RLA    _scrAttr                  00B146 RLA    
-_scrBuf                   00B149 RLA    _scrChar                  00B148 RLA    
-_scrCol                   00B145 RLA    _scrLen                   00B147 RLA    
-_scrRow                   00B144 RLA    _scr_clear                00A0BB RLA    
-_scr_fill                 00A078 RLA    _scr_init                 00A223 RLA    
-_scr_mirror               00A3DD RLA    _scr_place_cursor         00A1EB RLA    
-_scr_run                  00A025 RLA    _scr_scroll               00A102 RLA    
-_scr_setglyph             00A4AD RLA    _scr_sync                 00A6D9 RLA    
-_tm_begin                 00A820 RLA    _tm_clear                 00AA24 RLA    
-_tm_cursor                00AB74 RLA    _tm_end                   00A8D6 RLA    
-_tm_fill                  00A9FF RLA    _tm_glyph                 00ABA2 RLA    
-_tm_live                  00BB6C RLA    _tm_read                  00AA94 RLA    
-_tm_run                   00A9D2 RLA    _tm_scroll                00AABF RLA    
-addeq0sp                  00ABDB RLA    addysp                    00ABED RLA    
-decaxy                    00ABFA RLA    decsp1                    00AC03 RLA    
-decsp2                    00AC0C RLA    incaxy                    00AC1B RLA    
-incsp1                    00AC24 RLA    incsp2                    00AC33 RLA    
-incsp3                    00AC41 RLA    incsp4                    00AC46 RLA    
-incsp5                    00AC4B RLA    ldax0sp                   00AC5D RLA    
-ldaxi                     00AC50 RLA    ldaxysp                   00AC5F RLA    
-popptr1                   00ACA0 RLA    ptr1                      00000A RLZ    
-ptr4                      000010 RLZ    pusha                     00ACB2 RLA    
-pusha0                    00ACC6 RLA    pushax                    00ACC8 RLA    
-sf_read                   00A7D9 RLA    sp                        000002 RLZ    
-staspidx                  00ACDE RLA    stax0sp                   00ACF4 RLA    
-tmp1                      000012 RLZ    tosumula0                 00AC66 RLA    
-zerobss                   00ACFF RLA    
+_gui_live                 0069CC RLA    _gui_paste_active         008E63 RLA    
+_gui_poll                 006083 RLA    _gui_recovery             0084B8 RLA    
+_gui_retiring             0084B9 RLA    _gui_terminal_read        0063DC RLA    
+_gui_terminal_restore     00848E RLA    _gui_top                  0069D0 RLA    
+_gui_vdc_end              00846B RLA    _gui_vdc_owned            0084B6 RLA    
+_gui_view                 00696C RLA    _kb_get                   00A3B6 RLA    
+_main                     009CCF RLA    _native_border            00B00D RLA    
+_native_quit              00B00C RLA    _native_video_begin       00A51A RLA    
+_native_video_end         00A615 RLA    _scrAttr                  00B140 RLA    
+_scrBuf                   00B143 RLA    _scrChar                  00B142 RLA    
+_scrCol                   00B13F RLA    _scrLen                   00B141 RLA    
+_scrRow                   00B13E RLA    _scr_clear                00A0B5 RLA    
+_scr_fill                 00A072 RLA    _scr_init                 00A21D RLA    
+_scr_mirror               00A3D7 RLA    _scr_place_cursor         00A1E5 RLA    
+_scr_run                  00A01F RLA    _scr_scroll               00A0FC RLA    
+_scr_setglyph             00A4A7 RLA    _scr_sync                 00A6D3 RLA    
+_tm_begin                 00A81A RLA    _tm_clear                 00AA1E RLA    
+_tm_cursor                00AB6E RLA    _tm_end                   00A8D0 RLA    
+_tm_fill                  00A9F9 RLA    _tm_glyph                 00AB9C RLA    
+_tm_live                  00BB66 RLA    _tm_read                  00AA8E RLA    
+_tm_run                   00A9CC RLA    _tm_scroll                00AAB9 RLA    
+addeq0sp                  00ABD5 RLA    addysp                    00ABE7 RLA    
+decaxy                    00ABF4 RLA    decsp1                    00ABFD RLA    
+decsp2                    00AC06 RLA    incaxy                    00AC15 RLA    
+incsp1                    00AC1E RLA    incsp2                    00AC2D RLA    
+incsp3                    00AC3B RLA    incsp4                    00AC40 RLA    
+incsp5                    00AC45 RLA    ldax0sp                   00AC57 RLA    
+ldaxi                     00AC4A RLA    ldaxysp                   00AC59 RLA    
+popptr1                   00AC9A RLA    ptr1                      00000A RLZ    
+ptr4                      000010 RLZ    pusha                     00ACAC RLA    
+pusha0                    00ACC0 RLA    pushax                    00ACC2 RLA    
+sf_read                   00A7D3 RLA    sp                        000002 RLZ    
+staspidx                  00ACD8 RLA    stax0sp                   00ACEE RLA    
+tmp1                      000012 RLZ    tosumula0                 00AC60 RLA    
+zerobss                   00ACF9 RLA    
 
 
 Exports list by value:
@@ -145,43 +145,43 @@ _gui_view                 00696C RLA    _gui_cursor_row           00696D RLA
 _gui_cursor_col           00696E RLA    _gui_bitmap               0069C5 RLA    
 _gui_live                 0069CC RLA    _gui_top                  0069D0 RLA    
 _gui_font_hi              0069D1 RLA    _gui_dirty                0069D2 RLA    
-_gui_controls_dirty       0069EB RLA    _gui_vdc_end              008471 RLA    
-_gui_terminal_restore     008494 RLA    _gui_vdc_owned            0084BC RLA    
-_gui_recovery             0084BE RLA    _gui_retiring             0084BF RLA    
-_gui_clip_prepare         008DE1 RLA    _gui_clip_chunk           008E13 RLA    
-_gui_clip_count           008E67 RLA    _gui_clip_status          008E68 RLA    
-_gui_paste_active         008E69 RLA    _gui_clip_length          0091BE RLA    
-_main                     009CD5 RLA    _scr_run                  00A025 RLA    
-_scr_fill                 00A078 RLA    _scr_clear                00A0BB RLA    
-_scr_scroll               00A102 RLA    _scr_place_cursor         00A1EB RLA    
-_scr_init                 00A223 RLA    _acia_open                00A236 RLA    
-_acia_shutdown            00A2E1 RLA    _acia_avail               00A37C RLA    
-_acia_get                 00A38C RLA    _acia_put                 00A399 RLA    
-_kb_get                   00A3BC RLA    _scr_mirror               00A3DD RLA    
-_scr_setglyph             00A4AD RLA    _native_video_begin       00A520 RLA    
-_native_video_end         00A61B RLA    _scr_sync                 00A6D9 RLA    
-sf_read                   00A7D9 RLA    _tm_begin                 00A820 RLA    
-_tm_end                   00A8D6 RLA    _tm_run                   00A9D2 RLA    
-_tm_fill                  00A9FF RLA    _tm_clear                 00AA24 RLA    
-_tm_read                  00AA94 RLA    _tm_scroll                00AABF RLA    
-_tm_cursor                00AB74 RLA    _tm_glyph                 00ABA2 RLA    
-addeq0sp                  00ABDB RLA    addysp                    00ABED RLA    
-decaxy                    00ABFA RLA    decsp1                    00AC03 RLA    
-decsp2                    00AC0C RLA    incaxy                    00AC1B RLA    
-incsp1                    00AC24 RLA    incsp2                    00AC33 RLA    
-incsp3                    00AC41 RLA    incsp4                    00AC46 RLA    
-incsp5                    00AC4B RLA    ldaxi                     00AC50 RLA    
-ldax0sp                   00AC5D RLA    ldaxysp                   00AC5F RLA    
-tosumula0                 00AC66 RLA    popptr1                   00ACA0 RLA    
-pusha                     00ACB2 RLA    pusha0                    00ACC6 RLA    
-pushax                    00ACC8 RLA    staspidx                  00ACDE RLA    
-stax0sp                   00ACF4 RLA    zerobss                   00ACFF RLA    
-__BSS_RUN__               00AFE7 RLA    _native_quit              00B012 RLA    
-_native_border            00B013 RLA    _scrRow                   00B144 RLA    
-_scrCol                   00B145 RLA    _scrAttr                  00B146 RLA    
-_scrLen                   00B147 RLA    _scrChar                  00B148 RLA    
-_scrBuf                   00B149 RLA    _tm_live                  00BB6C RLA    
-__CSTACK_RUN__            00BB83 RLA    
+_gui_controls_dirty       0069EB RLA    _gui_vdc_end              00846B RLA    
+_gui_terminal_restore     00848E RLA    _gui_vdc_owned            0084B6 RLA    
+_gui_recovery             0084B8 RLA    _gui_retiring             0084B9 RLA    
+_gui_clip_prepare         008DDB RLA    _gui_clip_chunk           008E0D RLA    
+_gui_clip_count           008E61 RLA    _gui_clip_status          008E62 RLA    
+_gui_paste_active         008E63 RLA    _gui_clip_length          0091B8 RLA    
+_main                     009CCF RLA    _scr_run                  00A01F RLA    
+_scr_fill                 00A072 RLA    _scr_clear                00A0B5 RLA    
+_scr_scroll               00A0FC RLA    _scr_place_cursor         00A1E5 RLA    
+_scr_init                 00A21D RLA    _acia_open                00A230 RLA    
+_acia_shutdown            00A2DB RLA    _acia_avail               00A376 RLA    
+_acia_get                 00A386 RLA    _acia_put                 00A393 RLA    
+_kb_get                   00A3B6 RLA    _scr_mirror               00A3D7 RLA    
+_scr_setglyph             00A4A7 RLA    _native_video_begin       00A51A RLA    
+_native_video_end         00A615 RLA    _scr_sync                 00A6D3 RLA    
+sf_read                   00A7D3 RLA    _tm_begin                 00A81A RLA    
+_tm_end                   00A8D0 RLA    _tm_run                   00A9CC RLA    
+_tm_fill                  00A9F9 RLA    _tm_clear                 00AA1E RLA    
+_tm_read                  00AA8E RLA    _tm_scroll                00AAB9 RLA    
+_tm_cursor                00AB6E RLA    _tm_glyph                 00AB9C RLA    
+addeq0sp                  00ABD5 RLA    addysp                    00ABE7 RLA    
+decaxy                    00ABF4 RLA    decsp1                    00ABFD RLA    
+decsp2                    00AC06 RLA    incaxy                    00AC15 RLA    
+incsp1                    00AC1E RLA    incsp2                    00AC2D RLA    
+incsp3                    00AC3B RLA    incsp4                    00AC40 RLA    
+incsp5                    00AC45 RLA    ldaxi                     00AC4A RLA    
+ldax0sp                   00AC57 RLA    ldaxysp                   00AC59 RLA    
+tosumula0                 00AC60 RLA    popptr1                   00AC9A RLA    
+pusha                     00ACAC RLA    pusha0                    00ACC0 RLA    
+pushax                    00ACC2 RLA    staspidx                  00ACD8 RLA    
+stax0sp                   00ACEE RLA    zerobss                   00ACF9 RLA    
+__BSS_RUN__               00AFE1 RLA    _native_quit              00B00C RLA    
+_native_border            00B00D RLA    _scrRow                   00B13E RLA    
+_scrCol                   00B13F RLA    _scrAttr                  00B140 RLA    
+_scrLen                   00B141 RLA    _scrChar                  00B142 RLA    
+_scrBuf                   00B143 RLA    _tm_live                  00BB66 RLA    
+__CSTACK_RUN__            00BB7D RLA    
 
 
 Imports list:

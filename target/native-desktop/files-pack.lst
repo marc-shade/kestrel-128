@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
-; 64tass -a -B -D PK_ABI=14 -D PK_WINDOW=14164 -D PK_PAGES=96 -D PK_RUNTIME_END=38740 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=38740 -D PK_RAW_ENTRY=24608 -D PK_PACKED_LENGTH=8855 -D PK_BODY_CRC=55696 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/files-pack.lst -l target/native-desktop/files-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
-; Sun Oct 11 02:36:04 2026
+; 64tass -a -B -D PK_ABI=14 -D PK_WINDOW=14164 -D PK_PAGES=96 -D PK_RUNTIME_END=38740 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=38740 -D PK_RAW_ENTRY=24608 -D PK_PACKED_LENGTH=8855 -D PK_BODY_CRC=6715 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/files-pack.lst -l target/native-desktop/files-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
+; Sun Oct 11 19:23:32 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -15,7 +15,7 @@
 =38740						PK_RAW_END=38740
 =24608						PK_RAW_ENTRY=24608
 =8855						PK_PACKED_LENGTH=8855
-=55696						PK_BODY_CRC=55696
+=6715						PK_BODY_CRC=6715
 =						PK_HEADER_FILE="kestrel-app-pack/header.bin"
 =						PK_PACKED_FILE="kestrel-app-pack/body.lzsa"
 
@@ -208,7 +208,7 @@
 .6020						pk_metadata:
 >6020		4e 50 5a 32			        .text "npz2"
 >6024		4e 41 50 50 01 01 0e 54		        .binary PK_HEADER_FILE
->602c		54 37 60 37 20 00 73 c3 46 49 4c 45 53 20 41 4e
+>602c		54 37 60 37 20 00 d8 00 46 49 4c 45 53 20 41 4e
 >603c		44 20 41 50 50 53 00 00
 >6044		54 97 d0 bf 04 65 97 22		        .word PK_RUNTIME_END,PK_CLEANUP_BASE,pk_payload,PK_PACKED_LENGTH
 >604c		04 61 b3 03			        .word pk_decoder_image,pk_decoder_end-pk_decoder
@@ -700,10 +700,10 @@
 .642e	532a	c9 97		cmp #$97	        cmp #>PK_RAW_END
 .6430	532c	d0 16		bne $5344	        bne boot_bad
 .6432	532e	ad 8a 53	lda $538a	        lda pk_crc
-.6435	5331	c9 90		cmp #$90	        cmp #<PK_BODY_CRC
+.6435	5331	c9 3b		cmp #$3b	        cmp #<PK_BODY_CRC
 .6437	5333	d0 0b		bne $5340	        bne pk_checksum
 .6439	5335	ad 8b 53	lda $538b	        lda pk_crc+1
-.643c	5338	c9 d9		cmp #$d9	        cmp #>PK_BODY_CRC
+.643c	5338	c9 1a		cmp #$1a	        cmp #>PK_BODY_CRC
 .643e	533a	d0 04		bne $5340	        bne pk_checksum
 .6440	533c	a9 00		lda #$00	        lda #0
 .6442	533e	f0 06		beq $5346	        beq pk_finish
@@ -1182,7 +1182,7 @@
 >7e5c		48 08 da e9 12 00 c5 61 9f a2 e1 08 8b 90 68 4c
 >7e6c		a1 48 38 69 48 11 94 4a 0d 99 38 f0 2f ad cc a0
 >7e7c		99 98 e7 2c 11 d0 30 25 ad 12 d0 c9 a0 b0 1e a5
->7e8c		a2 cd de be 01 f9 2d ad df be f0 12 c9 12 d5 a3
+>7e8c		a2 cd db be 01 f9 2d ad dc be f0 12 c9 12 d5 a3
 >7e9c		45 a3 49 03 cc 49 20 a0 20 48 4c c0 46 61 0c 02
 >7eac		11 d1 20 6b d8 a2 41 25 40 a5 79 aa 8e b0 9f 2d
 >7ebc		39 0d 4c af 8c 64 2c ea 02 20 a2 49 01 08 89 18
@@ -1219,9 +1219,9 @@
 >80ac		45 c1 d9 2e b9 1c aa 10 68 a8 db 60 c3 29 7f 4a
 >80bc		2c 60 48 6c 1b 65 93 39 6c 10 fe fd fb f7 ef df
 >80cc		bf 7f 61 87 84 4f 1e f5 10 8c a3 f3 a2 f9 65 ac
->80dc		24 8b 38 bd 4b ad a8 b8 f0 46 ad 90 be 8d 60 8e
->80ec		ad 94 e8 61 e8 95 e8 62 90 96 be 94 6d 40 7d 2b
->80fc		dd eb e1 eb e2 28 e3 de e8 63 90 5d 8e db 08 ee
+>80dc		24 8b 38 bd 4b ad a8 b8 f0 46 ad 8d be 8d 60 8e
+>80ec		ad 91 e8 61 e8 92 e8 62 90 93 be 94 6d 68 8d e2
+>80fc		23 eb de eb df 28 e0 de e8 63 90 5d 8e db 08 ee
 >810c		d0 58 20 64 8e 40 30 20 aa c2 9a fe 8e 4c 34 8f
 >811c		f9 6d 30 10 4c 61 a5 ba 49 cf 90 a2 18 9d b6 90
 >812c		58 1a 03 8d 5f 8e 68 40 a2 00 df ac 3b 8f 90 15
