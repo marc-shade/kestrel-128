@@ -250,14 +250,13 @@ pgm_vertical:
         jsr pgm_delta
         bcc pgm_hit_test
         inc pgm_moved
-        sta pgm_step
-        stx pgm_step+1
-        lda pgm_y
+        eor #$ff              ; y minus the signed move in X:A
         sec
-        sbc pgm_step
+        adc pgm_y
         tay
-        lda #0
-        sbc pgm_step+1
+        txa
+        eor #$ff
+        adc #0
         bmi pgm_top
         bne pgm_bottom
         cpy #200
@@ -307,7 +306,12 @@ pgm_release:
 
 ; Signed 7-bit circular displacement, one pixel per two counter units.
 ; Ignore +/-1 without advancing the old counter so subpixel motion accumulates.
-; A=new, Y=old, X=axis -> signed X:A, Y=next old, carry=movement.
+; A 1351 at rest can read three neighbouring values. With the baseline on the
+; reading that last moved, they would move the pointer a pixel back and forth.
+; After a one-pixel step up the counter the baseline trails by one unit, so
+; the noise stays within +/-1 of it; the pointer settles after at most two
+; one-pixel steps. Turning back from there still moves k pixels for k counts.
+; X=axis -> carry set: signed move in X:A. Y is clobbered.
 pgm_delta:                     ; X: axis. Carry set: move by A, X high byte
         lda pgm_pots,x
         sec
@@ -348,7 +352,10 @@ pgm_delta_size:
         cmp #$ff
         beq pgm_no_delta
         jsr pgm_delta_advance
-        ldx #0
+        cmp #4                ; 2 or 3: one pixel up the counter
+        bcs +
+        dec pgm_old,x
++       ldx #0
         cmp #$80
         bcc +
         dex
@@ -375,10 +382,9 @@ pgm_place:
         adc #0
         beq +
         lda #3
-+       sta pgm_high
-        lda $d010
-        and #$fc
-        ora pgm_high
++       eor $d010             ; bits 0-1 from A, the rest from $d010
+        and #3
+        eor $d010
         sta $d010
         lda pgm_y
         clc
@@ -405,10 +411,8 @@ pgm_arm: .byte $ff
 pgm_hit: .byte $ff
 pgm_event: .byte 0             ; 0=idle, 1=focus hit, 2=activate hit
 pgm_moved: .byte 0
-pgm_step: .word 0
 pgm_columns: .byte 0
 pgm_jumps: .word 0             ; per axis: 0, 1 after a moved jump, else held counts
-pgm_high: .byte 0
 pgm_init_saved: .byte 0
 pgm_registers: .byte $00,$01,$02,$03,$10,$15,$17,$1b,$1c,$1d,$27,$28
 pgm_saved: .fill 12,0

@@ -249,14 +249,13 @@ pm_vertical:
         jsr pm_delta
         bcc pm_hit_test
         inc pm_moved
-        sta pm_step
-        stx pm_step+1
-        lda pm_y
+        eor #$ff              ; y minus the signed move in X:A
         sec
-        sbc pm_step
+        adc pm_y
         tay
-        lda #0
-        sbc pm_step+1
+        txa
+        eor #$ff
+        adc #0
         bmi pm_top
         bne pm_bottom
         cpy #200
@@ -306,7 +305,12 @@ pm_release:
 
 ; Signed 7-bit circular displacement, one pixel per two counter units.
 ; Ignore +/-1 without advancing the old counter so subpixel motion accumulates.
-; A=new, Y=old, X=axis -> signed X:A, Y=next old, carry=movement.
+; A 1351 at rest can read three neighbouring values. With the baseline on the
+; reading that last moved, they would move the pointer a pixel back and forth.
+; After a one-pixel step up the counter the baseline trails by one unit, so
+; the noise stays within +/-1 of it; the pointer settles after at most two
+; one-pixel steps. Turning back from there still moves k pixels for k counts.
+; X=axis -> carry set: signed move in X:A. Y is clobbered.
 pm_delta:                     ; X: axis. Carry set: move by A, X high byte
         lda pm_pots,x
         sec
@@ -347,7 +351,10 @@ pm_delta_size:
         cmp #$ff
         beq pm_no_delta
         jsr pm_delta_advance
-        ldx #0
+        cmp #4                ; 2 or 3: one pixel up the counter
+        bcs +
+        dec pm_old,x
++       ldx #0
         cmp #$80
         bcc +
         dex
@@ -374,10 +381,9 @@ pm_place:
         adc #0
         beq +
         lda #3
-+       sta pm_high
-        lda $d010
-        and #$fc
-        ora pm_high
++       eor $d010             ; bits 0-1 from A, the rest from $d010
+        and #3
+        eor $d010
         sta $d010
         lda pm_y
         clc
@@ -404,10 +410,8 @@ pm_arm: .byte $ff
 pm_hit: .byte $ff
 pm_event: .byte 0             ; 0=idle, 1=focus hit, 2=activate hit
 pm_moved: .byte 0
-pm_step: .word 0
 pm_columns: .byte 0
 pm_jumps: .word 0             ; per axis: 0, 1 after a moved jump, else held counts
-pm_high: .byte 0
 pm_init_saved: .byte 0
 pm_registers: .byte $00,$01,$02,$03,$10,$15,$17,$1b,$1c,$1d,$27,$28
 pm_saved: .fill 12,0

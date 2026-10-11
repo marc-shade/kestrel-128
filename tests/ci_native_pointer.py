@@ -143,7 +143,8 @@ def main():
                         jump=abs(counts)>=12
                         if jump and not before:state,moved,baseline=counts&255,False,new
                         elif abs(counts)<2:state,moved,baseline=int(jump),False,new if held else old
-                        else:state,moved,baseline=int(jump),True,new
+                        # A one-pixel step up the counter leaves the baseline a unit behind.
+                        else:state,moved,baseline=int(jump),True,new-(counts in (2,3))
                         assert bool(cpu.p&1)==moved,(axis,before,old,new)
                         if moved:assert (cpu.a|cpu.x<<8)==(counts>>1)&0xffff,(axis,before,old,new,cpu.a,cpu.x)
                         assert (p.ram[jumps+axis],p.ram[olds+axis])==(state,baseline),(axis,before,old,new)
@@ -174,6 +175,27 @@ def main():
         for _ in range(4):p.frame();p.check(1)
         p.frame(dx=1);p.check(0)
         p.key(ord('E'),exited=True);p.restored();done('stationary pointer preserves keyboard selection; renewed movement resumes hover',p)
+
+        # A 1351 at rest can read three neighbouring values, and the reading
+        # that last moved the pointer may be the lowest or highest of them. The
+        # pointer settles after at most two one-pixel steps and then holds.
+        p=Pointer();p.frame();p.move(100,100)
+        for axis in (0,1):
+            for step in (1,-1,3,-3):
+                for edge in (0,2):
+                    p.frame(*((step,0) if axis==0 else (0,step)))
+                    reading=p.bus.pots[axis];low=reading-edge;trail=[p.position]
+                    for offset in (2,0,1,2,0,1,0,2,2,0,1,2,0,0,2,1,2,0,2,0):
+                        p.bus.pots[axis]=low+offset;p.frame()
+                        if p.position!=trail[-1]:trail.append(p.position)
+                    assert len(trail)<=3,(axis,step,edge,trail)
+                    assert all(abs(a[axis]-b[axis])==1 for a,b in zip(trail,trail[1:])),trail
+                    p.key(9);selected=p.value('gd_selected');at=p.position
+                    for offset in (0,2,1,0,2,2,1,0,0,2):
+                        p.bus.pots[axis]=low+offset;p.frame()
+                    assert p.position==at and p.value('gd_selected')==selected,(axis,step,edge,at,p.position)
+                    p.bus.pots[axis]=reading
+        p.key(27,exited=True);p.restored();done('resting noise across three readings settles within two pixels and holds',p)
 
         p=Pointer();p.frame()
         for target in ((0,0),(319,199),(0,199),(319,0)):
