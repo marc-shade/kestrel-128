@@ -78,15 +78,26 @@ fg_input:
         ; The module gate itself takes raster time: let pm_poll establish
         ; and check the conversion delay after that gate, not before it.
         bit $d011
-        bmi fg_key_return
+        bmi fg_idle
         lda $d012
         cmp #160
-        bcs fg_key_return
+        bcs fg_idle
         lda $a2
         cmp pm_tick
         bne fg_input_call
         lda pm_pending
+        bne fg_input_call
+fg_idle:
+        ; No key and no sample due: unless rows wait for the VDC, nothing can
+        ; have changed, so the wait stays published (N_READY) without a sync.
+        ; Syncing on every pass left the loop idle a few cycles a pass, in a
+        ; phase with the IRQ and VICE's monitor that a few bytes decide.
+        lda vm_pending
+        bne fg_key_return
+        lda fg_vdc_attempted
         beq fg_key_return
+        lda #0
+        jmp fg_vdc_guard
 fg_input_call:
         ; A checked module call changes gate scratch even when it only polls
         ; the pointer. Publish idle again after the complete call returns.

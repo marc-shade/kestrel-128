@@ -292,6 +292,7 @@ sg_row_return:
 
 sg_input:
         jsr pm_poll
+sg_polled:                    ; after sg_wait: its completed 1351 read is the poll
         jsr vd_poll
         lda pm_hit
         sta sg_hit
@@ -300,6 +301,27 @@ sg_input:
         beq +
         lda #0
 +       ldx #0
+        rts
+; The main loop's input wait. N_READY stays published (pm_poll clears it while
+; it reads the port) until a key arrives, A = the key, or a 1351 read
+; completes, A = 0, and sg_polled handles the pointer. Presenting and polling
+; on every pass left the loop at its input wait for a few cycles a pass, in a
+; phase with the IRQ and VICE's monitor that a few bytes of layout decide.
+sg_wait:
+        lda #1
+        sta N_READY
+        jsr N_KEYIN
+        bne sg_wait_done
+        lda pm_pending
+        pha
+        jsr pm_poll
+        pla
+        beq sg_wait           ; no read was due to complete
+        lda pm_pending
+        bne sg_wait           ; still settling
+sg_wait_done:
+        ldx #0
+        stx N_READY
         rts
 pm_find_hit:
         ; Stable hit IDs: six toolbar buttons, then all 48 visible cells.

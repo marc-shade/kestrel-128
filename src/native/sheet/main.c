@@ -279,9 +279,9 @@ int main(void)
             if (!error) return 0;
             exiting = 0; status(error); render(); continue;
         }
-        READY = 1; key = sh_api(KEYIN); READY = 0;
+        key = sg_wait();
         if (!key) {
-            if (sg_poll() != 2) continue;
+            if (sg_polled() != 2) continue;
             if (sg_hit >= 6 && !mode && !edit_active) {
                 selected = (top_row+(sg_hit-6)/4)*8 + left_column+(sg_hit-6)%4;
                 render(); continue;

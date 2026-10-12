@@ -32,6 +32,8 @@ uint8_t sg_begin(void);
 uint8_t sg_present(void);
 uint8_t sg_end(void);
 uint8_t sg_poll(void);
+uint8_t sg_wait(void);
+uint8_t sg_polled(void);
 uint8_t sg_retry(void);
 extern uint8_t sg_chars[1000], sg_colors[1000], sg_dirty[25];
 extern uint8_t sg_bitmap, sg_error, sg_vdc_fault, sg_vdc_live;
