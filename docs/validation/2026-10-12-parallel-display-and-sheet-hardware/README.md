@@ -61,8 +61,8 @@ clean clone of its commit.
   with the Sheet visit.
 - `hw_ultimate_check.py --native-editor` on the C128 (d797988): PASS.
 - `hw_ultimate_check.py --native-desktop` on the C128 (d797988): **failed
-  four times**, the first three before the Sheet visit, on screens that
-  passed with the same images the night before:
+  four times** before the pass below, the first three before the Sheet
+  visit, on screens that passed with the same images the night before:
   1. After many hours powered on: the Calculator's VDC bitmap, a run of
      bytes shifted by one from offset 9941.
   2. After a short power cycle: back at the desktop after the Calculator,
@@ -83,13 +83,21 @@ clean clone of its commit.
   the 8563's ready bit, so the service has no timing shortcut to fix; the
   errors point at this machine. Each run restored the drives and deleted
   its upload.
+- `hw_ultimate_check.py --native-desktop` on the C128 (d797988), fifth run,
+  after the machine was checked over: **PASS**, with the same images and
+  test code. Every desktop, Calculator, Editor and Files screen passed, then
+  `sheet-new` (0, 0, 0), `sheet-calculated` (12, 30, 42) and
+  `desktop-after-sheet`. 281 captures; 190 capture snapshots waited for a
+  later idle instant while the pointer was sampling; no Ultimate connect
+  retries and no uncertain writes. Drives restored and matching, images
+  unchanged, the upload deleted, no leftovers.
 
 ## Not verified
 
-- The Sheet visit has not passed on hardware as a whole: its blank sheet
-  did, its calculated sheet failed on the VDC slip above. The full visit has
-  passed only in VICE.
-- The cause of the three hardware failures was not isolated beyond the
+- The Sheet visit has passed on hardware once, in one of five runs. Whether
+  the VDC slips will return as the machine warms up over hours was not
+  measured.
+- The cause of the four hardware failures was not isolated beyond the
   machine; the 8563 was not examined.
 - The pot readings are DMA reads of the SID registers between frames, not the
   driver's own samples, and the pointer position was not read alongside
