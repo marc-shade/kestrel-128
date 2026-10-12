@@ -61,8 +61,8 @@ clean clone of its commit.
   with the Sheet visit.
 - `hw_ultimate_check.py --native-editor` on the C128 (d797988): PASS.
 - `hw_ultimate_check.py --native-desktop` on the C128 (d797988): **failed
-  three times, each before the Sheet visit**, on screens that passed with
-  the same images the night before:
+  four times**, the first three before the Sheet visit, on screens that
+  passed with the same images the night before:
   1. After many hours powered on: the Calculator's VDC bitmap, a run of
      bytes shifted by one from offset 9941.
   2. After a short power cycle: back at the desktop after the Calculator,
@@ -71,14 +71,24 @@ clean clone of its commit.
   3. After 30 minutes off: the Editor's VDC bitmap, one bit missing at
      offset 10992 (row 137, x 256), the tail of the pointer drawn at its
      unmoved start position.
-  Every VDC register and data access in the service waits on the 8563's
-  ready bit, so the service has no timing shortcut to fix; the errors point
-  at this machine. Each run restored the drives and deleted its upload.
+  4. About 90 minutes after that power-on, a fourth run reached Sheet:
+     `sheet-new` passed on hardware (Sheet's values, VIC bitmap, VDC mirror
+     and display registers). `sheet-calculated` then failed in the VDC
+     bitmap only: on pixel line 88 a stretch of the row sits one byte to
+     the right, visible where it carries the top line of two column
+     separators (offsets 7098/7099 and 7116/7117); the other six lines of
+     those glyphs and the whole VIC bitmap match.
+  Failures 1 and 4 are the same one-byte VDC address slip in opposite
+  directions. Every VDC register and data access in the service waits on
+  the 8563's ready bit, so the service has no timing shortcut to fix; the
+  errors point at this machine. Each run restored the drives and deleted
+  its upload.
 
 ## Not verified
 
-- The Sheet visit has not passed on hardware: all three hardware desktop
-  runs failed before reaching it. It has passed only in VICE.
+- The Sheet visit has not passed on hardware as a whole: its blank sheet
+  did, its calculated sheet failed on the VDC slip above. The full visit has
+  passed only in VICE.
 - The cause of the three hardware failures was not isolated beyond the
   machine; the 8563 was not examined.
 - The pot readings are DMA reads of the SID registers between frames, not the
