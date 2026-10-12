@@ -74,7 +74,7 @@ def main():
         report['repeat_before_hex'] = repeat.hex()
         keyboard = Keyboard(xv.display)
         report['private_x_windows'] = keyboard.windows
-        def event(name, selected, *, reject=False):
+        def event(name, selected, *, reject=False, rom=False):
             before = int.from_bytes(read(0x3d13,2),'little')
             rejected = int.from_bytes(read(0x3d1e,2),'little')
             keyboard.press(name)
@@ -86,6 +86,14 @@ def main():
             if reject:
                 wait(lambda:int.from_bytes(read(0x3d1e,2),'little') > rejected, 'joystick row rejected', 10)
                 assert int.from_bytes(read(0x3d13,2),'little') == before
+            elif rom:
+                # Joystick Down holds keyboard row 1 low in every column. A
+                # release that lands inside the ROM's column scan leaves only
+                # some columns lit, which decodes as another row-1 key (Y, I,
+                # a keypad digit) after the Insert: one or two keys.
+                wait(lambda:int.from_bytes(read(0x3d13,2),'little') > before, 'original callback consumed', 10)
+                time.sleep(.5)
+                assert int.from_bytes(read(0x3d13,2),'little') in (before+1, before+2)
             else:
                 wait(lambda:int.from_bytes(read(0x3d13,2),'little') == before+1, 'real keyboard consumed', 10)
             wait(lambda:read(0x3d12) == b'\1' and read(0x3d2f) == bytes([selected]), 'desktop selection settled', 10)
@@ -103,8 +111,9 @@ def main():
         # Negative control on this disposable emulator: the original callback
         # receives the same joystick signal and publishes Insert.
         with paused.paused('keyboard-original-callback'): paused.write_mem(0x33c,b'\xad\xc6')
-        row = event('j',0)
-        assert row['last_key'] == 148 and row['rejects_before'] == row['rejects_after']
+        row = event('j',0,rom=True)
+        assert row['rejects_before'] == row['rejects_after']
+        assert row['last_key'] == 148 or row['keys_after'] == row['keys_before']+2, row
         with paused.paused('keyboard-guard-restore'): paused.write_mem(0x33c,pointer)
         assert read(0x33c,2) == pointer
         event('j',0,reject=True)

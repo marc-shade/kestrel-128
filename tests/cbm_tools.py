@@ -8,6 +8,7 @@ Set KESTREL_ULTIMATE_HOST to the Ultimate's address for hardware runs.
 """
 import argparse
 import os
+import select
 import shutil
 import socket
 import struct
@@ -327,33 +328,47 @@ def free_port():
         return s.getsockname()[1]
 
 
-def free_display():
-    for num in range(90, 130):
-        if not os.path.exists(f"/tmp/.X11-unix/X{num}"):
-            return num
-    die("no free X display number between :90 and :129")
-
-
 class Xvfb:
-    """Headless X server. Forces Mesa EGL: NVIDIA's EGL aborts Xvfb here."""
+    """Headless X server. Forces Mesa EGL: NVIDIA's EGL aborts Xvfb here.
+
+    The server claims its own free display (-displayfd). Choosing a number
+    by looking for a missing socket let two parallel tests pick the same one:
+    the second server failed, the first one's socket made it look ready, and
+    both emulators shared a display, so XTest key presses reached the other
+    test's window.
+    """
 
     def __init__(self, geometry="800x600x24"):
-        self.num = free_display()
         env = dict(os.environ, __EGL_VENDOR_LIBRARY_FILENAMES=MESA_EGL)
         need("Xvfb")
-        self.proc = subprocess.Popen(
-            ["Xvfb", f":{self.num}", "-screen", "0", geometry],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            env=env,
-        )
-        for _ in range(50):
-            if os.path.exists(f"/tmp/.X11-unix/X{self.num}"):
-                return
-            if self.proc.poll() is not None:
-                die(f"Xvfb :{self.num} exited immediately (rc={self.proc.returncode})")
-            time.sleep(0.1)
-        die(f"Xvfb :{self.num} did not come up within 5s")
+        ready, write = os.pipe()
+        try:
+            self.proc = subprocess.Popen(
+                ["Xvfb", "-displayfd", str(write), "-screen", "0", geometry],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                env=env,
+                pass_fds=(write,),
+            )
+            os.close(write)
+            write = None
+            reply = b""
+            deadline = time.monotonic() + 5
+            while not reply.endswith(b"\n"):
+                left = deadline - time.monotonic()
+                if left <= 0 or not select.select([ready], [], [], left)[0]:
+                    self.stop()
+                    die("Xvfb did not report a display within 5s")
+                chunk = os.read(ready, 16)
+                if not chunk:
+                    self.stop()
+                    die(f"Xvfb exited before reporting a display (rc={self.proc.poll()})")
+                reply += chunk
+            self.num = int(reply)
+        finally:
+            os.close(ready)
+            if write is not None:
+                os.close(write)
 
     @property
     def display(self):
