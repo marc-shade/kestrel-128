@@ -323,7 +323,8 @@ try:
         record['hardware_sequence']=sub
         def save_sequence():
             (work/'hardware-sequence.json').write_text(json.dumps(sub,indent=2)+'\n')
-        run_native_workflow(sequence_mon,capture,work,disk,sub,save_sequence,key_quiet=.1,key_poll=.1,kernel_prefix=kernel_prefix)
+        run_native_workflow(sequence_mon,capture,work,disk,sub,save_sequence,key_quiet=.1,key_poll=.1,kernel_prefix=kernel_prefix,
+                            **(dict(sheet=True) if args.hardware_sequence else {}))
         assert sub['native_checks_passed']
         observation('final')
         record['passed']=True

@@ -219,7 +219,7 @@ def main():
     if args.native_desktop:
         from hw_native_desktop_check import run
         from native_capture_transport import ReceiptUltimate,PausedHardwareMonitor
-        run(ReceiptUltimate(host,timeout=60),monitor_class=PausedHardwareMonitor,paused_capture=True,dos_contexts=True)
+        run(ReceiptUltimate(host,timeout=60),monitor_class=PausedHardwareMonitor,paused_capture=True,dos_contexts=True,sheet=True)
     elif args.close_dos_context:
         close_dos_context(VerifiedUltimate(host,timeout=60),args.close_dos_context)
     elif args.native_reclaim:

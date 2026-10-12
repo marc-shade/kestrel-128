@@ -22,15 +22,27 @@ from native_running_layout import verify_running_layout
 from native_mode_capture import NativeModeCapture
 from native_browser_check import disk_records,browser_screen
 from native_editor_scene import surface as editor_surface,console as editor_console
-from launcher_scene import surface,console
+from launcher_scene import surface,console,pointer_shape
+from src.native.graphics.font import font
 from native_calc_scene import surface as calc_surface,BUTTONS as calc_buttons
 from native_files_scene import browser_surface as files_surface,browser_console as files_console,RECTS as files_rects
 from hwlib import lst_symbol
 from native_vdc_check import capture_frame as vdc_frame
 
 
-def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll=2,kernel_prefix='native-desktop',additional_apps=None):
-    """Shared CPU workflow; caller owns boot, restoration and temporary files."""
+def sheet_symbol(name):
+    """Address of a C or GUI symbol of Sheet (cc65 label file)."""
+    text=(ROOT/'target/native-desktop/sheet.lbl').read_text()
+    found=re.search(rf'^al ([0-9A-Fa-f]+) \._?{name}$',text,re.M)
+    assert found,('Sheet symbol',name)
+    return int(found.group(1),16)
+
+
+def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll=2,kernel_prefix='native-desktop',additional_apps=None,
+                        sheet=False):
+    """Shared CPU workflow; caller owns boot, restoration and temporary files.
+    sheet=True also edits a workbook in Sheet and discards it (the disk may
+    be read-only), between Files and any additional apps."""
     modes=NativeModeCapture(mon,work,quiet=capture.quiet,kernel_prefix=kernel_prefix,batch=capture.batch)
     report['mode_captures']=modes.records
     def read(address,count=1):
@@ -134,6 +146,28 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
         report.setdefault('files_frames',[]).append(dict(label=label,selected=0,focus=focus,focus_moves=focus_moves,registers=registers,
             surface_sha256=hashlib.sha256(actual).hexdigest(),vdc=mirror))
         save();print('Verified graphical Files RAM and VDC:',label,flush=True)
+    def sheet_frame(label,values):
+        # Sheet draws its 40x25 cell grid as character cells on the bitmap.
+        assert capture.capture(label+'-bitmap-active',address=sheet_symbol('sg_bitmap'),count=1)==b'\1'
+        cells=capture.capture(label+'-values',address=sheet_symbol('sh_values'),count=4*len(values))
+        assert cells==b''.join(n.to_bytes(4,'little') for n in values),(label,'Sheet values',cells.hex())
+        chars=capture.capture(label+'-chars',address=sheet_symbol('sg_chars'),count=1000)
+        colors=capture.capture(label+'-colors',address=sheet_symbol('sg_colors'),count=1000)
+        actual=b''.join(capture.capture(label+f'-surface-{offset:04x}',address=0xc000+offset,
+            count=min(2000,9216-offset)) for offset in range(0,9216,2000))
+        (work/(label+'-chars.bin')).write_bytes(chars);(work/(label+'-colors.bin')).write_bytes(colors)
+        (work/(label+'-surface.bin')).write_bytes(actual)
+        glyphs=font();wanted=bytearray(9216)
+        for cell,code in enumerate(chars):wanted[cell*8:cell*8+8]=glyphs[(code-32)*8:(code-31)*8]
+        wanted[8192:9192]=colors;wanted[8000:8128]=pointer_shape();wanted[9208:9210]=b'\x7d\x7e'
+        assert actual==bytes(wanted),(label,'Sheet bitmap')
+        mirror=vdc(label,0,actual,'sheet-gui')
+        registers=modes.snapshot(label+'-mode');assert registers['vic_d011']&0x7f==0x3b
+        seen=capture.capture(label+'-pointer-seen',address=lst_symbol('native-desktop/sheet-gui','pm_seen'),count=1)
+        assert registers['vic_sprites']==(3 if seen==b'\1' else 0)
+        report.setdefault('sheet_frames',[]).append(dict(label=label,values=list(values),registers=registers,
+            surface_sha256=hashlib.sha256(actual).hexdigest(),vdc=mirror))
+        save();print('Verified graphical Sheet RAM and VDC:',label,flush=True)
     def desktop(label,selected=0):
         assert read(0x3d2f)==bytes([selected]),'saved native desktop selection differs'
         assert read(0x3d60,32)==(ROOT/'target/native-desktop/desktop.prg').read_bytes()[2:34]
@@ -177,6 +211,11 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     key(27);key(ord('Y'));desktop('desktop-after-editor',1)
     key(ord('F'));files('files')
     key(27);desktop('desktop-after-files',2)
+    if sheet:
+        key(ord('S'));sheet_frame('sheet-new',(0,0,0))
+        for value in b'12\r\x1d30\r\x1d=A1+B1\r':key(value)
+        sheet_frame('sheet-calculated',(12,30,42))
+        key(27);key(13);desktop('desktop-after-sheet',6)  # Enter discards the unsaved workbook
     if additional_apps is not None:
         additional_apps(key=key,screens=screens,desktop=desktop,read=read)
     key(27);screens('workspace-returned',lambda cols:expected_screen(cols,0))
@@ -220,11 +259,12 @@ def idle_admission(paused, read, admissions, bound=30):
 
 def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
         paused_capture=False, cleanup_after_failure=True, expected_images=None,
-        preflight=None, full_desktop_workflow=None, dos_contexts=False):
+        preflight=None, full_desktop_workflow=None, dos_contexts=False, sheet=False):
     """preflight(ult, mon, work, report, save), if given, runs after the drive
     snapshot and before anything changes. cleanup_after_failure=False keeps a
     failed run's upload (report['restore']['leftovers']) for inspection; the
-    drives are restored either way."""
+    drives are restored either way. sheet=True passes sheet=True to the
+    workflow."""
     focused=(workflow is not run_native_workflow) if full_desktop_workflow is None else not full_desktop_workflow
     work=Path(tempfile.mkdtemp(prefix='kestrel-hardware-native-transport-' if focused else 'kestrel-hardware-native-desktop-'))
     print(f'Native {"capture transport" if focused else "desktop"} hardware evidence: {work}',flush=True)
@@ -272,7 +312,7 @@ def run(ult, *, workflow=run_native_workflow, monitor_class=HardwareMonitor,
             # The desktop loads its VDC service last: at real speed from a
             # true 1541 (VICE, 2026-10-07) its VDC opened 171 s after power-on.
             ult.reset();quiet_boot('Native desktop boot',240)
-            workflow(mon,capture,work,disk,report,save)
+            workflow(mon,capture,work,disk,report,save,**(dict(sheet=True) if sheet else {}))
         except BaseException as error:
             report['native_error']=str(error);save()
             raise
