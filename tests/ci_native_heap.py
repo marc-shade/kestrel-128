@@ -69,8 +69,12 @@ class Bus:
             raise AssertionError(f'unexpected native heap I/O read ${address:04x}')
         if self.config in (0, 0x0e) and address >= 0xc000:
             return self.rom[address-0xc000]
-        bank = 0 if address < 0x400 else (self.config >> 6) & 1
-        return self.ram[bank][address]
+        return self.ram[self.common_bank(address)][address]
+
+    def common_bank(self, address):
+        """RAM bank at address: bottom common RAM ($d506 bits 0-2) maps bank 0."""
+        size = (0x400, 0x1000, 0x2000, 0x4000)[self.mmu[6]&3]
+        return 0 if self.mmu[6]&4 and address < size else (self.config >> 6) & 1
 
     def __setitem__(self, address, value):
         address &= 0xffff
@@ -78,10 +82,13 @@ class Bus:
             assert value in (0, 0x0e, 0x3f, 0x7f), hex(value)
             self.maps.append(value); self.config = value
             return
+        if not self.config & 1 and address == 0xd506:
+            self.mmu[6] = value
+            return
         if not self.config & 1 and 0xd000 <= address <= 0xdfff:
             self.io_writes.append((address, value))
             raise AssertionError(f'unexpected native heap I/O write ${address:04x}')
-        bank = 0 if address < 0x400 else (self.config >> 6) & 1
+        bank = self.common_bank(address)
         if bank or address >= 0x4000:
             self.far_writes.append((bank, address, value))
         self.ram[bank][address] = value
@@ -216,6 +223,24 @@ def transfer_boundaries():
             assert m.bus.ram[bank][page*256:(page+2)*256] == expected[bank]
         assert all(page*256 <= address < (page+2)*256 for _, address, _ in m.bus.far_writes)
         assert set(m.bus.maps) == {0x0e,0x3f,0x7f}
+    # Bank 1 across $4000: the per-byte gateway below it (hidden by a bulk
+    # run's 16 KiB common window), bulk runs from it. Bank 0's kernel data at
+    # the same addresses must not change.
+    m = Machine(); m.select(m.alloc(2, 1, page=0x3f))
+    expected = bytearray(m.bus.ram[1][0x3f00:0x4100]); kernel = bytes(m.bus.ram[0][0x3f00:0x4100])
+    for offset, size in ((0,512),(255,257),(200,100),(254,3),(256,256),(193,64)):
+        data = rng.randbytes(size)
+        m.ram[BUFFER:BUFFER+size] = data
+        m.transfer('write', offset, size)
+        expected[offset:offset+size] = data
+        m.ram[BUFFER:BUFFER+512] = b'\xcc'*512
+        m.transfer('read', offset, size)
+        assert m.ram[BUFFER:BUFFER+size] == data and m.ram[BUFFER+size:BUFFER+512] == b'\xcc'*(512-size)
+        assert m.bus.ram[1][0x3f00:0x4100] == expected
+        count += 1
+    m.set(VALUE, 0x5a); m.transfer('fill', 200, 100); expected[200:300] = b'\x5a'*100
+    assert m.bus.ram[1][0x3f00:0x4100] == expected
+    assert bytes(m.bus.ram[0][0x3f00:0x4000]) == kernel[:256] and m.bus.mmu[6] == 4
     # Every possible count near the legal maximum, offset overflow and the
     # caller's decimal/interrupt states: reject before any data/table write.
     m = Machine(); m.alloc(2,1)
@@ -271,49 +296,72 @@ def rejected_arguments_and_corruption():
     assert not m.bus.far_writes
 
 
+HEAP_CHUNK_MAX = 32   # heap-copy.inc: bytes per run with IRQs masked
+
+
 def interrupt_boundaries():
     injected = 0
-    for op in ('read','write','fill'):
-        # Collect every instruction in the actual first-byte bank gateway.
-        # Interrupt at each boundary independently, including when RAM1 is
-        # mapped and kernel code/ROM is temporarily absent.
-        m = Machine(); m.alloc(1,1,page=0xe0)
-        m.ram[BUFFER] = 0xa9; m.ram[VALUE] = 0x73
-        trace=[]
-        def trace_gateway(cpu,bus):
-            if 0x2a2 <= cpu.pc < 0x2c2 or 0xf7d0 <= cpu.pc < 0xf7e4:
-                trace.append((cpu.pc,bus.config))
-        m.transfer(op,0,1,interrupt=trace_gateway)
-        points=list(dict.fromkeys(trace))
-        assert any(config==0x7f for _,config in points)
-        for kind in ('nmi','irq'):
-            for pc,config in points:
-                m = Machine(); m.alloc(1,1,page=0xe0)
-                original=m.bus.ram[1][0xe000]
-                m.ram[BUFFER]=0xa9; m.ram[VALUE]=0x73
-                fired=[]
-                def inject(cpu,bus):
-                    if not fired and (cpu.pc,bus.config)==(pc,config):
-                        fired.append(True)
-                        if kind=='nmi': cpu.nmi()
-                        else: cpu.irq()    # SEI must defer IRQ while banked
-                m.transfer(op,0,1,interrupt=inject)
-                assert fired
-                assert m.ram[0xb10]==int(kind=='nmi'), (kind,pc,config)
-                if op=='read': assert m.ram[BUFFER]==original
-                else: assert m.bus.ram[1][0xe000]==(0xa9 if op=='write' else 0x73)
-                injected+=1
-        # IRQ delivery between bytes remains enabled for normal callers.
-        m=Machine(); m.alloc(2,1,page=0xe0); m.ram[BUFFER:BUFFER+512]=bytes(range(256))*2
-        point=symbol('heap_transfer_loop'); remaining=symbol('hremaining'); delivered=set()
-        def between(cpu,bus):
-            current=bytes(m.ram[remaining:remaining+2])
-            if cpu.pc==point and current not in delivered:
-                assert not cpu.p & cpu.INTERRUPT
-                delivered.add(current); cpu.irq()
-        m.transfer(op,0,512,interrupt=between)
-        assert len(delivered)==512 and m.ram[0xb10]==0
-        injected+=512
+    # Bank-1 pages from $4000 move in runs under one MMU switch (heap-copy.inc);
+    # pages $04..$3f, hidden by that run's 16 KiB common window, keep the
+    # per-byte ROM gateway. Interrupt at every instruction boundary of each
+    # path, including while RAM1 is mapped and kernel code/ROM is absent.
+    bulk = symbol('heap_bulk'), symbol('heap_bulk_end')
+    paths = ((0xe0, lambda pc: bulk[0] <= pc < bulk[1]),
+             (0x10, lambda pc: 0x2a2 <= pc < 0x2c2 or 0xf7d0 <= pc < 0xf7e4))
+    for page, inside in paths:
+        for op in ('read','write','fill'):
+            m = Machine(); m.alloc(1,1,page=page)
+            m.ram[BUFFER] = 0xa9; m.ram[VALUE] = 0x73
+            trace=[]
+            def trace_path(cpu,bus):    # the masked (banked) span of the path
+                if inside(cpu.pc) and cpu.p & cpu.INTERRUPT:
+                    trace.append((cpu.pc,bus.config))
+            m.transfer(op,0,1,interrupt=trace_path)
+            points=list(dict.fromkeys(trace))
+            assert any(config==0x7f for _,config in points), (page, op)
+            for kind in ('nmi','irq'):
+                for pc,config in points:
+                    m = Machine(); m.alloc(1,1,page=page)
+                    original=m.bus.ram[1][page*256]
+                    m.ram[BUFFER]=0xa9; m.ram[VALUE]=0x73
+                    fired=[]
+                    def inject(cpu,bus):
+                        if not fired and (cpu.pc,bus.config)==(pc,config):
+                            fired.append(True)
+                            if kind=='nmi': cpu.nmi()
+                            else: cpu.irq()    # SEI must defer IRQ while banked
+                    m.transfer(op,0,1,interrupt=inject)
+                    assert fired
+                    assert m.ram[0xb10]==int(kind=='nmi'), (kind,page,pc,config)
+                    assert m.bus.mmu[6]&15 == 4, ('common RAM restored', kind, page, pc)
+                    if op=='read': assert m.ram[BUFFER]==original
+                    else: assert m.bus.ram[1][page*256]==(0xa9 if op=='write' else 0x73)
+                    injected+=1
+        # IRQ delivery stays enabled for normal callers: between runs on the
+        # bulk path, between bytes on the gateway, and never masked for long.
+        for op in ('read','write','fill'):
+            m=Machine(); m.alloc(2,1,page=page); m.ram[BUFFER:BUFFER+512]=bytes(range(256))*2
+            m.ram[VALUE]=0x73; original=bytes(m.bus.ram[1][page*256:page*256+512])
+            point=symbol('heap_transfer_loop'); remaining=symbol('hremaining'); delivered=set()
+            masked=[None,0]
+            def between(cpu,bus):
+                current=bytes(m.ram[remaining:remaining+2])
+                if cpu.p & cpu.INTERRUPT:
+                    if masked[0] is None: masked[0]=cpu.processorCycles
+                elif masked[0] is not None:
+                    masked[1]=max(masked[1],cpu.processorCycles-masked[0]); masked[0]=None
+                if cpu.pc==point and current not in delivered:
+                    assert not cpu.p & cpu.INTERRUPT
+                    delivered.add(current); cpu.irq()
+            m.transfer(op,0,512,interrupt=between)
+            assert len(delivered)==(512//HEAP_CHUNK_MAX if page>=0x40 else 512), (page,op,len(delivered))
+            # Each delivered IRQ ran the $0b00 handler once ($0b10 counts mod 256).
+            assert m.ram[0xb10]==len(delivered)&255, (page,op,m.ram[0xb10])
+            assert masked[1] < 800, ('IRQs masked', page, op, masked[1])
+            far=bytes(m.bus.ram[1][page*256:page*256+512])
+            if op=='read': assert bytes(m.ram[BUFFER:BUFFER+512])==original
+            else: assert far==(bytes(range(256))*2 if op=='write' else b'\x73'*512), (page,op)
+            injected+=len(delivered)
     return injected
 
 
@@ -327,7 +375,7 @@ def main():
         print('PASS: both-bank ROM/I/O overlap, transfer edges and rejected bounds',flush=True)
         rejected_arguments_and_corruption(); print('PASS: ownership, stale handles, corrupt records, atomic release and busy/platform errors',flush=True)
         report['interrupt_attempts']=interrupt_boundaries()
-        print('PASS: native ROM gateways, NMI bank restoration and IRQ deferral/delivery',flush=True)
+        print('PASS: bulk runs and native ROM gateways, NMI bank restoration, IRQ deferral/delivery and masked spans',flush=True)
         report.update(passed=True,calls=Machine.calls,longest_instructions=Machine.longest,
                       managed_pages=426,managed_bytes=109056)
     finally:

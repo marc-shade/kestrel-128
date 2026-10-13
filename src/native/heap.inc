@@ -325,6 +325,19 @@ heap_check_record:
         adc hstart
         bcs heap_record_bad
         sta hend
+        ; A passed page walk for this handle is reused until the heap changes
+        ; any page owner (N_HEAPEPOCH), as the banked executor does: a record's
+        ; bank, start and pages change only with its page owners.
+        lda N_HEAPEPOCH
+        cmp hchecked
+        bne heap_record_walk
+        lda N_HEAPEPOCH+1
+        cmp hchecked+1
+        bne heap_record_walk
+        lda htag
+        cmp hchecked+2
+        beq heap_record_passed
+heap_record_walk:
         ldx hstart
 heap_record_page:
         jsr heap_page_get
@@ -333,6 +346,13 @@ heap_record_page:
         inx
         cpx hend
         bne heap_record_page
+        lda N_HEAPEPOCH       ; only a passed walk is recorded
+        sta hchecked
+        lda N_HEAPEPOCH+1
+        sta hchecked+1
+        lda htag
+        sta hchecked+2
+heap_record_passed:
         clc
         rts
 heap_record_bad:
@@ -512,46 +532,11 @@ heap_transfer_valid:
         lda N_COUNT+1
         sta hremaining+1
         lda #<N_BUFFER
-        sta heap_buffer_read+1
-        sta heap_buffer_write+1
+        sta hbuffer
         lda #>N_BUFFER
-        sta heap_buffer_read+2
-        sta heap_buffer_write+2
+        sta hbuffer+1
 heap_transfer_loop:
-        lda hoperation
-        beq heap_read_byte
-        cmp #2
-        beq heap_fill_byte
-heap_buffer_read:
-        lda N_BUFFER
-        jmp heap_write_byte
-heap_fill_byte:
-        lda N_VALUE
-heap_write_byte:
-        jsr heap_far_store
-        jmp heap_transferred
-heap_read_byte:
-        jsr heap_far_fetch
-heap_buffer_write:
-        sta N_BUFFER
-heap_transferred:
-        inc haddress
-        bne heap_address_ok
-        inc haddress+1
-heap_address_ok:
-        inc heap_buffer_read+1
-        inc heap_buffer_write+1
-        bne heap_buffer_ok
-        inc heap_buffer_read+2
-        inc heap_buffer_write+2
-heap_buffer_ok:
-        lda hremaining
-        bne heap_remaining_low
-        dec hremaining+1
-heap_remaining_low:
-        dec hremaining
-        lda hremaining
-        ora hremaining+1
+        jsr heap_transfer_step  ; heap-bulk.inc: one run or byte, then advance
         bne heap_transfer_loop
         jmp heap_success
 heap_far_fetch:
@@ -624,3 +609,6 @@ haddress: .word 0
 hremaining: .word 0
 hbound: .byte 0
 hbyte: .byte 0
+hchunk: .byte 0
+hbuffer: .word 0
+hchecked: .fill 3,$ff        ; N_HEAPEPOCH and tag of the last passed walk

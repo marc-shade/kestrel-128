@@ -179,6 +179,7 @@ ui_system_device: .byte 0
 ui_browser_stage: .byte 0
 ui_status = N_RESULT
 .include "display-gate.inc"
+.include "heap-bulk.inc"
 native_code_end:
         .cerror * > $3800, "native kernel overlaps allocation tables: ", *
 * = NPAGES0
@@ -531,6 +532,7 @@ ui_bank: .byte 0
 ui_screen: .byte 0
 ui_digit: .byte 0
 ui_test_operation: .byte 0
+.include "heap-copy.inc"
 native_sys_end:
         .cerror * > N_SYSLIMIT, "system section exceeds $0c00..$0fff"
         .here

@@ -19,8 +19,9 @@ from native_app_pack import build, decode
 class OwnedBus(Bus):
     def __setitem__(self, address, value):
         address &= 65535
-        bank = 0 if address < 0x400 else (self.config >> 6) & 1
-        if getattr(self,'guard',False) and ((bank == 0 and 0x5000 <= address < 0xff00)
+        bank = self.common_bank(address)
+        io = not self.config & 1 and 0xd000 <= address < 0xe000
+        if getattr(self,'guard',False) and not io and ((bank == 0 and 0x5000 <= address < 0xff00)
                                            or (bank == 1 and 0x400 <= address < 0xff00)):
             slot = self.ram[0][0x3800+bank*256+address//256]
             assert 1 <= slot <= 32, ('write without allocation',bank,hex(address),slot)

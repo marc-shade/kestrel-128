@@ -203,12 +203,18 @@ at most 512 bytes per IRQ, assembling larger captures on the host and restoring
 the buffer afterward. They never write into the resident low region. Foreground
 calls and user input must remain idle while that shared buffer is borrowed.
 
-Transfers call the native KERNAL `INDFET`/`INDSTA` gateways at `$ff74/$ff77`.
-Their common-RAM routines switch to full RAM `$3f/$7f` for one byte, then
-restore the previous configuration. The wrapper preserves `$fb/$fc` and the
-gateway's patched pointer operand. IRQs are masked only around each borrowed
-pointer/bank operation and can run between bytes. Native IRQ/NMI entry has an
-additional saved MMU byte; its ROM/RAM restore stub must remain intact.
+Transfers move bank-0 records, and bank-1 records from `$4000` up, in runs of
+up to 32 bytes ([`heap-copy.inc`](../src/native/heap-copy.inc)). With IRQs
+masked, a run widens the bottom common RAM to 16 KiB, as the banked executor
+does for bank-1 code, so `N_BUFFER` and the copy loop stay mapped; it switches
+to full RAM `$3f/$7f`, copies, then restores `$0e` and the 1 KiB common area,
+under 800 cycles in all. Bank-1 pages `$04..$3f`, which that window would hide,
+keep the native KERNAL `INDFET`/`INDSTA` gateways at `$ff74/$ff77`, one byte
+at a time; that wrapper preserves `$fb/$fc` and the gateway's patched pointer
+operand. IRQs run between runs and between gateway bytes. A record's page
+ownership walk is repeated only after `N_HEAPEPOCH` changes. Native IRQ/NMI
+entry has an additional saved MMU byte; its ROM/RAM restore stub must remain
+intact.
 
 The implementation stays at **1 MHz** with both displays enabled. Safe 2 MHz
 regions, burst IEC, DMA arbitration and executable bank switching are still
