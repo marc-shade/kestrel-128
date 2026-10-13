@@ -16,8 +16,8 @@ unavailable component leaves the VIC controls and VDC text fallback usable.
 
 ## Memory and lifetime
 
-[`vdc-service.asm`](../src/native/vdc-service.asm) is a 9,906-byte NBK1
-component, reserved in 39 bank-1 pages at `$6000..$86ff`. The retained
+[`vdc-service.asm`](../src/native/vdc-service.asm) is a 7,673-byte NBK1
+component, reserved in 30 bank-1 pages at `$6000..$7dff`. The retained
 [`vdc-client.inc`](../src/native/graphics/vdc-client.inc) uses the
 [checked banked loader and executor](NATIVE-BANKED.md). It closes the component
 stream before executing any provider code. The resident kernel and 426-page
@@ -25,19 +25,21 @@ managed heap are unchanged.
 
 | Allocation while graphics are open | Desktop | Calculator | Ultimate | Paint | Files | Editor | Claude |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Bank-0 app | 35 pages | 49 pages | 91 pages | 96 pages | 96 pages | 96 pages | 96 pages |
-| Bank-1 component | 39 pages | 39 pages | 39 pages | 39 pages | 39 pages | 39 pages | 39 pages |
+| Bank-0 app | 45 pages | 49 pages | 91 pages | 96 pages | 96 pages | 96 pages | 96 pages |
+| Bank-1 component | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages |
 | VIC surface | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages |
 | History | 0 | 2 pages | 0 | 0 | 0 | Variable, up to 16 records | 0 |
 | Picture and undo | 0 | 0 | 0 | 72 pages | 0 | 0 | 0 |
 | Retained scratch | 0 | 0 | 11 pages | 10 pages | 16 pages | 16 pages | 48 pages |
 | IEC browser cache | 0 | 0 | 0 | 0 | 37 pages | 0 | 0 |
-| Free main-RAM pages with REU backing | 316 | 300 | 249 | 173 | 202 | 239 | 207 |
-| Free main-RAM pages with 16 KiB VDC RAM backing | 252 | 236 | 185 | 109 | 138 | 175 | 143 |
-| Free main-RAM pages with 64 KiB VDC RAM backing | 244 | 228 | 177 | 101 | 130 | 167 | 135 |
+| Free main-RAM pages with REU backing | 315 | 309 | 258 | 182 | 211 | 248 | 216 |
+| Free main-RAM pages with 16 KiB VDC RAM backing | 251 | 245 | 194 | 118 | 147 | 184 | 152 |
+| Free main-RAM pages with 64 KiB VDC RAM backing | 243 | 237 | 186 | 110 | 139 | 176 | 144 |
 
 Moving the display code saved eight pages in Desktop and Calculator's executable allocations.
-The separate component occupies 39 pages while loaded. Its shared memory
+The separate component occupies 30 pages while loaded. Desktop's packed
+2,346-byte scene stays in its own image, page-aligned; operation 1 reads it a
+page at a time through `N_READ` into `N_BUFFER`. Its shared memory
 operations and [span history](NATIVE-HISTORY.md) add nine pages to the earlier
 display-only component. The table assumes no clipboard payload, Editor history or RAM document. Claude
 retains its original font, live font and terminal cells in the 48 scratch pages. Editor
@@ -119,7 +121,9 @@ Operations 1–3 consume this packet in bank-0 `N_BUFFER`:
 | 7 | 1 | Pointer visibility in bit 0 |
 | 8 | 2 | Little-endian shared pointer X, 0–319 |
 | 10 | 1 | Pointer Y, 0–199 |
-| 11 | 25 | Mirror dirty-row flags; consumed only in mode 0 |
+| 11 | 25 | Mode 0: mirror dirty-row flags |
+| 11 | 4 | Mode 1, operation 1: the parent's own app-allocation handle holding the packed scene |
+| 15 | 1 | Mode 1, operation 1: the scene's page offset in that allocation |
 
 The surface and mode remain bound until close. Mirror presentation clears the
 parent's dirty flags only after success, including the initial full upload.

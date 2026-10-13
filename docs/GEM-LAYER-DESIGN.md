@@ -42,7 +42,7 @@ Bank-1 map:
 | `$0400..$3fff` | General heap |
 | `$4000..$4fff` | Desk accessory slot (`AC_BASE`), owner 29 while an accessory is loaded; general heap otherwise |
 | `$5000..$5fff` | AES RAM-table data segment, owner 30 (planned as the accessory slot; the window manager's cell maps needed it) |
-| `$6000..$87ff` | Per-app banked component window (VDSVC uses 39 pages, one spare) |
+| `$6000..$87ff` | Per-app banked component window (VDSVC uses 30 pages) |
 | `$8700..$bfff` | AESVC, owner 30, persistent |
 | `$c000..$feff` | General heap plus the owner-30 save-under/session pages |
 

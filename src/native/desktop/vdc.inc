@@ -16,12 +16,11 @@ vd_initial_attributes=vd_render_all
 
 ; Packed scene uses non-overlapping earlier blocks, exploiting the VDC's
 ; block-copy unit. The build verifies every decoded byte and distance.
+; The scene stays in the parent's image; vd_scene_read supplies each 256-byte
+; page in N_BUFFER, preserving Y and reselecting the VDC data register.
 vd_unpack:
-        lda #<vd_scene
-        sta vd_next+1
-        lda #>vd_scene
-        sta vd_next+2
         lda #0
+        sta vd_scene_at
         sta vd_addr
         lda vd_base
         sta vd_addr+1
@@ -95,11 +94,13 @@ vd_token_advance:
 vd_unpack_done:
         rts
 vd_next:
-        lda $ffff
-        inc vd_next+1
+        ldx vd_scene_at
         bne +
-        inc vd_next+2
-+       rts
+        jsr vd_scene_read
++       lda N_BUFFER,x
+        inx
+        stx vd_scene_at
+        rts
 
 vd_select:
         lda vd_live
@@ -266,7 +267,8 @@ vd_card_changes:              ; carry set: card X's highlight must be drawn
 +       sec
         rts
 vd_shown: .byte $ff           ; the card drawn selected, $ff for none
-.include "vdc-scene.inc"
+vd_scene_at: .byte 0          ; next byte in the N_BUFFER scene page, 0: read
+.include "vdc-arrow.inc"
 .if VD_DESKTOP_COMMON
 .include "../graphics/vdc-pointer-shape.inc"
 .endif

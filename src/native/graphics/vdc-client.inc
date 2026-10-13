@@ -39,6 +39,15 @@ bp_loaded:
         sta bp_started
         sta vd_phase          ; conservative until the returned state is copied
         jsr bp_arguments
+ .if BP_MODE == 1
+        ldx #3                ; operation 1 reads the packed scene from this app's image
+-       lda bk_cookie,x
+        sta N_BUFFER+11,x
+        dex
+        bpl -
+        lda #>(vd_scene-N_APPBASE)
+        sta N_BUFFER+15
+ .endif
         lda #1
         jsr bp_invoke
         bcc bp_presented

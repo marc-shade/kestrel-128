@@ -123,7 +123,7 @@ bv_pointer:
 bv_return:
         rts
 bv_open:
-        jmp vd_open
+        jmp bv_scene_open
 bv_close:
         jmp vd_close
 bv_empty:
@@ -268,5 +268,43 @@ pm_tops: .byte 40,56,72,88,104,120,136
 .include "graphics/vdc-pointer.inc"
 .include "graphics/vdc-state.inc"
 .include "graphics/vdc-pointer-shape.inc"
+; Code after the shared includes keeps their hot loops and tables in place.
+bv_scene_open:
+        ldx #4                ; mode 1: the parent's scene handle and page
+-       lda N_BUFFER+11,x
+        sta bv_scene,x
+        dex
+        bpl -
+        jmp vd_open
+; The next packed scene page into N_BUFFER. Y is kept, X returns 0, and a
+; failed read unwinds the open through vd_fail to the close/restore path.
+vd_scene_read:
+        tya
+        pha
+        lda N_CURRENT
+        sta N_OWNER
+        ldx #3
+-       lda bv_scene,x
+        sta N_HANDLE,x
+        dex
+        bpl -
+        lda bv_scene+4
+        sta N_OFFSET+1
+        inc bv_scene+4
+        lda #0
+        sta N_OFFSET
+        sta N_COUNT
+        lda #1
+        sta N_COUNT+1
+        jsr bv_read
+        bcc +
+        jmp vd_fail
++       lda #31               ; a read may fall between vd_seek and vd_putbyte
+        sta $d600
+        pla
+        tay
+        ldx #0
+        rts
+bv_scene: .fill 5,0           ; desktop scene handle and page
 bv_end:
-.cerror bv_end>$c000, "bank-1 VDC service exceeds its executable region"
+.cerror bv_end>$8700, "bank-1 VDC service reaches the AES at AE_BASE (aes-api.inc)"

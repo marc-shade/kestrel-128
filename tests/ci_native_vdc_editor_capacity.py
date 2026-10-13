@@ -40,7 +40,9 @@ def main():
             assert p.state()['backing']==1 and p.m.stats()==heap
             saved,cursor,name=raw,0,'REU bypasses the main-RAM document limit'
         else:
-            assert len(failed)==1 and failed[0]['bytes']==failed[0]['capacity']
+            # Open reads 512 bytes at a time: it stops at the first read that
+            # no longer fits, not necessarily at an exact fill.
+            assert len(failed)==1 and 0<=failed[0]['capacity']-failed[0]['bytes']<512,failed
             assert failed[0]['chunks']>0 and failed[0]['capacity']<len(raw)
             p.check(b'KEPT',4,True,status=3)
             assert p.state()==before and p.m.stats()==heap

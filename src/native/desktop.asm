@@ -476,5 +476,7 @@ gd_error_label_end:
 BP_MODE=1
 bp_select_surface=gd_select_surface
 .include "graphics/vdc-client.inc"
+        .align 256,0          ; VDSVC reads the scene in whole pages
+.include "desktop/vdc-scene.inc"
 gd_end:
 .cerror gd_end > N_APPBASE+$4000, "desktop exceeds the 16 KiB app budget"
