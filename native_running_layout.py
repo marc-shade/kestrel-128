@@ -53,7 +53,7 @@ class RunningLayout:
 
         # Explicit assembly data declarations; alignment/padding stays checked.
         for first, last, length in (
-            ('hbank', 'hchecked', 3), ('field_state', 'field_columns', 1),
+            ('hbank', 'hbuffer', 2), ('field_state', 'field_columns', 1),
             ('l_handle', 'l_left', 2), ('l_entry', 'l_entry', 2),
             ('f_mtrack', 'f_dskip', 1),
             ('f_filename', 'f_left', 2), ('nd_slot', 'nd_path', 256),

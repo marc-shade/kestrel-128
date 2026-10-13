@@ -8,7 +8,7 @@ import re
 import subprocess
 import tempfile
 
-from ci_native_heap import Machine, BUFFER, OWNER
+from ci_native_heap import Machine, BUFFER, OWNER, symbol as heap_symbol
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -103,10 +103,11 @@ def run():
     for address in (symbols['CB_BUSY'],0x3d11,0x3d91,0x3d3b):
         r[address]=1;call('info',want=7);assert r[address]==1;r[address]=0
     r[0x3d23]=3;call('info',want=8);r[0x3d23]=2
-    # Interrupts during ROM banked transfers cannot break payload or borrowed state.
-    fired=[]
+    # An interrupt as a banked transfer starts cannot break payload or
+    # borrowed state: the clipboard's bank-1 pages copy in heap runs.
+    fired=[];bulk=heap_symbol('heap_bulk')
     def irq(cpu,bus):
-        if not fired and cpu.pc==0x2a2:
+        if not fired and cpu.pc==bulk:
             fired.append(cpu.pc);cpu.irq()
     setv('cp_offset',0);setv('cp_count',3,2);call('read',flags=8,interrupt=irq)
     assert fired and r[BUFFER:BUFFER+3]==b'new'

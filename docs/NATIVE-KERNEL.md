@@ -211,10 +211,10 @@ to full RAM `$3f/$7f`, copies, then restores `$0e` and the 1 KiB common area,
 under 800 cycles in all. Bank-1 pages `$04..$3f`, which that window would hide,
 keep the native KERNAL `INDFET`/`INDSTA` gateways at `$ff74/$ff77`, one byte
 at a time; that wrapper preserves `$fb/$fc` and the gateway's patched pointer
-operand. IRQs run between runs and between gateway bytes. A record's page
-ownership walk is repeated only after `N_HEAPEPOCH` changes. Native IRQ/NMI
-entry has an additional saved MMU byte; its ROM/RAM restore stub must remain
-intact.
+operand. IRQs run between runs and between gateway bytes. Every call still
+walks the record's page ownership, so a damaged page table is reported. Native
+IRQ/NMI entry has an additional saved MMU byte; its ROM/RAM restore stub must
+remain intact.
 
 The implementation stays at **1 MHz** with both displays enabled. Safe 2 MHz
 regions, burst IEC, DMA arbitration and executable bank switching are still

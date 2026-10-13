@@ -325,34 +325,24 @@ heap_check_record:
         adc hstart
         bcs heap_record_bad
         sta hend
-        ; A passed page walk for this handle is reused until the heap changes
-        ; any page owner (N_HEAPEPOCH), as the banked executor does: a record's
-        ; bank, start and pages change only with its page owners.
-        lda N_HEAPEPOCH
-        cmp hchecked
-        bne heap_record_walk
-        lda N_HEAPEPOCH+1
-        cmp hchecked+1
-        bne heap_record_walk
+        ldx hstart            ; every page, every call: a damaged table is reported
         lda htag
-        cmp hchecked+2
-        beq heap_record_passed
-heap_record_walk:
-        ldx hstart
+        ldy hbank
+        bne heap_record_one
 heap_record_page:
-        jsr heap_page_get
-        cmp htag
+        cmp NPAGES0,x
         bne heap_record_bad
         inx
         cpx hend
         bne heap_record_page
-        lda N_HEAPEPOCH       ; only a passed walk is recorded
-        sta hchecked
-        lda N_HEAPEPOCH+1
-        sta hchecked+1
-        lda htag
-        sta hchecked+2
-heap_record_passed:
+        clc
+        rts
+heap_record_one:
+        cmp NPAGES1,x
+        bne heap_record_bad
+        inx
+        cpx hend
+        bne heap_record_one
         clc
         rts
 heap_record_bad:
@@ -611,4 +601,3 @@ hbound: .byte 0
 hbyte: .byte 0
 hchunk: .byte 0
 hbuffer: .word 0
-hchecked: .fill 3,$ff        ; N_HEAPEPOCH and tag of the last passed walk

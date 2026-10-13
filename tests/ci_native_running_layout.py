@@ -27,7 +27,8 @@ changed = {name: bytes(value^255 if start+i in layout.mutable else value for i, 
 result = layout.compare(changed)
 assert result['passed'] and result['changed_mutable_bytes'] == result['mutable_bytes']
 report['cases'].append(dict(name='all declared mutable bytes change', changed_bytes=result['changed_mutable_bytes']))
-for name, symbol in [('low', 'heap_buffer_read'), ('main', 'app_image_store'), ('service', 'module_store')]:
+for name, symbol in [('low', 'field_record_read'), ('main', 'app_image_store'), ('service', 'module_store'),
+                     ('sys', 'heap_bulk_read')]:
     changed = dict(initial)
     damaged = bytearray(changed[name])
     address = layout.syms[symbol]
