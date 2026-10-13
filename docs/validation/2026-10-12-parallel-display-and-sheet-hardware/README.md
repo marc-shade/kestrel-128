@@ -91,12 +91,29 @@ clean clone of its commit.
   later idle instant while the pointer was sampling; no Ultimate connect
   retries and no uncertain writes. Drives restored and matching, images
   unchanged, the upload deleted, no leftovers.
+- A clean clone of 40a847e (this record; no source change since d797988),
+  built with `build-native.py` and `build-native-desktop.py`, reproduces all
+  45 build outputs that run recorded, byte for byte (SHA-256).
+- `hw_ultimate_check.py --native-desktop` from that clone, sixth run: stopped
+  at `desktop-editor-selected` by unrequested input. The pointer, still at
+  its start position for the previous screen, moved 28 pixels left and 7 up
+  between captures, then on during the retaken capture until it rested on
+  Sheet's card, and the selection followed it from Editor to Sheet with no
+  key pressed. The check refuses a frame whose session state changes while
+  it is observed, which is what stopped it. A movement lasting tens of
+  seconds is not the resting noise above, which only produced single
+  readings that cancel. Drives restored, upload deleted.
+- Seventh run, same clone, with the mouse left alone: **PASS**, every screen
+  including both Sheet frames and `desktop-after-sheet`. 281 captures; 159
+  capture snapshots waited for an idle instant; one Ultimate connect timed
+  out before sending and was retried; no uncertain writes. Drives restored
+  and matching, images unchanged, no leftovers.
 
 ## Not verified
 
-- The Sheet visit has passed on hardware once, in one of five runs. Whether
-  the VDC slips will return as the machine warms up over hours was not
-  measured.
+- The Sheet visit has passed on hardware in two runs, about two hours apart,
+  after four failures attributed to the machine. Whether the VDC slips
+  return after many hours powered on was not measured again.
 - The cause of the four hardware failures was not isolated beyond the
   machine; the 8563 was not examined.
 - The pot readings are DMA reads of the SID registers between frames, not the
