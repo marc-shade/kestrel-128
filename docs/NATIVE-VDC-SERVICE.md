@@ -16,8 +16,8 @@ unavailable component leaves the VIC controls and VDC text fallback usable.
 
 ## Memory and lifetime
 
-[`vdc-service.asm`](../src/native/vdc-service.asm) is a 7,673-byte NBK1
-component, reserved in 30 bank-1 pages at `$6000..$7dff`. The retained
+[`vdc-service.asm`](../src/native/vdc-service.asm) is a 7,835-byte NBK1
+component, reserved in 31 bank-1 pages at `$6000..$7eff`. The retained
 [`vdc-client.inc`](../src/native/graphics/vdc-client.inc) uses the
 [checked banked loader and executor](NATIVE-BANKED.md). It closes the component
 stream before executing any provider code. The resident kernel and 426-page
@@ -26,18 +26,18 @@ managed heap are unchanged.
 | Allocation while graphics are open | Desktop | Calculator | Ultimate | Paint | Files | Editor | Claude |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | Bank-0 app | 45 pages | 49 pages | 91 pages | 96 pages | 96 pages | 96 pages | 96 pages |
-| Bank-1 component | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages | 30 pages |
+| Bank-1 component | 31 pages | 31 pages | 31 pages | 31 pages | 31 pages | 31 pages | 31 pages |
 | VIC surface | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages | 36 pages |
 | History | 0 | 2 pages | 0 | 0 | 0 | Variable, up to 16 records | 0 |
 | Picture and undo | 0 | 0 | 0 | 72 pages | 0 | 0 | 0 |
 | Retained scratch | 0 | 0 | 11 pages | 10 pages | 16 pages | 16 pages | 48 pages |
 | IEC browser cache | 0 | 0 | 0 | 0 | 37 pages | 0 | 0 |
-| Free main-RAM pages with REU backing | 315 | 309 | 258 | 182 | 211 | 248 | 216 |
-| Free main-RAM pages with 16 KiB VDC RAM backing | 251 | 245 | 194 | 118 | 147 | 184 | 152 |
-| Free main-RAM pages with 64 KiB VDC RAM backing | 243 | 237 | 186 | 110 | 139 | 176 | 144 |
+| Free main-RAM pages with REU backing | 314 | 308 | 257 | 181 | 210 | 247 | 215 |
+| Free main-RAM pages with 16 KiB VDC RAM backing | 250 | 244 | 193 | 117 | 146 | 183 | 151 |
+| Free main-RAM pages with 64 KiB VDC RAM backing | 242 | 236 | 185 | 109 | 138 | 175 | 143 |
 
 Moving the display code saved eight pages in Desktop and Calculator's executable allocations.
-The separate component occupies 30 pages while loaded. Desktop's packed
+The separate component occupies 31 pages while loaded. Desktop's packed
 2,346-byte scene stays in its own image, page-aligned; operation 1 reads it a
 page at a time through `N_READ` into `N_BUFFER`. Its shared memory
 operations and [span history](NATIVE-HISTORY.md) add nine pages to the earlier

@@ -92,36 +92,19 @@ vd_pointer_draw_row:
         clc
         adc vd_old_y
         cmp vd_old_rows
-        bcs vd_pointer_read
-        lda vd_under,x
-        sta N_BUFFER
-        lda vd_under+1,x
-        sta N_BUFFER+1
-        bcc vd_pointer_mask   ; carry is still clear from the compare
-vd_pointer_read:
-        jsr vd_read_block
+        bcc vd_pointer_mask
+        jsr vd_pointer_read
 vd_pointer_mask:
-        ldx vd_pointer_line
-        lda vd_pointer_hi,x
+        lda vd_pointer_line
+        clc
+        adc vd_pointer_shift
+        tay
+        lda vd_under,x
+        eor vd_mask_hi,y
         sta vd_mask
-        lda vd_pointer_lo,x
+        lda vd_under+1,x
+        eor vd_mask_lo,y
         sta vd_mask+1
-        ldx vd_pointer_shift
-        beq +
--       lsr vd_mask
-        ror vd_mask+1
-        dex
-        bne -
-+       ldx vd_pointer_at
-        ldy #0
--       lda N_BUFFER,y
-        sta vd_under,x
-        eor vd_mask,y
-        sta N_BUFFER,y
-        inx
-        iny
-        cpy vd_count
-        bne -
         jsr vd_pointer_next
         bne vd_pointer_draw_row
         lda #1
@@ -141,24 +124,61 @@ vd_hide_pointer:
         sta vd_old_y
 vd_pointer_restore_row:
         ldx vd_pointer_at
-        ldy #0
--       lda vd_under,x
-        sta N_BUFFER,y
-        inx
-        iny
-        cpy vd_count
-        bne -
+        lda vd_under,x
+        sta vd_mask
+        lda vd_under+1,x
+        sta vd_mask+1
         jsr vd_pointer_next
         bne vd_pointer_restore_row
         lda #0
         sta vd_pointer_visible
         rts
-; Write the row, then step to the next. Each screen row keeps its saved bytes
-; in slot (row mod 16)*2, so an old and a new pointer share slots safely.
+; The background at vd_addr -> the row's slot X = vd_pointer_at. This and
+; vd_pointer_next run for every pointer row, so the data accesses are inline.
+vd_pointer_read:
+        jsr vd_read_seek
+        ldx vd_pointer_at
+        bit $d600
+        bmi +
+        jsr vd_wait
++       lda $d601
+        sta vd_under,x
+        lda vd_count
+        lsr
+        bcs vd_pointer_read_done ; one byte at column 79
+        bit $d600
+        bmi +
+        jsr vd_wait
++       lda $d601
+        sta vd_under+1,x
+vd_pointer_read_done:
+        rts
+; Write the row's bytes (vd_mask), then step to the next. Each screen row
+; keeps its saved bytes in slot (row mod 16)*2, so an old and a new pointer
+; share slots safely.
 vd_pointer_next:
-        jsr vd_write_block
-        jsr vd_next_row
-        inc vd_pointer_line
+        jsr vd_seek
+        lda vd_mask
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
+        lda vd_count
+        lsr
+        bcs vd_pointer_written ; one byte at column 79
+        lda vd_mask+1
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
+vd_pointer_written:
+        lda vd_addr
+        clc
+        adc #80
+        sta vd_addr
+        bcc +
+        inc vd_addr+1
++       inc vd_pointer_line
         lda vd_pointer_at
         clc
         adc #2
@@ -170,7 +190,10 @@ vd_pointer_geometry:
         lda vd_pointer_x
         asl
         and #7
-        sta vd_pointer_shift
+        asl
+        asl
+        asl
+        sta vd_pointer_shift  ; shift 0, 2, 4 or 6 -> mask table offset shift*8
         lda vd_pointer_x+1
         lsr
         lda vd_pointer_x
@@ -201,4 +224,3 @@ vd_pointer_geometry:
         lda #0
         sta vd_pointer_line
         rts
-

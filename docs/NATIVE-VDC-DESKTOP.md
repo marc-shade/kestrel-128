@@ -40,11 +40,11 @@ all eight lines: its last-raster value is inclusive, so seven is sufficient.
 | Allocation | 16 KiB VDC | 64 KiB VDC |
 |---|---:|---:|
 | Launcher app | 45 pages | 45 pages |
-| Bank-1 VDC component | 30 pages | 30 pages |
+| Bank-1 VDC component | 31 pages | 31 pages |
 | VIC surface | 36 pages | 36 pages |
 | Saved VDC memory without REU | 64 pages | 72 pages |
-| Free managed pages without REU | 251 | 243 |
-| Free managed pages with REU | 315 | 315 |
+| Free managed pages without REU | 250 | 242 |
+| Free managed pages with REU | 314 | 314 |
 | Bitmap address | `$0000` | `$4000` |
 | Attribute address | Disabled | `$8000` |
 | Entire saved address range | `$0000..$3fff` | `$4000..$87ff` |

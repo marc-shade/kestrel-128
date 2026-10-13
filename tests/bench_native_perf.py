@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Py65 cycles of one frame or input step for the 80-column hover, focus and
 pointer cases of docs/validation/2026-10-10-desktop-hover (64 KiB VDC, 16 KiB
-initial addressing), with the VDC accesses each made. Uses the target/ images."""
+initial addressing), with the VDC accesses each made. Uses the target/ images.
+
+The VDC reports ready on the first status read after every access, so the
+cycles are the code's own cost, a lower bound for a real 8563. --handshake
+keeps the test buses' model instead, which holds the chip busy for a fixed
+number of status reads after each access to prove the code polls; its wait
+loops are an artifact of that model, not 8563 timing."""
 import argparse
 import importlib.util
 import json
@@ -17,12 +23,20 @@ COUNTS = ('select', 'write', 'read', 'block')      # $d600 writes, $d601 writes,
 
 
 class Counted:
+    handshake = False
+
     def __init__(self):
         super().__init__()
         self.vdc = dict.fromkeys(COUNTS, 0)
 
+    def ready_now(self):
+        if not self.handshake: self.busy = 0
+
     def __getitem__(self, address):
-        if not self.config&1 and address == 0xd601: self.vdc['read'] += 1
+        if not self.config&1 and address == 0xd601:
+            self.vdc['read'] += 1
+            value = super().__getitem__(address); self.ready_now()
+            return value
         return super().__getitem__(address)
 
     def __setitem__(self, address, value):
@@ -31,6 +45,7 @@ class Counted:
             self.vdc['write'] += 1
             if self.selected == 30: self.vdc['block'] += value or 256
         super().__setitem__(address, value)
+        if not self.config&1 and address in (0xd600, 0xd601): self.ready_now()
 
 
 def vdc(base=VDCBus):
@@ -167,7 +182,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--app', choices=APPS, action='append')
     parser.add_argument('--json', type=Path)
+    parser.add_argument('--handshake', action='store_true', help="the test buses' fixed poll-count busy model")
     args = parser.parse_args()
+    Counted.handshake = args.handshake
     started, results = time.time(), {}
     for name in args.app or APPS:
         bus, machine = heap.Bus, calc.Machine          # harnesses swap these module factories

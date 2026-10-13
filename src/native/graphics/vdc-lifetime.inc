@@ -343,13 +343,21 @@ vd_putbyte:
         jsr vd_wait
 +       sta $d601
         rts
-vd_seek:
-        lda vd_addr+1
+vd_seek:                      ; vd_setreg twice, inline: every row seeks
         ldx #18
-        jsr vd_setreg
+        stx $d600
+        lda vd_addr+1
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
+        inx
+        stx $d600
         lda vd_addr
-        ldx #19
-        jsr vd_setreg
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
         ldx #31
         stx $d600
         rts
