@@ -44,14 +44,16 @@ class RunningLayout:
                      'ui_text_byte',
                      'app_image_store', 'app_buffer_read', 'fs_buffer_read',
                      'fs_buffer_write', 'nd_path_byte', 'nu_command_byte',
-                     'nu_data_store', 'module_store', 'rc_window'):
+                     'nu_data_store', 'module_store', 'rc_window',
+                     'heap_bulk_read', 'heap_bulk_write', 'heap_bulk_fill',
+                     'heap_bulk_buffer', 'heap_bulk_source'):
             declare(name, self.syms[name]+1, self.syms[name]+3, 'modified 16-bit address operand')
         declare('app_zero', self.syms['app_zero']+2, self.syms['app_zero']+3,
                 'modified high address byte; low operand and opcode remain checked')
 
         # Explicit assembly data declarations; alignment/padding stays checked.
         for first, last, length in (
-            ('hbank', 'hbyte', 1), ('field_state', 'field_columns', 1),
+            ('hbank', 'hchecked', 3), ('field_state', 'field_columns', 1),
             ('l_handle', 'l_left', 2), ('l_entry', 'l_entry', 2),
             ('f_mtrack', 'f_dskip', 1),
             ('f_filename', 'f_left', 2), ('nd_slot', 'nd_path', 256),

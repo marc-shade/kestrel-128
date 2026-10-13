@@ -75,11 +75,15 @@ def run_input_capture(mon, work, report, key):
     resident_changes = [dict(address=0x1300+i, before=a, after=b)
                         for i, (a, b) in enumerate(zip(before_resident, resident)) if a != b]
     layout = RunningLayout(ROOT, image_dir=ROOT/'target/native-desktop')
-    # Heap transfers retain their last byte and pointers in explicitly mutable
-    # state; the last colour written is the selected card's $07.
-    hbyte = layout.syms['hbyte']    # low-section heap scratch; moves with the low section's layout
-    assert layout.layout['low_start'] <= hbyte < 0x1c00 and layout.mutable[hbyte] == 'hbank'
-    assert resident[hbyte-0x1300] == 0x07
+    # Heap transfers retain their last run and pointers in explicitly mutable
+    # state: the last call filled 36 bytes, a 32-byte run then a 4-byte run,
+    # and advanced the buffer pointer from N_BUFFER by 36.
+    at = lambda name: layout.syms[name]-0x1300   # low-section heap scratch
+    for name in ('hchunk', 'hbuffer', 'hremaining'):
+        assert layout.layout['low_start'] <= layout.syms[name] < 0x1c00 and layout.mutable[layout.syms[name]] == 'hbank'
+    assert resident[at('hchunk')] == 4
+    assert resident[at('hremaining'):at('hremaining')+2] == bytes(2)
+    assert resident[at('hbuffer'):at('hbuffer')+2] == (0x3a00+36).to_bytes(2, 'little')
     assert all(change['address'] in layout.mutable for change in resident_changes), resident_changes
     report['input_control'] = dict(passed=True, injected_keys=injected,
         expected_input_metadata_changes=changes, physical_failure_cause_proven=False,
