@@ -171,6 +171,9 @@ vm_color_done:
         bcc +
 vm_read_failed:
         jmp vd_fail
++       lda vd_color          ; 16 KiB mono: reverse whole cells once, so the
+        bne +                 ; line loop below only expands and writes
+        jsr vm_reverse_cells
 +       lda vm_row
         asl
         asl
@@ -183,37 +186,38 @@ vm_line_next:
         jsr vd_seek
         lda #>N_BUFFER
         sta vm_read+2
-        lda #0
-        sta vm_column
+        lda #40
+        sta vm_left
         ldy vm_line
-vm_byte_next:
-        ldx vm_column
-vm_read:
+vm_read:                      ; 640 bytes a row: vd_putbyte is inline
         lda N_BUFFER,y
-        eor vm_reverse,x
-        pha
+        sta vm_value
         lsr
         lsr
         lsr
         lsr
         tax
         lda vm_expand,x
-        jsr vd_putbyte
-        pla
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
+        lda vm_value
         and #15
         tax
         lda vm_expand,x
-        jsr vd_putbyte
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
         tya
         clc
         adc #8
         tay
         bcc +
         inc vm_read+2
-+       inc vm_column
-        lda vm_column
-        cmp #40
-        bne vm_byte_next
++       dec vm_left
+        bne vm_read
         jsr vd_next_row
         inc vm_line
         lda vm_line
@@ -235,11 +239,54 @@ vm_attributes:
         jsr vd_seek
         ldy #0
 -       lda vm_colors,y
-        jsr vd_putbyte
-        jsr vd_putbyte
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
+        bit $d600
+        bmi +
+        jsr vd_wait
++       sta $d601
         iny
         cpy #40
         bne -
+        rts
+; N_BUFFER cell c (bytes 8c..8c+7, never across a page) ^= vm_reverse,c.
+vm_reverse_cells:
+        lda #>N_BUFFER
+        sta vm_reverse_load+2
+        sta vm_reverse_store+2
+        ldx #0
+        ldy #0
+vm_reverse_cell:
+        lda vm_reverse,x
+        beq vm_reverse_next
+        sta vm_value
+        lda #8
+        sta vm_left
+vm_reverse_load:
+        lda N_BUFFER,y
+        eor vm_value
+vm_reverse_store:
+        sta N_BUFFER,y
+        iny
+        dec vm_left
+        bne vm_reverse_load
+        tya
+        sec
+        sbc #8
+        tay
+vm_reverse_next:
+        tya
+        clc
+        adc #8
+        tay
+        bcc +
+        inc vm_reverse_load+2
+        inc vm_reverse_store+2
++       inx
+        cpx #40
+        bne vm_reverse_cell
         rts
 
 ; VIC black/white/red/cyan/purple/green/blue/yellow/orange/brown/light red/
@@ -253,7 +300,8 @@ vm_pending: .byte 0
 vm_first: .byte 0
 vm_row: .byte 0
 vm_line: .byte 0
-vm_column: .byte 0
+vm_value: .byte 0
+vm_left: .byte 0
 vm_background: .byte 0
 vm_foreground: .byte 0
 vm_brightness: .byte 0
