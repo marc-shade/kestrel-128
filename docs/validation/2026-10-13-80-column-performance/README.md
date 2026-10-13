@@ -119,6 +119,14 @@ Each sweep ran from a clean clone of its commit.
   returned workspace. Drives were restored and matched, the upload was
   deleted, no leftovers, images unchanged, no host connect failures or
   uncertain host writes.
+- Hardware (4a6c29c, the same images): `--native-editor` PASSED at 24
+  checkpoints, among them a document over 64 KiB opened, edited past 64 KiB,
+  saved through the file picker and verified, an existing file rejected, and
+  the saved file reopened at its edit position; the files were independently
+  read back. `--native` PASSED: cold boot, the memory workspace, and 8,192
+  bytes allocated, filled and read back in bank 0 and in bank 1 through the
+  kernel transfers. Both restored and matched the drives, deleted their
+  uploads, left nothing behind and found the images unchanged.
 - `ci_native_heap` injects an NMI and an IRQ at every masked instruction of
   both transfer paths (1,782 interrupts), checks IRQ delivery between runs,
   the masked span, the data of each operation, and a bank-1 record across
@@ -132,13 +140,19 @@ Each sweep ran from a clean clone of its commit.
   lower bounds was measured only for the 4ba08dd pointer frame (3%).
 - 60 Hz pointer motion on the C128 was not timed after the change; only the
   hardware desktop check's screens were.
-- Only `--native-desktop` ran on hardware for these images. The separate
-  hardware Editor check (`--native-editor`), Paint, Controls, Claude, GEMDESK
-  and the AES on the C128, and a Sheet save to disk, were not run.
+- On hardware, only `--native-desktop`, `--native-editor` and `--native` ran
+  for these images. The Files, browser, Ultimate USB and redraw-timing checks,
+  Paint, Controls, Claude, GEMDESK and the AES on the C128, and a Sheet save
+  to disk were not run.
 - The Editor's >64 KiB document beside a full 296-entry picker
   (`ci_native_picker_gui --case large`) is a zero-slack capacity case. With the
   service padded to other sizes it passes at 31 (this build), 36 and 39 pages
-  and fails at 30 and 32 to 35: the Editor's 16-page document chunks waste
-  each free region's size mod 16, so the result depends on the layout, not on
-  the free total. It passes here; any later change to a resident size can
-  flip it.
+  and fails at 30 and 32 to 35. The document needs 259 pages: 16 chunks of
+  4 KiB and a 3-page final chunk. Positions map to chunks by P >> 12, so only
+  the final chunk may be short, and it grows in place from the first free page
+  once no 4 KiB run is left. Every other free run loses its size mod 16 pages.
+  At 32 pages Open failed with 26 pages still free, in runs of 15 and 11, so
+  the result depends on the layout, not on the free total. It passes here; any
+  later change to a resident size can flip it. Removing the limit means
+  changing how positions map to chunks in the document code, which this work
+  did not attempt.
