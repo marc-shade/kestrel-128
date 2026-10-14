@@ -91,6 +91,26 @@ The physical workflow in `hw_ultimate_check.py --native-desktop` is still
 admitted only for its frozen ABI 1.9 images. A new frozen candidate is required
 before qualifying the current ABI 1.14 suite and VDC desktop on the physical machine.
 
+`hw_ultimate_check.py --native-apps` (`hw_native_apps_check.py`) runs the same
+desktop workflow and then four more apps, keyboard only; the 1351 is never
+moved. Drive B must start as an enabled, empty 1541 on device 9. The check
+mounts a private copy of the desktop D64 read-only on drive A and a blank
+private D64 read-write on drive B. Paint: the new canvas, three keyboard edits
+compared with a model of the picture, and the discard prompt back to the
+desktop. Claude: the landing page on both displays, without opening the modem,
+then F8; the VDC font, NMI vector and NMI gate must match their values before
+the launch. Ultimate controls: the Drives page, compared with an inventory
+built from the Ultimate's REST drive list (types, IEC addresses and enabled
+flags of drives A and B, and the count of listed drives). Sheet: 12, 30 and
+=A1+B1, Save As BUDGET on device 9, then a clean return. After the drives are
+restored, the retrieved drive B image must hold only BUDGET, with exactly the
+bytes `tests/ci_native_sheet_iec.py` expects (host extraction and c1541). It
+does not check the controls Info, Network or Clock pages (no independent
+reference for those UCI replies), Paint mouse drawing or file I/O, the Claude
+serial session, or video output pixels; all screen checks read display RAM.
+`tests/ci_native_apps_iec.py` runs the same app workflow in VICE, where the
+controls pages show the no-cartridge replies.
+
 The desktop PRG occupies 34 app pages and reserves 36 VIC surface pages plus
 the 39-page [bank-1 VDC component](NATIVE-VDC-SERVICE.md). REU snapshot backing
 leaves 317 of the 426 managed pages free; RAM backing leaves 253 or 245 with

@@ -39,10 +39,12 @@ def sheet_symbol(name):
 
 
 def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll=2,kernel_prefix='native-desktop',additional_apps=None,
-                        sheet=False):
+                        sheet=False,io_quiet=None):
     """Shared CPU workflow; caller owns boot, restoration and temporary files.
     sheet=True also edits a workbook in Sheet and discards it (the disk may
-    be read-only), between Files and any additional apps."""
+    be read-only), between Files and any additional apps. key(value,io=True)
+    waits io_quiet seconds (default key_quiet) without RAM DMA after the
+    injection, for a key that starts IEC traffic (app load, save)."""
     modes=NativeModeCapture(mon,work,quiet=capture.quiet,kernel_prefix=kernel_prefix,batch=capture.batch)
     report['mode_captures']=modes.records
     def read(address,count=1):
@@ -53,7 +55,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
         # App RAM at $4000 and above lies under BASIC ROM in the IRQ/KERNAL
         # map; a direct host read there can return ROM, so read it on the C128.
         return capture.capture(f'{app}-{name}-{next(app_reads)}',address=lst_symbol('native-desktop/'+app,name),count=1)
-    def key(value):
+    def key(value,io=False):
         wait(ready,'native desktop/app idle',180)
         start=time.monotonic();notice=start;previous=None
         # Pointer clients clear N_READY during each pointer sample; inject
@@ -66,7 +68,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
             if previous is None:
                 assert time.monotonic()-start<180,'native input never idle for key injection'
                 time.sleep(.01)
-        time.sleep(key_quiet)
+        time.sleep(io_quiet if io and io_quiet is not None else key_quiet)
         while not (ready() and int.from_bytes(read(0x3d13,2),'little')==(previous+1)&65535):
             elapsed=time.monotonic()-start;assert elapsed<900,('native desktop key timeout',value,elapsed)
             if time.monotonic()-notice>=30:
