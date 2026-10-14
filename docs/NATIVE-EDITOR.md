@@ -111,13 +111,16 @@ older kernels reject this image before executing it.
 
 [`document.inc`](../src/native/document.inc) implements a gap buffer with two
 independent document contexts. RAM contexts own up to 24 allocations of 4 KiB.
-In the graphical Editor (`DOC_PARTIAL`), when no complete 4 KiB run is left the
-last allocation may be shorter: it starts at one page and grows in place a page
-at a time (freed and reserved again one page longer at the same start; the
-kernel keeps RAM contents), so it holds exactly what the document uses and never
-moves. When the next page is taken, growth is refused and the document is
-unchanged. Only the last allocation can be short, because positions map to
-allocations by their 4 KiB index.
+In the graphical Editor (`DOC_PARTIAL`), an allocation holds 1 to 16 pages,
+recorded in the context as one nibble per allocation, and positions map to
+allocations in order by those sizes. When no complete 4 KiB run is left, a new
+allocation starts at one page and grows in place a page at a time (freed and
+reserved again one page longer at the same start; the kernel keeps RAM
+contents), so it holds exactly what the document uses and never moves. When the
+page after it is taken, the original range is reserved again and a new
+allocation follows it in another free run, so free runs below 4 KiB hold
+document bytes instead of being lost. Growth is refused, and the document left
+unchanged, only when no free page or no allocation is left.
 Logical length, cursor and gap boundaries are 24-bit values; local transfers
 use at most 512 bytes. The RAM format can address 96 KiB per context, but actual
 capacity is lower when the application, workspace allocations, a second
@@ -218,7 +221,7 @@ kept the editor image unchanged; the search build changes the core and binds
 both modules to it. The graphical Editor's bank-0 workspace occupies `$5000..$5fff`
 ([workspace.inc](../src/native/editor/workspace.inc)). Beside it and the 36-page
 surface, bank 0 keeps one complete 4 KiB run, so a RAM document beyond 64 KiB
-relies on the short final allocation described above. Without a RAM-backed VDC
+relies on the short allocations described above. Without a RAM-backed VDC
 snapshot (no 80-column display, or the snapshot in an REU) that also leaves the
 picker's 19 cache pages for a full D81 directory beside a 66,057-byte document.
 With the 80-column display snapshotted in RAM, 175 or 167 pages remain

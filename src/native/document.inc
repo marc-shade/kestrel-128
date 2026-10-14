@@ -1,5 +1,6 @@
 ; Private native editor document model: two transactional document contexts.
-; A document is a gap buffer over up to 24 owned 4 KiB allocations. Logical
+; A document is a gap buffer over up to 24 owned allocations: 4 KiB each, or
+; with DOC_PARTIAL 1..16 pages each, mapped in order by doc_locate. Logical
 ; positions and length are 24-bit; allocated capacity is never logical data.
 ; Foreground only, decimal mode clear. No MMU or zero-page workspace is borrowed.
 ; d_slot = 0 / 128, d_pos = logical byte position, d_count = 1..512.
@@ -17,7 +18,7 @@ DOC_TRANSIENT_STORAGE=0
 DOC_EXTERNAL_MEMORY=0
 DOC_COMPACT=0
 DOC_HISTORY=0
-DOC_PARTIAL=0                ; 1: a short final chunk may use a run below 4 KiB
+DOC_PARTIAL=0                ; 1: chunks of 1..16 pages use runs below 4 KiB
 doc_storage_read=N_READ
 doc_storage_write=N_WRITE
 .endweak
@@ -33,6 +34,8 @@ D_HANDLES = 16
 D_MAXCHUNKS = 24
 D_TAILBANK = 112             ; DOC_PARTIAL: bank/page of the last chunk
 D_TAILPAGE = 113
+D_SIZES = 114                ; DOC_PARTIAL: pages-1 of each chunk, two per byte
+D_FULL = 126                 ; DOC_PARTIAL: leading chunks of 16 pages
 
 doc_copy3 .macro source,dest
  .if DOC_COMPACT
@@ -47,6 +50,11 @@ doc_copy3 .macro source,dest
  .endif
 .endm
 doc_load3 .macro field, dest
+ .if DOC_COMPACT && DOC_TRANSIENT_STORAGE && \dest >= DOC_TRANSIENT_STORAGE && \dest < DOC_TRANSIENT_STORAGE+254
+        ldy #\field
+        ldx #\dest-d_slot
+        jsr doc_ld3
+ .else
         ldx d_slot
         lda d_states+\field,x
         sta \dest
@@ -54,8 +62,14 @@ doc_load3 .macro field, dest
         sta \dest+1
         lda d_states+\field+2,x
         sta \dest+2
+ .endif
 .endm
 doc_store3 .macro source, field
+ .if DOC_COMPACT && DOC_TRANSIENT_STORAGE && \source >= DOC_TRANSIENT_STORAGE && \source < DOC_TRANSIENT_STORAGE+254
+        ldy #\field
+        ldx #\source-d_slot
+        jsr doc_st3
+ .else
         ldx d_slot
         lda \source
         sta d_states+\field,x
@@ -63,6 +77,7 @@ doc_store3 .macro source, field
         sta d_states+\field+1,x
         lda \source+2
         sta d_states+\field+2,x
+ .endif
 .endm
 doc_add3 .macro source,dest
  .if DOC_COMPACT
@@ -111,6 +126,36 @@ doc_cmp3 .macro left,right
 +
  .endif
 .endm
+
+.if DOC_COMPACT
+; Y = context field, X = variable's offset from d_slot. X = d_slot on return.
+doc_ld3:
+        jsr doc_field3
+        lda d_states,y
+        sta d_slot,x
+        lda d_states+1,y
+        sta d_slot+1,x
+        lda d_states+2,y
+        sta d_slot+2,x
+        ldx d_slot
+        rts
+doc_st3:
+        jsr doc_field3
+        lda d_slot,x
+        sta d_states,y
+        lda d_slot+1,x
+        sta d_states+1,y
+        lda d_slot+2,x
+        sta d_states+2,y
+        ldx d_slot
+        rts
+doc_field3:
+        tya
+        clc
+        adc d_slot
+        tay
+        rts
+.endif
 
 doc_init:
         lda N_CURRENT
@@ -266,6 +311,10 @@ doc_select:
         lda d_states+D_BACKING,x
         bne dm_select
 .endif
+.if DOC_PARTIAL
+        jsr doc_locate
+        bcs doc_select_end
+.else
         lda d_at+2
         asl
         asl
@@ -282,18 +331,138 @@ doc_select:
         ldx d_slot
         cmp d_states+D_CHUNKS,x
         bcs doc_corrupt
+.endif
         jsr doc_handle_index
         jsr doc_get_handle
         lda d_at
         sta N_OFFSET
+.if DOC_PARTIAL
+        lda d_bound
+.else
         lda d_at+1
         and #15
+.endif
         sta N_OFFSET+1
         lda d_n
         sta N_COUNT
         lda d_n+1
         sta N_COUNT+1
         jmp doc_ok
+.if DOC_PARTIAL
+doc_select_end:
+        rts
+
+; d_at -> Y = d_index = its chunk, A = the chunk's pages, d_bound = the page
+; within it, C clear. Past the last chunk: C set, Y = the chunk count and
+; d_bound = the pages beyond the capacity (0 for the capacity itself).
+doc_locate:
+        lda d_at+2                    ; inside the leading 4 KiB chunks: P >> 12
+        asl
+        asl
+        asl
+        asl
+        sta d_bound
+        lda d_at+1
+        lsr
+        lsr
+        lsr
+        lsr
+        ora d_bound
+        ldx d_slot
+        cmp d_states+D_FULL,x
+        bcs doc_locate_walk
+        tay
+        sty d_index
+        lda d_at+1
+        and #15
+        sta d_bound
+        lda #0
+        sta d_bound+1
+        lda #16
+        clc
+        rts
+doc_locate_walk:
+        lda d_at+1
+        sta d_bound
+        lda d_at+2
+        sta d_bound+1
+        ldy #0
+doc_locate_next:
+        sty d_index
+        ldx d_slot
+        tya
+        cmp d_states+D_CHUNKS,x
+        bcs doc_corrupt
+        jsr doc_chunk_pages
+        ldx d_bound+1
+        bne doc_locate_skip
+        cmp d_bound
+        beq doc_locate_skip
+        bcc doc_locate_skip
+        clc
+        rts
+doc_locate_skip:
+        eor #$ff                      ; d_bound -= pages
+        sec
+        adc d_bound
+        sta d_bound
+        bcs +
+        dec d_bound+1
++       iny
+        bne doc_locate_next
+; Y = chunk: A = its pages (1..16). Y is kept.
+doc_chunk_pages:
+        jsr doc_size_byte
+        lda d_states+D_SIZES,x
+        bcc +
+        lsr
+        lsr
+        lsr
+        lsr
++       and #15
+        clc
+        adc #1
+        rts
+; Y = chunk: X = its size byte in the context, C = odd chunk. A is kept.
+doc_size_byte:
+        pha
+        tya
+        lsr
+        ora d_slot
+        tax
+        pla
+        rts
+; A = pages (1..16) of chunk d_index, the last chunk.
+doc_set_pages:
+        pha
+        cmp #16
+        bne +
+        lda d_index
+        ldx d_slot
+        cmp d_states+D_FULL,x
+        bne +
+        inc d_states+D_FULL,x         ; it extends the leading 4 KiB chunks
++       pla
+        sec
+        sbc #1
+        ldy d_index
+        jsr doc_size_byte
+        bcc +
+        asl
+        asl
+        asl
+        asl
+        sta d_n
+        lda d_states+D_SIZES,x
+        and #$0f
+        bpl ++
++       sta d_n
+        lda d_states+D_SIZES,x
+        and #$f0
++       ora d_n
+        sta d_states+D_SIZES,x
+        rts
+.endif
 
 ; n = min(left,512); limit helpers reduce it at source/destination boundaries.
 doc_size:
@@ -314,6 +483,25 @@ doc_size:
 doc_size_done:
         rts
 doc_forward_limit:
+.if DOC_PARTIAL
+ .if DOC_EXTERNAL_MEMORY
+        ldx d_slot
+        lda d_states+D_BACKING,x
+        bne doc_bound_done            ; one shared extent: no chunk boundary
+ .endif
+        jsr doc_locate
+        bcs doc_bound_done            ; doc_select reports the fault
+        sec
+        sbc d_bound
+        sta d_bound+1                 ; pages left in the chunk
+        lda #0
+        sec
+        sbc d_at
+        sta d_bound
+        bcs doc_bound_limit
+        dec d_bound+1
+        jmp doc_bound_limit
+.else
         lda d_at+1
         and #15
         sta d_bound+1
@@ -325,7 +513,27 @@ doc_forward_limit:
         sbc d_bound+1
         sta d_bound+1
         jmp doc_bound_limit
+.endif
 doc_backward_limit:
+.if DOC_PARTIAL
+ .if DOC_EXTERNAL_MEMORY
+        ldx d_slot
+        lda d_states+D_BACKING,x
+        bne doc_bound_done
+ .endif
+        jsr doc_locate                ; the capacity itself maps past the last chunk
+        lda d_bound
+        sta d_bound+1
+        lda d_at
+        sta d_bound
+        ora d_bound+1
+        bne doc_bound_limit
+        dey                           ; at a chunk start: the whole previous chunk
+        bmi doc_bound_done
+        jsr doc_chunk_pages
+        sta d_bound+1
+        jmp doc_bound_limit
+.else
         lda d_at
         sta d_bound
         lda d_at+1
@@ -335,6 +543,7 @@ doc_backward_limit:
         bne doc_bound_limit
         lda #16
         sta d_bound+1
+.endif
 doc_bound_limit:
         lda d_bound+1
         cmp d_n+1
@@ -437,11 +646,16 @@ doc_grow:
 +
 .endif
 .if DOC_PARTIAL
-        ; A final chunk below 4 KiB grows in place of appending: positions map
-        ; to chunks by P >> 12, so no chunk may follow an unaligned capacity.
-        lda d_states+D_CAP+1,x
-        and #15
-        bne doc_regrow
+        ; A last chunk below 16 pages first grows in place; when the page after
+        ; it is taken, a new chunk follows it, so no free run is left unusable.
+        ldy d_states+D_CHUNKS,x
+        beq doc_append
+        dey
+        jsr doc_chunk_pages
+        cmp #16
+        bcc doc_regrow
+doc_append:
+        ldx d_slot
 .endif
         lda d_states+D_CHUNKS,x
         cmp #D_MAXCHUNKS
@@ -455,9 +669,9 @@ doc_allocate:
         jsr doc_alloc_run
 .if DOC_PARTIAL
         bcc doc_allocated
-        ; No complete 4 KiB run is left: start a one-page final chunk. It grows
-        ; a page at a time, so it holds exactly what the document needs and
-        ; leaves the rest of RAM to the picker and other services.
+        ; No complete 4 KiB run is left: start a one-page chunk. It grows a page
+        ; at a time, so it holds exactly what the document needs and leaves the
+        ; rest of RAM to the picker and other services.
         lda #1
         jsr doc_alloc_run
 .endif
@@ -485,14 +699,15 @@ doc_alloc_again:
 .endif
         rts
 .if DOC_PARTIAL
-; Grow the short final chunk (A = its p pages) in place: free it and reserve
+; Grow the short last chunk (A = its p pages) in place: free it and reserve
 ; the same start one page longer. The kernel keeps RAM contents across free and
 ; reserve, and nothing allocates in between (foreground only, no IRQ calls),
 ; so the bytes never move and the chunk never fragments RAM. If the next page
-; is taken, the original range (just freed) is reserved again and growth is
-; refused. A failed free or restore poisons the context.
+; is taken, the original range (just freed) is reserved again and a new chunk
+; is appended instead. A failed free or restore poisons the context.
 doc_regrow:
         sta d_bound
+        ldx d_slot
         ldy d_states+D_CHUNKS,x
         dey
         sty d_index
@@ -526,13 +741,14 @@ doc_regrow_kept:
         lda d_pages
         bne doc_allocated             ; one page longer: record it, shift the tail
         jsr doc_keep_handle           ; restored: new generation, same bytes
-        jmp doc_nomem
+        jmp doc_append
 .endif
 doc_allocated:
 .if DOC_PARTIAL
         jsr doc_keep_handle
         jmp doc_grown
-; Append N_HANDLE (N_BANK/N_PAGE from N_ALLOC or N_RESERVE) as the last chunk.
+; Append N_HANDLE (N_BANK/N_PAGE/N_PAGES from N_ALLOC or N_RESERVE) as the
+; last chunk.
 doc_keep_handle:
         ldx d_slot
         lda N_BANK
@@ -565,7 +781,8 @@ doc_keep_handle:
         sta d_states+D_HANDLES+3,x
 .endif
 .if DOC_PARTIAL
-        rts
+        lda N_PAGES
+        jmp doc_set_pages
 .endif
 doc_grown:
         #doc_load3 D_CAP,d_src

@@ -20,6 +20,8 @@ class Editor(Calculator):
         self.seeded_keys=False
         super().__init__('editor',files,loader_name=b'EDITOR',device=device,fmt=fmt,**source)
         self.symbols={'d_states':self.symbol('d_states')}
+        try:self.symbols['doc_locate']=self.symbol('doc_locate')    # DOC_PARTIAL chunk sizes
+        except SystemExit:pass                                       # text editor: 4 KiB chunks only
         assert self.ram[0x1000:0x1014]==bytes([1]*10)+bytes.fromhex('8589868a878b888c8384')
         assert self.ram[self.symbol('ed_saved_keys'):self.symbol('ed_saved_keys')+256]==self.original_keys
         assert self.ram[0xd1:0xd3]==bytes(2)

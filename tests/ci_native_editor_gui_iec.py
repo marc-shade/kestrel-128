@@ -113,9 +113,9 @@ def main():
             physical=bytearray();handles=[]
             for index in range(state[13]):
                 handle=state[16+index*4:20+index*4];record=records[(handle[0]-1)*8:handle[0]*8]
-                # Complete 4 KiB chunks, except that the last may be 1..15 pages (DOC_PARTIAL).
-                last=index==state[13]-1;size=record[3]*256
-                assert record[0]==32 and (record[3]==16 or (last and 1<=record[3]<16)) and record[4:7]==handle[1:]
+                # DOC_PARTIAL: each chunk owns 1..16 pages, as its size nibble records.
+                size=record[3]*256;pages=((state[114+index//2]>>4*(index&1))&15)+1
+                assert record[0]==32 and record[3]==pages and record[4:7]==handle[1:]
                 prefix=label+f'-chunk-{index:02}'
                 raw=b''.join(capture.capture(prefix+f'-part-{offset:04x}',bank=record[1],address=record[2]*256+offset,
                     count=min(2000,size-offset)) for offset in range(0,size,2000))

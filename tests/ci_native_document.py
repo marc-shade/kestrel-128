@@ -73,7 +73,8 @@ class Document:
         at=self.symbols['d_states']+slot;raw=self.ram[at:at+128]
         return dict(length=int.from_bytes(raw[:3],'little'),gap=int.from_bytes(raw[3:6],'little'),
                     end=int.from_bytes(raw[6:9],'little'),capacity=int.from_bytes(raw[9:12],'little'),
-                    dirty=raw[12],chunks=raw[13],fault=raw[14],backing=raw[15],handles=bytes(raw[16:112]))
+                    dirty=raw[12],chunks=raw[13],fault=raw[14],backing=raw[15],handles=bytes(raw[16:112]),
+                    sizes=bytes(raw[114:126]),full=raw[126])
 
     def bytes(self,slot=0):
         state=self.state(slot);assert not state['fault']
@@ -84,18 +85,23 @@ class Document:
             data=physical_bytes(self,state)
             self.banks={'reu'}
             return bytes(data[:state['gap']]+data[state['end']:])
-        # Every chunk is a complete 4 KiB run except, with DOC_PARTIAL, the
-        # last one, which may be 1..15 pages; capacity is exactly the owned pages.
+        # Every chunk is a complete 4 KiB run, or with DOC_PARTIAL 1..16 pages as
+        # its size nibble records; capacity is exactly the owned pages.
         data=bytearray();banks=set();pages_total=0
         for index in range(state['chunks']):
             handle=state['handles'][index*4:index*4+4]
             assert handle[0]
             at=0x3c00+(handle[0]-1)*8;record=self.ram[at:at+8]
-            last=index==state['chunks']-1
             assert record[0]==32 and record[4:7]==handle[1:],(index,bytes(record))
-            assert record[3]==16 or (last and 1<=record[3]<16),(index,record[3])
+            if 'doc_locate' in self.symbols:
+                assert record[3]==((state['sizes'][index//2]>>4*(index&1))&15)+1,(index,record[3],state['sizes'])
+            else:assert record[3]==16,(index,record[3])
             bank,page,pages=record[1],record[2],record[3];banks.add(bank);pages_total+=pages
             data+=self.m.bus.ram[bank][page*256:page*256+pages*256]
+        if 'doc_locate' in self.symbols:
+            # D_FULL counts the leading 16-page chunks that map by P >> 12.
+            sizes=[((state['sizes'][i//2]>>4*(i&1))&15)+1 for i in range(state['chunks'])]
+            assert state['full']==next((i for i,size in enumerate(sizes) if size<16),len(sizes)),(state['full'],sizes)
         assert state['capacity']==pages_total*256,(state['capacity'],pages_total)
         self.banks=banks
         return bytes(data[:state['gap']]+data[state['end']:])
@@ -268,7 +274,7 @@ def main():
             assert d.bytes()==want;exact(d,len(want))
             reached=(d.state()['capacity']-4096)//256
         assert d.state()['chunks']==2
-        # Refusal: take the pages after it; growth restores the old range and
+        # Refusal: take every free page; growth restores the old range and
         # changes nothing (the chunk is reserved again, bytes in place).
         for bank,start,end in free_runs(d):
             pins.append(d.m.alloc(end-start,bank,owner=16,page=start))
@@ -293,6 +299,44 @@ def main():
             data=b'H'*300;d.call('insert',pos=len(want),data=data);want+=data
         state=d.state();assert state['chunks']==3 and state['capacity']==12288,state
         d.check(want);d.dispose();done('partial-final-chunk-exact-fit-refusal-and-regrowth-to-full-chunks',d)
+        # A short chunk whose next page is taken is followed by a new chunk in
+        # another run, so free runs below 4 KiB all hold document bytes: here
+        # runs of 11, 5 and 3 pages beside one 4 KiB chunk.
+        d=Document(partial_image,partial_symbols);want=bytearray((i*29+3)&255 for i in range(4096));d.append(want)
+        pins=[];kept=[]
+        for bank,start,end in free_runs(d):
+            for size in (11,5,3):
+                if bank==1 and end-start>=size+1 and size not in [k[2]-k[1] for k in kept]:
+                    kept.append((bank,start,start+size));start+=size
+                    pins.append(d.m.alloc(1,bank,owner=16,page=start));start+=1
+            if end>start:pins.append(d.m.alloc(end-start,bank,owner=16,page=start))
+        assert sorted(k[2]-k[1] for k in kept)==[3,5,11] and not free_runs(d)==[] and sum(e-s for _,s,e in free_runs(d))==19
+        while d.state()['capacity']<4096+19*256:
+            data=bytes((len(want)*7+i)&255 for i in range(150))
+            d.call('insert',pos=len(want),data=data,interrupt=True);want+=data
+            assert d.bytes()==want
+        state=d.state();assert state['chunks']==4 and state['capacity']==4096+19*256 and not free_runs(d),state
+        boundaries=[4096,4096+11*256,4096+16*256]
+        for at in boundaries:
+            for offset in (at-511,at-1,at,at+1):
+                assert d.call('read',pos=offset,count=512)==want[offset:offset+512],offset
+        for at,count,payload in ((boundaries[1]-6,12,b'ACROSS 11|5 PAGES'),(boundaries[2]-3,9,b''),(boundaries[0]-2,4,b'4K|11'),(7,3,b'h')):
+            d.call('replace',pos=at,count=count,data=payload,interrupt=True);want[at:at+count]=payload;d.check(want)
+        d.call('delete',pos=boundaries[0]-100,count=512);del want[boundaries[0]-100:boundaries[0]+412];d.check(want)
+        while len(want)<state['capacity']:
+            data=b'F'*min(400,state['capacity']-len(want));d.call('insert',pos=len(want)//2,data=data);want[len(want)//2:len(want)//2]=data
+        d.check(want);d.call('insert',pos=0,data=b'FULL',expected=2);d.check(want)
+        # With RAM back, the 3-page chunk grows and full chunks follow the short
+        # ones; positions past the leading 4 KiB chunk still map in order.
+        for handle in pins:d.m.select(handle,16);d.m.invoke('free')
+        while d.state()['chunks']<6:
+            data=bytes((len(want)*5+i)&255 for i in range(500))
+            d.call('insert',pos=len(want)-77,data=data,interrupt=True);want[len(want)-77:len(want)-77]=data
+            assert d.bytes()==want
+        assert d.state()['full']==1,d.state()['full'];d.check(want)
+        for offset in range(0,len(want),3001):
+            assert d.call('read',pos=offset,count=512)==want[offset:offset+512],offset
+        d.dispose();done('chunks-below-4k-follow-each-other-across-separate-runs',d)
 
         report['passed']=True
         print('PASS: native banked document model, exact logical bytes and complete ownership cleanup',flush=True)

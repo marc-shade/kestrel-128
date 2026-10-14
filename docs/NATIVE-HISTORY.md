@@ -44,7 +44,7 @@ RAM reclamation described below. If reserving a
 record consumed memory needed by the edit, the editor returns that unpublished
 record and retries the refused edit once.
 
-When a RAM document in the VIC interface needs another 4 KiB chunk, it may
+When a RAM document in the VIC interface needs another allocation, it may
 reclaim optional history and its provider before refusing growth. This can
 also discard history during a staged Open that later fails; the existing
 document bytes remain protected by transactional Open. The VDC presenter and

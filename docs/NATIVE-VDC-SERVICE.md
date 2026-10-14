@@ -44,7 +44,7 @@ operations and [span history](NATIVE-HISTORY.md) add nine pages to the earlier
 display-only component. The table assumes no clipboard payload, Editor history or RAM document. Claude
 retains its original font, live font and terminal cells in the 48 scratch pages. Editor
 documents use REU extents when available; its free main-RAM count then stays
-constant as a document grows. RAM documents still consume separate 4 KiB chunks.
+constant as a document grows. RAM documents still consume separate allocations of up to 4 KiB.
 
 Ultimate keeps one component and saved VDC screen while its picker borrows the
 same VIC surface. Its picker allocates four scratch pages only while open and
