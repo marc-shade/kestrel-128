@@ -7,7 +7,11 @@ VICE has no Ultimate cartridge, so the controls pages are checked against the
 absent-cartridge replies (native_suite_workflow.absent_reference). The
 hardware REST drive reference is checked here as an oracle only, on the
 recorded reference-machine drive list.
+
+--apps-only is the twin of --native-apps-only (no Calculator, Editor or Files
+steps); --vdc64 gives VICE a 64 KiB VDC, as on the reference C128.
 """
+import argparse
 from contextlib import contextmanager
 import hashlib
 import json
@@ -50,6 +54,10 @@ def check_rest_reference(report,save):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--apps-only',action='store_true')
+    parser.add_argument('--vdc64',action='store_true')
+    args=parser.parse_args()
     work=Path(tempfile.mkdtemp(prefix='kestrel-native-apps-iec-'))
     print('Native apps IEC evidence:',work,flush=True)
     shutil.copy2(__file__,work/'run.py')
@@ -58,6 +66,7 @@ def main():
     report=dict(passed=False,physical_hardware_io=False,events=[],desktops=[],screens=[],
         images={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for folder in ('target/native','target/native-desktop')
                 for p in (ROOT/folder).iterdir() if p.suffix in ('.prg','.d64')})
+    report.update(apps_only=args.apps_only,vdc64=args.vdc64)
     def save():(work/'report.json').write_text(json.dumps(report,indent=2)+'\n')
     check_rest_reference(report,save)
     with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
@@ -66,7 +75,7 @@ def main():
         xv=ci.cbm.Xvfb()
         command=['x128','-default','-8',str(disk),'-drive8true','-drive8type','1541',
             '-9',str(data),'-drive9true','-drive9type','1541',
-            '-sounddev','dummy','-jamaction','0','-warp','-binarymonitor','-binarymonitoraddress',f'ip4://127.0.0.1:{port}']
+            *(['-VDC64KB'] if args.vdc64 else []),'-sounddev','dummy','-jamaction','0','-warp','-binarymonitor','-binarymonitoraddress',f'ip4://127.0.0.1:{port}']
         report['emulator_command']=command;save()
         process=subprocess.Popen(command,env=dict(os.environ,DISPLAY=xv.display,__EGL_VENDOR_LIBRARY_FILENAMES=ci.cbm.MESA_EGL),stdout=log,stderr=subprocess.STDOUT)
         deadline=time.monotonic()+30
@@ -103,7 +112,8 @@ def main():
         capture=NativeCapture(paused,work,quiet=.05,kernel_prefix='native-desktop',batch=stable_batch)
         report['captures']=capture.records;report['paused_capture_batches']=paused.batches
         extra=native_apps(paused,capture,work,report,save,controls_reference=absent_reference(),info_reference=True)
-        run_native_workflow(paused,capture,work,disk,report,save,key_quiet=.1,key_poll=.1,additional_apps=extra)
+        run_native_workflow(paused,capture,work,disk,report,save,key_quiet=.1,key_poll=.1,additional_apps=extra,
+                            prelude=not args.apps_only)
         assert report.get('apps_passed') and report.get('native_checks_passed')
         mon.quit_emulator();mon.close();mon=None
         process.wait(timeout=15)

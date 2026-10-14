@@ -111,6 +111,12 @@ serial session, or video output pixels; all screen checks read display RAM.
 `tests/ci_native_apps_iec.py` runs the same app workflow in VICE, where the
 controls pages show the no-cartridge replies.
 
+`--native-apps-only` boots the desktop and goes straight to these four apps,
+skipping the Calculator, Editor and Files steps that `--native-desktop`
+covers; with each app load over IEC taking about two minutes, that roughly
+halves the session. Its VICE twin is `tests/ci_native_apps_iec.py --apps-only
+--vdc64`, with the reference C128's 64 KiB VDC.
+
 The desktop PRG occupies 34 app pages and reserves 36 VIC surface pages plus
 the 39-page [bank-1 VDC component](NATIVE-VDC-SERVICE.md). REU snapshot backing
 leaves 317 of the 426 managed pages free; RAM backing leaves 253 or 245 with

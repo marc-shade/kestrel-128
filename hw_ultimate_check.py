@@ -211,6 +211,8 @@ def main():
                         help='qualify the native graphical desktop and app handoffs')
     checks.add_argument('--native-apps', action='store_true',
                         help='native desktop plus Paint, Claude landing, controls drives and a Sheet save to an empty drive B; readback')
+    checks.add_argument('--native-apps-only', action='store_true',
+                        help='--native-apps without the Calculator, Editor and Files steps --native-desktop covers')
     checks.add_argument('--native-gem', action='store_true',
                         help='GEMDESK from gem.d81 (drive A) and a D81 on drive B, keyboard only: the VICE workflow '
                              '(drive 9, Calculator, Editor, Sheet, Paint), exact surfaces')
@@ -235,10 +237,10 @@ def main():
         from hw_native_desktop_check import run
         from native_capture_transport import ReceiptUltimate,PausedHardwareMonitor
         run(ReceiptUltimate(host,timeout=60),monitor_class=PausedHardwareMonitor,paused_capture=True,dos_contexts=True,sheet=True)
-    elif args.native_apps:
+    elif args.native_apps or args.native_apps_only:
         from hw_native_apps_check import run
         from native_capture_transport import ReceiptUltimate
-        run(ReceiptUltimate(host,timeout=60),dos_contexts=True)
+        run(ReceiptUltimate(host,timeout=60),dos_contexts=True,apps_only=args.native_apps_only)
     elif args.native_pointer_timing:
         from hw_native_pointer_timing import run
         from native_capture_transport import ReceiptUltimate,PausedHardwareMonitor

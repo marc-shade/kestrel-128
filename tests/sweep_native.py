@@ -55,6 +55,8 @@ VICE_MATRIX = {
                               ('--desktop-boot', '--hardware-sequence'), ('--desktop-boot', '--transport-sequence'),
                               ('--desktop-boot', '--nested-irq'), ('--desktop-boot', '--input-during-capture')],
     'ci_native_claude_iec': [(), ('--host-exit', '--80col')],
+    # --apps-only --vdc64: hw_ultimate_check.py --native-apps-only on the reference C128's 64 KiB VDC.
+    'ci_native_apps_iec': [(), ('--apps-only', '--vdc64')],
     # --hardware-sequence: the hardware checks' own runner code (hw_native_aes_check,
     # hw_native_gem_check keyboard workflow) under VICE, short quiet periods.
     'ci_native_aes_vice': [(), ('--hardware-sequence',)],

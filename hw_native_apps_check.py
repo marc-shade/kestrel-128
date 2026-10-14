@@ -312,7 +312,7 @@ def blank_data_disk(path):
     return path.read_bytes()
 
 
-def run(ult, *, dos_contexts=False):
+def run(ult, *, dos_contexts=False, apps_only=False):
     from hw_native_check import hashes, quiet_boot
     from hw_session import HardwareSession
     from hw_dos_context import DosContexts
@@ -326,7 +326,10 @@ def run(ult, *, dos_contexts=False):
                   data_disk_sha256=hashlib.sha256(blank).hexdigest(),
                   uncertain_host_writes=ult.uncertain_writes, host_connect_failures=ult.connect_failures,
                   host_control_requests=ult.control_requests, host_upload_checks=ult.upload_checks,
-                  quiet_seconds=dict(boot=240, key=4, io=30, capture=2, poll=2))
+                  quiet_seconds=dict(boot=240, key=4, io=30, capture=2, poll=2),
+                  # apps_only: boot, then straight to the apps below; the Calculator, Editor
+                  # and Files steps are --native-desktop's and are skipped (a shorter session).
+                  apps_only=apps_only)
     def save(): (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
     ult.record_event = save; save()
     mon = PausedHardwareMonitor(ult)
@@ -354,7 +357,7 @@ def run(ult, *, dos_contexts=False):
             report['controls_reference'] = dict(source='REST /v1/drives after both uploads', drives=drives, replies=reference)
             report['stage'] = 'native-boot'; save()
             ult.reset(); quiet_boot('Native apps boot', 240)
-            run_native_workflow(mon, capture, work, disk, report, save, io_quiet=30,
+            run_native_workflow(mon, capture, work, disk, report, save, io_quiet=30, prelude=not apps_only,
                 additional_apps=native_apps(mon, capture, work, report, save, controls_reference=reference))
         except BaseException as error:
             report['native_error'] = str(error); save()
@@ -366,5 +369,5 @@ def run(ult, *, dos_contexts=False):
     verify_data_disk(session.retrieved[report['data_disk_path']], blank, work, report, save)
     assert report['images_unchanged'] and not report['uncertain_host_writes']
     report['passed'] = True; save()
-    print(f'HW-NATIVE-APPS PASS; Paint, Claude landing, controls drives and verified Sheet save; '
+    print(f'HW-NATIVE-APPS{"-ONLY" if apps_only else ""} PASS; Paint, Claude landing, controls drives and verified Sheet save; '
           f'drives restored, uploads deleted; {work}', flush=True)

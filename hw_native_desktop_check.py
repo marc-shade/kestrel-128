@@ -39,10 +39,12 @@ def sheet_symbol(name):
 
 
 def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll=2,kernel_prefix='native-desktop',additional_apps=None,
-                        sheet=False,io_quiet=None):
+                        sheet=False,io_quiet=None,prelude=True):
     """Shared CPU workflow; caller owns boot, restoration and temporary files.
     sheet=True also edits a workbook in Sheet and discards it (the disk may
-    be read-only), between Files and any additional apps. key(value,io=True)
+    be read-only), between Files and any additional apps. prelude=False goes
+    from the booted desktop straight to the additional apps, skipping the
+    Calculator, Editor and Files steps (a shorter hardware session). key(value,io=True)
     waits io_quiet seconds (default key_quiet) without RAM DMA after the
     injection, for a key that starts IEC traffic (app load, save)."""
     modes=NativeModeCapture(mon,work,quiet=capture.quiet,kernel_prefix=kernel_prefix,batch=capture.batch)
@@ -201,18 +203,19 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     wait(lambda:read(0x1c13,6)==b'KES128' and ready(),'native graphical desktop boot',300)
     report['resident_boot']=verify_running_layout(capture,ROOT,'resident-boot',image_dir=ROOT/'target'/kernel_prefix);save()
     desktop('desktop-boot')
-    key(9);desktop('desktop-editor-selected',1)
-    key(ord('C'));calculator('calculator-new','0',[])
-    for value in b'12+30=':key(value)
-    calculator('calculator-result','42',['42'])
-    key(27);desktop('desktop-after-calculator')
-    key(ord('E'));editor('editor-new',b'',0)
-    document=b'C128'
-    for value in document:key(value)
-    editor('editor-typed',document,4,dirty=True)
-    key(27);key(ord('Y'));desktop('desktop-after-editor',1)
-    key(ord('F'));files('files')
-    key(27);desktop('desktop-after-files',2)
+    if prelude:
+        key(9);desktop('desktop-editor-selected',1)
+        key(ord('C'));calculator('calculator-new','0',[])
+        for value in b'12+30=':key(value)
+        calculator('calculator-result','42',['42'])
+        key(27);desktop('desktop-after-calculator')
+        key(ord('E'));editor('editor-new',b'',0)
+        document=b'C128'
+        for value in document:key(value)
+        editor('editor-typed',document,4,dirty=True)
+        key(27);key(ord('Y'));desktop('desktop-after-editor',1)
+        key(ord('F'));files('files')
+        key(27);desktop('desktop-after-files',2)
     if sheet:
         key(ord('S'));sheet_frame('sheet-new',(0,0,0))
         for value in b'12\r\x1d30\r\x1d=A1+B1\r':key(value)
