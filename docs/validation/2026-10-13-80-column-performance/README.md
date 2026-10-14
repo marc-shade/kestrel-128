@@ -95,9 +95,11 @@ cycles; the last is the final build commit (a7ff654).
 At 1 MHz a frame is 17,045 cycles. In this model the pointer-only update fits
 in one frame and focus changes in the 80-column apps take 2 to 4 frames
 instead of 4 to 7; those are lower bounds. A later measurement build
-(`--native-pointer-timing`, 2026-10-14) found the whole pointer bank call
-averaging 19,382 cycles in VICE, none of 512 under one frame, so whether the
-real C128 reaches 60 Hz is open until that check runs on hardware.
+(`--native-pointer-timing`, 2026-10-14) timed it on the reference NTSC
+C128: the service redraw averages 14,512 cycles, all under one frame, but the
+whole bank call averages 17,510 and fits a frame in 23% of updates, so the
+80-column pointer moves at 30 Hz, not 60 (see the
+[2026-10-14 record](../2026-10-14-editor-chunks-and-hardware-checks/README.md)).
 
 ## Gates
 
@@ -146,8 +148,8 @@ Each sweep ran from a clean clone of its commit.
 - The cycle counts are Py65 with a VDC that is always ready. A real 8563
   sometimes needs a second status read; how far hardware lands above these
   lower bounds was measured only for the 4ba08dd pointer frame (3%).
-- 60 Hz pointer motion on the C128 was not timed after the change; only the
-  hardware desktop check's screens were.
+- The pointer was timed on hardware only later (2026-10-14): 30 Hz, the
+  bank call 465 cycles over a frame on average.
 - Every hardware check `hw_ultimate_check.py` offers ran for these images
   except `--native-usb-browser`, which the harness marks not available. No
   hardware check exists for Paint, Controls, Claude, GEMDESK, the AES menu

@@ -71,10 +71,45 @@ Each has a VICE or Py65 twin in the sweeps that runs the same workflow:
   service's redraw averaged 16,386 cycles and the whole bank call 19,382,
   none under one 17,045-cycle frame; VICE's 8563 timing is approximate.
 
+## Pointer timing on the C128
+
+`--native-pointer-timing` (6f0be67, the shipped disk image 2b4d56be...) on the
+reference NTSC C128 with an Ultimate II+, 512 driven updates, none missing,
+calibration exact (1,001 and 2,002 cycles):
+
+| Cycles | Min | Mean | Median | p95 | Max | Under one frame |
+|---|---:|---:|---:|---:|---:|---:|
+| Service redraw | 13,181 | 14,512 | 14,492 | 15,461 | 16,024 | 100% |
+| Whole bank call | 16,138 | 17,510 | 17,482 | 18,438 | 18,983 | 23% |
+
+The bank gateway costs about 1,550 cycles in and 1,450 out; every timed
+update also took one 60 Hz KERNAL interrupt. Updates came 2 jiffies apart in
+508 of 511 intervals and 1 jiffy apart in 3, so the 80-column pointer moves
+at 30 Hz on this machine, not 60. The redraw itself fits a frame; the call
+around it misses by 465 cycles on average. VICE overstated both (16,386 and
+19,382). The first run (e99342b) refused to start because the connected 1351
+had already caused one pointer call before the start key; 6f0be67 records
+such calls (`calls_before_start`, 1 here) instead of refusing.
+
 ## Gates
 
 - 451bfe5 (chunks): CPU sweep 323/323.
 - 405a05c (chunks and the new checks): CPU sweep 324/324, VICE sweep 64/64.
+- Hardware, reference C128 (e99342b images): `--native-desktop` PASSED at 14
+  checkpoints; `--native-gem` PASSED its 10 keyboard steps (GEMDESK cold boot
+  matching the CPU oracle, drive 9 detected as a 1581 with a D81, the
+  directory, Calculator, Editor, Sheet and Paint opened from GEMDESK and
+  returned); `--native-aes` PASSED (alert, menu bar, three windows, unload
+  returning every page). Each restored and matched the drives, deleted its
+  upload, left nothing behind and found the images unchanged; two runs had
+  one host connection attempt time out before any request was sent.
+- Hardware: `--native-pointer-timing` PASSED (6f0be67), as above.
+- Hardware: `--native-apps` FAILED twice on VDC bitmap compares, both times
+  as bytes displaced by one position (adjacent pairs swapped), the pattern
+  this C128 shows after hours powered on: first at `calculator-result`
+  (e99342b; the desktop check had passed the same checkpoint 90 minutes
+  earlier), then at `paint-new` (6f0be67) after `calculator-result` passed.
+  Its VICE twin passes. Drives, cleanup and images were clean both times.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -83,8 +118,10 @@ Each has a VICE or Py65 twin in the sweeps that runs the same workflow:
 
 ## Not verified
 
-- None of the new hardware checks has run on the C128 yet; their runtimes
-  are estimates.
+- `--native-apps` has not passed on hardware: Paint, the Claude page, the
+  Controls Drives page and the Sheet save to drive B are covered on hardware
+  by no passing run. It needs a rerun after the C128 has been powered off.
+- The pointer check runs over empty desktop space only; pointer cost over
+  app surfaces on hardware is not measured.
 - The large picker case at 30 pages (not reachable by padding) and at 36 (the
   padded build no longer fits the test disk image).
-- Whether the real C128 moves the 80-column pointer at 60 Hz.
