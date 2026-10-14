@@ -127,6 +127,11 @@ Each sweep ran from a clean clone of its commit.
   bytes allocated, filled and read back in bank 0 and in bank 1 through the
   kernel transfers. Both restored and matched the drives, deleted their
   uploads, left nothing behind and found the images unchanged.
+- Hardware (c7a31de, the same images): `--native-files` (IEC streams,
+  exported files and a copy read back), `--native-browser` (12 checkpoints),
+  `--native-usb-apps` (33), `--native-ultimate` (15) and `--native-redraw`
+  (24, the Editor redraw cases on a small and a large document) all PASSED,
+  with the same drive restore, cleanup and image results.
 - `ci_native_heap` injects an NMI and an IRQ at every masked instruction of
   both transfer paths (1,782 interrupts), checks IRQ delivery between runs,
   the masked span, the data of each operation, and a bank-1 record across
@@ -140,10 +145,12 @@ Each sweep ran from a clean clone of its commit.
   lower bounds was measured only for the 4ba08dd pointer frame (3%).
 - 60 Hz pointer motion on the C128 was not timed after the change; only the
   hardware desktop check's screens were.
-- On hardware, only `--native-desktop`, `--native-editor` and `--native` ran
-  for these images. The Files, browser, Ultimate USB and redraw-timing checks,
-  Paint, Controls, Claude, GEMDESK and the AES on the C128, and a Sheet save
-  to disk were not run.
+- Every hardware check `hw_ultimate_check.py` offers ran for these images
+  except `--native-usb-browser`, which the harness marks not available. No
+  hardware check exists for Paint, Controls, Claude, GEMDESK, the AES menu
+  test or a Sheet save to disk; those are covered only by the sweeps.
+- The redraw check's timings are host wall-clock times that include REST
+  polling, not cycle counts; they were not compared with earlier runs.
 - The Editor's >64 KiB document beside a full 296-entry picker
   (`ci_native_picker_gui --case large`) is a zero-slack capacity case. With the
   service padded to other sizes it passes at 31 (this build), 36 and 39 pages
