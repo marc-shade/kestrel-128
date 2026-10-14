@@ -92,9 +92,12 @@ cycles; the last is the final build commit (a7ff654).
 | GEMDESK View menu: pointer onto Type | 14,258 | 14,258 | 8,698 | -39% |
 | AES menu test: cursor key onto Quit (40 columns) | 15,605 | 15,605 | 9,229 | -41% |
 
-At 1 MHz a frame is 17,045 cycles: the pointer-only update now fits in one
-frame, and focus changes in the 80-column apps take 2 to 4 frames instead of
-4 to 7.
+At 1 MHz a frame is 17,045 cycles. In this model the pointer-only update fits
+in one frame and focus changes in the 80-column apps take 2 to 4 frames
+instead of 4 to 7; those are lower bounds. A later measurement build
+(`--native-pointer-timing`, 2026-10-14) found the whole pointer bank call
+averaging 19,382 cycles in VICE, none of 512 under one frame, so whether the
+real C128 reaches 60 Hz is open until that check runs on hardware.
 
 ## Gates
 
