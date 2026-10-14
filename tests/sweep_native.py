@@ -54,6 +54,10 @@ VICE_MATRIX = {
                               ('--desktop-boot', '--hardware-sequence'), ('--desktop-boot', '--transport-sequence'),
                               ('--desktop-boot', '--nested-irq'), ('--desktop-boot', '--input-during-capture')],
     'ci_native_claude_iec': [(), ('--host-exit', '--80col')],
+    # --hardware-sequence: the hardware checks' own runner code (hw_native_aes_check,
+    # hw_native_gem_check keyboard workflow) under VICE, short quiet periods.
+    'ci_native_aes_vice': [(), ('--hardware-sequence',)],
+    'ci_native_gemdesk_vice': [(), ('--hardware-sequence',)],
     'ci_native_editor_iec': [('--format', 'd64'), ('--format', 'd71'), ('--format', 'd81'),
                              ('--format', 'd81', '--search')],
     'ci_native_files_iec': [('--format', 'd64'), ('--format', 'd71'), ('--format', 'd81')],

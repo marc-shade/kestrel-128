@@ -211,6 +211,11 @@ def main():
                         help='qualify the native graphical desktop and app handoffs')
     checks.add_argument('--native-apps', action='store_true',
                         help='native desktop plus Paint, Claude landing, controls drives and a Sheet save to an empty drive B; readback')
+    checks.add_argument('--native-gem', action='store_true',
+                        help='GEMDESK from gem.d81 (drive A) and a D81 on drive B, keyboard only: the VICE workflow '
+                             '(drive 9, Calculator, Editor, Sheet, Paint), exact surfaces')
+    checks.add_argument('--native-aes', action='store_true',
+                        help='the AES demo (40-column alert, menu and window tests) on a private D64, exact surfaces')
     checks.add_argument('--native-reclaim', type=Path, metavar='REPORT',
                         help='retrieve and delete the private files a failed check left behind (its report.json)')
     checks.add_argument('--close-dos-context', type=int, choices=(1, 2), metavar='N',
@@ -218,7 +223,13 @@ def main():
                              'the checks refuse to start while either context holds one')
     args = parser.parse_args()
     host = resolve_host(args.host)
-    if args.native_desktop:
+    if args.native_gem:
+        from hw_native_gem_check import run
+        run(VerifiedUltimate(host,timeout=60),dos_contexts=True)
+    elif args.native_aes:
+        from hw_native_aes_check import run
+        run(VerifiedUltimate(host,timeout=60),dos_contexts=True)
+    elif args.native_desktop:
         from hw_native_desktop_check import run
         from native_capture_transport import ReceiptUltimate,PausedHardwareMonitor
         run(ReceiptUltimate(host,timeout=60),monitor_class=PausedHardwareMonitor,paused_capture=True,dos_contexts=True,sheet=True)

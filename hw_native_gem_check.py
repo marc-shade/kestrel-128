@@ -2,26 +2,36 @@
 """Boot the GEM profile (gem.d81) on the reference C128 through the Ultimate
 II+ and compare GEMDESK's screens with the CPU-test oracles.
 
+hw_ultimate_check.py --native-gem runs the keyboard workflow; this script's
+own command line also offers the interactive and diagnostic modes below.
+
 The Ultimate's DOS answers GEMDESK's identify query here, so every desktop
-oracle includes the USB icon (VICE has no Ultimate and shows none).
+oracle includes the USB icon (VICE has no Ultimate and shows none). The
+check refuses to start when the Ultimate's printer emulation is enabled on
+IEC 4 or 5, where GEMDESK would show a Printer icon the oracles leave out.
 
-A private copy of gem.d81 (plus the NOTE and PICTURE documents the VICE suite
-uses) is mounted read-only on drive A in 1581 mode and the machine is reset.
-The run follows tests/ci_native_gemdesk_vice.py: the desktop, drive 8's
-window, Calculator and back, a SEQ document in the Editor and back, a UPNT
-picture in Paint. Screens are read by the CPU capture probe (NativeCapture);
-no video signal is captured.
+The keyboard workflow is native_gemdesk_workflow.py, the one the VICE test
+tests/ci_native_gemdesk_vice.py runs: the desktop, drive 9's window (a 1581
+with a D81, detected from its DOS identity) and File:Close, drive 8's
+window, Calculator and back, a SEQ document in the Editor and back, a USHT
+workbook in Sheet and back, a UPNT picture in Paint. A private copy of
+gem.d81 (plus the NOTE, LEDGER and PICTURE documents the VICE test adds) is
+mounted read-only on drive A in 1581 mode, and drive 9's two-file D81
+read-only on drive B (IEC 9) in 1581 mode; the machine is reset and left
+150 seconds without RAM DMA while the kernel and GEMDESK load. Screens and
+app RAM are read by the held CPU capture (HeldCapture); no video signal is
+captured. The other modes use drive A only.
 
-Afterwards drive A gets its original mode and image back (it is unmounted if
-it had none), the upload is deleted over FTP and its absence confirmed, and
-the C128 is reset (hw_session.py). Nothing on the machine's own disks is
-written.
+Afterwards each drive gets its original image and mode back (or is
+unmounted if it had none), each upload is retrieved over FTP and must be
+unchanged, then deleted and its absence confirmed, and the C128 is reset
+(hw_session.py). Nothing on the machine's own disks is written. The report
+is report.json in the evidence directory (and --report, when given).
 """
 import argparse
 import hashlib
 import json
 from pathlib import Path
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -32,17 +42,17 @@ sys.path[:0] = [str(ROOT), str(ROOT/'tests')]
 from hw_session import HardwareSession  # noqa: E402
 from hw_dos_context import DosContexts  # noqa: E402
 from hw_storage_check import HardwareMonitor  # noqa: E402
+from hw_native_check import hashes, quiet_boot  # noqa: E402
 from hw_ultimate_check import VerifiedUltimate, resolve_host  # noqa: E402
 from hwlib import lst_symbol  # noqa: E402
 from native_capture import wait  # noqa: E402
 import native_gemdesk_scene as scene  # noqa: E402
 from launcher_scene import pointer_shape  # noqa: E402
-from native_editor_scene import surface as editor_surface  # noqa: E402
-from paint_scene import surface as paint_surface, MESSAGES as PAINT_MESSAGES  # noqa: E402
-from native_paint_format import encode as paint_encode  # noqa: E402
-from ci_native_gemdesk_vice import d81_entries, NOTE, PICTURE  # noqa: E402
+from native_aes_workflow import ready  # noqa: E402
+from native_gemdesk_workflow import prepare_disks, gemdesk_workflow  # noqa: E402
 
 IMAGES = ROOT/'target/native-desktop'
+BOOT_QUIET = 150             # seconds after reset without RAM DMA (about 111 s to GEMDESK's input wait)
 
 
 class HeldCapture:
@@ -123,241 +133,233 @@ class HeldCapture:
         return bytes(result)
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--host', help='the Ultimate II+ address (default: $KESTREL_ULTIMATE_HOST)')
-    parser.add_argument('--report', type=Path, required=True)
-    parser.add_argument('--mouse', action='store_true',
-                        help='interactive: a person moves and clicks the 1351 while this observes')
-    parser.add_argument('--mirror', action='store_true',
-                        help='check the 80-column mirror byte for byte (desktop, window, menu, alert)')
-    parser.add_argument('--show', type=int, metavar='SECONDS',
-                        help='boot and leave GEMDESK running this long for a person to look, then restore')
-    parser.add_argument('--image', type=Path, help='gem.d81 to boot instead of the committed target (hash recorded)')
-    parser.add_argument('--screens', type=Path, metavar='DIR',
-                        help='README screenshots of GEMDESK and the Ultimate app into DIR, then restore')
-    parser.add_argument('--sample-ready', type=int, metavar='N',
-                        help='diagnostic: after boot, sample N_READY ($3d12) N times over DMA and record its duty cycle')
-    args = parser.parse_args()
-    args.host = resolve_host(args.host)
-    work = Path(tempfile.mkdtemp(prefix='kestrel-hardware-gem-'))
-    print('GEM hardware evidence:', work, flush=True)
-    disk = work/'gem.d81'
-    shutil.copyfile(args.image or IMAGES/'gem.d81', disk)
-    images = json.loads((IMAGES/'images.json').read_text())
-    if args.image is None:
-        assert hashlib.sha256(disk.read_bytes()).hexdigest() == images['gem.d81']['sha256'], 'gem.d81 differs from images.json'
-    else:
-        images['gem.d81']['sha256'] = hashlib.sha256(disk.read_bytes()).hexdigest()
-    for name, data in (('note,s', NOTE), ('picture,s', paint_encode(PICTURE))):
-        (work/'doc.bin').write_bytes(data)
-        subprocess.run(['c1541', '-attach', str(disk), '-write', str(work/'doc.bin'), name], check=True, capture_output=True)
-    entries = d81_entries(disk.read_bytes())
+class HeldMachine:
+    """The workflow machine (see native_aes_workflow) on the real C128.
+    Common RAM below $4000 is read directly over DMA; app RAM, bank 1 and
+    the VIC surface only through the held capture (a direct DMA read can land
+    while the AES has bank 1 mapped). A key goes through the keyboard buffer,
+    then nothing touches the machine for the key's quiet period, as long as
+    the key may start IEC traffic, before its consumption is polled."""
+    scale = 2                 # workflow timeouts and settle budgets, doubled
+    min_attempts = 4          # surface reads before a mismatch fails
+    QUIET = {None: 4, 'scan': 10, 'launch': 90, 'leave': 60}
 
-    ult = VerifiedUltimate(args.host)
-    report = dict(passed=False, physical_hardware_io=True, host=args.host, work=str(work),
-                  gem_d81_sha256=images['gem.d81']['sha256'], private_disk_sha256=hashlib.sha256(disk.read_bytes()).hexdigest(),
-                  checks=[], events=[], control_requests=ult.control_requests, upload_checks=ult.upload_checks,
-                  uncertain_writes=ult.uncertain_writes)
+    def __init__(self, mon, work, report, save, *, quiet=None, pause=5):
+        """quiet and pause replace the hardware timings (the VICE rehearsal)."""
+        self.mon, self.work, self.report, self.save = mon, Path(work), report, save
+        self.capture = HeldCapture(mon, self.work)
+        self.quiet = dict(self.QUIET) if quiet is None else dict.fromkeys(self.QUIET, quiet)
+        self.pause_seconds = pause
+        report['captures'] = self.capture.records
+        report['key_quiet_seconds'] = {str(k): v for k, v in self.quiet.items()}
+        report.setdefault('events', [])
+        self.values = 0
 
-    def save(): args.report.write_text(json.dumps(report, indent=2)+'\n')
-    ult.record_event = save
+    def read(self, at, n=1):
+        assert at+n <= 0x4000, 'common RAM only'
+        return bytes(self.mon.read_mem(at, at+n-1))
 
-    mon = HardwareMonitor(ult)
-    session = HardwareSession(ult, work, report, save, drives=('a',), dos_contexts=DosContexts(ult, work))
-    before = session.snapshot(); report['drive_a_before'] = before['a']; save()
-    assert before['a']['enabled'] and before['a']['bus_id'] == 8
-    report['ultimate_version'] = json.loads(ult.version())
+    def value(self, at, n=1, bank=0):
+        self.values += 1
+        return self.capture.capture(f'value-{self.values:04d}-b{bank}-{at:04x}', bank=bank, address=at, count=n)
 
-    def body():
-        try:
-            uploaded = session.upload(disk.read_bytes(), 'a', 'd81', 'readonly')
-            report['upload_path'] = uploaded; save()
-            mounted = session.drives('native')['a']; report['drive_a_native'] = mounted; save()
-            assert mounted['type'] == '1581' and ult.mounted_path('a') == uploaded
-            ult.reset()
-            print('Boot: 150 seconds without RAM DMA while the kernel and GEMDESK load', flush=True)
-            time.sleep(150)
-            if args.sample_ready:
-                def peek(address, count=1): return bytes(mon.read_mem(address, address+count-1))
-                gemdesk = (IMAGES/'gemdesk.prg').read_bytes()[2:34]
-                started, polls = time.monotonic(), 0
-                while not (peek(0x1c13, 6) == b'KES128' and peek(0x3d60, 32) == gemdesk and peek(0x3d12) == b'\1'):
-                    polls += 1
-                    assert time.monotonic()-started < 300, 'GEMDESK never published N_READY within 300 s'
-                    time.sleep(0.1)
-                first_ready = round(time.monotonic()-started+60, 1)
-                samples = []
-                sampling = time.monotonic()
-                for _ in range(args.sample_ready):
-                    samples.append(peek(0x3d12)[0])
-                    time.sleep(0.02)
-                report['ready_samples'] = dict(count=len(samples), ready=samples.count(1),
-                                               values=sorted(set(samples)), sequence=bytes(samples).hex(),
-                                               first_ready_after_reset_s=first_ready, polls_before_ready=polls,
-                                               sampling_seconds=round(time.monotonic()-sampling, 1))
-                print('N_READY duty:', samples.count(1), '/', len(samples), flush=True)
-            elif args.show:
-                show_workflow(mon, args.show, report, save)
-            elif args.screens:
-                args.screens.mkdir(parents=True, exist_ok=True)
-                screens_workflow(mon, work, entries, report, save, args.screens)
-            elif args.mirror:
-                mirror_workflow(mon, work, entries, report, save)
-            else:
-                (mouse_workflow if args.mouse else run_workflow)(mon, work, entries, report, save)
-            report['workflow_passed'] = True; save()
-        except BaseException as caught:
-            report['error'] = f'{type(caught).__name__}: {caught}'; save()
-            raise
-    session.run(body)
-    assert not ult.uncertain_writes
-    report['passed'] = True; save()
-    print('HW-GEM PASS:', work, flush=True)
+    def surface(self, label):
+        return b''.join(self.capture.capture(f'{label}-{offset:04x}', address=0xc000+offset,
+                                             count=min(2000, 9216-offset)) for offset in range(0, 9216, 2000))
 
+    def pause(self):
+        time.sleep(self.pause_seconds)
 
-def run_workflow(mon, work, entries, report, save):
-    def watch(predicate, label, seconds):
+    def wait(self, predicate, label, seconds=300):
+        """Poll predicate; log every app switch (header, N_CURRENT, N_READY,
+        file service, pending keys) to report['switch_log']."""
         started, last = time.monotonic(), None
-        while time.monotonic()-started < seconds:
-            state = (read(0x3d60, 32).hex(), read(0x3d20)[0], read(0x3d12)[0], read(0x3d91)[0], read(0xd0)[0])
+        while time.monotonic()-started < seconds*self.scale:
+            state = (self.read(0x3d60, 32).hex(), self.read(0x3d20)[0], self.read(0x3d12)[0],
+                     self.read(0x3d91)[0], self.read(0xd0)[0])
             if state != last:
                 entry = dict(label=label, t=round(time.monotonic()-started, 1), header=state[0], current=state[1],
                              ready=state[2], file_service=state[3], keys_pending=state[4])
-                report.setdefault('switch_log', []).append(entry); save(); last = state
-                print('  ', label, entry['t'], bytes.fromhex(state[0])[12:32], state[1:], flush=True)
+                self.report.setdefault('switch_log', []).append(entry); self.save(); last = state
             if predicate():
                 return
             time.sleep(0.5)
         raise AssertionError(label)
-    capture = HeldCapture(mon, work)
-    report['captures'] = capture.records
 
-    def read(address, count=1):
-        return bytes(mon.read_mem(address, address+count-1))
+    def key(self, value, io=None):
+        quiet = self.quiet[io]
+        self.wait(lambda: ready(self), 'native input ready', 300)
+        previous = int.from_bytes(self.read(0x3d13, 2), 'little')
+        self.mon.write_mem(0x3d12, b'\0'); self.mon.write_mem(0x34a, bytes([value])); self.mon.write_mem(0xd0, b'\1')
+        start = time.monotonic()
+        time.sleep(quiet)                     # no DMA while the key may start a load
+        self.wait(lambda: int.from_bytes(self.read(0x3d13, 2), 'little') == (previous+1) & 65535 and ready(self),
+                  f'key {value:#x}', 300)
+        self.report['events'].append(dict(key=value, io=io, quiet=quiet, seconds=round(time.monotonic()-start, 1)))
+        self.save()
 
-    def ready(): return read(0x3d12) == b'\1' and read(0xd0, 2) == bytes(2)
+
+def gem_hashes():
+    """hw_native_check.hashes() plus the GEM image and its pins."""
+    build = hashes()
+    for path in (IMAGES/'gem.d81', IMAGES/'images.json'):
+        build[str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return build
+
+
+def run(ult, *, dos_contexts=False, report_path=None, image=None, mode='keyboard', seconds=None, screens=None,
+        samples=None):
+    """mode: keyboard (the shared workflow), mouse, mirror, show (seconds),
+    screens (directory) or sample-ready (samples)."""
+    assert mode in ('keyboard', 'mouse', 'mirror', 'show', 'screens', 'sample-ready')
+    work = Path(tempfile.mkdtemp(prefix='kestrel-hardware-gem-'))
+    print('GEM hardware evidence:', work, flush=True)
+    keyboard = mode == 'keyboard'
+    disks = prepare_disks(work, image)
+    disk = disks['disk']
+    pins = json.loads((IMAGES/'images.json').read_text())
+    gem_sha256 = hashlib.sha256((image or IMAGES/'gem.d81').read_bytes()).hexdigest()
+    if image is None:
+        assert gem_sha256 == pins['gem.d81']['sha256'], 'gem.d81 differs from images.json'
+    report = dict(passed=False, physical_hardware_io=True, host=ult.host, work=str(work), mode=mode,
+                  build=gem_hashes(), image=str(image) if image else None, gem_d81_sha256=gem_sha256,
+                  private_disk_sha256=hashlib.sha256(disk.read_bytes()).hexdigest(),
+                  drive9_disk_sha256=hashlib.sha256(disks['disk9'].read_bytes()).hexdigest() if keyboard else None,
+                  entries=[e['name'].decode('latin-1') for e in disks['entries']], checks=[], events=[],
+                  boot_quiet_seconds=BOOT_QUIET, host_request_timeout_seconds=ult.timeout,
+                  uncertain_host_writes=ult.uncertain_writes, host_connect_attempts=ult.connect_attempts,
+                  host_connect_failures=ult.connect_failures, host_control_requests=ult.control_requests,
+                  host_upload_checks=ult.upload_checks)
+
+    def save():
+        text = json.dumps(report, indent=2)+'\n'
+        (work/'report.json').write_text(text)
+        if report_path:
+            Path(report_path).write_text(text)
+    ult.record_event = save
+    save()
+
+    mon = HardwareMonitor(ult)
+    session = HardwareSession(ult, work, report, save, drives=('a', 'b') if keyboard else ('a',),
+                              dos_contexts=DosContexts(ult, work) if dos_contexts else None)
+    before = session.snapshot()
+    (work/'ultimate-version.json').write_text(ult.version())
+    try:
+        assert before['a']['enabled'] and before['a']['bus_id'] == 8, 'drive A must be enabled on IEC 8'
+        if keyboard:
+            assert before['b']['enabled'] and before['b']['bus_id'] == 9, \
+                'the drive-9 step needs drive B enabled on IEC 9'
+        printer = before.get('Printer Emulation')
+        assert printer is not None, 'the Ultimate does not list its printer emulation; the desktop oracle needs it off'
+        assert not (printer.get('enabled') and printer.get('bus_id') in (4, 5)), \
+            f'printer emulation answers on IEC {printer.get("bus_id")}: GEMDESK would show a Printer icon'
+    except AssertionError as error:
+        report['error'] = f'precondition: {error}'; save()
+        raise
+
+    def body():
+        try:
+            report['upload_path'] = session.upload(disk.read_bytes(), 'a', 'd81', 'readonly', retrieve=True); save()
+            if keyboard:
+                report['drive9_upload_path'] = session.upload(disks['disk9'].read_bytes(), 'b', 'd81', 'readonly',
+                                                              retrieve=True); save()
+            mounted = report['drives_native'] = session.drives('native'); save()
+            assert mounted['a']['type'] == '1581' and ult.mounted_path('a') == report['upload_path']
+            if keyboard:
+                assert mounted['b']['type'] == '1581' and ult.mounted_path('b') == report['drive9_upload_path']
+            ult.reset()
+            quiet_boot('GEMDESK boot', BOOT_QUIET)
+            entries = disks['entries']
+            if mode == 'sample-ready':
+                sample_ready(mon, samples, report)
+            elif mode == 'show':
+                show_workflow(mon, seconds, report, save)
+            elif mode == 'screens':
+                screens.mkdir(parents=True, exist_ok=True)
+                screens_workflow(mon, work, entries, report, save, screens)
+            elif mode == 'mirror':
+                mirror_workflow(mon, work, entries, report, save)
+            elif mode == 'mouse':
+                mouse_workflow(mon, work, entries, report, save)
+            else:
+                keyboard_workflow(mon, work, disks, report, save)
+            report['workflow_passed'] = True; save()
+        except BaseException as caught:
+            report['error'] = f'{type(caught).__name__}: {caught}'; save()
+            raise
+    try:
+        session.run(body)
+    finally:
+        report['images_unchanged'] = report['build'] == gem_hashes(); save()
+    assert report['images_unchanged'] and not report['uncertain_host_writes']
+    report['passed'] = True; save()
+    print(f'HW-GEM PASS ({mode}); drives restored, uploads unchanged and deleted; evidence {work}', flush=True)
+    return report
+
+
+def keyboard_workflow(mon, work, disks, report, save, *, usb=True, **timing):
+    """The shared GEMDESK workflow through HeldMachine; also run under VICE
+    by tests/ci_native_gemdesk_vice.py --hardware-sequence (usb=False, short
+    quiet periods)."""
+    machine = HeldMachine(mon, work, report, save, **timing)
 
     def check(name, **extra):
         report['checks'].append(dict(name=name, **extra)); save()
         print('PASS:', name, flush=True)
 
-    def key(value, quiet=4):
-        wait(ready, 'native input ready', 300)
-        previous = int.from_bytes(read(0x3d13, 2), 'little')
-        mon.write_mem(0x3d12, b'\0'); mon.write_mem(0x34a, bytes([value])); mon.write_mem(0xd0, b'\1')
-        start = time.monotonic()
-        time.sleep(quiet)                     # no DMA while a key may start a load
-        wait(lambda: ready() and int.from_bytes(read(0x3d13, 2), 'little') == (previous+1) & 65535,
-             f'key {value:#x}', 600)
-        report['events'].append(dict(key=value, seconds=round(time.monotonic()-start, 1))); save()
-
-    def surface(label):
-        got = b''.join(capture.capture(f'{label}-{offset:04x}', address=0xc000+offset, count=min(2000, 9216-offset))
-                       for offset in range(0, 9216, 2000))
-        (work/f'{label}.surface').write_bytes(got)
-        return got
-
-    def settled(want, label, attempts=4):
-        """Capture until the surface equals the oracle (redraws can trail the key)."""
-        for attempt in range(attempts):
-            got = surface(f'{label}-{attempt}')
-            if got == want:
-                return hashlib.sha256(got).hexdigest()
-            time.sleep(5)
-        (work/f'{label}-expected.bin').write_bytes(want)
-        raise AssertionError((label, [(i, a, b) for i, (a, b) in enumerate(zip(got, want)) if a != b][:12]))
-
-    def expect(want, label):
-        want = bytearray(want)
-        want[8000:8128] = pointer_shape(); want[9208:9210] = b'\x7d\x7e'
-        return settled(bytes(want), label)
-
-    wait(lambda: read(0x1c13, 6) == b'KES128' and ready(), 'native boot', 300)
-    browse = (IMAGES/'gemdesk.prg').read_bytes()[2:34]
-    assert read(0x3d60, 32) == browse, 'GEMDESK is the running app'
-    check('boot from gem.d81 on the 1581-mode drive: Kestrel runs GEMDESK',
-          surface_sha256=expect(scene.desktop(usb=True), 'desktop'))
-
-    ordered = scene.ordered(entries, 0)
-    window = dict(id=1, x=1, y=2, w=28, h=16, title=b'Drive 8', top=0)
-    key(ord('8'), quiet=10)
-    check('the 8 key lists the D81, sorted by name',
-          surface_sha256=expect(scene.picture([window], {1: ordered}, selected_icon=0, usb=True), 'drive-8'), entries=len(entries))
-
-    g = scene.scene.geometry(dict(kind=scene.KIND, x=1, y=2, w=28, h=16))
-    names = [e['name'] for e in ordered]
-
-    def select(target, label):
-        current = window.get('selected', -1)
-        for _ in range(abs(target-current)):
-            key(0x11 if target > current else 0x91)
-        window['selected'] = target
-        window['top'] = min(window['top'], target)
-        window['top'] = max(window['top'], target-g['wh']+1)
-        expect(scene.picture([window], {1: ordered}, selected_icon=0 if label == 'calc' else None, usb=True), f'{label}-selected')
-
-    select(names.index(b'CALC'), 'calc')
-    key(13, quiet=90)
-    watch(lambda: read(0x3d60, 32) == (IMAGES/'calc.prg').read_bytes()[2:34], 'Calculator running', 300)
-    check('Return launches Calculator through the dispatcher')
-    key(27, quiet=60)
-    watch(lambda: read(0x3d60, 32) == browse, 'GEMDESK back from Calculator', 300)
-    check('leaving Calculator reloads GEMDESK, which reopens its window with the selection',
-          surface_sha256=expect(scene.picture([window], {1: ordered}, usb=True), 'back-from-calc'))
-
-    select(names.index(b'NOTE'), 'note')
-    key(13, quiet=90)
-    editor = (IMAGES/'editor.prg').read_bytes()[2:34]
-    watch(lambda: read(0x3d60, 32) == editor and ready(), 'Editor running', 300)
-    assert read(0x3d9a) == b'\0', 'the Editor claimed the request'
-    editor_fields = ('eg_bitmap', 'eg_started', 'ed_status', 'ed_mode', 'ed_module_kind', 'vd_phase', 'vd_live',
-                     'vd_fault', 'bk_state', 'dm_mode', 'dm_lease', 'dm_fault', 'eh_available', 'eg_vdc_attempted')
-    editor_state = {n: capture.capture(f'ed-{n}', address=lst_symbol('native-desktop/editor', n), count=1)[0]
-                    for n in editor_fields}
-    text80 = capture.capture('ed-vdc-text', mode=1, address=0, count=2000)
-    report['editor_state'] = editor_state
-    report['editor_vdc_text'] = [bytes(c if 32 <= c < 127 else 46 for c in text80[r*80:r*80+80]).decode() for r in range(25)]
-    save(); print('  Editor state:', editor_state, flush=True)
-    want = editor_surface(NOTE, 0, name='NOTE', device=8, dirty=False, field='NOTE', fmt=2,
-                          view=0, horizontal=0, selection=None)
-    check('Return on a SEQ file opens it in the Editor: the surface matches the Editor oracle',
-          surface_sha256=settled(want, 'editor'))
-    key(27, quiet=60)
-    watch(lambda: read(0x3d60, 32) == browse, 'GEMDESK back', 300)
-    check('leaving the Editor returns to GEMDESK with the document selected',
-          surface_sha256=expect(scene.picture([window], {1: ordered}, usb=True), 'back-from-editor'))
-
-    select(names.index(b'PICTURE'), 'picture')
-    key(13, quiet=25)
-    paint = (IMAGES/'paint.prg').read_bytes()[2:34]
-    wait(lambda: read(0x3d60, 32) == paint and ready(), 'Paint running', 180)
-
-    def value(name, n=1):
-        # Through the held CPU capture: a direct DMA read of app RAM can land while
-        # the AES has bank 1 mapped and return other bytes (seen as x=5616 readings).
-        return capture.capture(f'paint-{name}', address=lst_symbol('native-desktop/paint', name), count=n)
-    wait(lambda: ready() and read(0x3d91) == b'\0' and value('pa_status')[0] == 2, 'Paint opened the picture', 180)
-    assert read(0x3d9a) == b'\0', 'Paint claimed the request'
-    tag = value('pd_handles')[0]
-    allocation = read(0x3c00+(tag-1)*8, 8)
-    assert allocation[:2] == bytes([32, 1]) and allocation[3] == 36, allocation
-    document = b''.join(capture.capture(f'paint-document-{offset:04x}', bank=1, address=allocation[2]*256+offset,
-                                        count=min(2000, 9216-offset)) for offset in range(0, 9216, 2000))
-    (work/'paint-document.bin').write_bytes(document)
-    assert document == PICTURE, 'the picture in Paint\'s document allocation'
-    name = value('pf_name', value('pf_length')[0])
-    assert name == b'PICTURE' and value('pd_dirty')[0] == 0, name
-    want = paint_surface(PICTURE, message=PAINT_MESSAGES[2], view_x=value('pa_view_x')[0], view_y=value('pa_view_y')[0],
-                         focus=value('ui_selected')[0], x=int.from_bytes(value('pd_x', 2), 'little'), y=value('pd_y')[0],
-                         pen=value('pd_pen')[0], color=value('pd_color')[0], dirty=False, mode=value('pa_mode')[0],
-                         action=value('pa_action')[0], name=name, caret=value('pa_field_caret')[0],
-                         field_view=value('pa_field_view')[0], device=value('pf_device')[0], fmt=value('pf_format')[0])
-    check('Return on a UPNT picture opens it in Paint: the banked document and the surface match',
-          surface_sha256=settled(want, 'paint'))
-    assert all(item.get('restored') for item in capture.records), 'every capture restored its borrowed RAM'
+    def diagnose(stage):
+        # The Editor's 80-column text (the VDC mirror's state is in editor_state).
+        text80 = machine.capture.capture(f'{stage}-vdc-text', mode=1, address=0, count=2000)
+        report[f'{stage}_vdc_text'] = [bytes(c if 32 <= c < 127 else 46 for c in text80[r*80:r*80+80]).decode()
+                                       for r in range(25)]
+        save()
+    gemdesk_workflow(machine, disks, check, report, usb=usb, diagnose=diagnose)
+    assert all(item.get('restored') for item in machine.capture.records), 'every capture restored its borrowed RAM'
 
 
+def sample_ready(mon, count, report):
+    """Diagnostic: sample N_READY ($3d12) count times over DMA once GEMDESK is up."""
+    def peek(address, n=1): return bytes(mon.read_mem(address, address+n-1))
+    gemdesk = (IMAGES/'gemdesk.prg').read_bytes()[2:34]
+    started, polls = time.monotonic(), 0
+    while not (peek(0x1c13, 6) == b'KES128' and peek(0x3d60, 32) == gemdesk and peek(0x3d12) == b'\1'):
+        polls += 1
+        assert time.monotonic()-started < 300, 'GEMDESK never published N_READY within 300 s'
+        time.sleep(0.1)
+    first_ready = round(time.monotonic()-started+BOOT_QUIET, 1)
+    samples = []
+    sampling = time.monotonic()
+    for _ in range(count):
+        samples.append(peek(0x3d12)[0])
+        time.sleep(0.02)
+    report['ready_samples'] = dict(count=len(samples), ready=samples.count(1),
+                                   values=sorted(set(samples)), sequence=bytes(samples).hex(),
+                                   first_ready_after_reset_s=first_ready, polls_before_ready=polls,
+                                   sampling_seconds=round(time.monotonic()-sampling, 1))
+    print('N_READY duty:', samples.count(1), '/', len(samples), flush=True)
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--host', help='the Ultimate II+ address (default: $KESTREL_ULTIMATE_HOST)')
+    parser.add_argument('--report', type=Path, help='also write the report here')
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument('--mouse', action='store_true',
+                       help='interactive: a person moves and clicks the 1351 while this observes')
+    modes.add_argument('--mirror', action='store_true',
+                       help='check the 80-column mirror byte for byte (desktop, window, menu, alert)')
+    modes.add_argument('--show', type=int, metavar='SECONDS',
+                       help='boot and leave GEMDESK running this long for a person to look, then restore')
+    modes.add_argument('--screens', type=Path, metavar='DIR',
+                       help='README screenshots of GEMDESK and the Ultimate app into DIR, then restore')
+    modes.add_argument('--sample-ready', type=int, metavar='N',
+                       help='diagnostic: after boot, sample N_READY ($3d12) N times over DMA and record its duty cycle')
+    parser.add_argument('--image', type=Path, help='gem.d81 to boot instead of the committed target (hash recorded)')
+    args = parser.parse_args()
+    mode = ('mouse' if args.mouse else 'mirror' if args.mirror else 'show' if args.show else
+            'screens' if args.screens else 'sample-ready' if args.sample_ready else 'keyboard')
+    run(VerifiedUltimate(resolve_host(args.host), timeout=60), dos_contexts=True, report_path=args.report,
+        image=args.image, mode=mode, seconds=args.show, screens=args.screens, samples=args.sample_ready)
 
 def screens_workflow(mon, work, entries, report, save, out):
     """README screenshots on the real machine: GEMDESK, a drive window and the

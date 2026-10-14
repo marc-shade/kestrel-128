@@ -193,7 +193,7 @@ The suites run the real 6502 code:
 - **CPU suites** run app and kernel code in a 6502 simulator (py65):
   321 jobs.
 - **VICE suites** boot the disk images in x128 and drive them with keyboard,
-  mouse and serial input: 59 jobs.
+  mouse and serial input: 62 jobs.
 - **Hardware checks** (`hw_*.py`) drive a real C128 through the Ultimate II+
   REST API and FTP server. Each records the drive state first, works on
   private uploads, and afterwards puts every drive's image and mode back,
@@ -203,12 +203,27 @@ The suites run the real 6502 code:
   a C128 reset). `hw_ultimate_check.py --close-dos-context N` reports and
   closes one by hand. Give the Ultimate's address with `--host` or
   `KESTREL_ULTIMATE_HOST`.
+- `hw_ultimate_check.py --native-gem` boots a private read-only copy of
+  `gem.d81` (with the NOTE, LEDGER and PICTURE documents) on drive A and a
+  two-file D81 on drive B (IEC 9), both in 1581 mode, and runs GEMDESK's
+  keyboard workflow: the desktop, drive 9's window and its D81 detection,
+  drive 8's window, then Calculator, a document in the Editor, a workbook in
+  Sheet and a picture in Paint, each opened from the window and left again.
+  `--native-aes` boots the AES demo (built from `examples/native-aes`, its
+  disk's sha256 recorded) from a private D64 on drive A and runs the
+  40-column alert, menu and window tests. Both read the screen with the held
+  CPU capture and compare the whole VIC surface with the same oracles as
+  the VICE suites, which share their key sequence
+  (`native_gemdesk_workflow.py`, `native_aes_workflow.py`; the VICE jobs
+  with `--hardware-sequence` run the hardware runner's own code). Neither
+  uses the mouse, and the GEM check refuses to start while the Ultimate's
+  printer emulation is enabled on IEC 4 or 5.
 
 ```sh
 python3 -m pip install -r tests/requirements.txt
 python3 -B tests/sweep_native.py --group cpu  --jobs 4 --out /tmp/sweep-cpu
 python3 -B tests/sweep_native.py --group vice --jobs 2 --out /tmp/sweep-vice
-KESTREL_ULTIMATE_HOST=192.0.2.10 python3 -B hw_native_gem_check.py --report /tmp/gem.json
+KESTREL_ULTIMATE_HOST=192.0.2.10 python3 -B hw_ultimate_check.py --native-gem
 ```
 
 The CPU suites are pure Python, so PyPy 3.11 runs them far faster than
