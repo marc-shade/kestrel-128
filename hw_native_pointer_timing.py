@@ -76,7 +76,11 @@ def run(ult, *, monitor_class=HardwareMonitor, dos_contexts=False, run_quiet=RUN
         wait(lambda: read(0x1c13, 6) == b'KES128' and read(0x3d60, 32) == header_bytes and ready(),
              'measurement desktop boot', 300)
         report['before_start'] = start = header('header-before-start'); save()
-        assert start['phase'] == 0 and start['count'] == 0 and start['calls'] == 0, start
+        # Nothing is recorded before the start key. A connected 1351 can still
+        # cause pointer calls at rest (its pots straddle a count boundary);
+        # the run ignores the physical mouse, so those calls are only recorded.
+        assert start['phase'] == 0 and start['count'] == 0, start
+        report['calls_before_start'] = start['calls']
         report['stage'] = 'start'; save()
         keys = int.from_bytes(read(0x3d13, 2), 'little')
         deadline = time.monotonic()+60; started = None
