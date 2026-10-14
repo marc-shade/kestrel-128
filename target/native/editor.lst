@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native/editor.prg -L target/native/editor.lst src/native/editor.asm
-; Tue Oct 13 06:17:22 2026
+; Tue Oct 13 21:49:32 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -208,7 +208,7 @@
 =0						DOC_EXTERNAL_MEMORY=0
 =0						DOC_COMPACT=0
 =0						DOC_HISTORY=0
-=0						DOC_PARTIAL=0                ; 1: a short final chunk may use a run below 4 KiB
+=0						DOC_PARTIAL=0                ; 1: chunks of 1..16 pages use runs below 4 KiB
 =$1c26						doc_storage_read=N_READ
 =$1c29						doc_storage_write=N_WRITE
 =0						D_LEN = 0
@@ -223,6 +223,8 @@
 =24						D_MAXCHUNKS = 24
 =112						D_TAILBANK = 112             ; DOC_PARTIAL: bank/page of the last chunk
 =113						D_TAILPAGE = 113
+=114						D_SIZES = 114                ; DOC_PARTIAL: pages-1 of each chunk, two per byte
+=126						D_FULL = 126                 ; DOC_PARTIAL: leading chunks of 16 pages
 .6020						doc_init:
 .6020		ad 20 3d	lda $3d20	        lda N_CURRENT
 .6023		8d e7 69	sta $69e7	        sta d_owner
