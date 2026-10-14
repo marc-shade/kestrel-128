@@ -218,6 +218,22 @@ The suites run the real 6502 code:
   with `--hardware-sequence` run the hardware runner's own code). Neither
   uses the mouse, and the GEM check refuses to start while the Ultimate's
   printer emulation is enabled on IEC 4 or 5.
+- **Pointer timing** (`hw_ultimate_check.py --native-pointer-timing`)
+  measures rather than qualifies. It assembles a measurement-only desktop
+  and VDC service (`native_pointer_timing.py`, never shipped: seven
+  same-length code swaps and two appended files under `probes/`;
+  `target/` is hashed before and after) and boots it read-only. Key T makes
+  the C128 move its own pointer over empty desktop space through the
+  shipped 1351 sampling path with synthetic counters (the physical mouse
+  must stay still), and CIA2 timer B times 512 pointer-only updates. The
+  report gives count, min, mean, median, p95 and max cycles of the
+  service's pointer redraw and of the whole bank call, the share under one
+  60 Hz frame (17,045 cycles) and the jiffies between updates. The host
+  stays silent from the start key until the run ends.
+  `tests/ci_native_pointer_timing_vice.py` runs the same build in Py65,
+  where every record must equal the shipped code's cycles, and in VICE;
+  `tests/ci_native_pointer_timing_lifecycle.py` runs the check against the
+  simulated Ultimate.
 
 ```sh
 python3 -m pip install -r tests/requirements.txt

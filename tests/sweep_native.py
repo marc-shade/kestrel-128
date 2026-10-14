@@ -44,6 +44,7 @@ VICE = {
     'ci_native_editor_gui_iec', 'ci_native_files_copy_iec', 'ci_native_browser_iec',
     'ci_native_files_iec', 'ci_native_sheet_iec', 'ci_native_pointer_iec',
     'ci_native_suite_iec', 'ci_native_keyboard_iec', 'ci_native_editor_print_vice', 'ci_native_apps_iec',
+    'ci_native_pointer_timing_vice',
 }
 
 # VICE suites whose boolean flags select distinct scenarios. Each tuple is one

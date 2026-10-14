@@ -216,6 +216,8 @@ def main():
                              '(drive 9, Calculator, Editor, Sheet, Paint), exact surfaces')
     checks.add_argument('--native-aes', action='store_true',
                         help='the AES demo (40-column alert, menu and window tests) on a private D64, exact surfaces')
+    checks.add_argument('--native-pointer-timing', action='store_true',
+                        help='time 512 pointer-only desktop updates (measurement-only build, CIA2 timer B)')
     checks.add_argument('--native-reclaim', type=Path, metavar='REPORT',
                         help='retrieve and delete the private files a failed check left behind (its report.json)')
     checks.add_argument('--close-dos-context', type=int, choices=(1, 2), metavar='N',
@@ -237,6 +239,10 @@ def main():
         from hw_native_apps_check import run
         from native_capture_transport import ReceiptUltimate
         run(ReceiptUltimate(host,timeout=60),dos_contexts=True)
+    elif args.native_pointer_timing:
+        from hw_native_pointer_timing import run
+        from native_capture_transport import ReceiptUltimate,PausedHardwareMonitor
+        run(ReceiptUltimate(host,timeout=60),monitor_class=PausedHardwareMonitor,dos_contexts=True)
     elif args.close_dos_context:
         close_dos_context(VerifiedUltimate(host,timeout=60),args.close_dos_context)
     elif args.native_reclaim:
