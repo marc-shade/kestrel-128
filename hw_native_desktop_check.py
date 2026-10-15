@@ -236,12 +236,14 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
     report['native_checks_passed']=True;save()
 
 
-def idle_admission(paused, read, admissions, bound=30):
+def idle_admission(paused, read, admissions, bound=30, attempts=40):
     """A capture batch that takes a capture's before/restore snapshots only at
     a paused instant where the workspace is idle. Pointer clients clear
     N_READY while they sample the 1351 every frame, so a pause can land
     inside a sample; that instant is skipped, not asserted on (as the VICE
-    workflows' stable_batch does)."""
+    workflows' stable_batch does). It gives up only after both `bound`
+    seconds and `attempts` paused looks: when the Ultimate's network is slow
+    each look can take seconds (7 looks in 30 s once failed a hardware run)."""
     @contextmanager
     def batch(label):
         if not label.endswith(('-before', '-restore')):
@@ -257,7 +259,7 @@ def idle_admission(paused, read, admissions, bound=30):
                     yield
                     return
             deferred += 1
-            assert time.monotonic() < deadline, ('idle capture admission', label, deferred)
+            assert time.monotonic() < deadline or deferred < attempts, ('idle capture admission', label, deferred)
             time.sleep(.01)
     return batch
 

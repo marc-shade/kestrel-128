@@ -543,9 +543,19 @@ def admission_cases(cases):
     states[:]=['sampling'];bounded=idle_admission(paused,read,admissions,bound=.05)
     try:
         with bounded('frame-restore'):raise AssertionError('entered while sampling')
-    except AssertionError as error:assert error.args[0][0]=='idle capture admission',error
+    except AssertionError as error:assert error.args[0][0]=='idle capture admission' and error.args[0][2]==40,error
     else:raise AssertionError('never-idle workspace admitted')
     cases['admission-bounded']=True
+    # A slow network makes every paused look take longer than the whole time
+    # bound; the minimum number of looks still applies (hardware apps run 9).
+    import time
+    @contextmanager
+    def slow(label):
+        pauses.append(label);time.sleep(.02);yield
+    admissions.clear();states[:]=['sampling']*9+['idle']
+    with idle_admission(slow,read,admissions,bound=.01)('slow-before'):pass
+    assert admissions==[dict(label='slow-before',deferred=9)],admissions
+    cases['admission-counts-slow-looks']=True
 
 
 def main():
