@@ -183,6 +183,9 @@ vm_read_failed:
         lda #0
         sta vm_line
 vm_line_next:
+        lda #3
+        sta vm_tries
+vm_line_again:
         jsr vd_seek
         lda #>N_BUFFER
         sta vm_read+2
@@ -218,6 +221,8 @@ vm_read:                      ; 640 bytes a row: vd_putbyte is inline
         inc vm_read+2
 +       dec vm_left
         bne vm_read
+        jsr vm_verify
+        bcs vm_line_again
         jsr vd_next_row
         inc vm_line
         lda vm_line
@@ -236,6 +241,9 @@ vm_attributes:
         jsr vd_xy
         pla
         sta vd_base
+        lda #3
+        sta vm_tries
+vm_attributes_again:
         jsr vd_seek
         ldy #0
 -       lda vm_colors,y
@@ -250,7 +258,39 @@ vm_attributes:
         iny
         cpy #40
         bne -
+        jsr vm_verify
+        bcs vm_attributes_again
         rts
+; Each 80-byte run must leave the update address exactly 80 past its seek.
+; A physical 8563 has been seen to land a write without advancing (one byte
+; early for the rest of the run) or to advance twice; the same R18/R19
+; readback the capture probe uses finds both, and the run is written again.
+; Returns C clear when it matched, C set to retry, or fails after 3 tries.
+vm_verify:
+        ldx #18
+        jsr vd_getreg
+        sta vm_check
+        inx
+        jsr vd_getreg
+        sec
+        sbc vd_addr
+        tax
+        lda vm_check
+        sbc vd_addr+1
+        bne +
+        cpx #80
+        bne +
+        clc
+        rts
++       inc vm_rewrites
+        bne +
+        inc vm_rewrites+1
++       dec vm_tries
+        beq +
+        sec
+        rts
++       lda #N_IOERROR
+        jmp vd_fail
 ; N_BUFFER cell c (bytes 8c..8c+7, never across a page) ^= vm_reverse,c.
 vm_reverse_cells:
         lda #>N_BUFFER
@@ -302,6 +342,9 @@ vm_row: .byte 0
 vm_line: .byte 0
 vm_value: .byte 0
 vm_left: .byte 0
+vm_tries: .byte 0
+vm_check: .byte 0
+vm_rewrites: .word 0          ; runs written again, for hardware evidence
 vm_background: .byte 0
 vm_foreground: .byte 0
 vm_brightness: .byte 0

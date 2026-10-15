@@ -36,7 +36,8 @@ import tempfile
 from hw_native_desktop_check import run_native_workflow, idle_admission, sheet_symbol
 from native_capture import ROOT, NativeCapture
 from native_mode_capture import NativeModeCapture
-from native_vdc_check import capture_frame as vdc_frame
+from native_vdc_check import capture_frame as checked_vdc_frame
+from hwlib import lst_symbol
 from native_claude_check import landing_screen, capture_frame as claude_frame
 from native_controls_check import panel_screen
 from native_controls_scene import surface as controls_surface, drive_body as graphical_drives
@@ -107,6 +108,17 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
     report['apps_mode_captures'] = modes.records
     rows = report.setdefault('apps', dict(paint=[], claude=[], controls=[], sheet=[]))
     names = iter(range(1 << 30))
+    # The shared VDC service writes an 80-byte run again when R18/R19 show the
+    # update address drifted (graphics/vdc-mirror.inc); its running count is
+    # recorded before each Paint, Controls and Sheet VDC comparison, so a
+    # failed checkpoint keeps it. Claude draws its own VDC screen.
+    rewrites = report.setdefault('vdc_rewrites', {})
+    rewrite_at = lst_symbol(f'{kernel_prefix}/vdsvc', 'vm_rewrites')
+
+    def vdc_frame(capture, read, selected, work, label, *args, **kwargs):
+        count = capture.capture(label+'-vdc-rewrites', bank=1, address=rewrite_at, count=2)
+        rewrites[label] = int.from_bytes(count, 'little'); save()
+        return checked_vdc_frame(capture, read, selected, work, label, *args, **kwargs)
 
     def app_read(read, address, count=1):
         # App RAM at $4000 and above lies under ROM in the IRQ/KERNAL map; a
@@ -236,7 +248,7 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
                                        'claude-landing', panel=landing_screen(40), terminal_chars=landing_screen(80))
         assert app_read(read, labels['cg_vdc_owned']) == b'\1'
         assert app_read(read, labels['serialOwned']) == b'\0', 'Claude opened the serial port without Return'
-        landing['vdc'] = vdc_frame(capture, read, None, work, 'claude-landing', 0, surface_data=actual,
+        landing['vdc'] = checked_vdc_frame(capture, read, None, work, 'claude-landing', 0, surface_data=actual,
                                    image_prefix=f'{kernel_prefix}/claude-gui')
         rows['claude'].append(landing); save()
         key(0x8c, io=True)   # F8: desktop

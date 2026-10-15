@@ -115,6 +115,9 @@ def main():
         run_native_workflow(paused,capture,work,disk,report,save,key_quiet=.1,key_poll=.1,additional_apps=extra,
                             prelude=not args.apps_only)
         assert report.get('apps_passed') and report.get('native_checks_passed')
+        # VICE's 8563 never drifts, so a nonzero count means the readback
+        # itself is wrong and the service is rewriting good runs.
+        assert report['vdc_rewrites'] and not any(report['vdc_rewrites'].values()),report['vdc_rewrites']
         mon.quit_emulator();mon.close();mon=None
         process.wait(timeout=15)
         assert hashlib.sha256(disk.read_bytes()).hexdigest()==report['images']['target/native-desktop/kestrel.d64']
