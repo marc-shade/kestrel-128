@@ -196,7 +196,7 @@ def run(group):
                             assert (nx-ox, ny-oy) == (dx, dy)
                             kept = range(oy, min(200, oy+16)) if nx//4 == ox//4 else ()
                             fresh = [row for row in range(ny, min(200, ny+16)) if row not in kept]
-                            assert p.bus.data_reads-reads == len(fresh)*(1+min(2, 80-nx//4)), ((ox,oy),(nx,ny),p.bus.data_reads-reads,len(fresh))
+                            assert p.bus.data_reads-reads == len(fresh)*min(2, 80-nx//4), ((ox,oy),(nx,ny),p.bus.data_reads-reads,len(fresh))
                     # Hovering the selected card redraws only the pointer; moving
                     # to the next card rewrites only the two cards that change
                     # (their attribute rows and markers), not the whole scene.

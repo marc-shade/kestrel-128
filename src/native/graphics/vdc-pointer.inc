@@ -135,8 +135,10 @@ vd_pointer_restore_row:
         rts
 ; The background at vd_addr -> the row's slot X = vd_pointer_at. This and
 ; vd_pointer_next run for every pointer row, so the data accesses are inline.
+; Setting R18/R19 reloads the 8563's read latch (the capture probe reads
+; right after its seek on the reference C128), so no priming read is needed.
 vd_pointer_read:
-        jsr vd_read_seek
+        jsr vd_seek
         ldx vd_pointer_at
         bit $d600
         bmi +
