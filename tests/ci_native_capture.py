@@ -11,6 +11,7 @@ from py65.devices.mpu6502 import MPU
 from ci_native_heap import Bus, ROOT
 from native_vdc_chip import CaptureBus
 from native_capture import NativeCapture, ObservationChanged
+from native_mode_capture import NativeModeCapture, FIELDS as MODE_FIELDS
 from native_vdc_check import capture_frame
 from native_vdc_scene import bitmap, attributes, pointer_bitmap
 
@@ -235,6 +236,42 @@ def frame_cases(folder):
         except ObservationChanged:pass
         else:raise AssertionError(('change outside the pointer bytes was retaken',changes))
     cases['frame-other-changes-fail']=dict(rejected=3)
+    cases.update(mode_cases())
+    return cases
+
+
+class ModeObserver(NativeCapture):
+    """Observer stand-in under NativeModeCapture.snapshot: fails listed labels."""
+    def __init__(self,failures):
+        self.failures=dict(failures);self.records=[];self.labels=[]
+    def capture(self,label,mode=0,bank=0,address=0,count=2000):
+        self.labels.append(label)
+        self.records.append(dict(label=label))
+        if label in self.failures:raise ObservationChanged(label,self.failures.pop(label))
+        return bytes(range(count))
+
+
+class FakeMode(NativeModeCapture,ModeObserver):
+    def __init__(self,failures):ModeObserver.__init__(self,failures)
+
+
+def mode_cases():
+    # Run 5 of the hardware apps check stopped when a pointer redraw changed
+    # $3a1c during the desktop-boot mode snapshot. Pointer bytes only: retake;
+    # anything else, or a third redraw, still fails.
+    cases={}
+    fake=FakeMode({'boot-mode':[0x3a1c]})
+    registers=fake.snapshot('boot-mode')
+    assert fake.labels==['boot-mode','boot-mode-retry1'] and registers==dict(zip(MODE_FIELDS,range(len(MODE_FIELDS))))
+    assert fake.records[-1]['source']=='fixed CPU mode-register snapshot' and fake.records[0]['source']
+    cases['mode-retakes-pointer-redraw']=fake.labels
+    for failures in ({'m-mode':[0x3d2f]},{'m-mode':[0x3a1c,0x3a00]},{'m-mode':[]},
+                     {'m-mode':[0x3a1c],'m-mode-retry1':[0x3a07],'m-mode-retry2':[0x3a1a]}):
+        fake=FakeMode(failures)
+        try:fake.snapshot('m-mode')
+        except ObservationChanged:pass
+        else:raise AssertionError(('mode snapshot accepted',failures))
+    cases['mode-other-changes-fail']=dict(rejected=4)
     return cases
 
 

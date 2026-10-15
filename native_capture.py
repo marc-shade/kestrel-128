@@ -78,6 +78,15 @@ class ObservationChanged(AssertionError):
         self.changes = changes
 
 
+# A pointer redraw while a capture borrows N_BUFFER changes only the pointer
+# bytes of the VDC argument packet (7..10) and status record (25..28).
+POINTER_REDRAW_BYTES = frozenset(range(0x3a07,0x3a0b))|frozenset(range(0x3a19,0x3a1d))
+
+
+def pointer_redraw_only(changed):
+    return bool(changed.changes) and set(changed.changes) <= POINTER_REDRAW_BYTES
+
+
 class NativeCapture:
     def __init__(self,mon,work,quiet=2,*,kernel_prefix='native',batch=None):
         self.mon,self.work,self.quiet=mon,work,quiet

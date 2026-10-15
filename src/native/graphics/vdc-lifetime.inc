@@ -374,6 +374,9 @@ vd_poke:
         pla
         jmp vd_putbyte
 vd_read_block:
+        lda #3
+        sta vd_tries
+vd_read_again:
         jsr vd_read_seek
         ldy #0
 -       jsr vd_getbyte
@@ -381,8 +384,14 @@ vd_read_block:
         iny
         cpy vd_count
         bne -
+        lda vd_count
+        jsr vd_verify
+        bcs vd_read_again
         rts
 vd_write_block:
+        lda #3
+        sta vd_tries
+vd_write_again:
         jsr vd_seek
         ldy #0
 -       lda N_BUFFER,y
@@ -390,4 +399,44 @@ vd_write_block:
         iny
         cpy vd_count
         bne -
+        lda vd_count
+        jsr vd_verify
+        bcs vd_write_again
         rts
+; A run of A bytes (0 = 256) from vd_addr must leave the update address
+; exactly that far past it. The reference C128's 8563 occasionally lands an
+; access without advancing, or advances twice, putting the rest of the run
+; one byte off; R18/R19 (the readback the capture probe uses) shows both.
+; C clear when it matched; C set to repeat the run, which the caller does
+; at most vd_tries times before the operation fails with N_IOERROR.
+vd_verify:
+        ldy vd_addr+1
+        tax
+        bne +
+        iny                   ; a whole page
++       clc
+        adc vd_addr
+        sta vd_end
+        bcc +
+        iny
++       sty vd_end+1
+        ldx #18
+        jsr vd_getreg
+        cmp vd_end+1
+        bne vd_drift
+        inx
+        jsr vd_getreg
+        cmp vd_end
+        bne vd_drift
+        clc
+        rts
+vd_drift:
+        inc vd_rewrites
+        bne +
+        inc vd_rewrites+1
++       dec vd_tries
+        beq +
+        sec
+        rts
++       lda #N_IOERROR
+        jmp vd_fail

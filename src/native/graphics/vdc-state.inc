@@ -21,6 +21,9 @@ vd_font_high: .byte 0
 vd_count: .byte 0
 vd_length: .byte 0
 vd_wait_low: .byte 0
+vd_tries: .byte 0
+vd_end: .word 0
+vd_rewrites: .word 0          ; runs repeated after drift, for hardware evidence
 vd_wait_high: .byte 0
 vd_probe_live: .byte 0
 vd_probe_low: .byte 0

@@ -2,7 +2,7 @@
 import hashlib
 from pathlib import Path
 from hwlib import lst_symbol
-from native_capture import ObservationChanged
+from native_capture import ObservationChanged, pointer_redraw_only
 from native_pointer_check import check_canvas
 from native_vdc_scene import bitmap, attributes, pointer_bitmap, pixels
 from native_vdc_mirror import bitmap as mirror_bitmap, attributes as mirror_attributes, pixels as mirror_pixels
@@ -112,10 +112,8 @@ def capture_frame(capture, read_app, canvas, folder, label, selected, *, color=N
     # while it is read. The app's drawn-pointer state is read through the IRQ
     # observer before and after; an attempt whose pointer moved is retaken,
     # and an attempt with a steady pointer must match exactly.
-    # A redraw while a capture is borrowing N_BUFFER changes only the pointer
-    # bytes of the VDC argument packet (7..10) and status record (25..28):
+    # A redraw while a capture is borrowing N_BUFFER (POINTER_REDRAW_BYTES):
     # the same move, seen by the observer, so that attempt is retaken too.
-    pointer_bytes = set(range(0x3a07,0x3a0b))|set(range(0x3a19,0x3a1d))
     pointer_moves = []
     for attempt in range(3):
         tag = label if not attempt else f'{label}-retry{attempt}'
@@ -127,7 +125,7 @@ def capture_frame(capture, read_app, canvas, folder, label, selected, *, color=N
             actual = region('vdc-bitmap',base,16000,tag)
             after = capture.capture(tag+'-pointer-after', address=symbol('vd_pointer_visible'), count=4)
         except ObservationChanged as changed:
-            if not changed.changes or not set(changed.changes) <= pointer_bytes:
+            if not pointer_redraw_only(changed):
                 raise
             pointer_moves.append(dict(attempt=attempt, redraw_during_capture=sorted(set(changed.changes))))
             continue

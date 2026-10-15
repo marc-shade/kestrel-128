@@ -108,12 +108,12 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
     report['apps_mode_captures'] = modes.records
     rows = report.setdefault('apps', dict(paint=[], claude=[], controls=[], sheet=[]))
     names = iter(range(1 << 30))
-    # The shared VDC service writes an 80-byte run again when R18/R19 show the
-    # update address drifted (graphics/vdc-mirror.inc); its running count is
-    # recorded before each Paint, Controls and Sheet VDC comparison, so a
-    # failed checkpoint keeps it. Claude draws its own VDC screen.
+    # The shared VDC service repeats a run when R18/R19 show the update
+    # address drifted (vd_verify, graphics/vdc-lifetime.inc); its running
+    # count is recorded before each Paint, Controls and Sheet VDC comparison,
+    # so a failed checkpoint keeps it. Claude draws its own VDC screen.
     rewrites = report.setdefault('vdc_rewrites', {})
-    rewrite_at = lst_symbol(f'{kernel_prefix}/vdsvc', 'vm_rewrites')
+    rewrite_at = lst_symbol(f'{kernel_prefix}/vdsvc', 'vd_rewrites')
 
     def vdc_frame(capture, read, selected, work, label, *args, **kwargs):
         count = capture.capture(label+'-vdc-rewrites', bank=1, address=rewrite_at, count=2)

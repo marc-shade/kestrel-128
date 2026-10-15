@@ -1,6 +1,6 @@
 """CPU-observed native mode registers with the qualified IRQ borrower."""
 import subprocess
-from native_capture import NativeCapture, ROOT
+from native_capture import NativeCapture, ObservationChanged, ROOT, pointer_redraw_only
 
 
 FIELDS = ('foreground_mmu', 'mode', 'common', 'cpu_ddr', 'cpu_port',
@@ -20,9 +20,17 @@ class NativeModeCapture(NativeCapture):
     def snapshot(self, label):
         # The fixed observer reuses the borrow/restore protocol, not the RAM
         # reader. Give the record its explicit source before returning it.
-        try:
-            raw=super().capture(label,address=0,count=len(FIELDS))
-        finally:
-            if self.records and self.records[-1]['label']==label:
-                self.records[-1].update(source='fixed CPU mode-register snapshot',fields=list(FIELDS))
-        return dict(zip(FIELDS,raw))
+        # A pointer redraw that changed only the borrowed pointer bytes is
+        # retaken, as the VDC bitmap capture does; anything else fails.
+        for attempt in range(3):
+            tag=label if not attempt else f'{label}-retry{attempt}'
+            try:
+                raw=super().capture(tag,address=0,count=len(FIELDS))
+            except ObservationChanged as changed:
+                if attempt==2 or not pointer_redraw_only(changed):
+                    raise
+                continue
+            finally:
+                if self.records and self.records[-1]['label']==tag:
+                    self.records[-1].update(source='fixed CPU mode-register snapshot',fields=list(FIELDS))
+            return dict(zip(FIELDS,raw))
