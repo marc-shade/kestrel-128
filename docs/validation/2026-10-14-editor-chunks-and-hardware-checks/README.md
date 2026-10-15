@@ -91,6 +91,21 @@ around it misses by 465 cycles on average. VICE overstated both (16,386 and
 had already caused one pointer call before the start key; 6f0be67 records
 such calls (`calls_before_start`, 1 here) instead of refusing.
 
+e5b2449 reads the background under the pointer straight after its seek
+instead of after a priming read; the capture probe reads the same way and
+matched on hardware. In Py65 a desktop pointer frame went from 13,618 to
+12,242 cycles. The same check at 95ce2e6 (disk image 7168a9df...), 512
+updates, none missing, calibration exact:
+
+| Cycles | Min | Mean | Median | p95 | Max | Under one frame |
+|---|---:|---:|---:|---:|---:|---:|
+| Service redraw | 11,085 | 12,405 | 12,270 | 13,660 | 14,289 | 100% |
+| Whole bank call | 14,034 | 15,400 | 15,279 | 16,673 | 17,246 | 99.8% |
+
+Updates came 1 jiffy apart in 253 of 511 intervals and 2 jiffies apart in
+258. Nearly every call now fits a frame, but only about half the updates run
+at 60 Hz; where the rest of each missed frame goes has not been measured.
+
 ## VDC write drift on the C128
 
 `--native-apps` and `--native-apps-only` failed six more times before passing.
@@ -144,6 +159,35 @@ The probe logged 2 resyncs on its own reads. Drives were restored and matched,
 uploads deleted, nothing left behind, images unchanged, no host connection
 failures.
 
+Run 9 (the full `--native-apps`, cad29c1) failed in the prelude before any
+app compare: the Files launch took over 428 seconds amid Ultimate network
+timeouts, and an idle capture admission gave up after 7 looks inside its 30
+second bound. 1d6b144 gives up only after both 30 seconds and 40 looks;
+`ci_hardware_uploads` has a case with slow looks that the old bound fails.
+
+e5a8446 moves the check into a shared `vd_verify` and applies it to every
+block run as well: the open-time snapshot, the close-time restore and the
+desktop scene. The counter is now `vd_rewrites`. `ci_native_vdc_drift.py` has
+14 cases (writes, reads and the restore, both directions, 16 and 64 KiB); with
+the check disabled all 14 fail. The mode capture also retries when only a
+pointer redraw changed its borrowed buffer (run 5); `ci_native_capture` has
+cases for it that the old code fails.
+
+Run 10 (`--native-apps-only`, 95ce2e6, the C128 on for over two hours)
+PASSED with 976 capture admissions, none deferred more than once:
+
+| Checkpoint | `vd_rewrites` |
+|---|---:|
+| `paint-new`, `paint-pen-origin` | 1 |
+| `paint-ink2-right`, `paint-undo`, `paint-discard-prompt` | 2 |
+| `controls-drives` | 0 |
+| `sheet-save-new` | 0 |
+| `sheet-save-calculated` | 3 |
+| `sheet-saved` | 9 |
+
+Drives were restored and matched, uploads deleted, nothing left behind,
+images unchanged, no host connection failures.
+
 ## Gates
 
 - 451bfe5 (chunks): CPU sweep 323/323.
@@ -166,6 +210,19 @@ failures.
 - edd9d40 to 83a03e5 (VDC drift check and rebuilt images): CPU sweep 325/325,
   VICE sweep 65/65 (both apps twins with every `vm_rewrites` 0).
 - Hardware: `--native-apps-only` PASSED (83a03e5), as above.
+- Hardware: `--native-apps` FAILED (cad29c1, run 9) at an idle capture
+  admission in the Files prelude, as above.
+- e5a8446 to c7f13c2 (block-run drift check, mode capture retry): CPU sweep
+  325/325, VICE sweep 65/65.
+- e5b2449 to 95ce2e6 (pointer read, admission bound): CPU sweep 325/325, VICE
+  sweep 65/65.
+- Hardware (95ce2e6 images): `--native-pointer-timing` PASSED and
+  `--native-apps-only` PASSED (run 10), as above. `--native-desktop` first
+  refused to start: it admits only a pinned disk image, still the 6806b13
+  one. With the pin moved to 7168a9df... it PASSED all 14 checkpoints
+  (Calculator, Editor, Files and Sheet from the desktop, then the workspace),
+  restoring and matching the drives, deleting its upload, with the images
+  unchanged and no host connection failures.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -176,14 +233,13 @@ failures.
 
 - The full `--native-apps` (with the Calculator, Editor and Files prelude)
   has not passed on hardware since the drift check; `--native-desktop` covers
-  that prelude and passed at e99342b, before it.
-- The pointer redraw, the desktop scene and the close-time restore of VDC RAM
-  do not check their writes for drift; a drifted write there is not repaired.
-- The desktop-boot mode capture does not retry when a pointer redraw changes
-  its borrowed buffer (run 5).
+  that prelude and passed at 95ce2e6.
+- The pointer redraw, single register pokes and the VDC's own block fills and
+  copies do not check their writes for drift; a drifted write there is not
+  repaired.
 - The Controls Info, Network and Clock pages, Paint mouse drawing and file
   I/O, and the Claude serial session are not checked on hardware.
-- The pointer moves at 30 Hz, not 60 (above).
+- About half the pointer updates run at 60 Hz, the rest at 30 Hz (above).
 - The pointer check runs over empty desktop space only; pointer cost over
   app surfaces on hardware is not measured.
 - The large picker case at 30 pages (not reachable by padding) and at 36 (the
