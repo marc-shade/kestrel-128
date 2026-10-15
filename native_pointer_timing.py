@@ -7,7 +7,9 @@ same length (every shipped label keeps its address), appends
 probes/pointer-timing-desktop.inc and probes/pointer-timing-service.inc, and
 assembles, seals and packs both exactly like build-native-desktop.py. The
 result is a copy of target/native-desktop/kestrel.d64 whose `browse` and
-`vdsvc.prg` are the instrumented ones. Nothing is written under target/.
+`vdsvc.prg` are the instrumented ones. The shipped disk has almost no free
+blocks, so the copy also drops `shcalc.prg`, a Sheet module the timed desktop
+never loads. Nothing is written under target/.
 
 Before the instrumented build, the same procedure assembles the unpatched
 copy and must reproduce target/native-desktop/desktop.prg and vdsvc.prg byte
@@ -121,6 +123,9 @@ def patch(tree):
     return applied
 
 
+UNUSED_MODULE = 'shcalc.prg'   # room for the larger instrumented images
+
+
 def build(out):
     """Build the instrumented images into out (not under target/); returns the manifest."""
     out = Path(out).resolve()
@@ -148,7 +153,7 @@ def build(out):
         assert set(moved[name]) <= {'gd_end', 'bv_end'}, (name, moved[name][:20])
     disk = out/'pointer-timing.d64'
     disk.write_bytes(shipped_disk)
-    subprocess.run(['c1541', '-attach', str(disk), '-delete', 'browse', 'vdsvc.prg',
+    subprocess.run(['c1541', '-attach', str(disk), '-delete', 'browse', 'vdsvc.prg', UNUSED_MODULE,
                     '-write', str(out/'desktop.prg'), 'browse',
                     '-write', str(out/'vdsvc.prg'), 'vdsvc.prg'], check=True, capture_output=True)
     labels = symbols(out/'desktop-raw.sym')

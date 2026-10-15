@@ -159,6 +159,17 @@ class Desktop(Pointer):
             assert self.bus.reg[register] == self.bus.original[1][register], ('register restoration', register)
 
 
+def pointer_reads(ox, oy, nx, ny):
+    """VDC data reads for one pointer move: the background the redraw does
+    not already hold."""
+    oc, nc = ox//4, nx//4
+    covered = range(oy, min(200, oy+16))
+    rows = range(ny, min(200, ny+16))
+    if oc <= 78 and nc <= 78 and abs(nc-oc) <= 1 and abs(ny-oy) < 16:
+        return sum(abs(nc-oc) if row in covered else 2 for row in rows)
+    kept = covered if nc == oc else ()
+    return sum(min(2, 80-nc) for row in rows if row not in kept)
+
 def run(group):
     cases = []
     original = heap.Bus
@@ -180,13 +191,21 @@ def run(group):
                     p.frame(); p.check(0)
                     for x, y in ((0,0),(319,199),(319,0),(0,199),(99,40),(103,64),(117,88)):
                         p.move(x,y); p.check(p.value('gd_selected'))
-                    # A move within one byte column reuses the saved background of
-                    # the rows both pointers cover; only the other rows are read.
-                    # Steps stay under 6 pixels, which the 1351 jump filter holds,
-                    # and never return one pixel right after a one-pixel step, which
-                    # the driver treats as resting noise until a second count.
+                    # A move to a byte column at most one away reuses the saved
+                    # background of the rows both pointers cover: none of it is read
+                    # in the same column and only the uncovered byte one column
+                    # over. Column 79 (one byte wide) takes the general path, which
+                    # reuses only same-column rows. Steps stay under 6 pixels, which
+                    # the 1351 jump filter holds, and never return one pixel right
+                    # after a one-pixel step, which the driver treats as resting
+                    # noise until a second count. The (309,60) and (202,8) steps go
+                    # a column left and right, both up and down; (202,8) is over the
+                    # menu bar, whose rows differ, so restoring a row from another
+                    # row's saved background shows.
                     for origin, steps in (((305,100),((0,3),(0,-5),(1,2),(-2,-2),(2,0),(5,1))),
                                          ((305,190),((0,4),(0,-3),(1,5))),
+                                         ((309,60),((-5,-4),(5,5),(-4,3),(4,-5))),
+                                         ((202,8),((-5,-4),(5,5),(-4,3),(4,-5),(0,-5),(0,5))),
                                          ((318,100),((0,2),(1,-3),(-5,1)))):
                         p.move(*origin); p.check(p.value('gd_selected'))
                         for dx, dy in steps:
@@ -194,9 +213,7 @@ def run(group):
                             p.frame(dx, dy); p.check(p.value('gd_selected'))
                             (nx, ny) = p.position
                             assert (nx-ox, ny-oy) == (dx, dy)
-                            kept = range(oy, min(200, oy+16)) if nx//4 == ox//4 else ()
-                            fresh = [row for row in range(ny, min(200, ny+16)) if row not in kept]
-                            assert p.bus.data_reads-reads == len(fresh)*min(2, 80-nx//4), ((ox,oy),(nx,ny),p.bus.data_reads-reads,len(fresh))
+                            assert p.bus.data_reads-reads == pointer_reads(ox, oy, nx, ny), ((ox,oy),(nx,ny),p.bus.data_reads-reads)
                     # Hovering the selected card redraws only the pointer; moving
                     # to the next card rewrites only the two cards that change
                     # (their attribute rows and markers), not the whole scene.

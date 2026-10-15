@@ -103,8 +103,40 @@ updates, none missing, calibration exact:
 | Whole bank call | 14,034 | 15,400 | 15,279 | 16,673 | 17,246 | 99.8% |
 
 Updates came 1 jiffy apart in 253 of 511 intervals and 2 jiffies apart in
-258. Nearly every call now fits a frame, but only about half the updates run
-at 60 Hz; where the rest of each missed frame goes has not been measured.
+258, almost strictly alternating. The 1351 schedule explains it: `pm_poll`
+notices a new jiffy only in raster lines 80 to 159 and samples 32 lines
+later, so a sample falls in lines 112 to 159. When one loop pass, from the
+sample to the next poll, takes more than 231 raster lines (about 15,000
+cycles), each update starts later in the frame than the one before until
+one misses the window and waits a jiffy. These passes took about 255 to 278
+lines.
+
+The redraw then stopped restoring and redrawing a row in two passes. A move
+of fewer than 16 rows to the same or a neighbouring byte column now visits
+each row either position covers once, in the direction of the move, so a
+row's saved background is reused before the row 16 away overwrites its
+slot. A row both cover is one write run (the old position's uncovered byte,
+if any, and the new arrow) after reading at most one byte; the timing
+check's dx of 5 is always a neighbouring column. Other moves, and the one
+byte wide arrow at column 79, keep the restore-then-draw path. In Py65 a
+desktop pointer frame went from 12,242 to 10,454 cycles; VDSVC grows from
+32 to 35 pages. The same hardware check (disk image with the new
+`vdsvc.prg`):
+
+| Cycles | Min | Mean | Median | p95 | Max | Under one frame |
+|---|---:|---:|---:|---:|---:|---:|
+| Service redraw | 8,567 | 9,836 | 9,922 | 10,626 | 11,135 | 100% |
+| Whole bank call | 11,398 | 12,784 | 12,890 | 13,623 | 14,093 | 100% |
+
+Updates came 1 jiffy apart in 508 of 511 intervals and 2 apart in 3: the
+pointer moves at 60 Hz over empty desktop space. The shipped desktop D64 now
+has 1 block free, too little for the larger instrumented images, so the
+measurement disk also leaves out `shcalc.prg`, a Sheet module the timed
+desktop never loads. `ci_native_vdc_desktop` checks the read count of every
+move against the new rule and adds moves a column left and right, up and
+down, over the menu bar, whose rows differ: a build that walks upward moves
+top to bottom fails it, while over the uniform space at x 304 and beyond it
+passed.
 
 ## VDC write drift on the C128
 
@@ -223,6 +255,17 @@ images unchanged, no host connection failures.
   (Calculator, Editor, Files and Sheet from the desktop, then the workspace),
   restoring and matching the drives, deleting its upload, with the images
   unchanged and no host connection failures.
+- One-pass pointer step (VDSVC 35 pages): CPU sweep 325/325, VICE sweep
+  65/65. The two pointer-timing jobs first failed on a tree without the
+  `shcalc.prg` removal (c1541 could not fit the instrumented images) and
+  passed on the tree with it. The VICE twin measured a whole bank call mean
+  of 13,697 cycles, all 512 under a frame, with updates 1 jiffy apart in 441
+  of 511 intervals.
+- Hardware (pointer step images): `--native-pointer-timing` PASSED, as above.
+  With its pin moved to the new disk image (de603582...; the kernel is
+  unchanged), `--native-desktop` PASSED all 14 checkpoints with 590 capture
+  admissions, restoring and matching the drives, deleting its upload, with
+  the images unchanged and no host connection failures.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -239,8 +282,11 @@ images unchanged, no host connection failures.
   repaired.
 - The Controls Info, Network and Clock pages, Paint mouse drawing and file
   I/O, and the Claude serial session are not checked on hardware.
-- About half the pointer updates run at 60 Hz, the rest at 30 Hz (above).
-- The pointer check runs over empty desktop space only; pointer cost over
-  app surfaces on hardware is not measured.
+- The pointer check runs over empty desktop space only, with steps to the
+  neighbouring byte column; pointer cost over app surfaces, and for longer
+  or same-column steps, on hardware is not measured. A real 1351 moved by
+  hand was not part of any run.
+- The shipped desktop D64 has 1 block free; any growth of its programs needs
+  room made on that image (the D81 is unaffected).
 - The large picker case at 30 pages (not reachable by padding) and at 36 (the
   padded build no longer fits the test disk image).

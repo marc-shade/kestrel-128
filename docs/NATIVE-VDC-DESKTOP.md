@@ -40,19 +40,22 @@ all eight lines: its last-raster value is inclusive, so seven is sufficient.
 | Allocation | 16 KiB VDC | 64 KiB VDC |
 |---|---:|---:|
 | Launcher app | 45 pages | 45 pages |
-| Bank-1 VDC component | 31 pages | 31 pages |
+| Bank-1 VDC component | 35 pages | 35 pages |
 | VIC surface | 36 pages | 36 pages |
 | Saved VDC memory without REU | 64 pages | 72 pages |
-| Free managed pages without REU | 250 | 242 |
-| Free managed pages with REU | 314 | 314 |
+| Free managed pages without REU | 246 | 238 |
+| Free managed pages with REU | 310 | 310 |
 | Bitmap address | `$0000` | `$4000` |
 | Attribute address | Disabled | `$8000` |
 | Entire saved address range | `$0000..$3fff` | `$4000..$87ff` |
 
+The free page counts follow from the 35-page component; they were not
+measured again after it grew from 31 pages.
+
 The expanded desktop program contains 8,833 bytes; its packed PRG is 7,362
 bytes including the load address. The
-[suite disks](NATIVE-BOOT-MEDIA.md) contain thirteen shipping files, including
-`VDSVC.PRG`, with 93 free blocks on D64 and 2,589 on D81 before user documents. Use a
+[suite disks](NATIVE-BOOT-MEDIA.md) contain nineteen files, including
+`VDSVC.PRG`, with 1 free block on D64 and 2,497 on D81 before user documents. Use a
 separate data disk or Ultimate storage for larger documents and pictures.
 Qualification saves the small Calculator sample on the system disk. On D64,
 Editor selects device 9 through the file picker; on D81 its sample also fits
@@ -98,9 +101,13 @@ The software
 pointer XORs a clipped arrow into the bitmap and restores its old pixels
 before moving or redrawing selection. Its horizontal position is twice the
 shared 320-pixel pointer coordinate, so the arrow always fits two bytes per
-row. Each row's saved pixels are kept by screen row, so a move that stays in
-the same byte column reuses them for the rows both positions cover instead
-of reading them back from the VDC.
+row. Each row's saved pixels are kept by screen row. A move of fewer than 16
+rows to the same or a neighbouring byte column visits every row either
+position covers once, in the direction of the move: a row both cover is
+written in one run (the old position's uncovered byte, if any, and the new
+arrow) and reads back at most the one byte the old position did not hold.
+Other moves, and an arrow one byte wide at column 79, restore every old row
+and then draw, reusing saved pixels only in the same byte column.
 
 The RAM layout and register behavior follow the Commodore
 [C128 Programmer's Reference Guide](https://www.pagetable.com/docs/Commodore%20128%20Programmer%27s%20Reference%20Guide.pdf)

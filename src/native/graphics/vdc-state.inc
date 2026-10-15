@@ -39,4 +39,13 @@ vd_old_rows: .byte 0
 vd_old_column: .byte 0
 vd_old_y: .byte 0
 vd_mask: .fill 2,0
+vd_prev_x: .word 0
+vd_step_dc: .byte 0
+vd_step_dir: .byte 0
+vd_step_row: .byte 0
+vd_step_rows: .byte 0
+vd_step_old: .byte 0
+vd_step_new: .byte 0
+vd_step_addr: .word 0
+vd_step_under: .byte 0
 vd_under: .fill 32,0
