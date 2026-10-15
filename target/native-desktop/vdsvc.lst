@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
 ; 64tass -a -B -o target/native-desktop/vdsvc.prg -l target/native-desktop/vdsvc.sym -L target/native-desktop/vdsvc.lst src/native/vdc-service.asm
-; Thu Oct 15 08:42:49 2026
+; Thu Oct 15 08:52:40 2026
 
 ;Offset	;Hex		;Monitor	;Source
 
@@ -3533,7 +3533,7 @@
 .7d7c	8d 79 7e	sta $7e79	        sta vd_pointer_visible
 .7d7f	60		rts		        rts
 .7d80					vd_pointer_read:
-.7d80	20 b8 7b	jsr $7bb8	        jsr vd_read_seek
+.7d80	20 8d 7b	jsr $7b8d	        jsr vd_seek
 .7d83	ae 80 7e	ldx $7e80	        ldx vd_pointer_at
 .7d86	2c 00 d6	bit $d600	        bit $d600
 .7d89	30 03		bmi $7d8e	        bmi +
