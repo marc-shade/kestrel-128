@@ -91,6 +91,59 @@ around it misses by 465 cycles on average. VICE overstated both (16,386 and
 had already caused one pointer call before the start key; 6f0be67 records
 such calls (`calls_before_start`, 1 here) instead of refusing.
 
+## VDC write drift on the C128
+
+`--native-apps` and `--native-apps-only` failed six more times before passing.
+Run 3 was stopped by the operator's timeout after 15 checkpoints; run 4 timed
+out waiting for Esc to leave Calculator; run 5 stopped when a pointer redraw
+changed the borrowed buffer at $3a1c during the desktop-boot mode capture,
+which that capture does not retry. The rest were VDC bitmap compares:
+
+| Run | Images | Checkpoint | VDC bitmap |
+|---|---|---|---|
+| 1 | e99342b | `calculator-result` | bytes one position off |
+| 2 | 6f0be67 | `paint-new` | bytes one position off |
+| 6 | 3afc094 | `controls-drives` | Drives tab rows 32 to 47 not highlighted; row 45 one byte right |
+| 7 | 3afc094, apps-only | `controls-drives` | bitmap row 11 of the close box one byte left |
+
+Run 7 started 25 minutes after a power-off, so these are not heat. The
+reference VDC runs in 64 KiB colour mode (`vd_color` 1). The capture probe
+reads one VDC byte per address and checks R18/R19 after each; it logged
+address resyncs in runs 1, 2, 3, 6 and 7, from the first desktop capture on,
+and none in the passing `--native-desktop` run. The VICE twin passes with both
+16 and 64 KiB VDCs. So this 8563 occasionally lands a write without advancing
+its update address, or advances twice, and every later byte of that run lands
+one position off.
+
+edd9d40 checks R18/R19 after each 80-byte bitmap and attribute run in the
+shared VDC service and writes a drifted run again (three tries, then
+`N_IOERROR`); `vm_rewrites` counts them. `tests/ci_native_vdc_drift.py`
+injects one drift in each direction, in a bitmap and an attribute run, on 16
+and 64 KiB VDCs, and requires an exact surface after exactly one rewritten
+run; with the check disabled it fails on the bitmap. The hardware apps check
+records `vm_rewrites` before each Paint, Controls and Sheet comparison, and
+the VICE twin requires every count to be 0.
+
+Run 8 (`--native-apps-only`, 83a03e5, the C128 on for over three hours)
+PASSED: every Paint screen, the Claude landing page and return, the Controls
+Drives page against REST, and the Sheet Save As to drive B, whose retrieved
+image held exactly BUDGET (8,208 bytes). The service rewrote drifted runs
+during it, counts cumulative within each app:
+
+| Checkpoint | `vm_rewrites` |
+|---|---:|
+| `paint-new`, `paint-pen-origin`, `paint-ink2-right` | 1 |
+| `paint-undo` | 2 |
+| `paint-discard-prompt` | 3 |
+| `controls-drives` | 2 |
+| `sheet-save-new` | 0 |
+| `sheet-save-calculated` | 2 |
+| `sheet-saved` | 6 |
+
+The probe logged 2 resyncs on its own reads. Drives were restored and matched,
+uploads deleted, nothing left behind, images unchanged, no host connection
+failures.
+
 ## Gates
 
 - 451bfe5 (chunks): CPU sweep 323/323.
@@ -104,12 +157,15 @@ such calls (`calls_before_start`, 1 here) instead of refusing.
   upload, left nothing behind and found the images unchanged; two runs had
   one host connection attempt time out before any request was sent.
 - Hardware: `--native-pointer-timing` PASSED (6f0be67), as above.
-- Hardware: `--native-apps` FAILED twice on VDC bitmap compares, both times
-  as bytes displaced by one position (adjacent pairs swapped), the pattern
-  this C128 shows after hours powered on: first at `calculator-result`
-  (e99342b; the desktop check had passed the same checkpoint 90 minutes
-  earlier), then at `paint-new` (6f0be67) after `calculator-result` passed.
-  Its VICE twin passes. Drives, cleanup and images were clean both times.
+- Hardware: `--native-apps` FAILED on VDC bitmap compares at
+  `calculator-result` (e99342b; the desktop check had passed the same
+  checkpoint 90 minutes earlier), then at `paint-new` (6f0be67), and later
+  runs failed as described above, until the drift check. Drives, cleanup and
+  images were clean every time.
+- 3afc094 (`--native-apps-only`): CPU sweep 324/324, VICE sweep 65/65.
+- edd9d40 to 83a03e5 (VDC drift check and rebuilt images): CPU sweep 325/325,
+  VICE sweep 65/65 (both apps twins with every `vm_rewrites` 0).
+- Hardware: `--native-apps-only` PASSED (83a03e5), as above.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -118,9 +174,16 @@ such calls (`calls_before_start`, 1 here) instead of refusing.
 
 ## Not verified
 
-- `--native-apps` has not passed on hardware: Paint, the Claude page, the
-  Controls Drives page and the Sheet save to drive B are covered on hardware
-  by no passing run. It needs a rerun after the C128 has been powered off.
+- The full `--native-apps` (with the Calculator, Editor and Files prelude)
+  has not passed on hardware since the drift check; `--native-desktop` covers
+  that prelude and passed at e99342b, before it.
+- The pointer redraw, the desktop scene and the close-time restore of VDC RAM
+  do not check their writes for drift; a drifted write there is not repaired.
+- The desktop-boot mode capture does not retry when a pointer redraw changes
+  its borrowed buffer (run 5).
+- The Controls Info, Network and Clock pages, Paint mouse drawing and file
+  I/O, and the Claude serial session are not checked on hardware.
+- The pointer moves at 30 Hz, not 60 (above).
 - The pointer check runs over empty desktop space only; pointer cost over
   app surfaces on hardware is not measured.
 - The large picker case at 30 pages (not reachable by padding) and at 36 (the

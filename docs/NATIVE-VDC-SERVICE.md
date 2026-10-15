@@ -133,6 +133,13 @@ drawing. On a 64 KiB VDC a row flagged 2 rewrites only its 80 attribute
 bytes and keeps the bitmap the VDC already holds; on a 16 KiB VDC colours
 select reversed ink, so every flagged row is drawn in full. GEMDESK, whose
 colours come from the AES, marks every row 1.
+Every 80-byte bitmap or attribute run ends with a read of R18/R19: the update
+address must be exactly 80 past the run's seek, or the run is written again
+(three tries, then the fault `N_IOERROR`). The reference C128's 8563
+occasionally lands a write without advancing, or advances twice, which shifts
+the rest of a run by one byte; `vm_rewrites` counts the runs written again.
+The pointer redraw, the desktop scene and the close-time restore of VDC RAM
+do not check their writes this way.
 Desktop error glyphs are read from the owned VIC status row, preserving the
 native VDC layout without storing a second font in the component.
 
