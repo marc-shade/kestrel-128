@@ -277,12 +277,14 @@ images unchanged, no host connection failures.
   full `--native-apps` passed its Calculator, Editor and Files prelude (10
   checkpoints, every VDC compare), then `paint-new` and `paint-pen-origin`
   (`vd_rewrites` 3), and FAILED on the next one-byte read of Paint state:
-  between the idle admission and the restore, the pointer status bytes of
-  `N_BUFFER` changed (the pointer moved one step with nobody at the mouse),
-  so did most of the rest of the buffer, and the kernel's heap walk
-  (`haddress`, `hbound`). Paint was working while the probe borrowed its
-  buffer, which the observer cannot retake safely. What started that work
-  is not established. Drives were restored and matched, uploads deleted,
+  between the idle admission and the restore, most of `N_BUFFER` changed,
+  including the VDC packet bytes a pointer redraw writes (other VDC service
+  calls write them too), and so did the kernel's heap walk (`haddress`,
+  `hbound`). Paint, or a service it called, was working while the probe
+  borrowed its buffer, which the observer cannot retake safely. What
+  started that work is not established. Paint keeps the default pointer
+  start (160,160), which is on its canvas, so any pointer motion there
+  moves Paint's cursor and redraws its status line. Drives were restored and matched, uploads deleted,
   images unchanged, no host connection failures.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
@@ -296,7 +298,7 @@ images unchanged, no host connection failures.
   run 11 passed its prelude and failed in Paint, and the apps-only run
   passed Paint, Claude, Controls and Sheet on the same images. A capture
   fails, by design, when the app starts work while the probe borrows
-  `N_BUFFER`; a pointer moved by 1351 rest noise can apparently start it.
+  `N_BUFFER`; what started Paint's work in run 11 is not established.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
