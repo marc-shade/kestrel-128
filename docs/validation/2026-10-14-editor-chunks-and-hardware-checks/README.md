@@ -295,8 +295,19 @@ images unchanged, no host connection failures.
   slow drift of the resting 1351's readings would give same-direction
   steps on a machine on for many hours; that cause is inferred, not
   measured. Drives were restored and matched, uploads deleted, images
-  unchanged, no host connection failures. Drives were restored and matched, uploads deleted,
-  images unchanged, no host connection failures.
+  unchanged, no host connection failures.
+- Hardware (f7d5f7e tree, the e2da4ce images as in runs 11 and 12, run 13, started
+  minutes after a power cycle): the full `--native-apps` PASSED all 25
+  checkpoints in one run (the 10 prelude checkpoints, the five Paint
+  checkpoints, the Claude landing page, `controls-drives`, the three Sheet
+  saves, each return to the desktop and `workspace-returned`) with 1,348
+  capture admissions, restoring and matching the drives, deleting its
+  uploads, with the images unchanged, no uncertain host writes and no host
+  connection failures. The desktop disk was the pinned image (de603582...).
+  `vd_rewrites`: `paint-new` 2, `paint-pen-origin` 2, `paint-ink2-right` 3,
+  `paint-undo` 3, `paint-discard-prompt` 5, `controls-drives` 0,
+  `sheet-save-new` 0, `sheet-save-calculated` 5, `sheet-saved` 9. One REST
+  read timed out early in the prelude and its retry succeeded.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -305,12 +316,12 @@ images unchanged, no host connection failures.
 
 ## Not verified
 
-- The full `--native-apps` has not passed in one run since the drift check:
-  run 11 passed its prelude and failed in Paint, and the apps-only run
-  passed Paint, Claude, Controls and Sheet on the same images. A capture
-  fails, by design, when the app starts work while the probe borrows
-  `N_BUFFER`. In runs 11 and 12 the resting 1351 pointer stepped one pixel
-  during a Paint read, and Paint followed it; the prelude passed both times.
+- The full `--native-apps` passed once (run 13), on a freshly powered C128.
+  Runs 11 and 12, on a C128 on for nine and 20 hours, failed in Paint when
+  the resting 1351 pointer stepped one pixel during a read and Paint
+  followed it. A capture fails, by design, when the app starts work while
+  the probe borrows `N_BUFFER`. Whether long uptime causes the step is not
+  measured, and Paint still starts its pointer on the canvas.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
