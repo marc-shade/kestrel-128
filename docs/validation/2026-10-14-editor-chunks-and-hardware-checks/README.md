@@ -281,10 +281,21 @@ images unchanged, no host connection failures.
   including the VDC packet bytes a pointer redraw writes (other VDC service
   calls write them too), and so did the kernel's heap walk (`haddress`,
   `hbound`). Paint, or a service it called, was working while the probe
-  borrowed its buffer, which the observer cannot retake safely. What
-  started that work is not established. Paint keeps the default pointer
-  start (160,160), which is on its canvas, so any pointer motion there
-  moves Paint's cursor and redraws its status line. Drives were restored and matched, uploads deleted,
+  borrowed its buffer, which the observer cannot retake safely.
+- Hardware (3cc97c7 images, run 12, the C128 on for about 20 hours): the
+  full `--native-apps` passed its prelude again (10 checkpoints), then
+  FAILED on the first read of Paint state, before `paint-new`: only
+  `N_BUFFER` bytes 4, 26 and 28 changed, the status record a VDC service
+  call writes back. Bytes 26 and 28 are `vd_pointer_x` and `vd_pointer_y`:
+  the pointer went from (8,32), where Paint places it for its cursor at
+  the canvas origin, to (7,33). In run 11 the same bytes went from (9,32),
+  the cursor one step right, to (8,33). Both times the 1351 pointer
+  stepped one pixel left and one down with nobody at the mouse, and Paint,
+  which follows the pointer, worked while the probe held its buffer. A
+  slow drift of the resting 1351's readings would give same-direction
+  steps on a machine on for many hours; that cause is inferred, not
+  measured. Drives were restored and matched, uploads deleted, images
+  unchanged, no host connection failures. Drives were restored and matched, uploads deleted,
   images unchanged, no host connection failures.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
@@ -298,7 +309,8 @@ images unchanged, no host connection failures.
   run 11 passed its prelude and failed in Paint, and the apps-only run
   passed Paint, Claude, Controls and Sheet on the same images. A capture
   fails, by design, when the app starts work while the probe borrows
-  `N_BUFFER`; what started Paint's work in run 11 is not established.
+  `N_BUFFER`. In runs 11 and 12 the resting 1351 pointer stepped one pixel
+  during a Paint read, and Paint followed it; the prelude passed both times.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
