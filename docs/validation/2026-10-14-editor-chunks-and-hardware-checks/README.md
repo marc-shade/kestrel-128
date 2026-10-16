@@ -308,6 +308,39 @@ images unchanged, no host connection failures.
   `paint-undo` 3, `paint-discard-prompt` 5, `controls-drives` 0,
   `sheet-save-new` 0, `sheet-save-calculated` 5, `sheet-saved` 9. One REST
   read timed out early in the prelude and its retry succeeded.
+- `hw_native_apps_check.py` now also checks the Controls Info, Network and
+  Clock pages and a keyboard Save As of a Paint picture to device 9 through
+  the picker (`paint-saved`). The page references come from outside the
+  app's UCI client: the control target identification from the firmware
+  source; the interface address from the Ultimate's FTP greeting, with
+  mask and gateway from the host's DHCP route on the same LAN (REST reports
+  DHCP enabled); and two Clock readings against the RTC time the Ultimate
+  stamped on the system disk upload (FTP MLSD; FAT stamps and GET_TIME both
+  read the cartridge RTC), advanced by host elapsed time. The interface count
+  (1) is an expectation the page compare tests. The retrieved data disk must
+  hold exactly PICTURE and BUDGET. The VICE twin (no cartridge) passes both
+  sweep variants, and checks the reference builder on a fake Ultimate,
+  including rejected greetings and mismatched static settings.
+- Hardware (run 14, `--native-apps-only` with those checks, the C128 on
+  for about four hours): every Paint checkpoint passed, including
+  `paint-saved` (status "Saved and verified", name and device held, picture,
+  bitmap and VDC). The retrieved drive-B image held exactly PICTURE, SEQ,
+  9,016 bytes, equal to the independently encoded UPNT file. Claude passed.
+  `controls-info` FAILED its bitmap compare: the model line read
+  `1541 ULTIMATE II`, not the FTP greeting's `Ultimate-II`, so this firmware's
+  model reply is not the `getProductString()` of the pinned source; the
+  identity line matched. The model is now a pinned observation (labelled as
+  not independent); with it, the prediction equals the captured 9,216-byte
+  Info bitmap. Drives restored and matched, uploads deleted, images
+  unchanged.
+- Hardware (run 15, the same checks with the pinned model, about 30 minutes
+  later): FAILED at the first Paint state read, before `paint-new`. During
+  the read `N_BUFFER` gained rows of glyph-like bytes and `vd_stack` moved
+  by 2 (a VDC service call in progress), with the record's pointer position
+  unchanged; Paint was drawing while the probe held its buffer. A status
+  line redraw after pointer motion that returned to the same position would
+  look like this; that cause is inferred. Drives restored and matched,
+  uploads deleted, images unchanged.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -317,16 +350,20 @@ images unchanged, no host connection failures.
 ## Not verified
 
 - The full `--native-apps` passed once (run 13), on a freshly powered C128.
-  Runs 11 and 12, on a C128 on for nine and 20 hours, failed in Paint when
-  the resting 1351 pointer stepped one pixel during a read and Paint
-  followed it. A capture fails, by design, when the app starts work while
-  the probe borrows `N_BUFFER`. Whether long uptime causes the step is not
-  measured, and Paint still starts its pointer on the canvas.
+  Runs 11, 12 and 15 failed in Paint when Paint worked during a read: in 11
+  and 12 the resting 1351 pointer had stepped one pixel; in 15 its position
+  was unchanged. A capture fails, by design, when the app starts work while
+  the probe borrows `N_BUFFER`. The cause of the resting pointer's motion is
+  not measured, and Paint still starts its pointer on the canvas.
+- The Controls Network and Clock pages have not passed on hardware (run 14
+  stopped at Info, run 15 in Paint). The Info model line is pinned to the
+  value this machine showed, not an independent reference.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
-- The Controls Info, Network and Clock pages, Paint mouse drawing and file
-  I/O, and the Claude serial session are not checked on hardware.
+- Paint mouse drawing needs a hand on the 1351; Paint Open and the Claude
+  serial session (which needs a qualified hardware shutdown observer) are
+  not checked on hardware.
 - The pointer check runs over empty desktop space only, with steps to the
   neighbouring byte column; pointer cost over app surfaces, and for longer
   or same-column steps, on hardware is not measured. A real 1351 moved by

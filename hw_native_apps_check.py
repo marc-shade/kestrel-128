@@ -8,30 +8,39 @@ and a private blank data D64 read-write on B. The shared desktop workflow
 keyboard only (the 1351 is never moved):
 
   Paint     the new canvas (bitmap, banked picture, VDC mirror), three
-            keyboard edits checked against a model of the picture, then the
-            discard prompt and D back to the desktop
+            keyboard edits checked against a model of the picture, a
+            verified Save As PICTURE on device 9 through the picker after the
+            second, then the discard prompt and D back to the desktop; after
+            the session the drive-B image must hold exactly that UPNT file
   Claude    the landing page (VIC bitmap, retained 80-column terminal model,
             VDC mirror) without opening the modem, F8 back to the desktop;
             VDC font, NMI vector and NMI gate as before the launch
-  Controls  the panel's Drives page against an inventory built from the
-            Ultimate's REST drive list (not the app's own UCI replies); the
-            Info page has no independent hardware reference and is only
-            checked where the caller supplies one (VICE: no cartridge)
+  Controls  every page against replies predicted without the app's UCI
+            client (ultimate_reference): Info from the firmware's control
+            target identification and a pinned observed model reply, Drives
+            from the REST drive list, Network from the greeting's interface
+            address with the REST DHCP setting and the LAN's DHCP route, and
+            two Clock readings against the RTC time the Ultimate stamped on
+            the system disk upload (FTP MLSD), advanced by host elapsed time
   Sheet     12, 30, =A1+B1, Save As BUDGET on device 9; after the session the
-            retrieved drive-B image must hold exactly that workbook file
+            retrieved drive-B image must also hold exactly that workbook file
 
 Afterwards both drives get their original image and mode back, both uploads
 are retrieved and deleted, and the C128 is reset (hw_session.py).
 tests/ci_native_apps_iec.py runs the same app workflow in VICE.
 """
 import binascii
+from datetime import datetime
+import ftplib
 import hashlib
+import ipaddress
 import json
 from pathlib import Path
 import re
 import shutil
 import subprocess
 import tempfile
+import time
 
 from hw_native_desktop_check import run_native_workflow, idle_admission, sheet_symbol
 from native_capture import ROOT, NativeCapture
@@ -41,9 +50,10 @@ from hwlib import lst_symbol
 from native_claude_check import landing_screen, capture_frame as claude_frame
 from native_controls_check import panel_screen
 from native_controls_scene import surface as controls_surface, drive_body as graphical_drives
-from native_suite_workflow import info_body, drive_body
+from native_suite_workflow import info_body, drive_body, network_body, failed, rtc_observation
 from native_files_check import exact_disk_files
 from paint_scene import surface as paint_surface, MESSAGES as PAINT_MESSAGES
+from native_paint_format import encode as encode_picture
 from launcher_scene import pointer_shape
 from src.native.graphics.font import font
 from hwlib import lst_symbol
@@ -51,6 +61,95 @@ from hwlib import lst_symbol
 BLANK_PICTURE = bytes(8192)+b'\x10'*1024
 # The UCI drive type codes (Ultimate firmware c1541.h; NATIVE-ULTIMATE-CONTROLS.md).
 UCI_DRIVE_TYPES = {'1541': 0, '1571': 1, '1581': 2}
+# The control target's (4) identification reply, a constant in the firmware's
+# control_target.cc at a01c04e, the revision NATIVE-ULTIMATE-CONTROLS.md
+# checks its commands against; the running firmware's copy is not read.
+CONTROL_IDENTITY = b'CONTROL TARGET V1.1'
+# The hardware model reply (04 28 00) is NOT observable outside UCI. At
+# a01c04e it is getProductString(), which the FTP greeting reports as
+# 'Ultimate-II', but the reference machine's firmware drew 1541 ULTIMATE II
+# (hardware run 2026-10-16, kestrel-hardware-native-apps-p6tptrea). This pin
+# is that observation, a regression reference rather than an independent one;
+# the Info page uppercases replies, so the reply's case is not known.
+OBSERVED_MODEL = b'1541 ULTIMATE II'
+
+
+def reply(data):
+    return dict(ok=True, data_hex=bytes(data).hex(), dos=0, status='')
+
+
+def ftp_banner(host):
+    """(greeting, product, address) from the Ultimate's FTP greeting:
+    '220 <getProductString()> FTP: IP = <interface address>. Hello ...'
+    (firmware ftpd.cc)."""
+    with ftplib.FTP(host, timeout=30) as ftp:
+        greeting = ftp.getwelcome()
+    match = re.fullmatch(r'220 (\S.*?) FTP: IP = (\d+\.\d+\.\d+\.\d+)\. Hello .*', greeting)
+    if not match:
+        raise RuntimeError(f'unexpected Ultimate FTP greeting {greeting!r}')
+    return greeting, match[1], match[2]
+
+
+def stamped_time(host, path):
+    """The FAT modification time the Ultimate gave an uploaded file (FTP
+    MLSD). FAT stamps come from the cartridge RTC (firmware rtc.cc
+    get_fattime), the clock GET_TIME (01 26) reads, in 2-second steps."""
+    folder, name = path.rsplit('/', 1)
+    with ftplib.FTP(host, timeout=30) as ftp:
+        ftp.login()
+        facts = dict(ftp.mlsd(folder)).get(name)
+    if not facts or not re.fullmatch(r'\d{14}', facts.get('modify', '')):
+        raise RuntimeError(f'no FTP modification time for {path}: {facts}')
+    return datetime.strptime(facts['modify'], '%Y%m%d%H%M%S')
+
+
+def lan_route(address):
+    """Mask and gateway of the host's default route on the Ultimate's subnet."""
+    def ip(*args):
+        return json.loads(subprocess.run(['ip', '-4', '-j', *args], check=True, capture_output=True, text=True).stdout)
+    target = ipaddress.ip_address(address)
+    for route in ip('route', 'show', 'default'):
+        for device in ip('addr', 'show', 'dev', route['dev']):
+            for info in device.get('addr_info', []):
+                network = ipaddress.ip_interface(f'{info["local"]}/{info["prefixlen"]}').network
+                if target in network and ipaddress.ip_address(route['gateway']) in network:
+                    return str(network.netmask), route['gateway'], dict(dev=route['dev'], host=info['local'],
+                        prefixlen=info['prefixlen'], gateway=route['gateway'], protocol=route.get('protocol'))
+    raise RuntimeError(f'the host has no default route on the subnet of {address}')
+
+
+def ultimate_reference(ult, drives, rtc_upload):
+    """Replies to every Ultimate query the Controls app makes, predicted
+    without its UCI client. Returns (replies, sources).
+
+    rtc_upload: dict(path, started, finished) for a read-only upload, with
+    host monotonic times taken around its REST mount."""
+    replies = rest_drive_reference(drives)
+    greeting, product, address = ftp_banner(ult.host)
+    replies['model'] = reply(OBSERVED_MODEL)
+    replies['identity-4'] = reply(CONTROL_IDENTITY)
+    settings = ult.control('GET', '/v1/configs/Network%20settings')['Network settings']
+    if settings['Use DHCP'] == 'Enabled':
+        mask, gateway, route = lan_route(address)
+        addressing = dict(dhcp=True, ip='FTP greeting', mask_gateway='host DHCP route on the same LAN', route=route)
+    else:
+        if settings['Static IP'] != address:
+            raise RuntimeError(f'static IP {settings["Static IP"]} but the FTP greeting reports {address}')
+        mask, gateway = settings['Static Netmask'], settings['Static Gateway']
+        addressing = dict(dhcp=False, ip='REST static setting and FTP greeting', mask_gateway='REST static settings')
+    # One interface (the cartridge's Ethernet port); the count is not
+    # observable outside UCI, so a different count fails the page compare.
+    replies['interfaces'] = reply([1])
+    replies['ip-0'] = reply(b''.join(ipaddress.ip_address(value).packed for value in (address, mask, gateway)))
+    stamp = stamped_time(ult.host, rtc_upload['path'])
+    replies['rtc'] = dict(reply(stamp.strftime('%Y/%m/%d %H:%M:%S').encode('ascii')),
+                          started=rtc_upload['started'], finished=rtc_upload['finished'])
+    sources = dict(model='pinned observation of the reference machine (OBSERVED_MODEL); not independent',
+                   ftp_greeting=greeting, ftp_product=product, identity_4='firmware control_target.cc constant (a01c04e)',
+                   drives='REST /v1/drives after both uploads', network_settings=settings, addressing=addressing,
+                   interfaces='assumed 1', rtc=dict(path=rtc_upload['path'], ftp_modify=stamp.isoformat(),
+                   note='FAT stamp at upload, 2-second resolution; elapsed by host monotonic time'))
+    return replies, sources
 
 
 def expected_workbook():
@@ -60,6 +159,14 @@ def expected_workbook():
         records[index*32:index*32+len(text)] = text
     header = b'USHT\1\10\40\40\0\40'+binascii.crc_hqx(records, 65535).to_bytes(2, 'little')+bytes(4)
     return bytes(records), header+bytes(records)
+
+
+PAINT_FILE = b'PICTURE'
+
+
+def expected_picture_file():
+    """The UPNT file Paint saves after the second keyboard edit."""
+    return encode_picture(paint_edits()[1][3])
 
 
 def paint_edits():
@@ -97,13 +204,12 @@ def rest_drive_reference(drives):
     return reference
 
 
-def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-desktop',
-                controls_reference, info_reference=False):
+def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-desktop', controls_reference):
     """The additional_apps callable for run_native_workflow.
 
-    controls_reference: the UCI replies drive_body/info_body expect (VICE:
-    native_suite_workflow.absent_reference(); hardware: rest_drive_reference).
-    info_reference=True also checks the Info page against it."""
+    controls_reference: the UCI replies the Info, Drives, Network and Clock
+    pages are predicted from (VICE: native_suite_workflow.absent_reference();
+    hardware: ultimate_reference)."""
     modes = NativeModeCapture(mon, work, quiet=capture.quiet, kernel_prefix=kernel_prefix, batch=capture.batch)
     report['apps_mode_captures'] = modes.records
     rows = report.setdefault('apps', dict(paint=[], claude=[], controls=[], sheet=[]))
@@ -147,15 +253,19 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
         assert registers['vic_sprites'] == sprites, (label, 'pointer sprites', registers['vic_sprites'], sprites)
         return registers
 
-    def paint_frame(read, label, picture, *, x=0, y=0, color=1, dirty=False, mode=0, focus=23):
+    def paint_frame(read, label, picture, *, x=0, y=0, color=1, dirty=False, mode=0, focus=23, status=0,
+                    name=b'', device=8):
         app = 'paint'
         state = {name: value(read, app, name) for name in
                  ('pa_bitmap', 'pa_picker_active', 'pa_labels_stale', 'pd_dirty', 'pa_mode', 'pa_status',
-                  'pd_y', 'pd_pen', 'pd_color', 'ui_selected', 'pa_view_x', 'pa_view_y', 'pf_length')}
+                  'pd_y', 'pd_pen', 'pd_color', 'ui_selected', 'pa_view_x', 'pa_view_y', 'pf_length', 'pf_device')}
         state['pd_x'] = value(read, app, 'pd_x', 2)
         wanted_state = dict(pa_bitmap=1, pa_picker_active=0, pa_labels_stale=0, pd_dirty=int(dirty), pa_mode=mode,
-                            pa_status=0, pd_x=x, pd_y=y, pd_pen=1, pd_color=color, ui_selected=focus,
-                            pa_view_x=0, pa_view_y=0, pf_length=0)
+                            pa_status=status, pd_x=x, pd_y=y, pd_pen=1, pd_color=color, ui_selected=focus,
+                            pa_view_x=0, pa_view_y=0, pf_length=len(name), pf_device=device)
+        if name:
+            state['pf_name'] = app_read(read, symbol(app, 'pf_name'), len(name)).decode('latin1')
+            wanted_state['pf_name'] = name.decode('latin1')
         if mode == 1:   # the prompt's action: 1 close (0 until a prompt is first opened)
             state['pa_action'] = value(read, app, 'pa_action'); wanted_state['pa_action'] = 1
         assert state == wanted_state, (label, 'Paint state', state, wanted_state)
@@ -166,7 +276,7 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
         assert document == picture, (label, 'banked picture',
                                      [(i, a, b) for i, (a, b) in enumerate(zip(document, picture)) if a != b][:16])
         wanted = paint_surface(picture, focus=focus, x=x, y=y, pen=1, color=color, dirty=dirty,
-                               message=PAINT_MESSAGES[0], mode=mode, action=1)
+                               message=PAINT_MESSAGES[status], mode=mode, action=1, name=name, device=device)
         actual = span(label+'-surface', 0xc000, 9216)
         assert actual == wanted, (label, 'Paint bitmap', [(i, a, b) for i, (a, b) in enumerate(zip(actual, wanted)) if a != b][:16])
         mirror = vdc_frame(capture, read, None, work, label, 0, surface_data=actual, image_prefix=f'{kernel_prefix}/paint')
@@ -229,12 +339,26 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
         key(ord('P'), io=True)
         picture = BLANK_PICTURE
         paint_frame(read, 'paint-new', picture)
+        saved = {}
         for label, keys, state, picture in paint_edits():
             for code in keys:
                 key(code)
-            paint_frame(read, label, picture, dirty=True, **state)
+            paint_frame(read, label, picture, dirty=True, **state, **saved)
+            if label == 'paint-ink2-right':
+                # Save As PICTURE on device 9 by keyboard (tests/ci_native_paint_gui.py):
+                # Ctrl-U clears the proposed name; Tab opens the picker on
+                # device 8, D9 Return lists device 9, S chooses it, Return saves
+                # and Paint reopens the file and compares every byte.
+                for code in b'S\x15PICTURE':
+                    key(code)
+                key(9, io=True)
+                key(ord('D')); key(ord('9')); key(13, io=True)
+                key(ord('S'), io=True)
+                key(13, io=True)
+                saved = dict(name=PAINT_FILE, device=9)
+                paint_frame(read, 'paint-saved', picture, status=1, **state, **saved)
         key(27)
-        paint_frame(read, 'paint-discard-prompt', picture, dirty=True, mode=1, focus=25, **state)
+        paint_frame(read, 'paint-discard-prompt', picture, dirty=True, mode=1, focus=25, **state, **saved)
         key(ord('D'), io=True)
         desktop('desktop-after-paint', 5)
 
@@ -258,16 +382,32 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
         rows['claude'][-1]['restored'] = sorted(original); save()
         print('Verified Claude landing page and clean return', flush=True)
 
-        # Ultimate controls (desktop card U): Drives page.
+        # Ultimate controls (desktop card U): Info, Drives, Network, Clock.
         key(ord('U'), io=True)
-        if info_reference:
-            controls_panel(read, 'controls-info', info_body(controls_reference), 0)
-        else:
-            assert value(read, 'controls', 'ug_bitmap') == 1
-            rows['controls'].append(dict(label='controls-info', verified=False,
-                reason='the Info page shows UCI identity replies with no independent hardware reference')); save()
+        controls_panel(read, 'controls-info', info_body(controls_reference), 0)
         key(ord('D'))
         controls_panel(read, 'controls-drives', drive_body(controls_reference), 1)
+        key(ord('N'))
+        controls_panel(read, 'controls-network', network_body(controls_reference), 2)
+        rtc = controls_reference['rtc']
+        if not rtc['ok']:
+            key(ord('T'))
+            controls_panel(read, 'controls-clock', ['CARTRIDGE RTC', '']+failed(rtc), 3)
+        else:
+            previous = None
+            for index, code in enumerate(b'TR'):
+                label = f'controls-clock-{index}'
+                # The app reads the RTC after the key press and before this
+                # capture, so host time before the key bounds the reading.
+                started = time.monotonic()
+                key(code)
+                length = value(read, 'controls', 'uc_length', 2)
+                assert length == 19, (label, 'RTC reply length', length)
+                text = app_read(read, symbol('controls', 'uc_data'), 19).decode('ascii')
+                finished = time.monotonic()
+                previous, elapsed, bounds = rtc_observation(text, rtc, started, finished, 0, previous)
+                controls_panel(read, label, ['CARTRIDGE RTC', '', text, 'S SET TIME  R REFRESH CLOCK READING.'], 3)
+                rows['controls'][-1].update(rtc_text=text, elapsed=elapsed, elapsed_bounds=bounds); save()
         key(27, io=True)
         desktop('desktop-after-controls', 3)
 
@@ -297,21 +437,24 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
 
 
 def verify_data_disk(image, blank, work, report, save):
-    """The only file on the closed data D64 is BUDGET with the expected bytes,
-    by an independent host extraction and by c1541."""
+    """The only files on the closed data D64 are PICTURE and BUDGET with the
+    expected bytes, by an independent host extraction and by c1541."""
     _, wanted = expected_workbook()
+    picture = expected_picture_file()
     output = work/'data-readback.d64'
     try:
         output.write_bytes(image)
         files = exact_disk_files(image)
-        expected = dict(exact_disk_files(blank)); expected[b'BUDGET'] = (1, wanted)
+        expected = dict(exact_disk_files(blank)); expected[b'BUDGET'] = (1, wanted); expected[PAINT_FILE] = (1, picture)
         assert files == expected, ('data disk files', sorted(files))
-        exported = work/'budget-readback.usht'
-        subprocess.run(['c1541', '-attach', str(output), '-read', 'budget,s', str(exported)], check=True, capture_output=True)
-        assert exported.read_bytes() == wanted, 'c1541 BUDGET differs'
+        for name, data in (('budget', wanted), ('picture', picture)):
+            exported = work/f'{name}-readback.bin'
+            subprocess.run(['c1541', '-attach', str(output), '-read', f'{name},s', str(exported)], check=True, capture_output=True)
+            assert exported.read_bytes() == data, f'c1541 {name} differs'
         report['independent_readback'] = dict(bytes=len(image), sha256=hashlib.sha256(image).hexdigest(),
             files=[name.decode('latin1') for name in files], budget_bytes=len(wanted),
-            budget_sha256=hashlib.sha256(wanted).hexdigest())
+            budget_sha256=hashlib.sha256(wanted).hexdigest(), picture_bytes=len(picture),
+            picture_sha256=hashlib.sha256(picture).hexdigest())
     except BaseException as error:
         report['readback_error'] = str(error)
         raise
@@ -363,10 +506,13 @@ def run(ult, *, dos_contexts=False, apps_only=False):
     def body():
         try:
             report['data_disk_path'] = session.upload(blank, 'b', 'd64', 'readwrite', retrieve=True); save()
+            started = time.monotonic()
             report['native_disk_path'] = session.upload(disk.read_bytes(), 'a', 'd64', 'readonly', retrieve=True); save()
+            finished = time.monotonic()
             drives = session.drives('controls-reference')
-            reference = rest_drive_reference(drives)
-            report['controls_reference'] = dict(source='REST /v1/drives after both uploads', drives=drives, replies=reference)
+            reference, sources = ultimate_reference(ult, drives, dict(path=report['native_disk_path'],
+                                                    started=started, finished=finished))
+            report['controls_reference'] = dict(sources=sources, drives=drives, replies=reference); save()
             report['stage'] = 'native-boot'; save()
             ult.reset(); quiet_boot('Native apps boot', 240)
             run_native_workflow(mon, capture, work, disk, report, save, io_quiet=30, prelude=not apps_only,
@@ -381,5 +527,5 @@ def run(ult, *, dos_contexts=False, apps_only=False):
     verify_data_disk(session.retrieved[report['data_disk_path']], blank, work, report, save)
     assert report['images_unchanged'] and not report['uncertain_host_writes']
     report['passed'] = True; save()
-    print(f'HW-NATIVE-APPS{"-ONLY" if apps_only else ""} PASS; Paint, Claude landing, controls drives and verified Sheet save; '
+    print(f'HW-NATIVE-APPS{"-ONLY" if apps_only else ""} PASS; Paint, Claude landing, all four controls pages and verified Sheet save; '
           f'drives restored, uploads deleted; {work}', flush=True)
