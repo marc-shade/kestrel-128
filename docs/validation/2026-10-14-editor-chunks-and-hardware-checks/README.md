@@ -266,6 +266,13 @@ images unchanged, no host connection failures.
   unchanged), `--native-desktop` PASSED all 14 checkpoints with 590 capture
   admissions, restoring and matching the drives, deleting its upload, with
   the images unchanged and no host connection failures.
+- Hardware (e2da4ce images, the C128 on for about seven hours):
+  `--native-apps-only` PASSED every Paint, Claude, Controls and Sheet
+  checkpoint with 996 capture admissions, restoring and matching the
+  drives, deleting its uploads, with the images unchanged and no host
+  connection failures. `vd_rewrites`: `paint-new` to `paint-undo` 0,
+  `paint-discard-prompt` 3, `controls-drives` 2, `sheet-save-new` 0,
+  `sheet-save-calculated` 2, `sheet-saved` 5.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
