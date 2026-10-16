@@ -273,6 +273,17 @@ images unchanged, no host connection failures.
   connection failures. `vd_rewrites`: `paint-new` to `paint-undo` 0,
   `paint-discard-prompt` 3, `controls-drives` 2, `sheet-save-new` 0,
   `sheet-save-calculated` 2, `sheet-saved` 5.
+- Hardware (2b4fc32 images, run 11, the C128 on for about nine hours): the
+  full `--native-apps` passed its Calculator, Editor and Files prelude (10
+  checkpoints, every VDC compare), then `paint-new` and `paint-pen-origin`
+  (`vd_rewrites` 3), and FAILED on the next one-byte read of Paint state:
+  between the idle admission and the restore, the pointer status bytes of
+  `N_BUFFER` changed (the pointer moved one step with nobody at the mouse),
+  so did most of the rest of the buffer, and the kernel's heap walk
+  (`haddress`, `hbound`). Paint was working while the probe borrowed its
+  buffer, which the observer cannot retake safely. What started that work
+  is not established. Drives were restored and matched, uploads deleted,
+  images unchanged, no host connection failures.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -281,9 +292,11 @@ images unchanged, no host connection failures.
 
 ## Not verified
 
-- The full `--native-apps` (with the Calculator, Editor and Files prelude)
-  has not passed on hardware since the drift check; `--native-desktop` covers
-  that prelude and passed at 95ce2e6.
+- The full `--native-apps` has not passed in one run since the drift check:
+  run 11 passed its prelude and failed in Paint, and the apps-only run
+  passed Paint, Claude, Controls and Sheet on the same images. A capture
+  fails, by design, when the app starts work while the probe borrows
+  `N_BUFFER`; a pointer moved by 1351 rest noise can apparently start it.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
