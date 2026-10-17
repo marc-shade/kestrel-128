@@ -341,6 +341,30 @@ images unchanged, no host connection failures.
   line redraw after pointer motion that returned to the same position would
   look like this; that cause is inferred. Drives restored and matched,
   uploads deleted, images unchanged.
+- Hardware (run 16, `--native-apps-only`, 17f78a4 tree, the 1351 unplugged
+  from control port 1): every checkpoint through `sheet-saved` passed (21),
+  including `paint-saved` and all five Controls checkpoints. Network showed
+  the address in the FTP greeting with the DHCP route's mask and gateway;
+  the two Clock readings were 6,497 s and 6,930 s after the upload stamp,
+  inside their host elapsed bounds. The host `timeout` (10,000 s) then
+  killed the harness during the last `sheet-saved` capture, so the run has
+  no verdict and did not restore the drives. Its drive-B image, fetched over
+  FTP, passes `verify_data_disk` offline (PICTURE and BUDGET); both harness
+  mounts were then removed by hand, matching the recorded `drives_before`
+  (A and B empty). Its two uploads were left in `/Temp`. The new checks take
+  1,211 admissions here against about 980 before, which is why 10,000 s
+  was no longer enough.
+- Hardware (run 17, the full `--native-apps`, same tree, 1351 still
+  unplugged): PASSED all 30 checkpoints in one run (the 25 of run 13 plus
+  `paint-saved`, `controls-info`, `controls-network`, `controls-clock-0`
+  and `controls-clock-1`) with 1,652 capture admissions in about 270
+  minutes, restoring and matching the drives, deleting its uploads, with
+  the images unchanged, no uncertain host writes and no host connection
+  failures. Clock read `13:50:59` and `13:59:32`, 11,235 s and 11,748 s after
+  the upload stamp, inside bounds of [11,218, 11,277] and [11,730, 11,790].
+  The retrieved data disk held exactly PICTURE (9,016 bytes) and BUDGET
+  (8,208 bytes), byte-identical to run 16's (313e8266...). `vd_rewrites`:
+  Paint 3, 3, 3, 5, 5, 5; Controls and Sheet 0.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -349,15 +373,17 @@ images unchanged, no host connection failures.
 
 ## Not verified
 
-- The full `--native-apps` passed once (run 13), on a freshly powered C128.
-  Runs 11, 12 and 15 failed in Paint when Paint worked during a read: in 11
-  and 12 the resting 1351 pointer had stepped one pixel; in 15 its position
-  was unchanged. A capture fails, by design, when the app starts work while
-  the probe borrows `N_BUFFER`. The cause of the resting pointer's motion is
-  not measured, and Paint still starts its pointer on the canvas.
-- The Controls Network and Clock pages have not passed on hardware (run 14
-  stopped at Info, run 15 in Paint). The Info model line is pinned to the
-  value this machine showed, not an independent reference.
+- The full `--native-apps` passed twice: run 13 with the 1351 attached on a
+  freshly powered C128, and run 17 (with the new checks) with the 1351
+  unplugged. Runs 11, 12 and 15 failed in Paint, with the 1351 attached,
+  when Paint worked during a read: in 11 and 12 the resting pointer had
+  stepped one pixel; in 15 its position was unchanged. A capture fails, by
+  design, when the app starts work while the probe borrows `N_BUFFER`. The
+  cause of the resting pointer's motion is not measured, Paint still starts
+  its pointer on the canvas, and the new checks have not passed with the
+  1351 attached.
+- The Controls Info model line is pinned to the value this machine showed,
+  not an independent reference; the interface count is an expectation.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
