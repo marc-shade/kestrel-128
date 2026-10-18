@@ -118,13 +118,32 @@ vm_draw_row:
         sta N_COUNT+1
         jsr vm_surface_read
         bcs vm_read_failed
+        lda vd_color          ; colour VDC: background high, ink low
+        beq vm_color_cells
         ldy #39
-vm_color_next:
+-       lda N_BUFFER,y
+        lsr
+        lsr
+        lsr
+        lsr
+        tax
+        lda vm_palette,x
+        sta vm_value
         lda N_BUFFER,y
         and #15
         tax
-        lda vm_palette,x
-        sta vm_background
+        lda vm_palette_high,x
+        ora vm_value
+        sta vm_colors,y
+        dey
+        bpl -
+        bmi vm_colors_done
+vm_color_cells:
+        ldy #39
+vm_color_next:                ; 16 KiB mono: reverse cells whose ink is darker
+        lda N_BUFFER,y
+        and #15
+        tax
         lda vm_light,x
         sta vm_brightness
         lda N_BUFFER,y
@@ -133,21 +152,8 @@ vm_color_next:
         lsr
         lsr
         tax
-        lda vm_palette,x
-        sta vm_foreground
         lda #0
         sta vm_reverse,y
-        lda vd_color
-        beq vm_mono
-        lda vm_background
-        asl
-        asl
-        asl
-        asl
-        ora vm_foreground
-        sta vm_colors,y
-        jmp vm_color_done
-vm_mono:
         lda vm_light,x
         cmp vm_brightness
         bcs vm_color_done
@@ -156,6 +162,7 @@ vm_mono:
 vm_color_done:
         dey
         bpl vm_color_next
+vm_colors_done:
         ldx vm_row            ; colour cells only, and colour on the VDC
         lda vm_rows,x         ; attributes: the bitmap there is current
         cmp #2
@@ -304,6 +311,7 @@ vm_reverse_next:
 ; VIC black/white/red/cyan/purple/green/blue/yellow/orange/brown/light red/
 ; dark gray/gray/light green/light blue/light gray -> nearest RGBI family.
 vm_palette: .byte 0,15,8,7,10,4,2,13,12,12,9,1,14,5,3,14
+vm_palette_high: .byte 0,$f0,$80,$70,$a0,$40,$20,$d0,$c0,$c0,$90,$10,$e0,$50,$30,$e0
 ; Relative brightness of the mapped RGBI colors, used only for mono polarity.
 vm_light: .byte 0,255,51,204,70,100,19,236,101,101,136,85,170,185,104,170
 vm_expand: .byte $00,$03,$0c,$0f,$30,$33,$3c,$3f,$c0,$c3,$cc,$cf,$f0,$f3,$fc,$ff
@@ -314,8 +322,6 @@ vm_row: .byte 0
 vm_line: .byte 0
 vm_value: .byte 0
 vm_left: .byte 0
-vm_background: .byte 0
-vm_foreground: .byte 0
 vm_brightness: .byte 0
 vm_colors: .fill 40,0
 vm_reverse: .fill 40,0
