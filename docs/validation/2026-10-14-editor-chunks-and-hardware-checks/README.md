@@ -365,6 +365,23 @@ images unchanged, no host connection failures.
   The retrieved data disk held exactly PICTURE (9,016 bytes) and BUDGET
   (8,208 bytes), byte-identical to run 16's (313e8266...). `vd_rewrites`:
   Paint 3, 3, 3, 5, 5, 5; Controls and Sheet 0.
+- `hw_native_apps_check.py` now also checks Paint Open (47133a3): after
+  Undo, a second U redoes to the saved picture, O lists device 9 and Return
+  opens PICTURE. `paint-opened` checks the state (status "Opened; Undo
+  restores old image", name and device), the banked picture, bitmap and VDC,
+  and that the load put the picture in a new allocation with the former one
+  as the undo slot, since the pixels equal the document already shown. A new
+  pixel at (2,0) then makes it dirty for the discard prompt. The VICE twin
+  passes both sweep variants (30 and 21 checkpoints).
+- Hardware (run 18, `--native-apps-only` at 47133a3, 1351 still unplugged):
+  PASSED all 22 checkpoints, including `paint-opened` (handles: former 3,
+  opened 7 with 3 as undo), with 1,368 capture admissions in about 207
+  minutes, restoring and matching the drives, deleting its uploads, with the
+  images unchanged and no uncertain host writes. One RAM write request timed
+  out before it was sent and was retried (recorded under
+  `host_connect_failures`). Clock read 7,636 s and 8,118 s after the upload
+  stamp, inside bounds. The retrieved data disk is byte-identical to runs
+  16 and 17. `vd_rewrites`: Paint 2, 2, 2, 3, 4, 5, 5; Controls and Sheet 0.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -387,9 +404,10 @@ images unchanged, no host connection failures.
 - The pointer redraw, single register pokes and the VDC's own block fills and
   copies do not check their writes for drift; a drifted write there is not
   repaired.
-- Paint mouse drawing needs a hand on the 1351; Paint Open and the Claude
-  serial session (which needs a qualified hardware shutdown observer) are
-  not checked on hardware.
+- Paint mouse drawing needs a hand on the 1351, and the Claude serial
+  session needs a qualified hardware shutdown observer; neither is checked
+  on hardware. Paint Open is checked only for a file Paint itself saved, with
+  no dirty-picture Open prompt and no failed or cancelled load.
 - The pointer check runs over empty desktop space only, with steps to the
   neighbouring byte column; pointer cost over app surfaces, and for longer
   or same-column steps, on hardware is not measured. A real 1351 moved by
