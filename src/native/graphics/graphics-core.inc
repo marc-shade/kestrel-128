@@ -405,7 +405,7 @@ gfx_bitmap_setup:
         adc #1
         sta gfx_columns
         inc gfx_span
-gfx_bitmap_row:
+gfx_bitmap_row:                 ; gfx_offset: scanline 0 of y's cell row
         lda gfx_y
         and #$f8
         lsr
@@ -418,14 +418,7 @@ gfx_bitmap_row:
         lda gfx_rows+1,y
         adc gfx_clipped+1
         sta gfx_offset+1
-        lda gfx_y
-        and #7
-        clc
-        adc gfx_offset
-        sta gfx_offset
-        bcc +
-        inc gfx_offset+1
-+       lda gfx_band_allowed
+        lda gfx_band_allowed
         beq gfx_read_row
         lda gfx_y
         and #7
@@ -436,10 +429,14 @@ gfx_bitmap_row:
         cmp #8
         bcc gfx_read_row
         jmp gfx_band
+; A partial cell row (unaligned top or bottom edge, or any glyph) is still
+; one bounded transfer each way: read the whole band, change its scanlines
+; in the buffer, write it back, instead of one read and write per scanline.
 gfx_read_row:
-        jsr gfx_select
+        jsr gfx_band_select
         jsr gfx_heap_read
         bcs gfx_failed
+gfx_row_line:
         lda gfx_operation
         cmp #2
         bne gfx_bitmap_loaded
@@ -450,10 +447,14 @@ gfx_bitmap_loaded:
         sta gfx_store+2
         lda gfx_columns
         sta gfx_remaining
-        ldx #0
+        lda gfx_y
+        and #7
+        tax
+        stx gfx_first_column+1
 gfx_column:
         lda #$ff
-        cpx #0
+gfx_first_column:
+        cpx #0                ; the line's first byte (or 32 columns on)
         bne gfx_mask_last
         ldy gfx_remaining
         cpy gfx_columns
@@ -508,7 +509,7 @@ gfx_copy:
 gfx_store:
         sta N_BUFFER,x
         dec gfx_remaining
-        beq gfx_write_row
+        beq gfx_row_done
         txa
         clc
         adc #8
@@ -517,11 +518,17 @@ gfx_store:
         inc gfx_load+2
         inc gfx_store+2
         bne gfx_column
+gfx_row_done:
+        inc gfx_y
+        lda gfx_y
+        cmp gfx_clipped+6
+        beq gfx_write_row
+        and #7
+        bne gfx_row_line
 gfx_write_row:
-        jsr gfx_select
+        jsr gfx_band_select
         jsr gfx_heap_write
         bcs gfx_failed
-        inc gfx_y
         lda gfx_y
         cmp gfx_clipped+6
         bne gfx_bitmap_row

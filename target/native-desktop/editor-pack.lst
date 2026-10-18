@@ -1,7 +1,7 @@
 
 ; 64tass Turbo Assembler Macro V1.60.3243 listing file
-; 64tass -a -B -D PK_ABI=14 -D PK_WINDOW=14263 -D PK_PAGES=96 -D PK_RUNTIME_END=38839 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=38839 -D PK_RAW_ENTRY=26830 -D PK_PACKED_LENGTH=8995 -D PK_BODY_CRC=38524 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/editor-pack.lst -l target/native-desktop/editor-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
-; Thu Oct 15 14:41:27 2026
+; 64tass -a -B -D PK_ABI=14 -D PK_WINDOW=14263 -D PK_PAGES=96 -D PK_RUNTIME_END=38839 -D PK_CLEANUP_BASE=49104 -D PK_RAW_END=38839 -D PK_RAW_ENTRY=26830 -D PK_PACKED_LENGTH=8995 -D PK_BODY_CRC=44611 -D "PK_HEADER_FILE=\"kestrel-app-pack/header.bin\"" -D "PK_PACKED_FILE=\"kestrel-app-pack/body.lzsa\"" -L target/native-desktop/editor-pack.lst -l target/native-desktop/editor-pack.sym -o kestrel-app-pack/app.prg src/native/app-unpack.asm
+; Sun Oct 18 08:41:31 2026
 
 ;Offset	;PC	;Hex		;Monitor	;Source
 
@@ -15,7 +15,7 @@
 =38839						PK_RAW_END=38839
 =26830						PK_RAW_ENTRY=26830
 =8995						PK_PACKED_LENGTH=8995
-=38524						PK_BODY_CRC=38524
+=44611						PK_BODY_CRC=44611
 =						PK_HEADER_FILE="kestrel-app-pack/header.bin"
 =						PK_PACKED_FILE="kestrel-app-pack/body.lzsa"
 
@@ -208,7 +208,7 @@
 .6020						pk_metadata:
 >6020		4e 50 5a 32			        .text "npz2"
 >6024		4e 41 50 50 01 01 0e b7		        .binary PK_HEADER_FILE
->602c		b7 37 60 37 ce 08 73 8f 54 45 58 54 20 45 44 49
+>602c		b7 37 60 37 ce 08 4c b7 54 45 58 54 20 45 44 49
 >603c		54 4f 52 00 00 00 00 00
 >6044		b7 97 d0 bf 04 65 23 23		        .word PK_RUNTIME_END,PK_CLEANUP_BASE,pk_payload,PK_PACKED_LENGTH
 >604c		04 61 b3 03			        .word pk_decoder_image,pk_decoder_end-pk_decoder
@@ -700,10 +700,10 @@
 .642e	532a	c9 97		cmp #$97	        cmp #>PK_RAW_END
 .6430	532c	d0 16		bne $5344	        bne boot_bad
 .6432	532e	ad 8a 53	lda $538a	        lda pk_crc
-.6435	5331	c9 7c		cmp #$7c	        cmp #<PK_BODY_CRC
+.6435	5331	c9 43		cmp #$43	        cmp #<PK_BODY_CRC
 .6437	5333	d0 0b		bne $5340	        bne pk_checksum
 .6439	5335	ad 8b 53	lda $538b	        lda pk_crc+1
-.643c	5338	c9 96		cmp #$96	        cmp #>PK_BODY_CRC
+.643c	5338	c9 ae		cmp #$ae	        cmp #>PK_BODY_CRC
 .643e	533a	d0 04		bne $5340	        bne pk_checksum
 .6440	533c	a9 00		lda #$00	        lda #0
 .6442	533e	f0 06		beq $5346	        beq pk_finish
@@ -1175,8 +1175,8 @@
 >7dec		aa 2f f8 3b aa 59 48 30 54 ad 78 b0 f0 4f 4f b1
 >7dfc		f0 4b e1 44 90 0d c9 84 8b 09 1f a7 b0 a9 fe 37
 >7e0c		82 11 0d 49 ff cf 50 4c 05 cc e8 a4 b0 18 2c 36
->7e1c		58 b0 30 25 ad 12 d0 c9 a0 b0 1e a5 a2 cd 07 be
->7e2c		dd 79 ad 08 be 3a 8a 00 0b 65 ac 03 c6 28 b0 c2
+>7e1c		58 b0 30 25 ad 12 d0 c9 a0 b0 1e a5 a2 cd 0c be
+>7e2c		dd 79 ad 0d be 3a 8a 00 0b 65 ac 03 c6 28 b0 c2
 >7e3c		e8 a4 41 5b 41 c8 40 91 80 01 e9 8d 53 81 89 4d
 >7e4c		b0 d0 f6 2d 83 41 db e8 4c 82 c5 a9 0c 66 5e 50
 >7e5c		f0 03 40 49 60 70 61 b9 aa 60 4f ea d5 09 d0 7d
@@ -1206,8 +1206,8 @@
 >7fdc		a6 4f 39 5c fe fd fb f7 ef df bf 7f 64 87 9a 5e
 >7fec		a2 03 bd 9f 8a 9d 04 3d f3 62 61 6c 24 05 58 8d
 >7ffc		49 ad 0d b9 f0 44 ad f2 be 8d 64 94 28 f6 e8 65
->800c		e8 f7 e8 66 3a 44 f8 be 4c 9a 8c ad 06 81 e2 fc
->801c		f9 0a be 9d 65 8d 68 30 bd 28 67 2e 60 17 a0 eb
+>800c		e8 f7 e8 66 3a 44 f8 be 4c 9a 8c ad 0b 81 e2 fc
+>801c		f9 0f be 9d 65 8d 68 30 bd 28 67 2e 60 17 a0 eb
 >802c		08 ee da 80 ee 48 8e 47 30 20 3b c2 9a 8a 8f 4c
 >803c		c0 8f f9 77 30 10 4c 61 ac 58 ac 5b 91 a2 18 9d
 >804c		42 91 ca 10 fa 60 8d 63 d1 90 d4 8e 1e 22 1c 88
@@ -1259,13 +1259,13 @@
 >832c		c8 d2 20 a4 8c f3 63 90 61 2d cb 88 db c5 61 86
 >833c		63 89 a8 fa 38 a1 d7 af 41 4b e8 81 f1 5c 91 88
 >834c		68 e1 40 03 e8 89 10 79 94 4f 81 f5 73 f0 05 6d
->835c		20 5e c3 cf 69 19 ac 0c b8 ad 06 b8 20 39 91 8d
->836c		41 91 ae 0a b8 ca 8a a3 08 aa a8 c0 fe ed 91 01
+>835c		20 5e c3 cf 69 19 ac 11 b8 ad 0b b8 20 39 91 8d
+>836c		41 91 ae 0f b8 ca 8a a3 08 aa a8 c0 fe ed 91 01
 >837c		0a 97 f8 01 a8 98 1d 61 83 28 ec 50 f0 0a b4 b1
 >838c		f1 c0 ff cb 08 4a f7 60 00 f2 0b ba 56 44 53 56
 >839c		43 bb 5e a8 08 0b 51 6f 92 7c 9b 3f 27 93 68 8d
 >83ac		6d 94 61 a1 fc 85 d0 31 93 d4 4d e9 93 28 33 d2
->83bc		3f 93 d2 4e b0 b5 06 14 f0 e8 94 48 f8 70 38 d5
+>83bc		3f 93 d2 4e b0 b5 06 17 f0 e8 94 38 f8 ad 06 d5
 >83cc		8d 71 94 09 03 8d cb 63 7d 18 85 07 85 08 ad 6d
 >83dc		94 85 06 a9 91 48 a9 d1 ee e8 60 48 0f 37 30 6a
 >83ec		94 30 69 94 94 e8 20 7b 4e 4c f2 02 8d 6f 94 28
