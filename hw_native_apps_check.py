@@ -10,8 +10,10 @@ keyboard only (the 1351 is never moved):
   Paint     the new canvas (bitmap, banked picture, VDC mirror), three
             keyboard edits checked against a model of the picture, a
             verified Save As PICTURE on device 9 through the picker after the
-            second, then the discard prompt and D back to the desktop; after
-            the session the drive-B image must hold exactly that UPNT file
+            second, Undo and Redo, Open of that file from device 9 (the
+            staged load must reproduce the picture), a new pixel, then the
+            discard prompt and D back to the desktop; after the session the
+            drive-B image must hold exactly that UPNT file
   Claude    the landing page (VIC bitmap, retained 80-column terminal model,
             VDC mirror) without opening the modem, F8 back to the desktop;
             VDC font, NMI vector and NMI gate as before the launch
@@ -357,6 +359,27 @@ def native_apps(mon, capture, work, report, save, *, kernel_prefix='native-deskt
                 key(13, io=True)
                 saved = dict(name=PAINT_FILE, device=9)
                 paint_frame(read, 'paint-saved', picture, status=1, **state, **saved)
+        # Open PICTURE from device 9 (tests/ci_native_paint_gui.py, files case):
+        # U again redoes to the saved picture (clean), O lists device 9 and
+        # Return opens the only file; Paint stages and checks the whole UPNT
+        # stream before it replaces the document.
+        picture = paint_edits()[1][3]
+        key(ord('U'))
+        handles = symbol('paint', 'pd_handles')
+        former = app_read(read, handles)[0]
+        key(ord('O'), io=True)
+        key(13, io=True)
+        paint_frame(read, 'paint-opened', picture, status=2, **state, **saved)
+        # The same pixels again, so prove the load replaced the document: a new
+        # allocation holds it and the former one became undo (pf_load).
+        opened = app_read(read, handles, 8)
+        assert opened[0] not in (0, former) and opened[4] == former, ('paint-opened', 'handles', former, opened.hex())
+        rows['paint'][-1]['handles'] = dict(former=former, opened=opened.hex()); save()
+        # A new pixel at (2,0) makes the opened picture dirty (redrawing a set
+        # pixel does not), so Esc asks before discarding it.
+        picture = bytearray(picture); picture[0] |= 32; picture = bytes(picture)
+        state = dict(state, x=2)
+        key(0x1d); key(32)
         key(27)
         paint_frame(read, 'paint-discard-prompt', picture, dirty=True, mode=1, focus=25, **state, **saved)
         key(ord('D'), io=True)
@@ -527,5 +550,5 @@ def run(ult, *, dos_contexts=False, apps_only=False):
     verify_data_disk(session.retrieved[report['data_disk_path']], blank, work, report, save)
     assert report['images_unchanged'] and not report['uncertain_host_writes']
     report['passed'] = True; save()
-    print(f'HW-NATIVE-APPS{"-ONLY" if apps_only else ""} PASS; Paint, Claude landing, all four controls pages and verified Sheet save; '
+    print(f'HW-NATIVE-APPS{"-ONLY" if apps_only else ""} PASS; Paint save and open, Claude landing, all four controls pages and verified Sheet save; '
           f'drives restored, uploads deleted; {work}', flush=True)

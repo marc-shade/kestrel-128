@@ -210,7 +210,7 @@ def main():
     checks.add_argument('--native-desktop', action='store_true',
                         help='qualify the native graphical desktop and app handoffs')
     checks.add_argument('--native-apps', action='store_true',
-                        help='native desktop plus Paint with a picture save, Claude landing, all four controls pages and a Sheet save to an empty drive B; readback')
+                        help='native desktop plus Paint with a picture save and open, Claude landing, all four controls pages and a Sheet save to an empty drive B; readback')
     checks.add_argument('--native-apps-only', action='store_true',
                         help='--native-apps without the Calculator, Editor and Files steps --native-desktop covers')
     checks.add_argument('--native-gem', action='store_true',

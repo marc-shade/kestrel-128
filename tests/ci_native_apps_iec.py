@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """VICE twin of hw_ultimate_check.py --native-apps: Paint with a verified
-picture save, the Claude landing page, all four Ultimate controls pages and a
+picture save and its Open, the Claude landing page, all four Ultimate controls pages and a
 verified Sheet save after the desktop workflow,
 through real C128 IEC on 1541 drives 8 and 9.
 
@@ -178,7 +178,7 @@ def main():
         assert hashlib.sha256(disk.read_bytes()).hexdigest()==report['images']['target/native-desktop/kestrel.d64']
         verify_data_disk(data.read_bytes(),blank,work,report,save)
         report.update(passed=True,system_disk_unchanged=True);save()
-        print('PASS: Paint keyboard edits, picture save and discard, Claude landing and return, four controls pages, '
+        print('PASS: Paint keyboard edits, picture save, open and discard, Claude landing and return, four controls pages, '
               'Paint and Sheet saves on device 9 with independent readback',flush=True)
     except BaseException as error:
         report['error']=dict(type=type(error).__name__,message=str(error));raise
