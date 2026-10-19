@@ -391,13 +391,23 @@ images unchanged, no host connection failures.
   cycles. Both are emulator cycle counts; no hardware run times them. CPU
   sweep 325/325 and VICE sweep 65/65 on the combined tree.
 - Hardware (run 19, the full `--native-apps` at 979c0e9, 1351 unplugged):
-  FAILED at `controls-info` after 20 checkpoints with the VDC service
-  reporting fault $11 (`N_IOERROR`), every Paint checkpoint before it
-  passed. `vd_rewrites` was 0 for Controls and the service image was
-  unchanged, so this is a `vd_wait` timeout rather than a verify that ran
-  out of rewrites; why the 8563 stopped reporting ready is not measured.
-  Drives restored and matched, images unchanged. The same check passed on
-  the next two runs.
+  FAILED at `controls-info` after 20 checkpoints, every Paint checkpoint
+  before it passed. Controls' VDC state read phase 0, live 0, colour 0,
+  fault $11 (`N_IOERROR`), base 0, pages 0. Two paths leave exactly that
+  after Controls' client (`graphics/vdc-client.inc`) closes: VDSVC.PRG
+  failing to load, or a `vd_wait` timeout in the service's first register
+  reads, before it changes anything. In both the 8563's contents and
+  registers were not changed. The Controls launch took 119 s against 155 s
+  on the passing runs, which fits a load cut short better than a full load
+  followed by a failed open, but does not decide it. Controls showed its
+  VIC page normally. Nothing left in RAM tells the two apart: the load's
+  file status is cleared by the client's own `N_FCLOSE` (every file call
+  clears `N_FDOS`/`N_FSTATUS`), and `N_DOSCODE`/`N_IOSTATUS` are kept only
+  for the launcher's loads. A suspect for a failed load (run 23 below):
+  after the 30 s quiet interval the harness polls RAM by REST DMA every 2 s
+  until the launch completes, during the remaining IEC loads. Drives
+  restored and matched, images unchanged. The same check passed on the next
+  two runs.
 - Hardware (run 20, `--native-apps-only` at ad53c60, desktop D64
   d57a1ed0...): PASSED all 22 checkpoints with 1,368 capture admissions,
   restoring and matching the drives, with the images unchanged and no
@@ -420,6 +430,34 @@ images unchanged, no host connection failures.
   connection failures, drives restored and matched, images unchanged. The
   run 21 failure is taken as the host link, not the build; that is
   inferred from the coincident timeout, not measured.
+- Hardware (run 23, a stress test, not a release check): `--native-apps-only`
+  on run 21's images with the harness polling for completion every 0.05 s
+  instead of every 2 s after a launch or file key's 30 s quiet interval.
+  Paint launched in 173 s and five checkpoints passed through `paint-undo`;
+  then the Open of PICTURE ended with Paint's "Checksum wrong; picture
+  kept" (`pa_status` 6) where runs 18, 20 and 21 showed "Opened". Each poll
+  is a REST DMA read that stops the CPU, and the serial bus does not wait
+  for a stopped listener, so a poll inside a byte can lose bits. Paint's
+  checksum caught the bad read and kept the picture as designed. Drives
+  restored and matched, images unchanged. This is the measured cause of a
+  failed load under host polling; it is the likely, not the measured, cause
+  of run 19.
+- The apps check now waits 90 s without DMA after each launch or file key
+  and then polls every 10 s (`IO_QUIET`, `IO_POLL` in
+  `hw_native_apps_check.py`; `io_poll` in `run_native_workflow`, which keeps
+  the old behaviour for every other caller). Most of these operations take
+  100 to 180 s, so polls during their IEC traffic drop from dozens to a few.
+  Hardware (run 24, the full `--native-apps` on run 21's images with this
+  harness, 1351 unplugged): PASSED all 31 checkpoints, including
+  `paint-opened` and `controls-info`, with 1,740 capture admissions in about
+  292 minutes (run 21: 289), no host connection failures and no uncertain
+  host writes. Its 21 launch and file waits took 91 to 445 s; five ended
+  at about 91 s, the new floor. The retrieved data disk is byte-identical
+  to run 20's (313e8266...), the independent readback found PICTURE and
+  BUDGET, and drives were restored and matched with the images unchanged.
+  `vd_rewrites`: Paint 1 to 3, Controls and Sheet 0. One pass shows the
+  quieter waits cost nothing measurable; it does not show they prevent a
+  failure that occurred once in four full runs.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -428,10 +466,10 @@ images unchanged, no host connection failures.
 
 ## Not verified
 
-- The full `--native-apps` passed three times: run 13 with the 1351 attached
-  on a freshly powered C128, and runs 17 and 21 (with the new checks) with
-  the 1351 unplugged. Run 19's VDC timeout at `controls-info` is not
-  explained. Runs 11, 12 and 15 failed in Paint, with the 1351 attached,
+- The full `--native-apps` passed four times: run 13 with the 1351 attached
+  on a freshly powered C128, and runs 17, 21 and 24 (with the new checks)
+  with the 1351 unplugged. Run 19's Controls VDC failure (a failed VDSVC.PRG
+  load or a VDC ready timeout) has no measured cause. Runs 11, 12 and 15 failed in Paint, with the 1351 attached,
   when Paint worked during a read: in 11 and 12 the resting pointer had
   stepped one pixel; in 15 its position was unchanged. A capture fails, by
   design, when the app starts work while the probe borrows `N_BUFFER`. The

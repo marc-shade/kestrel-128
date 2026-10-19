@@ -39,14 +39,18 @@ def sheet_symbol(name):
 
 
 def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll=2,kernel_prefix='native-desktop',additional_apps=None,
-                        sheet=False,io_quiet=None,prelude=True):
+                        sheet=False,io_quiet=None,io_poll=None,prelude=True):
     """Shared CPU workflow; caller owns boot, restoration and temporary files.
     sheet=True also edits a workbook in Sheet and discards it (the disk may
     be read-only), between Files and any additional apps. prelude=False goes
     from the booted desktop straight to the additional apps, skipping the
     Calculator, Editor and Files steps (a shorter hardware session). key(value,io=True)
     waits io_quiet seconds (default key_quiet) without RAM DMA after the
-    injection, for a key that starts IEC traffic (app load, save)."""
+    injection, for a key that starts IEC traffic (app load, save), then polls
+    for completion every io_poll seconds (default key_poll). Each poll is a
+    REST DMA read that stops the CPU, and one landing in a serial transfer
+    can lose bits: with 0.05 s polls a Paint Open read back a wrong checksum
+    on the reference C128 (2026-10-19)."""
     modes=NativeModeCapture(mon,work,quiet=capture.quiet,kernel_prefix=kernel_prefix,batch=capture.batch)
     report['mode_captures']=modes.records
     def read(address,count=1):
@@ -75,7 +79,7 @@ def run_native_workflow(mon,capture,work,disk,report,save,*,key_quiet=4,key_poll
             elapsed=time.monotonic()-start;assert elapsed<900,('native desktop key timeout',value,elapsed)
             if time.monotonic()-notice>=30:
                 print(f'Native desktop key {value:02X}: waiting for complete operation ({elapsed:.0f}s)',flush=True);notice=time.monotonic()
-            time.sleep(key_poll)
+            time.sleep(io_poll if io and io_poll is not None else key_poll)
         report['events'].append(dict(key=value,elapsed_seconds=round(time.monotonic()-start,3)));save()
     def screens(label,oracle):
         for mode,columns,address in ((0,40,0x400),(1,80,0)):

@@ -164,6 +164,9 @@ def expected_workbook():
 
 
 PAINT_FILE = b'PICTURE'
+# Quiet seconds after a key that starts IEC traffic, then seconds between
+# completion polls (each a CPU-stopping DMA read).
+IO_QUIET, IO_POLL = 90, 10
 
 
 def expected_picture_file():
@@ -504,7 +507,7 @@ def run(ult, *, dos_contexts=False, apps_only=False):
                   data_disk_sha256=hashlib.sha256(blank).hexdigest(),
                   uncertain_host_writes=ult.uncertain_writes, host_connect_failures=ult.connect_failures,
                   host_control_requests=ult.control_requests, host_upload_checks=ult.upload_checks,
-                  quiet_seconds=dict(boot=240, key=4, io=30, capture=2, poll=2),
+                  quiet_seconds=dict(boot=240, key=4, io=IO_QUIET, capture=2, poll=2, io_poll=IO_POLL),
                   # apps_only: boot, then straight to the apps below; the Calculator, Editor
                   # and Files steps are --native-desktop's and are skipped (a shorter session).
                   apps_only=apps_only)
@@ -538,8 +541,11 @@ def run(ult, *, dos_contexts=False, apps_only=False):
             report['controls_reference'] = dict(sources=sources, drives=drives, replies=reference); save()
             report['stage'] = 'native-boot'; save()
             ult.reset(); quiet_boot('Native apps boot', 240)
-            run_native_workflow(mon, capture, work, disk, report, save, io_quiet=30, prelude=not apps_only,
-                additional_apps=native_apps(mon, capture, work, report, save, controls_reference=reference))
+            # Launches and file operations take 31 to 447 s here, most 100 to
+            # 180 s; a longer quiet and sparse polls keep RAM DMA out of most
+            # of their IEC traffic (run_native_workflow).
+            run_native_workflow(mon, capture, work, disk, report, save, io_quiet=IO_QUIET, io_poll=IO_POLL,
+                                prelude=not apps_only, additional_apps=native_apps(mon, capture, work, report, save, controls_reference=reference))
         except BaseException as error:
             report['native_error'] = str(error); save()
             raise
