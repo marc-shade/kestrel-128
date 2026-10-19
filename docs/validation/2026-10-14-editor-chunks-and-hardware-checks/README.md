@@ -382,6 +382,44 @@ images unchanged, no host connection failures.
   `host_connect_failures`). Clock read 7,636 s and 8,118 s after the upload
   stamp, inside bounds. The retrieved data disk is byte-identical to runs
   16 and 17. `vd_rewrites`: Paint 2, 2, 2, 3, 4, 5, 5; Controls and Sheet 0.
+- Performance (f5f15ce, 979c0e9): a partial cell row in the graphics core
+  now reads and writes its band once each way instead of once per scanline.
+  `bench_native_perf.py` (Py65 cycles, ready-VDC model): the Paint status
+  line from 263k to 164k cycles, a Paint swatch move from 161k to 122k.
+  (ad53c60): the colour VDC attribute byte comes from a pre-shifted palette
+  table; focus changes in Calculator, Controls and Paint take 8 to 11% fewer
+  cycles. Both are emulator cycle counts; no hardware run times them. CPU
+  sweep 325/325 and VICE sweep 65/65 on the combined tree.
+- Hardware (run 19, the full `--native-apps` at 979c0e9, 1351 unplugged):
+  FAILED at `controls-info` after 20 checkpoints with the VDC service
+  reporting fault $11 (`N_IOERROR`), every Paint checkpoint before it
+  passed. `vd_rewrites` was 0 for Controls and the service image was
+  unchanged, so this is a `vd_wait` timeout rather than a verify that ran
+  out of rewrites; why the 8563 stopped reporting ready is not measured.
+  Drives restored and matched, images unchanged. The same check passed on
+  the next two runs.
+- Hardware (run 20, `--native-apps-only` at ad53c60, desktop D64
+  d57a1ed0...): PASSED all 22 checkpoints with 1,368 capture admissions,
+  restoring and matching the drives, with the images unchanged and no
+  uncertain host writes (one resume request timed out before it was sent
+  and was retried). The retrieved data disk is byte-identical to runs 16 to
+  18 (313e8266...). `vd_rewrites`: Paint 2 at each checkpoint; Controls and
+  Sheet 0.
+- Hardware (run 21, the queue at ad53c60, 1351 unplugged): `--native-desktop`,
+  `--native-gem`, `--native-pointer-timing` (512 updates), `--native-editor`,
+  `--native-files`, `--native-redraw` and the full `--native-apps` PASSED, the
+  last with all 31 checkpoints and 1,740 capture admissions in about 289
+  minutes; its three host connection failures were requests not sent and
+  retried, its data disk is byte-identical to run 20's and `vd_rewrites` was
+  0 at every checkpoint. `--native-aes` FAILED in the `menu-bar` capture
+  with probe status 2: the held probe waited about 20 seconds for the host
+  handshake and released, while the host's REST request to the Ultimate
+  timed out at the same time. Drives restored and matched, images
+  unchanged. Rerun alone on the same images (run 22), `--native-aes`
+  PASSED: alert, menu bar, three windows and the unload, with no host
+  connection failures, drives restored and matched, images unchanged. The
+  run 21 failure is taken as the host link, not the build; that is
+  inferred from the coincident timeout, not measured.
 - `ci_native_document` gains a case with chunks below 4 KiB in three
   separate runs, edits across their boundaries and growth after RAM returns,
   and checks the size nibbles and the leading-chunk count against the
@@ -390,9 +428,10 @@ images unchanged, no host connection failures.
 
 ## Not verified
 
-- The full `--native-apps` passed twice: run 13 with the 1351 attached on a
-  freshly powered C128, and run 17 (with the new checks) with the 1351
-  unplugged. Runs 11, 12 and 15 failed in Paint, with the 1351 attached,
+- The full `--native-apps` passed three times: run 13 with the 1351 attached
+  on a freshly powered C128, and runs 17 and 21 (with the new checks) with
+  the 1351 unplugged. Run 19's VDC timeout at `controls-info` is not
+  explained. Runs 11, 12 and 15 failed in Paint, with the 1351 attached,
   when Paint worked during a read: in 11 and 12 the resting pointer had
   stepped one pixel; in 15 its position was unchanged. A capture fails, by
   design, when the app starts work while the probe borrows `N_BUFFER`. The
